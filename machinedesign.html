@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Machine Design | BTech LMS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+<style>
+:root {
+  --bg: #0a0a1a;
+  --card: #1a1a2e;
+  --primary: #ff6b35;
+  --secondary: #00d4ff;
+  --accent: #ffd166;
+  --danger: #ef476f;
+  --success: #06d6a0;
+  --text: #f8f9fa;
+  --dark: #16213e;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(255, 107, 53, 0.1) 0%, transparent 30%),
+    radial-gradient(circle at 90% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 30%),
+    linear-gradient(135deg, var(--bg), var(--dark));
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Mechanical Grid Background */
+.mechanical-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  opacity: 0.1;
+  background-image: 
+    repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(255, 107, 53, 0.1) 49px, rgba(255, 107, 53, 0.1) 50px),
+    repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(0, 212, 255, 0.1) 49px, rgba(0, 212, 255, 0.1) 50px);
+  background-size: 50px 50px;
+  animation: grid-move 30s linear infinite;
+}
+
+@keyframes grid-move {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(25px, 25px); }
+}
+
+/* Gear Animation */
+.gear-container {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.gear {
+  position: absolute;
+  color: rgba(255, 107, 53, 0.2);
+  font-size: 120px;
+  animation: gear-rotate 20s linear infinite;
+}
+
+.gear.small {
+  font-size: 60px;
+  animation-duration: 15s;
+  animation-direction: reverse;
+}
+
+.gear.large {
+  font-size: 180px;
+  animation-duration: 25s;
+}
+
+@keyframes gear-rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ---------- NAV ---------- */
+nav {
+  padding: 20px 40px;
+  background: rgba(26, 26, 46, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 2px solid rgba(255, 107, 53, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  text-shadow: 0 0 20px rgba(255, 107, 53, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo i {
+  animation: hammer-swing 3s ease-in-out infinite;
+}
+
+@keyframes hammer-swing {
+  0%, 100% { transform: rotate(-10deg); }
+  50% { transform: rotate(10deg); }
+}
+
+.nav-links {
+  display: flex;
+  gap: 35px;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s;
+  position: relative;
+  padding: 8px 0;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 3px;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 2px;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ---------- HERO ---------- */
+.hero {
+  padding: 120px 8% 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 25px;
+  animation: text-glow 3s ease-in-out infinite alternate;
+  text-shadow: 0 0 40px rgba(255, 107, 53, 0.3);
+}
+
+@keyframes text-glow {
+  0% { text-shadow: 0 0 30px rgba(255, 107, 53, 0.3); }
+  100% { text-shadow: 0 0 60px rgba(255, 107, 53, 0.5), 0 0 90px rgba(255, 214, 102, 0.3); }
+}
+
+.hero p {
+  font-size: 1.3rem;
+  color: #cbd5f5;
+  margin-bottom: 40px;
+  line-height: 1.7;
+}
+
+/* Design Process Visualization */
+.design-process {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.process-step {
+  width: 100px;
+  height: 100px;
+  background: rgba(26, 26, 46, 0.8);
+  border: 3px solid var(--primary);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-weight: 600;
+  position: relative;
+  transition: all 0.4s;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.process-step:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 30px var(--primary);
+  background: rgba(255, 107, 53, 0.1);
+}
+
+.process-step i {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+.process-step::after {
+  content: '→';
+  position: absolute;
+  right: -40px;
+  color: var(--secondary);
+  font-size: 2rem;
+  opacity: 0.7;
+}
+
+.process-step:last-child::after {
+  display: none;
+}
+
+/* Progress Dashboard */
+.progress-dashboard {
+  max-width: 900px;
+  margin: 50px auto 0;
+  background: rgba(26, 26, 46, 0.7);
+  border-radius: 20px;
+  padding: 30px;
+  border: 2px solid rgba(255, 107, 53, 0.2);
+  backdrop-filter: blur(10px);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.progress-item {
+  text-align: center;
+}
+
+.progress-circle {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 15px;
+  position: relative;
+}
+
+.circle-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 8;
+}
+
+.circle-progress {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 283;
+  animation: circle-fill 2s ease-out forwards;
+}
+
+@keyframes circle-fill {
+  to { stroke-dashoffset: 85; }
+}
+
+.progress-value {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* ---------- CONTENT ---------- */
+section {
+  padding: 80px 8%;
+}
+
+.section-title {
+  margin-bottom: 40px;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: 2px;
+}
+
+/* ---------- GRID ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.card {
+  background: rgba(26, 26, 46, 0.8);
+  padding: 30px;
+  border-radius: 15px;
+  border: 2px solid rgba(255, 107, 53, 0.2);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 107, 53, 0.1), transparent);
+  transition: left 0.7s;
+}
+
+.card:hover::before {
+  left: 100%;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary);
+  box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2);
+}
+
+.card h3 {
+  color: var(--primary);
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card ul {
+  list-style: none;
+}
+
+.card li {
+  padding: 12px 0;
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.card li:last-child {
+  border-bottom: none;
+}
+
+.card li:hover {
+  transform: translateX(10px);
+  color: var(--primary);
+}
+
+.card li i {
+  color: var(--secondary);
+  font-size: 0.9rem;
+  min-width: 20px;
+}
+
+/* Unit Badges */
+.unit-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: var(--bg);
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* Expandable Content */
+.expand-btn {
+  background: rgba(255, 107, 53, 0.1);
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+  font-weight: 600;
+  width: 100%;
+}
+
+.expand-btn:hover {
+  background: rgba(255, 107, 53, 0.2);
+  transform: translateY(-3px);
+}
+
+.hidden-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s ease-out;
+  margin-top: 15px;
+}
+
+.hidden-content.active {
+  max-height: 1000px;
+}
+
+/* Topic Tags */
+.topic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.tag {
+  background: rgba(0, 212, 255, 0.1);
+  color: var(--secondary);
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.tag:hover {
+  background: rgba(0, 212, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.tag.danger {
+  background: rgba(239, 71, 111, 0.1);
+  color: var(--danger);
+  border-color: rgba(239, 71, 111, 0.3);
+}
+
+.tag.success {
+  background: rgba(6, 214, 160, 0.1);
+  color: var(--success);
+  border-color: rgba(6, 214, 160, 0.3);
+}
+
+/* 3D Model Viewer */
+.model-viewer {
+  width: 100%;
+  height: 400px;
+  background: rgba(10, 10, 26, 0.8);
+  border-radius: 15px;
+  border: 2px solid rgba(255, 107, 53, 0.3);
+  margin: 40px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.model-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  z-index: 10;
+}
+
+.model-btn {
+  background: rgba(26, 26, 46, 0.9);
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+  font-weight: 600;
+}
+
+.model-btn:hover {
+  background: var(--primary);
+  color: var(--bg);
+}
+
+/* Material Properties Calculator */
+.calculator {
+  background: rgba(26, 26, 46, 0.9);
+  border-radius: 15px;
+  padding: 30px;
+  margin-top: 40px;
+  border: 2px solid rgba(255, 107, 53, 0.2);
+}
+
+.calc-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  color: var(--primary);
+}
+
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.calc-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.calc-label {
+  color: var(--secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.calc-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  border-radius: 8px;
+  padding: 12px 15px;
+  color: var(--text);
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.calc-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 15px rgba(255, 107, 53, 0.3);
+}
+
+.calc-select {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  border-radius: 8px;
+  padding: 12px 15px;
+  color: var(--text);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.calc-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.calc-btn {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: var(--bg);
+  border: none;
+  padding: 14px 35px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.calc-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(255, 107, 53, 0.4);
+}
+
+.calc-btn.secondary {
+  background: rgba(0, 212, 255, 0.2);
+  color: var(--secondary);
+  border: 1px solid var(--secondary);
+}
+
+.calc-result {
+  margin-top: 25px;
+  padding: 20px;
+  background: rgba(6, 214, 160, 0.1);
+  border-radius: 10px;
+  border-left: 4px solid var(--success);
+  display: none;
+}
+
+.calc-result.active {
+  display: block;
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Design Charts */
+.chart-container {
+  width: 100%;
+  height: 300px;
+  background: rgba(26, 26, 46, 0.7);
+  border-radius: 15px;
+  border: 2px solid rgba(0, 212, 255, 0.2);
+  margin: 40px 0;
+  padding: 20px;
+  position: relative;
+}
+
+.chart-title {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  color: var(--secondary);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.chart-legend {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 15px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.legend-color {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+}
+
+/* Simulation Cards */
+.sim-card {
+  cursor: pointer;
+  position: relative;
+}
+
+.sim-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s;
+  border-radius: 15px;
+}
+
+.sim-card:hover .sim-overlay {
+  opacity: 1;
+}
+
+.sim-btn {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: var(--bg);
+  border: none;
+  padding: 15px 30px;
+  border-radius: 30px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+}
+
+.sim-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 30px var(--primary);
+}
+
+/* Interactive Assembly */
+.assembly-tool {
+  width: 100%;
+  min-height: 400px;
+  background: rgba(10, 10, 26, 0.8);
+  border-radius: 15px;
+  border: 2px dashed rgba(255, 107, 53, 0.3);
+  margin: 40px 0;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.assembly-parts {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.part {
+  width: 80px;
+  height: 80px;
+  background: rgba(26, 26, 46, 0.9);
+  border: 2px solid var(--secondary);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary);
+  font-size: 2rem;
+  cursor: grab;
+  transition: all 0.3s;
+}
+
+.part:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 20px var(--secondary);
+}
+
+.assembly-area {
+  width: 100%;
+  min-height: 200px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 2px solid rgba(255, 107, 53, 0.2);
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 26, 0.98);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal.active {
+  display: flex;
+  animation: modal-appear 0.3s;
+}
+
+@keyframes modal-appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: linear-gradient(135deg, var(--card), var(--dark));
+  padding: 40px;
+  border-radius: 20px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 3px solid var(--primary);
+  box-shadow: 0 0 60px rgba(255, 107, 53, 0.5);
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  color: var(--primary);
+}
+
+.close-modal {
+  background: rgba(255, 107, 53, 0.1);
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1.5rem;
+}
+
+.close-modal:hover {
+  background: var(--primary);
+  color: var(--bg);
+  transform: rotate(90deg);
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  text-align: center;
+  padding: 50px 8%;
+  font-size: 0.9rem;
+  color: #9aa4d1;
+  border-top: 2px solid rgba(255, 107, 53, 0.1);
+  margin-top: 80px;
+  background: rgba(10, 10, 26, 0.8);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 25px 0;
+}
+
+.footer-link {
+  color: var(--secondary);
+  text-decoration: none;
+  transition: color 0.3s;
+  font-weight: 500;
+}
+
+.footer-link:hover {
+  color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .hero h1 {
+    font-size: 2.8rem;
+  }
+  
+  .progress-dashboard {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  nav {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .nav-links {
+    gap: 20px;
+  }
+  
+  .hero {
+    padding: 100px 5% 50px;
+  }
+  
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  
+  .process-step::after {
+    display: none;
+  }
+  
+  section {
+    padding: 50px 5%;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .progress-dashboard {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Animated Background -->
+<div class="mechanical-grid"></div>
+<div class="gear-container">
+  <div class="gear" style="top: 10%; left: 5%;"><i class="fas fa-cog"></i></div>
+  <div class="gear small" style="top: 20%; right: 10%;"><i class="fas fa-cog"></i></div>
+  <div class="gear large" style="bottom: 15%; left: 15%;"><i class="fas fa-cog"></i></div>
+  <div class="gear" style="bottom: 25%; right: 20%;"><i class="fas fa-cog"></i></div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <i class="fas fa-hammer"></i>
+    BTech LMS | Machine Design
+  </div>
+  <div class="nav-links">
+    <a href="#fundamentals" class="nav-link">Fundamentals</a>
+    <a href="#components" class="nav-link">Components</a>
+    <a href="#design" class="nav-link">Design Process</a>
+    <a href="#materials" class="nav-link">Materials</a>
+    <a href="#tools" class="nav-link">Tools</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <h1 class="animate__animated animate__fadeInDown">Machine Design Engineering</h1>
+    <p class="animate__animated animate__fadeInUp">Master the art and science of designing mechanical components and systems. Learn stress analysis, material selection, failure theories, and design optimization with interactive tools.</p>
+    
+    <!-- Design Process Visualization -->
+    <div class="design-process animate__animated animate__fadeInUp">
+      <div class="process-step" onclick="showStepInfo('Need Identification')">
+        <i class="fas fa-lightbulb"></i>
+        <span>Identify Need</span>
+      </div>
+      <div class="process-step" onclick="showStepInfo('Specification Development')">
+        <i class="fas fa-clipboard-list"></i>
+        <span>Specifications</span>
+      </div>
+      <div class="process-step" onclick="showStepInfo('Concept Generation')">
+        <i class="fas fa-brain"></i>
+        <span>Concept Design</span>
+      </div>
+      <div class="process-step" onclick="showStepInfo('Detailed Design')">
+        <i class="fas fa-drafting-compass"></i>
+        <span>Detailed Design</span>
+      </div>
+      <div class="process-step" onclick="showStepInfo('Analysis & Testing')">
+        <i class="fas fa-chart-bar"></i>
+        <span>Analysis</span>
+      </div>
+      <div class="process-step" onclick="showStepInfo('Prototype & Production')">
+        <i class="fas fa-industry"></i>
+        <span>Production</span>
+      </div>
+    </div>
+    
+    <!-- Progress Dashboard -->
+    <div class="progress-dashboard animate__animated animate__fadeInUp">
+      <div class="progress-item">
+        <div class="progress-circle">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <circle class="circle-bg" cx="50" cy="50" r="45"></circle>
+            <circle class="circle-progress" cx="50" cy="50" r="45" style="stroke-dashoffset: 113;"></circle>
+          </svg>
+          <div class="progress-value">70%</div>
+        </div>
+        <h3>Design Theory</h3>
+        <p>Fundamentals & Principles</p>
+      </div>
+      
+      <div class="progress-item">
+        <div class="progress-circle">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <circle class="circle-bg" cx="50" cy="50" r="45"></circle>
+            <circle class="circle-progress" cx="50" cy="50" r="45" style="stroke-dashoffset: 170;"></circle>
+          </svg>
+          <div class="progress-value">40%</div>
+        </div>
+        <h3>Component Design</h3>
+        <p>Shafts, Gears, Bearings</p>
+      </div>
+      
+      <div class="progress-item">
+        <div class="progress-circle">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <circle class="circle-bg" cx="50" cy="50" r="45"></circle>
+            <circle class="circle-progress" cx="50" cy="50" r="45" style="stroke-dashoffset: 198;"></circle>
+          </svg>
+          <div class="progress-value">30%</div>
+        </div>
+        <h3>Advanced Topics</h3>
+        <p>FEA, Optimization, CAD</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FUNDAMENTALS SECTION -->
+<section id="fundamentals">
+  <div class="section-title">
+    <i class="fas fa-atom"></i>
+    <h2>📐 Fundamentals of Machine Design</h2>
+  </div>
+  
+  <div class="grid">
+    <!-- Unit 1 -->
+    <div class="card">
+      <div class="unit-badge">Unit 1</div>
+      <h3><i class="fas fa-ruler-combined"></i> Design Fundamentals</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Design Philosophy & Methodology</li>
+        <li><i class="fas fa-check-circle"></i> Standards & Codes in Design</li>
+        <li><i class="fas fa-check-circle"></i> Factor of Safety & Design Margins</li>
+        <li><i class="fas fa-check-circle"></i> Engineering Materials Selection</li>
+        <li><i class="fas fa-check-circle"></i> Manufacturing Considerations</li>
+      </ul>
+      <button class="expand-btn" onclick="toggleContent('unit1')">
+        <i class="fas fa-chevron-down"></i> Show Detailed Topics
+      </button>
+      <div class="hidden-content" id="unit1">
+        <ul>
+          <li><i class="fas fa-balance-scale"></i> Design Optimization Techniques</li>
+          <li><i class="fas fa-recycle"></i> Sustainable Design Principles</li>
+          <li><i class="fas fa-shield-alt"></i> Reliability & Maintainability</li>
+          <li><i class="fas fa-dollar-sign"></i> Cost Analysis in Design</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Unit 2 -->
+    <div class="card">
+      <div class="unit-badge">Unit 2</div>
+      <h3><i class="fas fa-weight-hanging"></i> Stress Analysis</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Types of Stresses & Strains</li>
+        <li><i class="fas fa-check-circle"></i> Stress Concentration Factors</li>
+        <li><i class="fas fa-check-circle"></i> Combined Loading Analysis</li>
+        <li><i class="fas fa-check-circle"></i> Theories of Failure</li>
+        <li><i class="fas fa-check-circle"></i> Fatigue Analysis & S-N Curves</li>
+      </ul>
+      <div class="topic-tags">
+        <span class="tag">Von Mises</span>
+        <span class="tag">Tresca</span>
+        <span class="tag">Goodman</span>
+        <span class="tag">Soderberg</span>
+      </div>
+    </div>
+    
+    <!-- Unit 3 -->
+    <div class="card">
+      <div class="unit-badge">Unit 3</div>
+      <h3><i class="fas fa-cube"></i> Static Failure Theories</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Maximum Principal Stress Theory</li>
+        <li><i class="fas fa-check-circle"></i> Maximum Shear Stress Theory</li>
+        <li><i class="fas fa-check-circle"></i> Distortion Energy Theory</li>
+        <li><i class="fas fa-check-circle"></i> Maximum Strain Energy Theory</li>
+        <li><i class="fas fa-check-circle"></i> Application to Ductile & Brittle Materials</li>
+      </ul>
+      <button class="expand-btn" onclick="toggleContent('unit3')">
+        <i class="fas fa-chevron-down"></i> Show Failure Criteria
+      </button>
+      <div class="hidden-content" id="unit3">
+        <ul>
+          <li><i class="fas fa-exclamation-triangle"></i> Factor of Safety Calculations</li>
+          <li><i class="fas fa-exclamation-triangle"></i> Design for Static Loading</li>
+          <li><i class="fas fa-exclamation-triangle"></i> Case Studies & Examples</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Unit 4 -->
+    <div class="card">
+      <div class="unit-badge">Unit 4</div>
+      <h3><i class="fas fa-sync-alt"></i> Fatigue Failure</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Fatigue Loading Characteristics</li>
+        <li><i class="fas fa-check-circle"></i> Endurance Limit & Modifying Factors</li>
+        <li><i class="fas fa-check-circle"></i> Cumulative Fatigue Damage</li>
+        <li><i class="fas fa-check-circle"></i> Fracture Mechanics Approach</li>
+        <li><i class="fas fa-check-circle"></i> Design for Finite & Infinite Life</li>
+      </ul>
+      <div class="topic-tags">
+        <span class="tag danger">S-N Curves</span>
+        <span class="tag danger">Miner's Rule</span>
+        <span class="tag danger">Stress Life</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Stress Analysis Calculator -->
+  <div class="calculator">
+    <div class="calc-header">
+      <i class="fas fa-calculator"></i>
+      <h3>Stress Analysis Calculator</h3>
+    </div>
+    <div class="calc-grid">
+      <div class="calc-group">
+        <label class="calc-label">Load Type</label>
+        <select class="calc-select" id="loadType">
+          <option value="axial">Axial Loading</option>
+          <option value="bending">Bending</option>
+          <option value="torsion">Torsion</option>
+          <option value="combined">Combined Loading</option>
+        </select>
+      </div>
+      
+      <div class="calc-group">
+        <label class="calc-label">Force (N)</label>
+        <input type="number" class="calc-input" id="force" placeholder="e.g., 10000" value="10000">
+      </div>
+      
+      <div class="calc-group">
+        <label class="calc-label">Cross-section</label>
+        <select class="calc-select" id="crossSection">
+          <option value="circular">Circular</option>
+          <option value="rectangular">Rectangular</option>
+          <option value="hollow">Hollow Circular</option>
+        </select>
+      </div>
+      
+      <div class="calc-group">
+        <label class="calc-label">Diameter (mm)</label>
+        <input type="number" class="calc-input" id="diameter" placeholder="e.g., 50" value="50">
+      </div>
+    </div>
+    
+    <div class="calc-actions">
+      <button class="calc-btn" onclick="calculateStress()">
+        <i class="fas fa-bolt"></i> Calculate Stress
+      </button>
+      <button class="calc-btn secondary" onclick="resetCalculator()">
+        <i class="fas fa-redo"></i> Reset
+      </button>
+    </div>
+    
+    <div class="calc-result" id="stressResult">
+      <!-- Results will appear here -->
+    </div>
+  </div>
+</section>
+
+<!-- COMPONENTS SECTION -->
+<section id="components">
+  <div class="section-title">
+    <i class="fas fa-cogs"></i>
+    <h2>⚙️ Machine Component Design</h2>
+  </div>
+  
+  <div class="grid">
+    <!-- Unit 5 -->
+    <div class="card">
+      <div class="unit-badge">Unit 5</div>
+      <h3><i class="fas fa-bolt"></i> Shaft Design</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Shaft Materials & Manufacturing</li>
+        <li><i class="fas fa-check-circle"></i> Static & Dynamic Loading Analysis</li>
+        <li><i class="fas fa-check-circle"></i> ASME Shaft Design Code</li>
+        <li><i class="fas fa-check-circle"></i> Critical Speed Calculations</li>
+        <li><i class="fas fa-check-circle"></i> Shaft Deflection & Rigidity</li>
+      </ul>
+      <div class="topic-tags">
+        <span class="tag">Torsion</span>
+        <span class="tag">Bending</span>
+        <span class="tag">Keyways</span>
+      </div>
+    </div>
+    
+    <!-- Unit 6 -->
+    <div class="card sim-card" onclick="openSimulation('gearDesign')">
+      <div class="sim-overlay">
+        <button class="sim-btn">
+          <i class="fas fa-play"></i> Run Gear Simulation
+        </button>
+      </div>
+      <div class="unit-badge">Unit 6</div>
+      <h3><i class="fas fa-cog"></i> Gear Design</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Gear Terminology & Standards</li>
+        <li><i class="fas fa-check-circle"></i> Lewis & AGMA Equations</li>
+        <li><i class="fas fa-check-circle"></i> Gear Tooth Failure Modes</li>
+        <li><i class="fas fa-check-circle"></i> Helical, Bevel & Worm Gears</li>
+        <li><i class="fas fa-check-circle"></i> Gear Manufacturing Methods</li>
+      </ul>
+    </div>
+    
+    <!-- Unit 7 -->
+    <div class="card">
+      <div class="unit-badge">Unit 7</div>
+      <h3><i class="fas fa-circle-notch"></i> Bearing Design</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Types of Bearings & Selection</li>
+        <li><i class="fas fa-check-circle"></i> Bearing Life Calculations</li>
+        <li><i class="fas fa-check-circle"></i> Load Ratings & Equivalent Loads</li>
+        <li><i class="fas fa-check-circle"></i> Lubrication & Failure Analysis</li>
+        <li><i class="fas fa-check-circle"></i> Bearing Mounting & Fits</li>
+      </ul>
+      <button class="expand-btn" onclick="toggleContent('unit7')">
+        <i class="fas fa-chevron-down"></i> Show Bearing Types
+      </button>
+      <div class="hidden-content" id="unit7">
+        <ul>
+          <li><i class="fas fa-circle"></i> Ball Bearings vs Roller Bearings</li>
+          <li><i class="fas fa-circle"></i> Thrust Bearings Design</li>
+          <li><i class="fas fa-circle"></i> Hydrodynamic & Hydrostatic Bearings</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Unit 8 -->
+    <div class="card">
+      <div class="unit-badge">Unit 8</div>
+      <h3><i class="fas fa-link"></i> Fasteners & Joints</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Threaded Fasteners Design</li>
+        <li><i class="fas fa-check-circle"></i> Bolted Joint Analysis</li>
+        <li><i class="fas fa-check-circle"></i> Preload & Torque Calculations</li>
+        <li><i class="fas fa-check-circle"></i> Riveted & Welded Joints</li>
+        <li><i class="fas fa-check-circle"></i> Keys, Splines & Pins</li>
+      </ul>
+      <div class="topic-tags">
+        <span class="tag success">Bolts</span>
+        <span class="tag success">Welds</span>
+        <span class="tag success">Rivets</span>
+      </div>
+    </div>
+    
+    <!-- Unit 9 -->
+    <div class="card">
+      <div class="unit-badge">Unit 9</div>
+      <h3><i class="fas fa-compress-arrows-alt"></i> Springs Design</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Types of Springs & Applications</li>
+        <li><i class="fas fa-check-circle"></i> Helical Spring Design Equations</li>
+        <li><i class="fas fa-check-circle"></i> Spring Materials & Manufacturing</li>
+        <li><i class="fas fa-check-circle"></i> Spring Rate & Deflection</li>
+        <li><i class="fas fa-check-circle"></i> Fatigue in Springs</li>
+      </ul>
+    </div>
+    
+    <!-- Unit 10 -->
+    <div class="card">
+      <div class="unit-badge">Unit 10</div>
+      <h3><i class="fas fa-exchange-alt"></i> Power Transmission</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Belt & Chain Drives</li>
+        <li><i class="fas fa-check-circle"></i> Clutches & Brakes Design</li>
+        <li><i class="fas fa-check-circle"></i> Couplings & Universal Joints</li>
+        <li><i class="fas fa-check-circle"></i> Flywheel Design & Energy Storage</li>
+        <li><i class="fas fa-check-circle"></i> Gearboxes & Speed Reducers</li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- 3D Model Viewer -->
+  <div class="model-viewer">
+    <div class="model-controls">
+      <button class="model-btn" onclick="rotateModel('left')">
+        <i class="fas fa-undo"></i> Rotate Left
+      </button>
+      <button class="model-btn" onclick="resetModel()">
+        <i class="fas fa-sync-alt"></i> Reset View
+      </button>
+      <button class="model-btn" onclick="rotateModel('right')">
+        <i class="fas fa-redo"></i> Rotate Right
+      </button>
+    </div>
+    <div style="display: flex; height: 100%; align-items: center; justify-content: center;">
+      <div style="text-align: center; color: var(--secondary);">
+        <i class="fas fa-cube" style="font-size: 4rem; margin-bottom: 20px;"></i>
+        <h3>3D Component Model Viewer</h3>
+        <p>Select a component from the menu to view in 3D</p>
+        <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+          <button class="model-btn" onclick="loadModel('gear')">Gear</button>
+          <button class="model-btn" onclick="loadModel('bearing')">Bearing</button>
+          <button class="model-btn" onclick="loadModel('shaft')">Shaft Assembly</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DESIGN PROCESS SECTION -->
+<section id="design">
+  <div class="section-title">
+    <i class="fas fa-project-diagram"></i>
+    <h2>🎨 Design Process & Methodology</h2>
+  </div>
+  
+  <div class="grid">
+    <!-- Unit 11 -->
+    <div class="card">
+      <div class="unit-badge">Unit 11</div>
+      <h3><i class="fas fa-sitemap"></i> Design Methodology</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Systematic Design Process</li>
+        <li><i class="fas fa-check-circle"></i> QFD (Quality Function Deployment)</li>
+        <li><i class="fas fa-check-circle"></i> Pugh Concept Selection</li>
+        <li><i class="fas fa-check-circle"></i> Morphological Analysis</li>
+        <li><i class="fas fa-check-circle"></i> Design for X (DFX)</li>
+      </ul>
+      <div class="topic-tags">
+        <span class="tag">DFMA</span>
+        <span class="tag">DFA</span>
+        <span class="tag">DFM</span>
+      </div>
+    </div>
+    
+    <!-- Unit 12 -->
+    <div class="card">
+      <div class="unit-badge">Unit 12</div>
+      <h3><i class="fas fa-laptop-code"></i> CAD & Computer Aided Design</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> CAD Software & Tools</li>
+        <li><i class="fas fa-check-circle"></i> 3D Modeling Techniques</li>
+        <li><i class="fas fa-check-circle"></i> Assembly Modeling & Constraints</li>
+        <li><i class="fas fa-check-circle"></i> Engineering Drawings & GD&T</li>
+        <li><i class="fas fa-check-circle"></i> Parametric & Feature-based Design</li>
+      </ul>
+    </div>
+    
+    <!-- Unit 13 -->
+    <div class="card sim-card" onclick="openSimulation('fea')">
+      <div class="sim-overlay">
+        <button class="sim-btn">
+          <i class="fas fa-play"></i> Run FEA Simulation
+        </button>
+      </div>
+      <div class="unit-badge">Unit 13</div>
+      <h3><i class="fas fa-chart-network"></i> Finite Element Analysis</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> FEA Fundamentals & Methodology</li>
+        <li><i class="fas fa-check-circle"></i> Mesh Generation & Refinement</li>
+        <li><i class="fas fa-check-circle"></i> Stress & Deformation Analysis</li>
+        <li><i class="fas fa-check-circle"></i> Modal & Thermal Analysis</li>
+        <li><i class="fas fa-check-circle"></i> Validation & Verification</li>
+      </ul>
+    </div>
+    
+    <!-- Unit 14 -->
+    <div class="card">
+      <div class="unit-badge">Unit 14</div>
+      <h3><i class="fas fa-chart-line"></i> Design Optimization</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Optimization Techniques & Algorithms</li>
+        <li><i class="fas fa-check-circle"></i> Topology Optimization</li>
+        <li><i class="fas fa-check-circle"></i> Design of Experiments (DOE)</li>
+        <li><i class="fas fa-check-circle"></i> Robust Design & Taguchi Methods</li>
+        <li><i class="fas fa-check-circle"></i> Multi-objective Optimization</li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- Interactive Assembly Tool -->
+  <div class="assembly-tool">
+    <h3 style="color: var(--primary); margin-bottom: 30px;">Interactive Assembly Builder</h3>
+    <div class="assembly-parts">
+      <div class="part" draggable="true" id="part1"><i class="fas fa-cog"></i></div>
+      <div class="part" draggable="true" id="part2"><i class="fas fa-circle-notch"></i></div>
+      <div class="part" draggable="true" id="part3"><i class="fas fa-bolt"></i></div>
+      <div class="part" draggable="true" id="part4"><i class="fas fa-link"></i></div>
+      <div class="part" draggable="true" id="part5"><i class="fas fa-compress-arrows-alt"></i></div>
+    </div>
+    <div class="assembly-area" id="assemblyArea">
+      <p style="color: rgba(255,255,255,0.5); align-self: center;">Drag components here to build assembly</p>
+    </div>
+    <button class="calc-btn" style="margin-top: 30px;">
+      <i class="fas fa-save"></i> Save Assembly Design
+    </button>
+  </div>
+</section>
+
+<!-- MATERIALS SECTION -->
+<section id="materials">
+  <div class="section-title">
+    <i class="fas fa-gem"></i>
+    <h2>🔬 Engineering Materials</h2>
+  </div>
+  
+  <div class="grid">
+    <!-- Unit 15 -->
+    <div class="card">
+      <div class="unit-badge">Unit 15</div>
+      <h3><i class="fas fa-atom"></i> Material Properties</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Mechanical Properties Testing</li>
+        <li><i class="fas fa-check-circle"></i> Stress-Strain Relationships</li>
+        <li><i class="fas fa-check-circle"></i> Hardness & Toughness</li>
+        <li><i class="fas fa-check-circle"></i> Creep & Stress Relaxation</li>
+        <li><i class="fas fa-check-circle"></i> Material Selection Charts</li>
+      </ul>
+    </div>
+    
+    <!-- Unit 16 -->
+    <div class="card">
+      <div class="unit-badge">Unit 16</div>
+      <h3><i class="fas fa-industry"></i> Metals & Alloys</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Ferrous Materials (Steels, Cast Iron)</li>
+        <li><i class="fas fa-check-circle"></i> Non-Ferrous Materials (Al, Cu, Ti)</li>
+        <li><i class="fas fa-check-circle"></i> Heat Treatment Processes</li>
+        <li><i class="fas fa-check-circle"></i> Surface Treatments & Coatings</li>
+        <li><i class="fas fa-check-circle"></i> Material Standards & Specifications</li>
+      </ul>
+      <div class="topic-tags">
+        <span class="tag">AISI/SAE</span>
+        <span class="tag">ASTM</span>
+        <span class="tag">ISO</span>
+      </div>
+    </div>
+    
+    <!-- Unit 17 -->
+    <div class="card">
+      <div class="unit-badge">Unit 17</div>
+      <h3><i class="fas fa-leaf"></i> Non-Metallic Materials</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Polymers & Plastics</li>
+        <li><i class="fas fa-check-circle"></i> Ceramics & Composites</li>
+        <li><i class="fas fa-check-circle"></i> Smart Materials & Alloys</li>
+        <li><i class="fas fa-check-circle"></i> Material Selection Methodology</li>
+        <li><i class="fas fa-check-circle"></i> Eco-friendly & Sustainable Materials</li>
+      </ul>
+    </div>
+    
+    <!-- Unit 18 -->
+    <div class="card">
+      <div class="unit-badge">Unit 18</div>
+      <h3><i class="fas fa-vial"></i> Material Testing</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Destructive Testing Methods</li>
+        <li><i class="fas fa-check-circle"></i> Non-Destructive Testing (NDT)</li>
+        <li><i class="fas fa-check-circle"></i> Metallography & Microstructure</li>
+        <li><i class="fas fa-check-circle"></i> Fracture Analysis & SEM</li>
+        <li><i class="fas fa-check-circle"></i> Quality Control in Materials</li>
+      </ul>
+    </div>
+  </div>
+  
+  <!-- Material Properties Chart -->
+  <div class="chart-container">
+    <div class="chart-title">Material Properties Comparison</div>
+    <div style="display: flex; height: calc(100% - 60px); align-items: flex-end; gap: 30px; padding: 40px 60px;">
+      <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+        <div style="height: 150px; width: 40px; background: linear-gradient(to top, var(--primary), var(--accent)); border-radius: 5px;"></div>
+        <div style="margin-top: 15px; color: var(--primary); font-weight: 600;">Steel</div>
+      </div>
+      <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+        <div style="height: 120px; width: 40px; background: linear-gradient(to top, var(--secondary), #00a8ff); border-radius: 5px;"></div>
+        <div style="margin-top: 15px; color: var(--secondary); font-weight: 600;">Aluminum</div>
+      </div>
+      <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+        <div style="height: 80px; width: 40px; background: linear-gradient(to top, var(--success), #05b388); border-radius: 5px;"></div>
+        <div style="margin-top: 15px; color: var(--success); font-weight: 600;">Titanium</div>
+      </div>
+      <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+        <div style="height: 60px; width: 40px; background: linear-gradient(to top, var(--danger), #d6336c); border-radius: 5px;"></div>
+        <div style="margin-top: 15px; color: var(--danger); font-weight: 600;">Plastic</div>
+      </div>
+    </div>
+    <div class="chart-legend">
+      <div class="legend-item">
+        <div class="legend-color" style="background: var(--primary);"></div>
+        <span>Tensile Strength</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: var(--secondary);"></div>
+        <span>Weight Ratio</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS & RESOURCES -->
+<section id="tools">
+  <div class="section-title">
+    <i class="fas fa-toolbox"></i>
+    <h2>🛠️ Design Tools & Resources</h2>
+  </div>
+  
+  <div class="grid">
+    <div class="card">
+      <h3><i class="fas fa-desktop"></i> Software Tools</h3>
+      <ul>
+        <li><i class="fas fa-cube"></i> SolidWorks Tutorials</li>
+        <li><i class="fas fa-cube"></i> CATIA Modeling Guide</li>
+        <li><i class="fas fa-project-diagram"></i> ANSYS FEA Workflow</li>
+        <li><i class="fas fa-chart-bar"></i> MATLAB for Design Calculations</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3><i class="fas fa-book"></i> Reference Materials</h3>
+      <ul>
+        <li><i class="fas fa-file-pdf"></i> Machine Design Data Handbook</li>
+        <li><i class="fas fa-file-pdf"></i> ASME Design Codes</li>
+        <li><i class="fas fa-file-pdf"></i> Material Property Databases</li>
+        <li><i class="fas fa-file-pdf"></i> Design Templates & Checklists</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3><i class="fas fa-flask"></i> Virtual Laboratories</h3>
+      <ul>
+        <li><i class="fas fa-weight-hanging"></i> Tensile Testing Simulation</li>
+        <li><i class="fas fa-sync-alt"></i> Fatigue Testing Virtual Lab</li>
+        <li><i class="fas fa-tachometer-alt"></i> Gear Efficiency Testing</li>
+        <li><i class="fas fa-compress-arrows-alt"></i> Spring Rate Measurement</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3><i class="fas fa-clipboard-check"></i> Design Projects</h3>
+      <ul>
+        <li><i class="fas fa-project-diagram"></i> Complete Gearbox Design</li>
+        <li><i class="fas fa-cogs"></i> Automotive Suspension System</li>
+        <li><i class="fas fa-industry"></i> Industrial Conveyor System</li>
+        <li><i class="fas fa-robot"></i> Robotic Arm Design</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Simulation Modal -->
+<div class="modal" id="simModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="simTitle">Machine Design Simulation</h2>
+      <button class="close-modal" onclick="closeModal()">&times;</button>
+    </div>
+    <div id="simContent">
+      <!-- Simulation content will be loaded here -->
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-content">
+    <p>© 2025 BTech LMS | Machine Design Engineering</p>
+    <p style="margin: 20px 0; font-size: 0.95rem; color: #cbd5f5;">
+      Comprehensive platform covering design fundamentals, component analysis, material selection, and advanced design methodologies
+    </p>
+    <div class="footer-links">
+      <a href="#" class="footer-link">Design Standards</a>
+      <a href="#" class="footer-link">Material Database</a>
+      <a href="#" class="footer-link">Software Tutorials</a>
+      <a href="#" class="footer-link">Design Projects</a>
+      <a href="#" class="footer-link">Industry Applications</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Create animated gears
+function createGears() {
+  const container = document.querySelector('.gear-container');
+  for (let i = 0; i < 6; i++) {
+    const gear = document.createElement('div');
+    gear.className = 'gear';
+    if (i % 3 === 0) gear.classList.add('small');
+    if (i % 4 === 0) gear.classList.add('large');
+    
+    const x = Math.random() * 90 + 5;
+    const y = Math.random() * 90 + 5;
+    gear.style.left = `${x}%`;
+    gear.style.top = `${y}%`;
+    gear.innerHTML = '<i class="fas fa-cog"></i>';
+    
+    // Random animation duration
+    const duration = 15 + Math.random() * 20;
+    gear.style.animationDuration = `${duration}s`;
+    
+    // Random direction
+    if (Math.random() > 0.5) {
+      gear.style.animationDirection = 'reverse';
+    }
+    
+    container.appendChild(gear);
+  }
+}
+
+// Toggle hidden content
+function toggleContent(id) {
+  const content = document.getElementById(id);
+  const button = content.previousElementSibling;
+  const icon = button.querySelector('i');
+  
+  content.classList.toggle('active');
+  
+  if (content.classList.contains('active')) {
+    icon.className = 'fas fa-chevron-up';
+    button.innerHTML = '<i class="fas fa-chevron-up"></i> Hide Details';
+  } else {
+    icon.className = 'fas fa-chevron-down';
+    button.innerHTML = '<i class="fas fa-chevron-down"></i> Show More';
+  }
+}
+
+// Show design step info
+function showStepInfo(step) {
+  const modal = document.getElementById('simModal');
+  const title = document.getElementById('simTitle');
+  const content = document.getElementById('simContent');
+  
+  title.textContent = `Design Step: ${step}`;
+  content.innerHTML = `
+    <div style="text-align: center; padding: 20px;">
+      <i class="fas fa-lightbulb" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
+      <h3 style="color: var(--primary); margin-bottom: 15px;">${step}</h3>
+      <p>Detailed process and methodology for this design step.</p>
+      
+      <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; margin: 25px 0;">
+        <h4 style="color: var(--secondary); margin-bottom: 10px;">Key Activities</h4>
+        <ul style="text-align: left; list-style: none; padding-left: 20px;">
+          <li><i class="fas fa-check-circle" style="color: var(--success);"></i> Requirement Analysis</li>
+          <li><i class="fas fa-check-circle" style="color: var(--success);"></i> Concept Generation</li>
+          <li><i class="fas fa-check-circle" style="color: var(--success);"></i> Feasibility Study</li>
+          <li><i class="fas fa-check-circle" style="color: var(--success);"></i> Risk Assessment</li>
+        </ul>
+      </div>
+      
+      <button class="calc-btn" onclick="closeModal()">
+        <i class="fas fa-times"></i> Close
+      </button>
+    </div>
+  `;
+  
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+// Stress Calculator
+function calculateStress() {
+  const loadType = document.getElementById('loadType').value;
+  const force = parseFloat(document.getElementById('force').value) || 10000;
+  const diameter = parseFloat(document.getElementById('diameter').value) || 50;
+  
+  let stress = 0;
+  let formula = '';
+  let units = 'MPa';
+  
+  const area = Math.PI * Math.pow(diameter / 2, 2);
+  
+  switch(loadType) {
+    case 'axial':
+      stress = force / area;
+      formula = 'σ = F / A';
+      break;
+    case 'bending':
+      const moment = force * (diameter * 2);
+      const I = Math.PI * Math.pow(diameter, 4) / 64;
+      stress = (moment * diameter / 2) / I;
+      formula = 'σ = M*y / I';
+      break;
+    case 'torsion':
+      const torque = force * (diameter / 2);
+      const J = Math.PI * Math.pow(diameter, 4) / 32;
+      stress = (torque * diameter / 2) / J;
+      formula = 'τ = T*r / J';
+      units = 'MPa (shear)';
+      break;
+    case 'combined':
+      const axialStress = force / area;
+      const bendingMoment = force * (diameter * 2);
+      const bendingI = Math.PI * Math.pow(diameter, 4) / 64;
+      const bendingStress = (bendingMoment * diameter / 2) / bendingI;
+      stress = axialStress + bendingStress;
+      formula = 'σ = σ_axial + σ_bending';
+      break;
+  }
+  
+  // Convert to MPa
+  stress = stress / 1e6;
+  
+  // Determine safety level
+  let safetyLevel = '';
+  let safetyColor = '';
+  let yieldStrength = 250; // Typical steel yield in MPa
+  
+  if (stress < yieldStrength * 0.3) {
+    safetyLevel = 'Very Safe';
+    safetyColor = 'var(--success)';
+  } else if (stress < yieldStrength * 0.6) {
+    safetyLevel = 'Safe';
+    safetyColor = 'var(--secondary)';
+  } else if (stress < yieldStrength * 0.8) {
+    safetyLevel = 'Marginal';
+    safetyColor = 'var(--accent)';
+  } else {
+    safetyLevel = 'Unsafe - Redesign Needed';
+    safetyColor = 'var(--danger)';
+  }
+  
+  const factorOfSafety = (yieldStrength / stress).toFixed(2);
+  
+  document.getElementById('stressResult').innerHTML = `
+    <h4 style="color: var(--primary); margin-bottom: 15px;">Analysis Results</h4>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;">
+      <div>
+        <div style="color: var(--secondary); font-size: 0.9rem;">Calculated Stress</div>
+        <div style="font-size: 1.5rem; font-weight: 700; color: var(--primary);">${stress.toFixed(2)} ${units}</div>
+      </div>
+      <div>
+        <div style="color: var(--secondary); font-size: 0.9rem;">Factor of Safety</div>
+        <div style="font-size: 1.5rem; font-weight: 700; color: var(--success);">${factorOfSafety}</div>
+      </div>
+      <div>
+        <div style="color: var(--secondary); font-size: 0.9rem;">Formula Used</div>
+        <div style="font-size: 1.1rem; font-weight: 600;">${formula}</div>
+      </div>
+      <div>
+        <div style="color: var(--secondary); font-size: 0.9rem;">Safety Level</div>
+        <div style="font-size: 1.1rem; font-weight: 700; color: ${safetyColor};">${safetyLevel}</div>
+      </div>
+    </div>
+    <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px;">
+      <div style="color: var(--text); font-size: 0.9rem;">
+        <strong>Recommendation:</strong> ${safetyLevel === 'Unsafe - Redesign Needed' ? 'Increase diameter or use stronger material' : 'Design meets safety requirements'}
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('stressResult').classList.add('active');
+}
+
+function resetCalculator() {
+  document.getElementById('force').value = 10000;
+  document.getElementById('diameter').value = 50;
+  document.getElementById('stressResult').classList.remove('active');
+}
+
+// 3D Model Functions
+function loadModel(modelType) {
+  const viewer = document.querySelector('.model-viewer');
+  const content = viewer.querySelector('div > div');
+  
+  content.innerHTML = `
+    <div style="text-align: center; color: var(--secondary);">
+      <i class="fas fa-cube" style="font-size: 4rem; margin-bottom: 20px;"></i>
+      <h3>${modelType.charAt(0).toUpperCase() + modelType.slice(1)} Model</h3>
+      <p>Loading 3D visualization...</p>
+      <div style="margin-top: 30px;">
+        <div style="height: 150px; background: rgba(255,255,255,0.05); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+          <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--primary);"></i>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  setTimeout(() => {
+    content.innerHTML = `
+      <div style="text-align: center; color: var(--secondary);">
+        <h3>${modelType.charAt(0).toUpperCase() + modelType.slice(1)} 3D Model</h3>
+        <p>Interactive 3D visualization loaded successfully</p>
+        <div style="margin-top: 30px; display: flex; gap: 20px; justify-content: center;">
+          <button class="model-btn" onclick="explodeModel()">
+            <i class="fas fa-expand-arrows-alt"></i> Explode View
+          </button>
+          <button class="model-btn" onclick="showCrossSection()">
+            <i class="fas fa-cut"></i> Cross Section
+          </button>
+          <button class="model-btn" onclick="takeMeasurement()">
+            <i class="fas fa-ruler"></i> Measure
+          </button>
+        </div>
+      </div>
+    `;
+  }, 1500);
+}
+
+function rotateModel(direction) {
+  console.log(`Rotating model ${direction}`);
+}
+
+function resetModel() {
+  loadModel('gear');
+}
+
+function explodeModel() {
+  alert('Exploded view would be shown in a full 3D viewer implementation');
+}
+
+function showCrossSection() {
+  alert('Cross-section view would be shown in a full 3D viewer implementation');
+}
+
+function takeMeasurement() {
+  alert('Measurement tool would be activated in a full 3D viewer implementation');
+}
+
+// Assembly Builder
+function setupAssemblyBuilder() {
+  const parts = document.querySelectorAll('.part');
+  const assemblyArea = document.getElementById('assemblyArea');
+  
+  parts.forEach(part => {
+    part.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', part.id);
+      part.style.opacity = '0.5';
+    });
+    
+    part.addEventListener('dragend', () => {
+      part.style.opacity = '1';
+    });
+  });
+  
+  assemblyArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    assemblyArea.style.borderColor = 'var(--primary)';
+    assemblyArea.style.backgroundColor = 'rgba(255, 107, 53, 0.05)';
+  });
+  
+  assemblyArea.addEventListener('dragleave', () => {
+    assemblyArea.style.borderColor = 'rgba(255, 107, 53, 0.2)';
+    assemblyArea.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+  });
+  
+  assemblyArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const partId = e.dataTransfer.getData('text/plain');
+    const part = document.getElementById(partId);
+    
+    const clonedPart = part.cloneNode(true);
+    clonedPart.style.transform = 'scale(0.8)';
+    clonedPart.style.cursor = 'default';
+    clonedPart.style.margin = '5px';
+    
+    // Remove any existing placeholder text
+    const placeholder = assemblyArea.querySelector('p');
+    if (placeholder) {
+      placeholder.remove();
+    }
+    
+    assemblyArea.appendChild(clonedPart);
+    
+    assemblyArea.style.borderColor = 'rgba(255, 107, 53, 0.2)';
+    assemblyArea.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+  });
+}
+
+// Open simulation modal
+function openSimulation(type) {
+  const modal = document.getElementById('simModal');
+  const title = document.getElementById('simTitle');
+  const content = document.getElementById('simContent');
+  
+  let simHTML = '';
+  let simTitle = '';
+  
+  switch(type) {
+    case 'gearDesign':
+      simTitle = 'Gear Design Simulation';
+      simHTML = `
+        <div style="text-align: center;">
+          <h3 style="color: var(--primary); margin-bottom: 20px;">Interactive Gear Design Tool</h3>
+          
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; margin-bottom: 30px;">
+            <div>
+              <label style="color: var(--secondary); display: block; margin-bottom: 8px;">Number of Teeth</label>
+              <input type="range" min="10" max="100" value="30" class="calc-input" style="width: 100%;" onchange="updateGearSim()">
+              <div id="teethValue" style="color: var(--primary); font-weight: 600;">30</div>
+            </div>
+            
+            <div>
+              <label style="color: var(--secondary); display: block; margin-bottom: 8px;">Module (mm)</label>
+              <input type="range" min="1" max="10" value="3" step="0.5" class="calc-input" style="width: 100%;" onchange="updateGearSim()">
+              <div id="moduleValue" style="color: var(--primary); font-weight: 600;">3 mm</div>
+            </div>
+            
+            <div>
+              <label style="color: var(--secondary); display: block; margin-bottom: 8px;">Pressure Angle</label>
+              <input type="range" min="14" max="25" value="20" class="calc-input" style="width: 100%;" onchange="updateGearSim()">
+              <div id="angleValue" style="color: var(--primary); font-weight: 600;">20°</div>
+            </div>
+            
+            <div>
+              <label style="color: var(--secondary); display: block; margin-bottom: 8px;">Face Width (mm)</label>
+              <input type="range" min="10" max="100" value="40" class="calc-input" style="width: 100%;" onchange="updateGearSim()">
+              <div id="widthValue" style="color: var(--primary); font-weight: 600;">40 mm</div>
+            </div>
+          </div>
+          
+          <div style="height: 250px; background: rgba(0,0,0,0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 30px;">
+            <div style="color: var(--secondary);">
+              <i class="fas fa-cog fa-spin" style="font-size: 5rem;"></i>
+              <div style="margin-top: 15px;">Gear Visualization</div>
+            </div>
+          </div>
+          
+          <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px;">
+            <div style="display: flex; justify-content: space-between;">
+              <div>
+                <div style="color: var(--secondary);">Pitch Diameter</div>
+                <div style="font-size: 1.2rem; color: var(--primary);" id="pitchDiameter">90 mm</div>
+              </div>
+              <div>
+                <div style="color: var(--secondary);">Contact Ratio</div>
+                <div style="font-size: 1.2rem; color: var(--success);" id="contactRatio">1.45</div>
+              </div>
+              <div>
+                <div style="color: var(--secondary);">Bending Stress</div>
+                <div style="font-size: 1.2rem; color: var(--danger);" id="bendingStress">85 MPa</div>
+              </div>
+            </div>
+          </div>
+          
+          <button class="calc-btn" style="margin-top: 30px;">
+            <i class="fas fa-download"></i> Export Gear Design
+          </button>
+        </div>
+      `;
+      break;
+      
+    case 'fea':
+      simTitle = 'Finite Element Analysis Simulation';
+      simHTML = `
+        <div style="text-align: center;">
+          <h3 style="color: var(--primary); margin-bottom: 20px;">FEA Stress Analysis</h3>
+          
+          <div style="display: flex; gap: 20px; margin-bottom: 30px; justify-content: center;">
+            <button class="model-btn" onclick="runFEASimulation('static')">
+              Static Analysis
+            </button>
+            <button class="model-btn" onclick="runFEASimulation('modal')">
+              Modal Analysis
+            </button>
+            <button class="model-btn" onclick="runFEASimulation('thermal')">
+              Thermal Analysis
+            </button>
+          </div>
+          
+          <div style="height: 300px; background: rgba(0,0,0,0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 30px;">
+            <div style="color: var(--secondary); text-align: center;">
+              <i class="fas fa-chart-network" style="font-size: 5rem; margin-bottom: 15px;"></i>
+              <div>FEA Mesh Visualization</div>
+              <div style="font-size: 0.9rem; margin-top: 10px; color: rgba(255,255,255,0.7);">
+                Nodes: 12,548 | Elements: 8,325
+              </div>
+            </div>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+            <div style="background: rgba(255,107,53,0.1); padding: 15px; border-radius: 8px;">
+              <div style="color: var(--secondary); font-size: 0.9rem;">Max Stress</div>
+              <div style="font-size: 1.3rem; color: var(--primary); font-weight: 700;">245 MPa</div>
+            </div>
+            <div style="background: rgba(0,212,255,0.1); padding: 15px; border-radius: 8px;">
+              <div style="color: var(--secondary); font-size: 0.9rem;">Max Displacement</div>
+              <div style="font-size: 1.3rem; color: var(--secondary); font-weight: 700;">0.85 mm</div>
+            </div>
+            <div style="background: rgba(6,214,160,0.1); padding: 15px; border-radius: 8px;">
+              <div style="color: var(--secondary); font-size: 0.9rem;">Factor of Safety</div>
+              <div style="font-size: 1.3rem; color: var(--success); font-weight: 700;">2.8</div>
+            </div>
+          </div>
+        </div>
+      `;
+      break;
+      
+    default:
+      simTitle = 'Design Simulation';
+      simHTML = `
+        <div style="text-align: center; padding: 40px;">
+          <i class="fas fa-cogs" style="font-size: 4rem; color: var(--primary); margin-bottom: 20px;"></i>
+          <h3 style="color: var(--primary); margin-bottom: 15px;">Design Simulation Environment</h3>
+          <p>Interactive simulation tool for machine design analysis.</p>
+          <button class="calc-btn" onclick="closeModal()" style="margin-top: 30px;">
+            <i class="fas fa-times"></i> Close Simulation
+          </button>
+        </div>
+      `;
+  }
+  
+  title.textContent = simTitle;
+  content.innerHTML = simHTML;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function updateGearSim() {
+  // Update values in gear simulation
+  console.log('Updating gear simulation');
+}
+
+function runFEASimulation(type) {
+  alert(`Running ${type} FEA simulation`);
+}
+
+// Close modal
+function closeModal() {
+  const modal = document.getElementById('simModal');
+  modal.classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+// Smooth scrolling for navigation
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    
+    const targetId = this.getAttribute('href');
+    if (targetId === '#') return;
+    
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 80,
+        behavior: 'smooth'
+      });
+    }
+  });
+});
+
+// Initialize when page loads
+window.onload = function() {
+  createGears();
+  setupAssemblyBuilder();
+  
+  // Add entrance animations to cards
+  const cards = document.querySelectorAll('.card');
+  cards.forEach((card, index) => {
+    card.style.animationDelay = `${index * 0.1}s`;
+    card.classList.add('animate__animated', 'animate__fadeInUp');
+  });
+  
+  // Initialize calculator with example
+  calculateStress();
+};
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+  const modal = document.getElementById('simModal');
+  if (event.target === modal) {
+    closeModal();
+  }
+};
+</script>
+
+</body>
+</html>

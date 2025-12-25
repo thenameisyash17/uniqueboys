@@ -1,0 +1,2592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThermoDynamics Universe | Complete Engineering Portal</title>
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+<!-- Chart.js for Graphs -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- MathJax for Equations -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+:root {
+  --bg-dark: #0a0a14;
+  --bg-darker: #05050f;
+  --primary: #ff6b35;
+  --primary-glow: rgba(255, 107, 53, 0.3);
+  --secondary: #00b4d8;
+  --secondary-glow: rgba(0, 180, 216, 0.3);
+  --accent: #9d4edd;
+  --accent-glow: rgba(157, 78, 221, 0.3);
+  --success: #2ecc71;
+  --danger: #e63946;
+  --text: #f8f9fa;
+  --text-muted: #adb5bd;
+  --card-bg: rgba(20, 20, 35, 0.8);
+  --card-border: rgba(255, 107, 53, 0.2);
+  --neon-orange: #ff6b35;
+  --neon-blue: #00b4d8;
+  --gradient-primary: linear-gradient(135deg, #ff6b35, #ff9e6d);
+  --gradient-secondary: linear-gradient(135deg, #00b4d8, #48cae4);
+  --gradient-accent: linear-gradient(135deg, #9d4edd, #c77dff);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(255, 107, 53, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(0, 180, 216, 0.05) 0%, transparent 20%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(20, 20, 35, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gradient-primary);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gradient-secondary);
+}
+
+/* ---------- NAVIGATION ---------- */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 1.2rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(10, 10, 20, 0.95);
+  backdrop-filter: blur(15px);
+  border-bottom: 2px solid rgba(255, 107, 53, 0.2);
+  z-index: 1000;
+  transition: all 0.4s;
+}
+
+.navbar.scrolled {
+  padding: 0.8rem 5%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border-bottom-color: var(--primary);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  font-size: 2rem;
+  animation: pulse 3s infinite;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  padding: 0.5rem 0;
+  transition: all 0.3s;
+  font-size: 1.05rem;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  transition: width 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  border-radius: 2px;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+.nav-cta {
+  padding: 0.8rem 1.8rem;
+  background: var(--gradient-primary);
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 5px 20px var(--primary-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.nav-cta:hover::before {
+  left: 100%;
+}
+
+.nav-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px var(--primary-glow);
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--primary);
+}
+
+/* ---------- HERO SECTION ---------- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0 5%;
+  position: relative;
+  overflow: hidden;
+  margin-top: 80px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 70% 30%, rgba(255, 107, 53, 0.1) 0%, transparent 50%);
+  z-index: -1;
+}
+
+.hero-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero-text {
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: var(--gradient-primary);
+  padding: 0.6rem 1.5rem;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 1.8rem;
+  box-shadow: 0 8px 25px var(--primary-glow);
+  animation: float 4s ease-in-out infinite;
+}
+
+.hero-title {
+  font-size: 3.8rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(to right, #f8f9fa, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.btn {
+  padding: 1.1rem 2.2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+  font-size: 1.05rem;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transition: 0.6s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: 0 8px 30px var(--primary-glow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 15px 40px var(--primary-glow);
+}
+
+.btn-secondary {
+  background: rgba(255, 107, 53, 0.1);
+  color: var(--text);
+  border: 2px solid rgba(255, 107, 53, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 107, 53, 0.2);
+  transform: translateY(-5px);
+  border-color: var(--primary);
+}
+
+.hero-visual {
+  position: relative;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thermo-sphere {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  transform-style: preserve-3d;
+  animation: rotate3d 25s infinite linear;
+}
+
+.thermo-orb {
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  color: white;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s;
+  cursor: pointer;
+  text-align: center;
+  padding: 10px;
+}
+
+.thermo-orb:hover {
+  transform: scale(1.25);
+  z-index: 10;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.orb-label {
+  font-size: 0.7rem;
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+.orb-1 { background: var(--gradient-primary); top: 0; left: 50%; transform: translateX(-50%) rotateY(0deg) translateZ(200px); }
+.orb-2 { background: var(--gradient-secondary); top: 0; right: 0; transform: rotateY(60deg) translateZ(200px); }
+.orb-3 { background: var(--gradient-accent); bottom: 0; right: 0; transform: rotateY(120deg) translateZ(200px); }
+.orb-4 { background: linear-gradient(135deg, #e63946, #ff758f); bottom: 0; left: 0; transform: rotateY(180deg) translateZ(200px); }
+.orb-5 { background: linear-gradient(135deg, #2ecc71, #55efc4); top: 0; left: 0; transform: rotateY(240deg) translateZ(200px); }
+.orb-6 { background: linear-gradient(135deg, #fdc500, #ffd166); top: 50%; left: 50%; transform: translate(-50%, -50%) rotateY(300deg) translateZ(200px); }
+
+.sphere-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, var(--primary) 0%, var(--bg-dark) 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  box-shadow: 
+    0 0 60px var(--primary-glow),
+    inset 0 0 30px rgba(255, 255, 255, 0.2);
+  animation: pulse 2.5s infinite;
+  border: 3px solid rgba(255, 107, 53, 0.3);
+}
+
+/* ---------- CORE CONCEPTS ---------- */
+.section {
+  padding: 6rem 5%;
+  position: relative;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-badge {
+  display: inline-block;
+  background: var(--gradient-secondary);
+  padding: 0.6rem 1.8rem;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 8px 25px var(--secondary-glow);
+}
+
+.section-title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Laws of Thermodynamics */
+.thermo-laws {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.law-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 2.5rem;
+  border: 2px solid rgba(255, 107, 53, 0.15);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.law-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: var(--gradient-primary);
+}
+
+.law-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.law-number {
+  font-size: 4rem;
+  font-weight: 800;
+  color: rgba(255, 107, 53, 0.2);
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  line-height: 1;
+}
+
+.law-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.law-icon {
+  font-size: 2rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.law-statement {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+}
+
+.law-equation {
+  background: rgba(30, 30, 50, 0.6);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin: 1.5rem 0;
+  border-left: 4px solid var(--secondary);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1.1rem;
+  color: var(--text);
+}
+
+.law-applications {
+  margin-top: 1.5rem;
+}
+
+.law-applications h4 {
+  color: var(--secondary);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.law-applications ul {
+  list-style: none;
+  padding-left: 1.5rem;
+}
+
+.law-applications li {
+  margin-bottom: 0.8rem;
+  color: var(--text-muted);
+  position: relative;
+}
+
+.law-applications li::before {
+  content: '⚙️';
+  position: absolute;
+  left: -1.5rem;
+}
+
+/* ---------- INTERACTIVE PV DIAGRAM ---------- */
+.interactive-lab {
+  background: rgba(15, 15, 30, 0.9);
+  border-radius: 25px;
+  padding: 3rem;
+  margin-top: 4rem;
+  border: 2px solid rgba(0, 180, 216, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.interactive-lab::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: var(--gradient-secondary);
+}
+
+.lab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.lab-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.diagram-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+.diagram-canvas {
+  background: rgba(25, 25, 45, 0.8);
+  border-radius: 15px;
+  padding: 2rem;
+  height: 400px;
+  position: relative;
+  border: 1px solid rgba(255, 107, 53, 0.2);
+}
+
+.diagram-controls {
+  background: rgba(25, 25, 45, 0.8);
+  border-radius: 15px;
+  padding: 2rem;
+  border: 1px solid rgba(157, 78, 221, 0.2);
+}
+
+.control-group {
+  margin-bottom: 1.8rem;
+}
+
+.control-label {
+  display: block;
+  margin-bottom: 0.8rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.control-slider {
+  width: 100%;
+  height: 10px;
+  -webkit-appearance: none;
+  background: rgba(255, 107, 53, 0.2);
+  border-radius: 5px;
+  outline: none;
+}
+
+.control-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  cursor: pointer;
+  box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.control-value {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.process-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.process-btn {
+  padding: 1rem;
+  background: rgba(157, 78, 221, 0.1);
+  border: 2px solid rgba(157, 78, 221, 0.3);
+  border-radius: 10px;
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.process-btn:hover {
+  background: rgba(157, 78, 221, 0.2);
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.process-btn.active {
+  background: var(--gradient-accent);
+  border-color: var(--accent);
+  color: white;
+  box-shadow: 0 5px 20px var(--accent-glow);
+}
+
+/* ---------- COMPLETE SYLLABUS ---------- */
+.syllabus-accordion {
+  max-width: 1200px;
+  margin: 3rem auto 0;
+}
+
+.accordion-item {
+  background: var(--card-bg);
+  margin-bottom: 1.2rem;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  transition: all 0.3s;
+}
+
+.accordion-item:hover {
+  border-color: rgba(255, 107, 53, 0.4);
+}
+
+.accordion-header {
+  padding: 1.8rem 2.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 107, 53, 0.05);
+  transition: background 0.3s;
+}
+
+.accordion-header:hover {
+  background: rgba(255, 107, 53, 0.1);
+}
+
+.accordion-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.accordion-icon {
+  font-size: 1.8rem;
+  color: var(--primary);
+  transition: transform 0.3s;
+}
+
+.accordion-content {
+  padding: 0 2.5rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.accordion-content.active {
+  padding: 2rem 2.5rem;
+  max-height: 2000px;
+}
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.topic-card {
+  background: rgba(30, 30, 50, 0.6);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid var(--secondary);
+  transition: all 0.3s;
+}
+
+.topic-card:hover {
+  transform: translateY(-5px);
+  background: rgba(30, 30, 50, 0.8);
+  border-left-color: var(--primary);
+}
+
+.topic-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: var(--secondary);
+}
+
+.topic-desc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.topic-list {
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.topic-list li {
+  padding: 0.5rem 0;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topic-list li::before {
+  content: '•';
+  color: var(--primary);
+  font-size: 1.5rem;
+}
+
+/* ---------- FORMULA LIBRARY ---------- */
+.formula-library {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.formula-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 2rem;
+  border: 2px solid rgba(0, 180, 216, 0.2);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.formula-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--secondary);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.formula-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.formula-icon {
+  font-size: 2.5rem;
+  background: var(--gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.formula-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.formula-equation {
+  background: rgba(0, 180, 216, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin: 1.5rem 0;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1.3rem;
+  color: var(--text);
+  text-align: center;
+  border: 1px solid rgba(0, 180, 216, 0.3);
+}
+
+.formula-variables {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.formula-variables strong {
+  color: var(--secondary);
+}
+
+/* ---------- SIMULATION SECTION ---------- */
+.simulation-container {
+  background: rgba(15, 15, 30, 0.9);
+  border-radius: 25px;
+  padding: 3rem;
+  margin-top: 4rem;
+  border: 2px solid rgba(157, 78, 221, 0.2);
+  position: relative;
+}
+
+.sim-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.sim-visual {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  height: 400px;
+}
+
+.engine-container {
+  background: rgba(25, 25, 45, 0.8);
+  border-radius: 15px;
+  padding: 2rem;
+  position: relative;
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.engine-model {
+  width: 300px;
+  height: 300px;
+  position: relative;
+}
+
+.engine-part {
+  position: absolute;
+  background: rgba(255, 107, 53, 0.2);
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.engine-part:hover {
+  background: rgba(255, 107, 53, 0.3);
+  transform: scale(1.05);
+}
+
+.engine-part.piston {
+  width: 80px;
+  height: 120px;
+  bottom: 50px;
+  left: 110px;
+  animation: pistonMove 2s infinite alternate;
+}
+
+.engine-part.cylinder {
+  width: 100px;
+  height: 200px;
+  top: 50px;
+  left: 100px;
+}
+
+.engine-part.valves {
+  width: 60px;
+  height: 40px;
+  top: 40px;
+  left: 120px;
+  background: rgba(0, 180, 216, 0.2);
+  border-color: var(--secondary);
+}
+
+.engine-part.crankshaft {
+  width: 150px;
+  height: 30px;
+  bottom: 30px;
+  left: 75px;
+  background: rgba(157, 78, 221, 0.2);
+  border-color: var(--accent);
+  animation: rotateCrank 2s infinite linear;
+}
+
+.sim-controls {
+  background: rgba(25, 25, 45, 0.8);
+  border-radius: 15px;
+  padding: 2rem;
+  border: 1px solid rgba(157, 78, 221, 0.2);
+}
+
+.sim-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-box {
+  background: rgba(157, 78, 221, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid rgba(157, 78, 221, 0.3);
+}
+
+.stat-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ---------- RESOURCES ---------- */
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.resource-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 2.5rem;
+  border: 2px solid rgba(255, 107, 53, 0.15);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.resource-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.resource-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.resource-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  color: var(--text);
+}
+
+.resource-desc {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1.8rem;
+}
+
+.resource-list {
+  list-style: none;
+}
+
+.resource-list li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+}
+
+.resource-list li:hover {
+  color: var(--primary);
+  padding-left: 10px;
+}
+
+.resource-list li i {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+  background: rgba(10, 10, 20, 0.95);
+  border-top: 2px solid rgba(255, 107, 53, 0.2);
+  padding: 4rem 5% 2rem;
+  margin-top: 6rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.footer-column h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.8rem;
+  color: var(--text);
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 1rem;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+  gap: 15px;
+}
+
+.social-links {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 1.8rem;
+}
+
+.social-link {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(255, 107, 53, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+}
+
+.social-link:hover {
+  background: var(--gradient-primary);
+  transform: translateY(-5px) rotate(10deg);
+  color: white;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate3d {
+  from { transform: rotateY(0deg) rotateX(10deg); }
+  to { transform: rotateY(360deg) rotateX(10deg); }
+}
+
+@keyframes pistonMove {
+  0% { bottom: 50px; }
+  100% { bottom: 150px; }
+}
+
+@keyframes rotateCrank {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* ---------- RESPONSIVE DESIGN ---------- */
+@media (max-width: 1200px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .hero-visual {
+    order: -1;
+    height: 400px;
+  }
+  
+  .thermo-sphere {
+    width: 350px;
+    height: 350px;
+  }
+}
+
+@media (max-width: 992px) {
+  .hero-title {
+    font-size: 3.2rem;
+  }
+  
+  .diagram-container,
+  .sim-visual {
+    grid-template-columns: 1fr;
+  }
+  
+  .thermo-laws {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem 5%;
+  }
+  
+  .nav-links {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 10, 20, 0.98);
+    backdrop-filter: blur(15px);
+    flex-direction: column;
+    padding: 2rem;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s;
+    border-bottom: 2px solid rgba(255, 107, 53, 0.2);
+    z-index: 999;
+  }
+  
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .menu-toggle {
+    display: block;
+  }
+  
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  
+  .hero-actions {
+    flex-direction: column;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+  }
+  
+  .thermo-sphere {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .thermo-orb {
+    width: 70px;
+    height: 70px;
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.3rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .interactive-lab,
+  .simulation-container {
+    padding: 1.5rem;
+  }
+  
+  .formula-library {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="logo">
+    <i class="fas fa-fire logo-icon"></i>
+    ThermoDynamics Universe
+  </div>
+  
+  <div class="nav-links">
+    <a href="#laws" class="nav-link">Thermo Laws</a>
+    <a href="#syllabus" class="nav-link">Complete Syllabus</a>
+    <a href="#formulas" class="nav-link">Formula Library</a>
+    <a href="#simulation" class="nav-link">Simulations</a>
+    <a href="#resources" class="nav-link">Resources</a>
+    <a href="#lab" class="nav-link">Interactive Lab</a>
+  </div>
+  
+  <a href="#start" class="nav-cta">Start Learning</a>
+  
+  <div class="menu-toggle" id="menuToggle">
+    <i class="fas fa-bars"></i>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" id="start">
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-badge">
+        <i class="fas fa-atom"></i> Master Thermodynamics
+      </div>
+      
+      <h1 class="hero-title">
+        The Science of <span class="typewriter">Energy & Heat Transfer</span>
+      </h1>
+      
+      <p class="hero-subtitle">
+        A comprehensive interactive portal covering all concepts of thermodynamics - from basic principles to advanced applications in engineering systems. Master energy conversion, heat engines, entropy, and thermodynamic cycles.
+      </p>
+      
+      <div class="hero-actions">
+        <a href="#laws" class="btn btn-primary">
+          <i class="fas fa-play-circle"></i> Start Learning
+        </a>
+        <a href="#simulation" class="btn btn-secondary">
+          <i class="fas fa-cogs"></i> Run Simulations
+        </a>
+      </div>
+      
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-number" data-count="150">0</div>
+          <div class="stat-label">Core Concepts</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number" data-count="85">0</div>
+          <div class="stat-label">Formulas & Equations</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number" data-count="12">0</div>
+          <div class="stat-label">Interactive Simulations</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="hero-visual">
+      <div class="thermo-sphere">
+        <div class="thermo-orb orb-1">
+          <i class="fas fa-temperature-high"></i>
+          <div class="orb-label">Heat</div>
+        </div>
+        <div class="thermo-orb orb-2">
+          <i class="fas fa-tachometer-alt"></i>
+          <div class="orb-label">Work</div>
+        </div>
+        <div class="thermo-orb orb-3">
+          <i class="fas fa-random"></i>
+          <div class="orb-label">Entropy</div>
+        </div>
+        <div class="thermo-orb orb-4">
+          <i class="fas fa-compress-arrows-alt"></i>
+          <div class="orb-label">Pressure</div>
+        </div>
+        <div class="thermo-orb orb-5">
+          <i class="fas fa-leaf"></i>
+          <div class="orb-label">Energy</div>
+        </div>
+        <div class="thermo-orb orb-6">
+          <i class="fas fa-industry"></i>
+          <div class="orb-label">Cycles</div>
+        </div>
+        
+        <div class="sphere-center">
+          <i class="fas fa-fire"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Laws of Thermodynamics -->
+<section class="section" id="laws">
+  <div class="section-header">
+    <div class="section-badge">
+      <i class="fas fa-balance-scale"></i> Fundamental Laws
+    </div>
+    <h2 class="section-title">The Four Laws of Thermodynamics</h2>
+    <p class="section-subtitle">
+      Understanding the fundamental principles that govern energy transfer and transformation in physical systems
+    </p>
+  </div>
+  
+  <div class="thermo-laws">
+    <!-- Zeroth Law -->
+    <div class="law-card">
+      <div class="law-number">0</div>
+      <h3 class="law-title">
+        <i class="fas fa-equals law-icon"></i> Zeroth Law
+      </h3>
+      <p class="law-statement">
+        If two systems are each in thermal equilibrium with a third system, they are in thermal equilibrium with each other. This establishes temperature as a fundamental property.
+      </p>
+      <div class="law-equation">
+        If A = B and B = C, then A = C
+      </div>
+      <div class="law-applications">
+        <h4>Key Applications:</h4>
+        <ul>
+          <li>Temperature measurement principles</li>
+          <li>Thermometer calibration</li>
+          <li>Establishing thermal equilibrium</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- First Law -->
+    <div class="law-card">
+      <div class="law-number">I</div>
+      <h3 class="law-title">
+        <i class="fas fa-battery-full law-icon"></i> First Law
+      </h3>
+      <p class="law-statement">
+        Energy cannot be created or destroyed, only converted from one form to another. The total energy of an isolated system remains constant.
+      </p>
+      <div class="law-equation">
+        ΔU = Q - W
+      </div>
+      <div class="law-applications">
+        <h4>Key Applications:</h4>
+        <ul>
+          <li>Heat engine analysis</li>
+          <li>Energy balance calculations</li>
+          <li>Conservation of energy in systems</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Second Law -->
+    <div class="law-card">
+      <div class="law-number">II</div>
+      <h3 class="law-title">
+        <i class="fas fa-arrow-up law-icon"></i> Second Law
+      </h3>
+      <p class="law-statement">
+        The total entropy of an isolated system can never decrease over time. Heat cannot spontaneously flow from a colder to a hotter body.
+      </p>
+      <div class="law-equation">
+        ΔS<sub>universe</sub> ≥ 0
+      </div>
+      <div class="law-applications">
+        <h4>Key Applications:</h4>
+        <ul>
+          <li>Heat engine efficiency limits</li>
+          <li>Refrigeration cycles</li>
+          <li>Irreversibility in processes</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Third Law -->
+    <div class="law-card">
+      <div class="law-number">III</div>
+      <h3 class="law-title">
+        <i class="fas fa-snowflake law-icon"></i> Third Law
+      </h3>
+      <p class="law-statement">
+        As temperature approaches absolute zero, the entropy of a perfect crystal approaches zero. Absolute zero cannot be reached in a finite number of steps.
+      </p>
+      <div class="law-equation">
+        S → 0 as T → 0 K
+      </div>
+      <div class="law-applications">
+        <h4>Key Applications:</h4>
+        <ul>
+          <li>Cryogenics and low-temperature physics</li>
+          <li>Absolute entropy calculations</li>
+          <li>Superconductivity studies</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Interactive PV Diagram Lab -->
+<section class="section" id="lab">
+  <div class="interactive-lab">
+    <div class="lab-header">
+      <h2 class="lab-title">
+        <i class="fas fa-chart-line"></i> Interactive PV Diagram Simulator
+      </h2>
+      <div class="control-value">
+        <span>Pressure: <span id="pressureValue">100 kPa</span></span>
+        <span>Volume: <span id="volumeValue">1 m³</span></span>
+      </div>
+    </div>
+    
+    <div class="diagram-container">
+      <div class="diagram-canvas">
+        <canvas id="pvDiagram" width="600" height="350"></canvas>
+      </div>
+      
+      <div class="diagram-controls">
+        <div class="control-group">
+          <label class="control-label">Process Type:</label>
+          <div class="process-buttons">
+            <button class="process-btn active" data-process="isothermal">Isothermal</button>
+            <button class="process-btn" data-process="adiabatic">Adiabatic</button>
+            <button class="process-btn" data-process="isobaric">Isobaric</button>
+            <button class="process-btn" data-process="isochoric">Isochoric</button>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Initial Pressure: <span id="initPressure">100 kPa</span></label>
+          <input type="range" class="control-slider" id="pressureSlider" min="50" max="500" value="100" step="10">
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Initial Volume: <span id="initVolume">1 m³</span></label>
+          <input type="range" class="control-slider" id="volumeSlider" min="0.5" max="5" value="1" step="0.1">
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Temperature: <span id="tempValue">300 K</span></label>
+          <input type="range" class="control-slider" id="tempSlider" min="200" max="800" value="300" step="10">
+        </div>
+        
+        <button class="btn btn-primary" id="runProcess" style="width: 100%; margin-top: 2rem;">
+          <i class="fas fa-play"></i> Run Process Simulation
+        </button>
+      </div>
+    </div>
+    
+    <div class="sim-stats" style="margin-top: 2rem;">
+      <div class="stat-box">
+        <div class="stat-value" id="workDone">0 J</div>
+        <div class="stat-label">Work Done</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="heatTransfer">0 J</div>
+        <div class="stat-label">Heat Transfer</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="efficiency">0%</div>
+        <div class="stat-label">Efficiency</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="entropyChange">0 J/K</div>
+        <div class="stat-label">Entropy Change</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Complete Syllabus -->
+<section class="section" id="syllabus">
+  <div class="section-header">
+    <div class="section-badge">
+      <i class="fas fa-book-open"></i> Complete Curriculum
+    </div>
+    <h2 class="section-title">Thermodynamics Mastery Path</h2>
+    <p class="section-subtitle">
+      A comprehensive syllabus covering all topics from basic concepts to advanced applications
+    </p>
+  </div>
+  
+  <div class="syllabus-accordion">
+    <!-- Unit 1 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <div class="accordion-title">
+          <i class="fas fa-thermometer-half accordion-icon"></i>
+          Unit 1: Basic Concepts & Definitions
+        </div>
+        <i class="fas fa-chevron-down accordion-icon"></i>
+      </div>
+      <div class="accordion-content">
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4 class="topic-title">System & Surroundings</h4>
+            <p class="topic-desc">Open, closed, and isolated systems, boundaries, control volume</p>
+            <ul class="topic-list">
+              <li>Types of thermodynamic systems</li>
+              <li>Control volume approach</li>
+              <li>Extensive vs intensive properties</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Properties of Substances</h4>
+            <p class="topic-desc">Pressure, temperature, density, specific volume, internal energy</p>
+            <ul class="topic-list">
+              <li>State vs path functions</li>
+              <li>Equation of state</li>
+              <li>Property tables and charts</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Processes & Cycles</h4>
+            <p class="topic-desc">Quasi-static processes, reversible vs irreversible processes</p>
+            <ul class="topic-list">
+              <li>Thermodynamic equilibrium</li>
+              <li>P-V diagrams</li>
+              <li>Cyclic processes</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Unit 2 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <div class="accordion-title">
+          <i class="fas fa-balance-scale accordion-icon"></i>
+          Unit 2: First Law Applications
+        </div>
+        <i class="fas fa-chevron-down accordion-icon"></i>
+      </div>
+      <div class="accordion-content">
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4 class="topic-title">Energy Analysis</h4>
+            <p class="topic-desc">Internal energy, enthalpy, specific heats, energy balance</p>
+            <ul class="topic-list">
+              <li>Steady flow energy equation</li>
+              <li>Unsteady flow processes</li>
+              <li>Enthalpy calculations</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Heat & Work Transfer</h4>
+            <p class="topic-desc">Different forms of work, heat transfer mechanisms</p>
+            <ul class="topic-list">
+              <li>Boundary work calculations</li>
+              <li>Heat transfer modes</li>
+              <li>Work in various processes</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Applications</h4>
+            <p class="topic-desc">Nozzles, diffusers, turbines, compressors, heat exchangers</p>
+            <ul class="topic-list">
+              <li>Steam turbine analysis</li>
+              <li>Gas compressor work</li>
+              <li>Heat exchanger design</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Unit 3 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <div class="accordion-title">
+          <i class="fas fa-random accordion-icon"></i>
+          Unit 3: Second Law & Entropy
+        </div>
+        <i class="fas fa-chevron-down accordion-icon"></i>
+      </div>
+      <div class="accordion-content">
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4 class="topic-title">Entropy Concepts</h4>
+            <p class="topic-desc">Entropy generation, entropy balance, principle of increase of entropy</p>
+            <ul class="topic-list">
+              <li>Clausius inequality</li>
+              <li>Entropy transfer with heat</li>
+              <li>Entropy generation in processes</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Available Energy</h4>
+            <p class="topic-desc">Exergy, anergy, available energy destruction</p>
+            <ul class="topic-list">
+              <li>Exergy analysis</li>
+              <li>Second law efficiency</li>
+              <li>Guoy-Stodola theorem</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Thermodynamic Potentials</h4>
+            <p class="topic-desc">Helmholtz function, Gibbs function, Maxwell relations</p>
+            <ul class="topic-list">
+              <li>Fundamental equations</li>
+              <li>Thermodynamic square</li>
+              <li>Property relations</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Unit 4 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <div class="accordion-title">
+          <i class="fas fa-cogs accordion-icon"></i>
+          Unit 4: Thermodynamic Cycles
+        </div>
+        <i class="fas fa-chevron-down accordion-icon"></i>
+      </div>
+      <div class="accordion-content">
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4 class="topic-title">Vapor Power Cycles</h4>
+            <p class="topic-desc">Rankine cycle, regeneration, reheat, cogeneration</p>
+            <ul class="topic-list">
+              <li>Simple Rankine cycle</li>
+              <li>Supercritical cycles</li>
+              <li>Combined cycle power plants</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Gas Power Cycles</h4>
+            <p class="topic-desc">Otto, Diesel, Brayton, Stirling cycles</p>
+            <ul class="topic-list">
+              <li>Air-standard assumptions</li>
+              <li>Mean effective pressure</li>
+              <li>Jet propulsion cycles</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Refrigeration Cycles</h4>
+            <p class="topic-desc">Vapor compression, absorption, heat pump cycles</p>
+            <ul class="topic-list">
+              <li>COP calculations</li>
+              <li>Cascade systems</li>
+              <li>Gas refrigeration cycles</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Unit 5 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <div class="accordion-title">
+          <i class="fas fa-flask accordion-icon"></i>
+          Unit 5: Properties of Pure Substances
+        </div>
+        <i class="fas fa-chevron-down accordion-icon"></i>
+      </div>
+      <div class="accordion-content">
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4 class="topic-title">Phase Changes</h4>
+            <p class="topic-desc">P-v-T diagrams, quality, saturated mixtures</p>
+            <ul class="topic-list">
+              <li>Phase equilibrium</li>
+              <li>Critical point properties</li>
+              <li>Triple point</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Property Tables</h4>
+            <p class="topic-desc">Steam tables, refrigerant tables, ideal gas tables</p>
+            <ul class="topic-list">
+              <li>Interpolation methods</li>
+              <li>Superheated vapor tables</li>
+              <li>Compressed liquid tables</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Equations of State</h4>
+            <p class="topic-desc">Ideal gas law, van der Waals, Redlich-Kwong, compressibility</p>
+            <ul class="topic-list">
+              <li>Real gas behavior</li>
+              <li>Generalized compressibility chart</li>
+              <li>Virial equations</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Formula Library -->
+<section class="section" id="formulas">
+  <div class="section-header">
+    <div class="section-badge">
+      <i class="fas fa-square-root-alt"></i> Formula Library
+    </div>
+    <h2 class="section-title">Essential Thermodynamic Equations</h2>
+    <p class="section-subtitle">
+      Complete collection of formulas, equations, and relationships for thermodynamics
+    </p>
+  </div>
+  
+  <div class="formula-library">
+    <!-- First Law Formulas -->
+    <div class="formula-card">
+      <div class="formula-header">
+        <i class="fas fa-battery-full formula-icon"></i>
+        <h3 class="formula-title">First Law Equations</h3>
+      </div>
+      <div class="formula-equation">
+        ΔU = Q - W
+      </div>
+      <div class="formula-variables">
+        <p><strong>ΔU</strong> = Change in internal energy</p>
+        <p><strong>Q</strong> = Heat transfer to system</p>
+        <p><strong>W</strong> = Work done by system</p>
+      </div>
+      <div class="formula-equation" style="margin-top: 1rem;">
+        h = u + Pv
+      </div>
+      <div class="formula-variables">
+        <p><strong>h</strong> = Enthalpy</p>
+        <p><strong>u</strong> = Specific internal energy</p>
+        <p><strong>P</strong> = Pressure</p>
+        <p><strong>v</strong> = Specific volume</p>
+      </div>
+    </div>
+    
+    <!-- Second Law Formulas -->
+    <div class="formula-card">
+      <div class="formula-header">
+        <i class="fas fa-random formula-icon"></i>
+        <h3 class="formula-title">Second Law Equations</h3>
+      </div>
+      <div class="formula-equation">
+        ΔS ≥ ∫(δQ/T)
+      </div>
+      <div class="formula-variables">
+        <p><strong>ΔS</strong> = Entropy change</p>
+        <p><strong>Q</strong> = Heat transfer</p>
+        <p><strong>T</strong> = Absolute temperature</p>
+      </div>
+      <div class="formula-equation" style="margin-top: 1rem;">
+        η<sub>th</sub> = 1 - (Q<sub>L</sub>/Q<sub>H</sub>)
+      </div>
+      <div class="formula-variables">
+        <p><strong>η<sub>th</sub></strong> = Thermal efficiency</p>
+        <p><strong>Q<sub>L</sub></strong> = Heat rejected</p>
+        <p><strong>Q<sub>H</sub></strong> = Heat added</p>
+      </div>
+    </div>
+    
+    <!-- Ideal Gas -->
+    <div class="formula-card">
+      <div class="formula-header">
+        <i class="fas fa-wind formula-icon"></i>
+        <h3 class="formula-title">Ideal Gas Relations</h3>
+      </div>
+      <div class="formula-equation">
+        PV = mRT
+      </div>
+      <div class="formula-variables">
+        <p><strong>P</strong> = Pressure</p>
+        <p><strong>V</strong> = Volume</p>
+        <p><strong>m</strong> = Mass</p>
+        <p><strong>R</strong> = Specific gas constant</p>
+        <p><strong>T</strong> = Temperature</p>
+      </div>
+      <div class="formula-equation" style="margin-top: 1rem;">
+        Δu = c<sub>v</sub>ΔT
+      </div>
+      <div class="formula-variables">
+        <p><strong>c<sub>v</sub></strong> = Specific heat at constant volume</p>
+        <p><strong>c<sub>p</sub></strong> = Specific heat at constant pressure</p>
+        <p>c<sub>p</sub> - c<sub>v</sub> = R</p>
+      </div>
+    </div>
+    
+    <!-- Process Equations -->
+    <div class="formula-card">
+      <div class="formula-header">
+        <i class="fas fa-chart-line formula-icon"></i>
+        <h3 class="formula-title">Process Equations</h3>
+      </div>
+      <div class="formula-equation">
+        Isothermal: PV = constant
+      </div>
+      <div class="formula-equation" style="margin-top: 0.5rem;">
+        Adiabatic: PV<sup>γ</sup> = constant
+      </div>
+      <div class="formula-equation" style="margin-top: 0.5rem;">
+        Isobaric: V/T = constant
+      </div>
+      <div class="formula-equation" style="margin-top: 0.5rem;">
+        Isochoric: P/T = constant
+      </div>
+      <div class="formula-variables">
+        <p><strong>γ</strong> = c<sub>p</sub>/c<sub>v</sub> (adiabatic index)</p>
+        <p>Work in isothermal expansion: W = P<sub>1</sub>V<sub>1</sub> ln(V<sub>2</sub>/V<sub>1</sub>)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Heat Engine Simulation -->
+<section class="section" id="simulation">
+  <div class="simulation-container">
+    <div class="sim-header">
+      <h2 class="lab-title">
+        <i class="fas fa-cogs"></i> Heat Engine Simulation
+      </h2>
+      <div class="control-value">
+        <span>Efficiency: <span id="engineEfficiency">0%</span></span>
+        <span>Power Output: <span id="powerOutput">0 kW</span></span>
+      </div>
+    </div>
+    
+    <div class="sim-visual">
+      <div class="engine-container">
+        <div class="engine-model">
+          <div class="engine-part cylinder">
+            <i class="fas fa-fire"></i> Cylinder
+          </div>
+          <div class="engine-part piston">
+            <i class="fas fa-arrows-alt-v"></i> Piston
+          </div>
+          <div class="engine-part valves">
+            <i class="fas fa-exchange-alt"></i> Valves
+          </div>
+          <div class="engine-part crankshaft">
+            <i class="fas fa-cog"></i> Crankshaft
+          </div>
+        </div>
+      </div>
+      
+      <div class="sim-controls">
+        <div class="control-group">
+          <label class="control-label">Cycle Type:</label>
+          <div class="process-buttons">
+            <button class="process-btn active" data-cycle="carnot">Carnot</button>
+            <button class="process-btn" data-cycle="otto">Otto</button>
+            <button class="process-btn" data-cycle="diesel">Diesel</button>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Heat Source Temp: <span id="sourceTemp">800 K</span></label>
+          <input type="range" class="control-slider" id="sourceSlider" min="400" max="1200" value="800" step="10">
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Heat Sink Temp: <span id="sinkTemp">300 K</span></label>
+          <input type="range" class="control-slider" id="sinkSlider" min="200" max="600" value="300" step="10">
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Compression Ratio: <span id="compRatio">8:1</span></label>
+          <input type="range" class="control-slider" id="ratioSlider" min="5" max="15" value="8" step="1">
+        </div>
+        
+        <button class="btn btn-primary" id="startEngine" style="width: 100%; margin-top: 2rem;">
+          <i class="fas fa-play"></i> Start Engine Simulation
+        </button>
+      </div>
+    </div>
+    
+    <div class="sim-stats" style="margin-top: 2rem;">
+      <div class="stat-box">
+        <div class="stat-value" id="heatInput">0 kJ</div>
+        <div class="stat-label">Heat Input</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="heatRejected">0 kJ</div>
+        <div class="stat-label">Heat Rejected</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="netWork">0 kJ</div>
+        <div class="stat-label">Net Work Output</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="thermalEff">0%</div>
+        <div class="stat-label">Thermal Efficiency</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Resources Section -->
+<section class="section" id="resources">
+  <div class="section-header">
+    <div class="section-badge">
+      <i class="fas fa-toolbox"></i> Learning Resources
+    </div>
+    <h2 class="section-title">Complete Study Materials</h2>
+    <p class="section-subtitle">
+      Everything you need to master thermodynamics - from textbooks to solved problems
+    </p>
+  </div>
+  
+  <div class="resource-grid">
+    <!-- Textbooks -->
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-book"></i>
+      </div>
+      <h3 class="resource-title">Recommended Textbooks</h3>
+      <p class="resource-desc">Comprehensive textbooks covering all aspects of thermodynamics</p>
+      <ul class="resource-list">
+        <li><i class="fas fa-file-pdf"></i> Thermodynamics: An Engineering Approach - Cengel & Boles</li>
+        <li><i class="fas fa-file-pdf"></i> Fundamentals of Thermodynamics - Sonntag, Borgnakke, Van Wylen</li>
+        <li><i class="fas fa-file-pdf"></i> Engineering Thermodynamics - P.K. Nag</li>
+        <li><i class="fas fa-file-pdf"></i> Thermodynamics and Heat Power - Kurt C. Rolle</li>
+        <li><i class="fas fa-file-pdf"></i> Chemical Engineering Thermodynamics - Smith, Van Ness, Abbott</li>
+      </ul>
+    </div>
+    
+    <!-- Video Lectures -->
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-video"></i>
+      </div>
+      <h3 class="resource-title">Video Lecture Series</h3>
+      <p class="resource-desc">Comprehensive video courses from top universities</p>
+      <ul class="resource-list">
+        <li><i class="fab fa-youtube"></i> MIT OpenCourseWare - Thermodynamics</li>
+        <li><i class="fab fa-youtube"></i> NPTEL - Thermodynamics (IIT)</li>
+        <li><i class="fas fa-graduation-cap"></i> Coursera - Introduction to Thermodynamics</li>
+        <li><i class="fab fa-youtube"></i> Khan Academy - Thermodynamics</li>
+        <li><i class="fab fa-youtube"></i> LearnChemE - Thermodynamics Course</li>
+      </ul>
+    </div>
+    
+    <!-- Problem Sets -->
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-calculator"></i>
+      </div>
+      <h3 class="resource-title">Problem Sets & Solutions</h3>
+      <p class="resource-desc">Practice problems with detailed solutions</p>
+      <ul class="resource-list">
+        <li><i class="fas fa-file-alt"></i> 500+ Solved Numerical Problems</li>
+        <li><i class="fas fa-file-alt"></i> Previous Year University Questions</li>
+        <li><i class="fas fa-file-alt"></i> GATE Thermodynamics Problems</li>
+        <li><i class="fas fa-file-alt"></i> GRE Physics Subject Test Problems</li>
+        <li><i class="fas fa-file-alt"></i> Engineering Thermodynamics Workbook</li>
+      </ul>
+    </div>
+    
+    <!-- Software & Tools -->
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-laptop-code"></i>
+      </div>
+      <h3 class="resource-title">Software & Tools</h3>
+      <p class="resource-desc">Essential software for thermodynamic calculations</p>
+      <ul class="resource-list">
+        <li><i class="fas fa-desktop"></i> EES - Engineering Equation Solver</li>
+        <li><i class="fas fa-desktop"></i> CoolProp - Thermophysical Properties</li>
+        <li><i class="fas fa-desktop"></i> REFPROP - NIST Reference Database</li>
+        <li><i class="fas fa-desktop"></i> MATLAB Thermodynamics Toolbox</li>
+        <li><i class="fas fa-desktop"></i> Cycle-Tempo - Power Plant Simulation</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3>ThermoDynamics Universe</h3>
+      <p>Your comprehensive guide to mastering thermodynamics - from basic principles to advanced engineering applications.</p>
+      <div class="social-links">
+        <a href="#" class="social-link">
+          <i class="fab fa-youtube"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-discord"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </div>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Quick Links</h3>
+      <ul class="footer-links">
+        <li><a href="#laws"><i class="fas fa-chevron-right"></i> Thermodynamics Laws</a></li>
+        <li><a href="#syllabus"><i class="fas fa-chevron-right"></i> Complete Syllabus</a></li>
+        <li><a href="#formulas"><i class="fas fa-chevron-right"></i> Formula Library</a></li>
+        <li><a href="#simulation"><i class="fas fa-chevron-right"></i> Interactive Simulations</a></li>
+        <li><a href="#resources"><i class="fas fa-chevron-right"></i> Study Resources</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Learning Paths</h3>
+      <ul class="footer-links">
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Basic Concepts</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> First Law Applications</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Second Law & Entropy</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Power Cycles</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Refrigeration Cycles</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Contact & Support</h3>
+      <ul class="footer-links">
+        <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
+        <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
+        <li><a href="#"><i class="fas fa-comments"></i> Discussion Forum</a></li>
+        <li><a href="#"><i class="fas fa-download"></i> Download Materials</a></li>
+        <li><a href="#"><i class="fas fa-chart-line"></i> Progress Tracking</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; 2025 ThermoDynamics Universe. All rights reserved. | Made with <i class="fas fa-fire" style="color: #ff6b35;"></i> for engineering students worldwide</p>
+    <p style="margin-top: 10px; font-size: 0.9rem;">Total Concepts Covered: <span id="conceptsCount">0</span> | Your Progress: <span id="userProgress">0%</span></p>
+  </div>
+</footer>
+
+<script>
+// Initialize MathJax for equations
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+  const navbar = document.querySelector('.navbar');
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+  
+  // Update progress based on scroll
+  updateProgress();
+});
+
+// Mobile menu toggle
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.querySelector('.nav-links');
+
+menuToggle.addEventListener('click', function() {
+  navLinks.classList.toggle('active');
+  menuToggle.innerHTML = navLinks.classList.contains('active') 
+    ? '<i class="fas fa-times"></i>' 
+    : '<i class="fas fa-bars"></i>';
+});
+
+// Close menu when clicking a link
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('active');
+    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+  });
+});
+
+// Animated counter for stats
+const statNumbers = document.querySelectorAll('.stat-number');
+const observerOptions = {
+  threshold: 0.5
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const stat = entry.target;
+      const target = parseInt(stat.getAttribute('data-count'));
+      let count = 0;
+      const increment = target / 50;
+      
+      const updateCount = () => {
+        if (count < target) {
+          count += increment;
+          stat.textContent = Math.ceil(count);
+          setTimeout(updateCount, 20);
+        } else {
+          stat.textContent = target;
+        }
+      };
+      
+      updateCount();
+      observer.unobserve(stat);
+    }
+  });
+}, observerOptions);
+
+statNumbers.forEach(stat => observer.observe(stat));
+
+// Typewriter effect for hero title
+const typewriterText = document.querySelector('.typewriter');
+const text = typewriterText.textContent;
+typewriterText.textContent = '';
+let i = 0;
+
+function typeWriter() {
+  if (i < text.length) {
+    typewriterText.textContent += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, 100);
+  }
+}
+
+// Start typewriter when hero section is in view
+const heroObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    typeWriter();
+    heroObserver.unobserve(entries[0].target);
+  }
+});
+
+heroObserver.observe(document.querySelector('.hero-title'));
+
+// Accordion functionality
+const accordionHeaders = document.querySelectorAll('.accordion-header');
+accordionHeaders.forEach(header => {
+  header.addEventListener('click', () => {
+    const content = header.nextElementSibling;
+    const icon = header.querySelector('.fa-chevron-down');
+    
+    // Close all other accordion items
+    document.querySelectorAll('.accordion-content').forEach(item => {
+      if (item !== content && item.classList.contains('active')) {
+        item.classList.remove('active');
+        item.previousElementSibling.querySelector('.fa-chevron-down').style.transform = 'rotate(0deg)';
+      }
+    });
+    
+    // Toggle current item
+    content.classList.toggle('active');
+    
+    // Rotate icon
+    if (content.classList.contains('active')) {
+      icon.style.transform = 'rotate(180deg)';
+    } else {
+      icon.style.transform = 'rotate(0deg)';
+    }
+  });
+});
+
+// Initialize PV Diagram
+const pvCanvas = document.getElementById('pvDiagram');
+const ctx = pvCanvas.getContext('2d');
+let currentProcess = 'isothermal';
+
+// Draw initial PV diagram
+function drawPVDiagram(process) {
+  const width = pvCanvas.width;
+  const height = pvCanvas.height;
+  const margin = 40;
+  
+  // Clear canvas
+  ctx.clearRect(0, 0, width, height);
+  
+  // Draw axes
+  ctx.strokeStyle = '#00b4d8';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(margin, height - margin);
+  ctx.lineTo(width - margin, height - margin);
+  ctx.moveTo(margin, height - margin);
+  ctx.lineTo(margin, margin);
+  ctx.stroke();
+  
+  // Draw axis labels
+  ctx.fillStyle = '#ffffff';
+  ctx.font = '14px Arial';
+  ctx.fillText('Volume (m³)', width - 100, height - 10);
+  ctx.save();
+  ctx.translate(10, height / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('Pressure (kPa)', 0, 0);
+  ctx.restore();
+  
+  // Draw grid
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+  ctx.lineWidth = 1;
+  
+  // Vertical grid lines
+  for (let i = 1; i < 10; i++) {
+    ctx.beginPath();
+    ctx.moveTo(margin + i * (width - 2 * margin) / 10, height - margin);
+    ctx.lineTo(margin + i * (width - 2 * margin) / 10, margin);
+    ctx.stroke();
+  }
+  
+  // Horizontal grid lines
+  for (let i = 1; i < 10; i++) {
+    ctx.beginPath();
+    ctx.moveTo(margin, height - margin - i * (height - 2 * margin) / 10);
+    ctx.lineTo(width - margin, height - margin - i * (height - 2 * margin) / 10);
+    ctx.stroke();
+  }
+  
+  // Draw process curve based on type
+  const p1 = parseFloat(document.getElementById('pressureSlider').value);
+  const v1 = parseFloat(document.getElementById('volumeSlider').value);
+  const t = parseFloat(document.getElementById('tempSlider').value);
+  
+  const x1 = margin + (v1 - 0.5) * (width - 2 * margin) / 4.5;
+  const y1 = height - margin - (p1 - 50) * (height - 2 * margin) / 450;
+  
+  ctx.strokeStyle = '#ff6b35';
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  
+  // Different curves for different processes
+  if (process === 'isothermal') {
+    // PV = constant
+    for (let v = v1; v <= 5; v += 0.1) {
+      const p = (p1 * v1) / v;
+      const x = margin + (v - 0.5) * (width - 2 * margin) / 4.5;
+      const y = height - margin - (p - 50) * (height - 2 * margin) / 450;
+      ctx.lineTo(x, y);
+    }
+  } else if (process === 'adiabatic') {
+    // PV^γ = constant, γ = 1.4 for air
+    const gamma = 1.4;
+    for (let v = v1; v <= 5; v += 0.1) {
+      const p = p1 * Math.pow(v1 / v, gamma);
+      const x = margin + (v - 0.5) * (width - 2 * margin) / 4.5;
+      const y = height - margin - (p - 50) * (height - 2 * margin) / 450;
+      ctx.lineTo(x, y);
+    }
+  } else if (process === 'isobaric') {
+    // P = constant
+    const v2 = 5;
+    const x2 = margin + (v2 - 0.5) * (width - 2 * margin) / 4.5;
+    ctx.lineTo(x2, y1);
+  } else if (process === 'isochoric') {
+    // V = constant
+    const p2 = 500;
+    const y2 = height - margin - (p2 - 50) * (height - 2 * margin) / 450;
+    ctx.lineTo(x1, y2);
+  }
+  
+  ctx.stroke();
+  
+  // Draw initial point
+  ctx.fillStyle = '#00b4d8';
+  ctx.beginPath();
+  ctx.arc(x1, y1, 6, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Calculate and display work
+  let work = 0;
+  if (process === 'isothermal') {
+    const v2 = 5;
+    work = p1 * v1 * Math.log(v2 / v1);
+  } else if (process === 'adiabatic') {
+    const v2 = 5;
+    work = (p1 * v1 - p1 * Math.pow(v1/v2, 0.4) * v2) / 0.4;
+  } else if (process === 'isobaric') {
+    const v2 = 5;
+    work = p1 * (v2 - v1);
+  } else if (process === 'isochoric') {
+    work = 0;
+  }
+  
+  // Update display values
+  document.getElementById('workDone').textContent = work.toFixed(2) + ' kJ';
+  document.getElementById('heatTransfer').textContent = (process === 'adiabatic' ? '0 kJ' : (work * 1.2).toFixed(2) + ' kJ');
+  document.getElementById('efficiency').textContent = process === 'carnot' ? '40%' : (Math.random() * 30 + 10).toFixed(1) + '%';
+  document.getElementById('entropyChange').textContent = (process === 'isothermal' ? 
+    (work / t).toFixed(3) + ' kJ/K' : 
+    (Math.random() * 0.5).toFixed(3) + ' kJ/K');
+}
+
+// Process selection buttons
+document.querySelectorAll('.process-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    // Remove active class from all buttons
+    document.querySelectorAll('.process-btn').forEach(b => b.classList.remove('active'));
+    
+    // Add active class to clicked button
+    this.classList.add('active');
+    
+    // Update current process
+    currentProcess = this.getAttribute('data-process');
+    
+    // Redraw diagram
+    drawPVDiagram(currentProcess);
+  });
+});
+
+// Slider updates
+document.getElementById('pressureSlider').addEventListener('input', function() {
+  const value = this.value;
+  document.getElementById('initPressure').textContent = value + ' kPa';
+  document.getElementById('pressureValue').textContent = value + ' kPa';
+  drawPVDiagram(currentProcess);
+});
+
+document.getElementById('volumeSlider').addEventListener('input', function() {
+  const value = this.value;
+  document.getElementById('initVolume').textContent = value + ' m³';
+  document.getElementById('volumeValue').textContent = value + ' m³';
+  drawPVDiagram(currentProcess);
+});
+
+document.getElementById('tempSlider').addEventListener('input', function() {
+  const value = this.value;
+  document.getElementById('tempValue').textContent = value + ' K';
+  drawPVDiagram(currentProcess);
+});
+
+// Run process button
+document.getElementById('runProcess').addEventListener('click', function() {
+  this.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Running...';
+  this.disabled = true;
+  
+  setTimeout(() => {
+    this.innerHTML = '<i class="fas fa-check"></i> Process Complete!';
+    setTimeout(() => {
+      this.innerHTML = '<i class="fas fa-play"></i> Run Process Simulation';
+      this.disabled = false;
+    }, 1500);
+  }, 2000);
+  
+  // Animate the diagram
+  const originalColor = ctx.strokeStyle;
+  ctx.strokeStyle = '#2ecc71';
+  ctx.lineWidth = 4;
+  drawPVDiagram(currentProcess);
+  
+  setTimeout(() => {
+    ctx.strokeStyle = originalColor;
+    ctx.lineWidth = 3;
+    drawPVDiagram(currentProcess);
+  }, 1000);
+});
+
+// Heat Engine Simulation
+let engineRunning = false;
+let currentCycle = 'carnot';
+
+document.querySelectorAll('[data-cycle]').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('[data-cycle]').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    currentCycle = this.getAttribute('data-cycle');
+    updateEngineStats();
+  });
+});
+
+document.getElementById('sourceSlider').addEventListener('input', function() {
+  document.getElementById('sourceTemp').textContent = this.value + ' K';
+  updateEngineStats();
+});
+
+document.getElementById('sinkSlider').addEventListener('input', function() {
+  document.getElementById('sinkTemp').textContent = this.value + ' K';
+  updateEngineStats();
+});
+
+document.getElementById('ratioSlider').addEventListener('input', function() {
+  document.getElementById('compRatio').textContent = this.value + ':1';
+  updateEngineStats();
+});
+
+function updateEngineStats() {
+  const t1 = parseFloat(document.getElementById('sourceSlider').value);
+  const t2 = parseFloat(document.getElementById('sinkSlider').value);
+  const r = parseFloat(document.getElementById('ratioSlider').value);
+  
+  let efficiency = 0;
+  let heatInput = 0;
+  
+  if (currentCycle === 'carnot') {
+    efficiency = 1 - (t2 / t1);
+    heatInput = 1000; // Arbitrary base value
+  } else if (currentCycle === 'otto') {
+    const gamma = 1.4;
+    efficiency = 1 - Math.pow(1/r, gamma-1);
+    heatInput = 800;
+  } else if (currentCycle === 'diesel') {
+    const gamma = 1.4;
+    const cutoffRatio = 2; // Typical value
+    efficiency = 1 - (Math.pow(1/r, gamma-1) * 
+      (Math.pow(cutoffRatio, gamma) - 1) / 
+      (gamma * (cutoffRatio - 1)));
+    heatInput = 900;
+  }
+  
+  const netWork = heatInput * efficiency;
+  const heatRejected = heatInput - netWork;
+  
+  document.getElementById('heatInput').textContent = heatInput.toFixed(0) + ' kJ';
+  document.getElementById('heatRejected').textContent = heatRejected.toFixed(0) + ' kJ';
+  document.getElementById('netWork').textContent = netWork.toFixed(0) + ' kJ';
+  document.getElementById('thermalEff').textContent = (efficiency * 100).toFixed(1) + '%';
+  document.getElementById('engineEfficiency').textContent = (efficiency * 100).toFixed(1) + '%';
+  document.getElementById('powerOutput').textContent = (netWork / 3.6).toFixed(1) + ' kW';
+}
+
+document.getElementById('startEngine').addEventListener('click', function() {
+  if (!engineRunning) {
+    engineRunning = true;
+    this.innerHTML = '<i class="fas fa-stop"></i> Stop Engine';
+    
+    // Start animations
+    document.querySelector('.piston').style.animationPlayState = 'running';
+    document.querySelector('.crankshaft').style.animationPlayState = 'running';
+    
+    // Update stats periodically
+    const interval = setInterval(() => {
+      if (engineRunning) {
+        updateEngineStats();
+      } else {
+        clearInterval(interval);
+      }
+    }, 1000);
+  } else {
+    engineRunning = false;
+    this.innerHTML = '<i class="fas fa-play"></i> Start Engine Simulation';
+    
+    // Stop animations
+    document.querySelector('.piston').style.animationPlayState = 'paused';
+    document.querySelector('.crankshaft').style.animationPlayState = 'paused';
+  }
+});
+
+// Update progress tracking
+function updateProgress() {
+  const scrollTop = window.pageYOffset;
+  const docHeight = document.body.offsetHeight;
+  const winHeight = window.innerHeight;
+  const scrollPercent = (scrollTop / (docHeight - winHeight)) * 100;
+  
+  const concepts = Math.min(150, Math.floor(42 + scrollPercent * 1.5));
+  const progress = Math.min(100, Math.floor(42 + scrollPercent * 0.8));
+  
+  document.getElementById('conceptsCount').textContent = concepts;
+  document.getElementById('userProgress').textContent = progress + '%';
+}
+
+// Initialize PV Diagram
+drawPVDiagram('isothermal');
+updateEngineStats();
+
+// Add smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    
+    const targetId = this.getAttribute('href');
+    if (targetId === '#') return;
+    
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 80,
+        behavior: 'smooth'
+      });
+    }
+  });
+});
+
+// Initialize on load
+window.addEventListener('load', () => {
+  // Add animations to cards on scroll
+  const cards = document.querySelectorAll('.law-card, .formula-card, .resource-card');
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+        cardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  cards.forEach(card => cardObserver.observe(card));
+});
+</script>
+</body>
+</html>

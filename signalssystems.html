@@ -1,0 +1,1947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signals & Systems | Ultimate Learning Platform</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js"></script>
+
+<style>
+:root {
+  --bg: #020617;
+  --card: #0b1229;
+  --glass: rgba(255,255,255,0.06);
+  --neon1: #00f6ff;
+  --neon2: #9f7aea;
+  --neon3: #22d3ee;
+  --neon4: #f472b6;
+  --neon5: #10b981;
+  --text: #e5e7eb;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+  --dark: #0f172a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: radial-gradient(circle at 20% 20%, rgba(159,122,234,.18), transparent 40%),
+             radial-gradient(circle at 80% 30%, rgba(0,246,255,.15), transparent 40%),
+             linear-gradient(180deg, #020617, var(--bg));
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* NAVIGATION */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 18px 50px;
+  background: rgba(5,8,22,.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2), var(--neon4));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: logoGlow 3s infinite alternate;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 25px;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-links a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0,246,255,0.2), transparent);
+  transition: 0.5s;
+}
+
+.nav-links a:hover::before {
+  left: 100%;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  background: rgba(0, 246, 255, 0.1);
+  color: var(--neon1);
+  box-shadow: 0 0 15px rgba(0, 246, 255, 0.3);
+}
+
+/* HERO SECTION */
+.hero {
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  padding: 0 20px;
+  position: relative;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, rgba(0,246,255,0.1), transparent 70%);
+  z-index: -1;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2), var(--neon4));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: float 4s ease-in-out infinite;
+  margin-bottom: 20px;
+  text-shadow: 0 0 40px rgba(0,246,255,0.3);
+}
+
+.hero p {
+  margin-top: 15px;
+  opacity: .9;
+  max-width: 850px;
+  font-size: 1.2rem;
+  line-height: 1.8;
+}
+
+.progress-container {
+  width: 80%;
+  max-width: 800px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 30px;
+  height: 15px;
+  margin-top: 40px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2), var(--neon4));
+  border-radius: 30px;
+  width: 65%;
+  transition: width 0.5s;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer 2s infinite;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 20px 30px;
+  min-width: 180px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon1);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-top: 5px;
+}
+
+/* SECTION STYLES */
+section {
+  padding: 100px 8%;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 60px;
+  color: var(--neon3);
+  text-shadow: 0 0 25px rgba(34,211,238,.6);
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* GRID SYSTEM */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 40px;
+  margin-bottom: 80px;
+}
+
+/* CARDS */
+.card {
+  background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  border-radius: 25px;
+  padding: 35px;
+  border: 1px solid rgba(255,255,255,.12);
+  backdrop-filter: blur(20px);
+  transition: .5s cubic-bezier(.22,1,.36,1);
+  position: relative;
+  overflow: hidden;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(120deg, transparent, var(--neon1), var(--neon2), transparent);
+  opacity: 0;
+  transition: .5s;
+  z-index: -1;
+}
+
+.card:hover::before {
+  opacity: 0.3;
+}
+
+.card:hover {
+  transform: translateY(-15px) scale(1.03);
+  box-shadow: 0 30px 70px rgba(0,0,0,.7), 0 0 50px rgba(0,246,255,.5);
+}
+
+.card h3 {
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.6rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.card p {
+  font-size: 1rem;
+  line-height: 1.7;
+  opacity: .9;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.card ul {
+  margin-top: 10px;
+  padding-left: 20px;
+  line-height: 1.8;
+  font-size: .95rem;
+  flex-grow: 1;
+}
+
+.card li {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.card li.completed {
+  color: var(--success);
+}
+
+.card li.completed:before {
+  content: "✓";
+  position: absolute;
+  left: -20px;
+  color: var(--success);
+}
+
+/* BUTTONS */
+.btn-group {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 12px 25px;
+  border-radius: 30px;
+  border: 1px solid rgba(0,246,255,.4);
+  background: none;
+  color: var(--neon1);
+  cursor: pointer;
+  transition: .4s;
+  font-weight: 600;
+  font-size: .95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: 0.5s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn:hover {
+  background: var(--neon1);
+  color: black;
+  box-shadow: 0 0 25px var(--neon1);
+  transform: translateY(-3px);
+}
+
+.btn-success {
+  border-color: rgba(16, 185, 129, .4);
+  color: var(--success);
+}
+
+.btn-success:hover {
+  background: var(--success);
+  color: black;
+  box-shadow: 0 0 25px var(--success);
+}
+
+.btn-warning {
+  border-color: rgba(245, 158, 11, .4);
+  color: var(--warning);
+}
+
+.btn-warning:hover {
+  background: var(--warning);
+  color: black;
+  box-shadow: 0 0 25px var(--warning);
+}
+
+.btn-danger {
+  border-color: rgba(239, 68, 68, .4);
+  color: var(--danger);
+}
+
+.btn-danger:hover {
+  background: var(--danger);
+  color: black;
+  box-shadow: 0 0 25px var(--danger);
+}
+
+.btn-info {
+  border-color: rgba(59, 130, 246, .4);
+  color: var(--info);
+}
+
+.btn-info:hover {
+  background: var(--info);
+  color: black;
+  box-shadow: 0 0 25px var(--info);
+}
+
+/* INTERACTIVE VISUALIZATION */
+.visualization-container {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 25px;
+  padding: 40px;
+  margin: 60px 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.visualization-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0,246,255,0.05) 0%, transparent 70%);
+  z-index: -1;
+}
+
+.visualization-title {
+  text-align: center;
+  margin-bottom: 40px;
+  color: var(--neon4);
+  font-size: 1.8rem;
+}
+
+.visualization-controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.visualization-canvas-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.wave-canvas {
+  width: 100%;
+  height: 250px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wave-canvas canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.wave-label {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  color: var(--neon1);
+  font-weight: 600;
+  z-index: 2;
+}
+
+/* FORMULA CALCULATOR */
+.calculator-container {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 25px;
+  padding: 40px;
+  margin: 60px 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.calculator-title {
+  text-align: center;
+  margin-bottom: 40px;
+  color: var(--neon5);
+  font-size: 1.8rem;
+}
+
+.calculator-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.calculator-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 25px;
+}
+
+.calc-input-group {
+  margin-bottom: 20px;
+}
+
+.calc-input-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--neon2);
+}
+
+.calc-input-group input, .calc-input-group select {
+  width: 100%;
+  padding: 12px 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.calc-input-group input:focus, .calc-input-group select:focus {
+  outline: none;
+  border-color: var(--neon1);
+}
+
+.calc-result {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* INTERACTIVE QUIZ */
+.quiz-container {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 25px;
+  padding: 40px;
+  margin: 60px 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.quiz-timer {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-weight: 600;
+  color: var(--danger);
+}
+
+.quiz-question {
+  font-size: 1.4rem;
+  margin-bottom: 30px;
+  color: var(--neon1);
+  line-height: 1.5;
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.quiz-option {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.quiz-option:hover {
+  background: rgba(0, 246, 255, 0.1);
+  border-color: rgba(0, 246, 255, 0.3);
+}
+
+.quiz-option.selected {
+  background: rgba(0, 246, 255, 0.15);
+  border-color: var(--neon1);
+}
+
+.quiz-option.correct {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: var(--success);
+}
+
+.quiz-option.incorrect {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: var(--danger);
+}
+
+.option-letter {
+  width: 35px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* FLASHCARDS */
+.flashcard-container {
+  perspective: 1000px;
+  height: 280px;
+  margin: 40px 0;
+  cursor: pointer;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flashcard-container.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  font-size: 1.3rem;
+}
+
+.flashcard-front {
+  background: linear-gradient(135deg, rgba(0, 246, 255, 0.1), rgba(159, 122, 234, 0.1));
+  border: 2px solid rgba(0, 246, 255, 0.2);
+  color: var(--neon1);
+}
+
+.flashcard-back {
+  background: linear-gradient(135deg, rgba(159, 122, 234, 0.1), rgba(0, 246, 255, 0.1));
+  border: 2px solid rgba(159, 122, 234, 0.2);
+  color: var(--neon2);
+  transform: rotateY(180deg);
+}
+
+.flashcard-controls {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-top: 30px;
+}
+
+/* COMPREHENSIVE MATERIALS */
+.materials-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 40px;
+  margin-top: 40px;
+}
+
+.material-card {
+  background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,.12);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.material-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 246, 255, 0.2);
+  border-color: var(--neon1);
+}
+
+.material-card h4 {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  color: var(--neon1);
+}
+
+.material-card p {
+  margin-bottom: 20px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.material-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge-advanced {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--danger);
+}
+
+.badge-fundamental {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--success);
+}
+
+.badge-theory {
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--info);
+}
+
+/* FORMULA SHEET */
+.formula-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.formula-card {
+  background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,.12);
+  transition: all 0.3s;
+}
+
+.formula-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon1);
+  box-shadow: 0 15px 30px rgba(0, 246, 255, 0.15);
+}
+
+.formula-card h4 {
+  color: var(--neon2);
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.formula {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  font-family: 'Courier New', monospace;
+  border-left: 4px solid var(--neon1);
+  font-size: 1.1rem;
+  overflow-x: auto;
+}
+
+/* ANIMATIONS */
+@keyframes float {
+  0% { transform: translateY(0) }
+  50% { transform: translateY(-20px) }
+  100% { transform: translateY(0) }
+}
+
+@keyframes logoGlow {
+  0% { filter: drop-shadow(0 0 5px rgba(0,246,255,0.5)); }
+  100% { filter: drop-shadow(0 0 20px rgba(159,122,234,0.5)); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 50px;
+  opacity: .7;
+  margin-top: 100px;
+  border-top: 1px solid rgba(255,255,255,.1);
+  font-size: .9rem;
+  position: relative;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--neon1), transparent);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+  .materials-container {
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  }
+}
+
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  
+  .visualization-canvas-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  nav {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .hero h1 {
+    font-size: 2.8rem;
+  }
+  
+  .hero p {
+    font-size: 1.1rem;
+  }
+  
+  section {
+    padding: 60px 5%;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .stats-container {
+    gap: 20px;
+  }
+  
+  .stat-card {
+    min-width: 140px;
+    padding: 15px 20px;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  
+  .materials-container, .formula-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .visualization-controls, .flashcard-controls, .btn-group {
+    flex-direction: column;
+  }
+  
+  .btn, .quiz-option {
+    width: 100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">Signals & Systems</div>
+  <div class="nav-links">
+    <a href="#" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="#materials"><i class="fas fa-book"></i> Materials</a>
+    <a href="#visualization"><i class="fas fa-wave-square"></i> Visualizer</a>
+    <a href="#calculator"><i class="fas fa-calculator"></i> Calculator</a>
+    <a href="#quiz"><i class="fas fa-brain"></i> Quiz</a>
+    <a href="#formulas"><i class="fas fa-square-root-alt"></i> Formulas</a>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div>
+    <h1>Signals & Systems</h1>
+    <p>Master the mathematical foundations of signal processing and system analysis. From Fourier transforms to Z-transforms, convolution to correlation - explore the complete mathematical framework for analyzing continuous and discrete-time systems.</p>
+    
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <p>Course Progress: <span id="progressText">65%</span></p>
+    
+    <div class="stats-container">
+      <div class="stat-card">
+        <div class="stat-number">120+</div>
+        <div class="stat-label">Concepts Covered</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">85</div>
+        <div class="stat-label">Solved Examples</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">240</div>
+        <div class="stat-label">Practice Problems</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">18</div>
+        <div class="stat-label">Interactive Tools</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPREHENSIVE STUDY MATERIALS -->
+<section id="materials">
+  <h2 class="section-title"><i class="fas fa-book-open"></i> Complete Study Materials</h2>
+  
+  <div class="grid">
+    <div class="card">
+      <h3>Fundamental Concepts <span class="material-badge badge-fundamental">Essential</span></h3>
+      <ul>
+        <li class="completed">Continuous vs Discrete Signals</li>
+        <li class="completed">Energy & Power Signals</li>
+        <li class="completed">Even & Odd Signal Decomposition</li>
+        <li>Periodic vs Aperiodic Signals</li>
+        <li>Deterministic vs Random Signals</li>
+        <li>Basic Signal Operations</li>
+        <li>Elementary Signals: δ(t), u(t), r(t), e^t</li>
+        <li>Signal Classification & Properties</li>
+      </ul>
+      <div class="btn-group">
+        <button class="btn"><i class="fas fa-download"></i> Download Notes</button>
+        <button class="btn btn-success"><i class="fas fa-check-circle"></i> Mark Complete</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>System Analysis <span class="material-badge badge-theory">Theory</span></h3>
+      <ul>
+        <li class="completed">System Classification</li>
+        <li class="completed">Linear & Time-Invariant Systems</li>
+        <li>Causal & Non-Causal Systems</li>
+        <li>Stable & Unstable Systems</li>
+        <li>Static vs Dynamic Systems</li>
+        <li>Invertible Systems</li>
+        <li>Impulse Response Characterization</li>
+        <li>Step Response Analysis</li>
+      </ul>
+      <div class="btn-group">
+        <button class="btn"><i class="fas fa-play-circle"></i> Video Lectures</button>
+        <button class="btn btn-info"><i class="fas fa-calculator"></i> Practice Problems</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Transform Methods <span class="material-badge badge-advanced">Advanced</span></h3>
+      <ul>
+        <li class="completed">Fourier Series Analysis</li>
+        <li>Continuous Fourier Transform</li>
+        <li>Discrete-Time Fourier Transform</li>
+        <li>Laplace Transform & Properties</li>
+        <li>Z-Transform & ROC Analysis</li>
+        <li>Discrete Fourier Transform (DFT)</li>
+        <li>Fast Fourier Transform (FFT)</li>
+        <li>Transform Applications in Filtering</li>
+      </ul>
+      <div class="btn-group">
+        <button class="btn"><i class="fas fa-project-diagram"></i> Interactive Tools</button>
+        <button class="btn btn-warning"><i class="fas fa-file-alt"></i> Assignments</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE SIGNAL VISUALIZATION -->
+<section id="visualization">
+  <h2 class="section-title"><i class="fas fa-wave-square"></i> Signal Visualization Laboratory</h2>
+  
+  <div class="visualization-container">
+    <div class="visualization-title">Real-time Signal Generation & Analysis</div>
+    
+    <div class="visualization-controls">
+      <button class="btn" onclick="changeSignal('sine')"><i class="fas fa-wave-sine"></i> Sine Wave</button>
+      <button class="btn" onclick="changeSignal('square')"><i class="fas fa-square-full"></i> Square Wave</button>
+      <button class="btn" onclick="changeSignal('triangle')"><i class="fas fa-chart-line"></i> Triangle Wave</button>
+      <button class="btn" onclick="changeSignal('sawtooth')"><i class="fas fa-chart-area"></i> Sawtooth Wave</button>
+      <button class="btn" onclick="addNoise()"><i class="fas fa-random"></i> Add Noise</button>
+      <button class="btn btn-info" onclick="resetVisualization()"><i class="fas fa-redo"></i> Reset</button>
+    </div>
+    
+    <div class="visualization-canvas-container">
+      <div class="wave-canvas">
+        <div class="wave-label">Time Domain Signal</div>
+        <canvas id="timeCanvas"></canvas>
+      </div>
+      
+      <div class="wave-canvas">
+        <div class="wave-label">Frequency Spectrum</div>
+        <canvas id="freqCanvas"></canvas>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+      <p>Current Signal: <span id="currentSignal" style="color: var(--neon1); font-weight: 600;">Sine Wave</span></p>
+      <p>Frequency: <span id="signalFreq" style="color: var(--neon2);">1 Hz</span> | 
+         Amplitude: <span id="signalAmp" style="color: var(--neon3);">1.0</span> | 
+         Phase: <span id="signalPhase" style="color: var(--neon4);">0°</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ADVANCED Q&A MATERIALS -->
+<section>
+  <h2 class="section-title"><i class="fas fa-question-circle"></i> Comprehensive Q&A Bank</h2>
+  
+  <div class="materials-container">
+    <div class="material-card">
+      <h4>1. Derive and explain the Convolution Theorem</h4>
+      <div class="material-badge badge-theory">Theory</div>
+      <p>The convolution theorem states that convolution in the time domain is equivalent to multiplication in the frequency domain, and vice versa.</p>
+      <div class="formula">
+        <p>If x(t) ↔ X(ω) and h(t) ↔ H(ω)</p>
+        <p>Then x(t) * h(t) ↔ X(ω) · H(ω)</p>
+        <p>And x(t) · h(t) ↔ (1/2π) X(ω) * H(ω)</p>
+      </div>
+      <button class="toggle-btn" onclick="toggleAnswer(1)">Show Derivation</button>
+      <div class="answer" id="answer1">
+        <p><strong>Proof:</strong> Starting with the convolution integral:</p>
+        <p>y(t) = ∫ x(τ) h(t-τ) dτ</p>
+        <p>Taking Fourier Transform:</p>
+        <p>Y(ω) = ∫ [∫ x(τ) h(t-τ) dτ] e^{-jωt} dt</p>
+        <p>Changing order of integration and substituting λ = t-τ:</p>
+        <p>Y(ω) = ∫ x(τ) [∫ h(λ) e^{-jω(λ+τ)} dλ] dτ</p>
+        <p>Y(ω) = ∫ x(τ) e^{-jωτ} dτ · ∫ h(λ) e^{-jωλ} dλ</p>
+        <p>Y(ω) = X(ω) · H(ω) ∎</p>
+      </div>
+    </div>
+    
+    <div class="material-card">
+      <h4>2. Solve: Find system response y(t) for x(t) = e^{-t}u(t) through h(t) = u(t)</h4>
+      <div class="material-badge badge-advanced">Problem Solving</div>
+      <p>Given: x(t) = e^{-t}u(t), h(t) = u(t), find y(t) = x(t) * h(t)</p>
+      <button class="toggle-btn" onclick="toggleAnswer(2)">Show Solution</button>
+      <div class="answer" id="answer2">
+        <p><strong>Step 1:</strong> Write convolution integral:</p>
+        <p>y(t) = ∫_{-∞}^{∞} x(τ) h(t-τ) dτ = ∫_{-∞}^{∞} e^{-τ}u(τ) u(t-τ) dτ</p>
+        <p><strong>Step 2:</strong> Determine limits from unit step functions:</p>
+        <p>u(τ) = 1 for τ ≥ 0, u(t-τ) = 1 for τ ≤ t</p>
+        <p>∴ Limits: max(0, -∞) ≤ τ ≤ min(t, ∞) = 0 ≤ τ ≤ t for t ≥ 0</p>
+        <p><strong>Step 3:</strong> Evaluate integral:</p>
+        <p>y(t) = ∫_{0}^{t} e^{-τ} dτ = [-e^{-τ}]_{0}^{t} = 1 - e^{-t} for t ≥ 0</p>
+        <p><strong>Step 4:</strong> Complete solution:</p>
+        <p>y(t) = (1 - e^{-t})u(t)</p>
+        <p><strong>Verification:</strong> Check at t=0: y(0)=0, as expected. As t→∞, y(t)→1.</p>
+      </div>
+    </div>
+    
+    <div class="material-card">
+      <h4>3. Explain Gibbs Phenomenon in Fourier Series</h4>
+      <div class="material-badge badge-theory">Theory</div>
+      <p>The Gibbs phenomenon describes the oscillatory behavior near discontinuities when approximating functions with Fourier series.</p>
+      <button class="toggle-btn" onclick="toggleAnswer(3)">Detailed Explanation</button>
+      <div class="answer" id="answer3">
+        <p><strong>Definition:</strong> When a discontinuous function is approximated by a finite Fourier series, the partial sums overshoot the function value near the discontinuity by about 9% of the jump height.</p>
+        
+        <p><strong>Key Characteristics:</strong></p>
+        <ul>
+          <li>Occurs for all discontinuous periodic functions</li>
+          <li>Overshoot magnitude: Approximately 8.95% of the discontinuity jump</li>
+          <li>Not reduced by increasing number of terms (N→∞)</li>
+          <li>Width of oscillatory region decreases as N increases</li>
+        </ul>
+        
+        <p><strong>Mathematical Analysis:</strong> For a square wave with jump discontinuity of height π, the overshoot converges to:</p>
+        <div class="formula">
+          <p>Gibbs Constant = (2/π) ∫_{0}^{π} (sin x)/x dx - 1 ≈ 0.08949</p>
+        </div>
+        
+        <p><strong>Significance:</strong> Important in filter design, signal reconstruction, and understanding limitations of Fourier approximations.</p>
+      </div>
+    </div>
+    
+    <div class="material-card">
+      <h4>4. Find Laplace Transform of t²·sin(ωt)·u(t)</h4>
+      <div class="material-badge badge-advanced">Problem Solving</div>
+      <p>Determine the Laplace Transform of the function: f(t) = t²·sin(ωt)·u(t)</p>
+      <button class="toggle-btn" onclick="toggleAnswer(4)">Show Solution</button>
+      <div class="answer" id="answer4">
+        <p><strong>Step 1:</strong> Known transform: ℒ{sin(ωt)u(t)} = ω/(s² + ω²)</p>
+        <p><strong>Step 2:</strong> Use multiplication by t property: ℒ{t·f(t)} = -d/ds F(s)</p>
+        <p>Apply twice for t²:</p>
+        <p>ℒ{t²·sin(ωt)u(t)} = d²/ds² [ω/(s² + ω²)]</p>
+        <p><strong>Step 3:</strong> First derivative:</p>
+        <p>d/ds [ω/(s² + ω²)] = -2ωs/(s² + ω²)²</p>
+        <p><strong>Step 4:</strong> Second derivative:</p>
+        <p>d²/ds² [ω/(s² + ω²)] = d/ds [-2ωs/(s² + ω²)²]</p>
+        <p>= -2ω[(s² + ω²)² - 4s²(s² + ω²)]/(s² + ω²)⁴</p>
+        <p>= -2ω[(s² + ω²) - 4s²]/(s² + ω²)³</p>
+        <p>= -2ω[-3s² + ω²]/(s² + ω²)³</p>
+        <p><strong>Step 5:</strong> Final result:</p>
+        <div class="formula">
+          <p>ℒ{t²·sin(ωt)u(t)} = 2ω(3s² - ω²)/(s² + ω²)³</p>
+        </div>
+        <p>Valid for Re(s) > 0.</p>
+      </div>
+    </div>
+    
+    <div class="material-card">
+      <h4>5. Compare DTFT, DFT, and FFT</h4>
+      <div class="material-badge badge-fundamental">Fundamental</div>
+      <p>Understanding the differences between Discrete-Time Fourier Transform, Discrete Fourier Transform, and Fast Fourier Transform.</p>
+      <button class="toggle-btn" onclick="toggleAnswer(5)">Show Comparison</button>
+      <div class="answer" id="answer5">
+        <table style="width:100%; border-collapse: collapse; margin-top:15px;">
+          <thead>
+            <tr style="background:rgba(0,246,255,0.1);">
+              <th style="padding:10px; text-align:left;">Transform</th>
+              <th style="padding:10px; text-align:left;">Input</th>
+              <th style="padding:10px; text-align:left;">Output</th>
+              <th style="padding:10px; text-align:left;">Complexity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:10px; border-bottom:1px solid rgba(255,255,255,0.1);"><strong>DTFT</strong></td>
+              <td style="padding:10px; border-bottom:1px solid rgba(255,255,255,0.1);">Infinite sequence</td>
+              <td style="padding:10px; border-bottom:1px solid rgba(255,255,255,0.1);">Continuous in frequency</td>
+              <td style="padding:10px; border-bottom:1px solid rgba(255,255,255,0.1);">O(∞)</td>
+            </tr>
+            <tr>
+              <td style="padding:10px; border-bottom:1px solid rgba(255,255,255,0.1);"><strong>DFT</strong></td>
+              <td style="padding:10px; border-bottom:1px solid rgba(255,255,255,0.1);">N-point sequence</td>
+              <td style="padding:10px; border-bottom:1px solid rgba(255,255,255,0.1);">N-point frequency samples</td>
+              <td style="padding:10px; border-bottom:1px solid rgba(255,255,255,0.1);">O(N²)</td>
+            </tr>
+            <tr>
+              <td style="padding:10px;"><strong>FFT</strong></td>
+              <td style="padding:10px;">N-point sequence (N=2^k)</td>
+              <td style="padding:10px;">N-point frequency samples</td>
+              <td style="padding:10px;">O(N log N)</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <p><strong>Key Points:</strong></p>
+        <ul>
+          <li>DTFT: Theoretical analysis tool, continuous frequency variable</li>
+          <li>DFT: Practical implementation, discrete frequency points</li>
+          <li>FFT: Efficient algorithm for computing DFT</li>
+          <li>DFT samples the DTFT at equally spaced frequencies</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="material-card">
+      <h4>6. Prove Parseval's Theorem for Fourier Transform</h4>
+      <div class="material-badge badge-advanced">Proof</div>
+      <p>Parseval's Theorem states that the total energy in a signal is preserved between time and frequency domains.</p>
+      <button class="toggle-btn" onclick="toggleAnswer(6)">Show Proof</button>
+      <div class="answer" id="answer6">
+        <p><strong>Parseval's Theorem:</strong> ∫_{-∞}^{∞} |x(t)|² dt = (1/2π) ∫_{-∞}^{∞} |X(ω)|² dω</p>
+        
+        <p><strong>Proof:</strong></p>
+        <p>Let E = ∫_{-∞}^{∞} |x(t)|² dt = ∫ x(t) x*(t) dt</p>
+        <p>Express x*(t) using inverse Fourier transform:</p>
+        <p>x*(t) = (1/2π) ∫ X*(ω) e^{-jωt} dω</p>
+        <p>Substitute:</p>
+        <p>E = ∫ x(t) [(1/2π) ∫ X*(ω) e^{-jωt} dω] dt</p>
+        <p>Change order of integration:</p>
+        <p>E = (1/2π) ∫ X*(ω) [∫ x(t) e^{-jωt} dt] dω</p>
+        <p>But ∫ x(t) e^{-jωt} dt = X(ω), so:</p>
+        <p>E = (1/2π) ∫ X*(ω) X(ω) dω = (1/2π) ∫ |X(ω)|² dω ∎</p>
+        
+        <p><strong>Significance:</strong></p>
+        <ul>
+          <li>Energy conservation between domains</li>
+          <li>Basis for spectral density interpretation</li>
+          <li>Used in filter design and signal detection</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULA CALCULATOR -->
+<section id="calculator">
+  <h2 class="section-title"><i class="fas fa-calculator"></i> Signal Transform Calculator</h2>
+  
+  <div class="calculator-container">
+    <div class="calculator-title">Compute Signal Transforms & Properties</div>
+    
+    <div class="calculator-grid">
+      <div class="calculator-card">
+        <h4>Fourier Transform Calculator</h4>
+        <div class="calc-input-group">
+          <label for="signalType">Signal Type:</label>
+          <select id="signalType" onchange="updateTransform()">
+            <option value="rect">Rectangular Pulse</option>
+            <option value="triangular">Triangular Pulse</option>
+            <option value="gaussian">Gaussian Pulse</option>
+            <option value="exponential">Exponential Decay</option>
+          </select>
+        </div>
+        
+        <div class="calc-input-group">
+          <label for="pulseWidth">Pulse Width (τ):</label>
+          <input type="range" id="pulseWidth" min="0.1" max="5" step="0.1" value="1" oninput="updateTransform()">
+          <span id="widthValue">1.0</span>
+        </div>
+        
+        <div class="calc-input-group">
+          <label for="frequency">Frequency (ω):</label>
+          <input type="range" id="frequency" min="0.5" max="10" step="0.5" value="2" oninput="updateTransform()">
+          <span id="freqValue">2.0</span>
+        </div>
+        
+        <div class="calc-result" id="fourierResult">
+          <h5>Fourier Transform Result:</h5>
+          <p id="transformFormula">X(ω) = τ·sinc(ωτ/2)</p>
+          <p id="transformValue">At ω=2: X(2) = 0.4546</p>
+        </div>
+      </div>
+      
+      <div class="calculator-card">
+        <h4>Convolution Calculator</h4>
+        <div class="calc-input-group">
+          <label for="signal1">Signal 1:</label>
+          <select id="signal1" onchange="calculateConvolution()">
+            <option value="rect1">Rect(0,1)</option>
+            <option value="exp1">e⁻ᵗu(t)</option>
+            <option value="tri1">Tri(0,2)</option>
+          </select>
+        </div>
+        
+        <div class="calc-input-group">
+          <label for="signal2">Signal 2:</label>
+          <select id="signal2" onchange="calculateConvolution()">
+            <option value="rect2">Rect(0,1)</option>
+            <option value="exp2">e⁻²ᵗu(t)</option>
+            <option value="step">u(t)</option>
+          </select>
+        </div>
+        
+        <div class="calc-input-group">
+          <label for="convTime">Time (t):</label>
+          <input type="range" id="convTime" min="0" max="5" step="0.1" value="2" oninput="calculateConvolution()">
+          <span id="timeValue">2.0</span>
+        </div>
+        
+        <div class="calc-result" id="convolutionResult">
+          <h5>Convolution Result:</h5>
+          <p id="convFormula">y(t) = t for 0≤t≤1</p>
+          <p id="convValue">At t=2: y(2) = 1.0</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERACTIVE QUIZ -->
+<section id="quiz">
+  <h2 class="section-title"><i class="fas fa-brain"></i> Advanced Assessment Quiz</h2>
+  
+  <div class="quiz-container">
+    <div class="quiz-header">
+      <h3>Signals & Systems Challenge</h3>
+      <div class="quiz-timer">
+        <i class="fas fa-clock"></i> Time: <span id="quizTimer">10:00</span>
+      </div>
+    </div>
+    
+    <div id="quizQuestion">
+      <h4 class="quiz-question">1. For a system with impulse response h(t) = e⁻ᵗu(t), what is the response to input x(t) = δ(t) - δ(t-1)?</h4>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="selectOption(this)">
+          <div class="option-letter">A</div>
+          <div>y(t) = e⁻ᵗu(t) - e⁻⁽ᵗ⁻¹⁾u(t-1)</div>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this)">
+          <div class="option-letter">B</div>
+          <div>y(t) = e⁻ᵗu(t) + e⁻⁽ᵗ⁻¹⁾u(t-1)</div>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this)">
+          <div class="option-letter">C</div>
+          <div>y(t) = e⁻ᵗu(t) - e⁻ᵗu(t-1)</div>
+        </div>
+        <div class="quiz-option" onclick="selectOption(this)">
+          <div class="option-letter">D</div>
+          <div>y(t) = δ(t) - δ(t-1)</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="btn-group">
+      <button class="btn" onclick="previousQuizQuestion()"><i class="fas fa-arrow-left"></i> Previous</button>
+      <button class="btn btn-success" onclick="checkQuizAnswer()"><i class="fas fa-check"></i> Check Answer</button>
+      <button class="btn" onclick="nextQuizQuestion()">Next <i class="fas fa-arrow-right"></i></button>
+      <button class="btn btn-warning" onclick="submitQuiz()"><i class="fas fa-paper-plane"></i> Submit Quiz</button>
+    </div>
+    
+    <div class="quiz-results" id="quizResults">
+      <h3>Quiz Results</h3>
+      <p>Your score: <span id="quizScore">0</span>/8</p>
+      <p id="quizFeedback">Keep studying to master Signals & Systems concepts!</p>
+      <button class="btn" onclick="resetQuiz()"><i class="fas fa-redo"></i> Try Again</button>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULA REFERENCE -->
+<section id="formulas">
+  <h2 class="section-title"><i class="fas fa-square-root-alt"></i> Comprehensive Formula Reference</h2>
+  
+  <div class="formula-container">
+    <div class="formula-card">
+      <h4>Fourier Transform Pairs</h4>
+      <div class="formula">
+        <p>Rectangular Pulse: Π(t/τ) ↔ τ·sinc(ωτ/2)</p>
+        <p>Gaussian: e^{-πt²} ↔ e^{-πω²}</p>
+        <p>Exponential: e^{-a|t|} ↔ 2a/(a² + ω²)</p>
+        <p>Delta: δ(t) ↔ 1</p>
+        <p>Constant: 1 ↔ 2πδ(ω)</p>
+        <p>Sine: sin(ω₀t) ↔ jπ[δ(ω+ω₀) - δ(ω-ω₀)]</p>
+      </div>
+    </div>
+    
+    <div class="formula-card">
+      <h4>Laplace Transform Pairs</h4>
+      <div class="formula">
+        <p>Unit Step: u(t) ↔ 1/s</p>
+        <p>Exponential: e^{-at}u(t) ↔ 1/(s+a)</p>
+        <p>Ramp: t u(t) ↔ 1/s²</p>
+        <p>Sine: sin(ωt)u(t) ↔ ω/(s²+ω²)</p>
+        <p>Cosine: cos(ωt)u(t) ↔ s/(s²+ω²)</p>
+        <p>Damped Sine: e^{-at}sin(ωt)u(t) ↔ ω/[(s+a)²+ω²]</p>
+      </div>
+    </div>
+    
+    <div class="formula-card">
+      <h4>Z-Transform Pairs</h4>
+      <div class="formula">
+        <p>Unit Sample: δ[n] ↔ 1</p>
+        <p>Unit Step: u[n] ↔ z/(z-1)</p>
+        <p>Exponential: aⁿu[n] ↔ z/(z-a)</p>
+        <p>Ramp: n u[n] ↔ z/(z-1)²</p>
+        <p>Sine: sin(ω₀n)u[n] ↔ z sin(ω₀)/(z² - 2z cos(ω₀) + 1)</p>
+        <p>Cosine: cos(ω₀n)u[n] ↔ z(z - cos(ω₀))/(z² - 2z cos(ω₀) + 1)</p>
+      </div>
+    </div>
+    
+    <div class="formula-card">
+      <h4>Convolution Properties</h4>
+      <div class="formula">
+        <p>Commutative: x(t)*h(t) = h(t)*x(t)</p>
+        <p>Associative: [x(t)*h₁(t)]*h₂(t) = x(t)*[h₁(t)*h₂(t)]</p>
+        <p>Distributive: x(t)*[h₁(t)+h₂(t)] = x(t)*h₁(t) + x(t)*h₂(t)</p>
+        <p>Identity: x(t)*δ(t) = x(t)</p>
+        <p>Shift: x(t)*δ(t-t₀) = x(t-t₀)</p>
+        <p>Width: width(x*h) = width(x) + width(h)</p>
+      </div>
+    </div>
+    
+    <div class="formula-card">
+      <h4>Parseval's & Energy Theorems</h4>
+      <div class="formula">
+        <p>Parseval (FT): ∫|x(t)|²dt = (1/2π)∫|X(ω)|²dω</p>
+        <p>Parseval (DTFT): Σ|x[n]|² = (1/2π)∫|X(e^{jω})|²dω</p>
+        <p>Energy Spectral Density: E(ω) = |X(ω)|²</p>
+        <p>Autocorrelation: Rₓₓ(τ) = x(τ)*x*(-τ)</p>
+        <p>Wiener-Khinchin: Sₓₓ(ω) = F{Rₓₓ(τ)} = |X(ω)|²</p>
+      </div>
+    </div>
+    
+    <div class="formula-card">
+      <h4>Sampling & Reconstruction</h4>
+      <div class="formula">
+        <p>Sampling: xₛ(t) = Σ x(nT) δ(t-nT)</p>
+        <p>Nyquist Rate: fₛ ≥ 2fₘ</p>
+        <p>Aliased Frequency: fₐ = |f - kfₛ|</p>
+        <p>Reconstruction: x(t) = Σ x(nT) sinc(π(t-nT)/T)</p>
+        <p>DTFT: X(e^{jω}) = (1/T) Σ X(ω - 2πk/T)</p>
+        <p>ZOH: H(f) = T sinc(fT) e^{-jπfT}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© Signals & Systems Ultimate Learning Platform • Complete Mathematical Foundation</p>
+  <p style="margin-top: 10px; font-size: 0.9rem;">120+ Concepts • 240+ Problems • 18 Interactive Tools • Updated: June 2023</p>
+</footer>
+
+<script>
+// Initialize variables
+let currentSignal = 'sine';
+let timeCanvas, timeCtx, freqCanvas, freqCtx;
+let time = 0;
+let animationId;
+let quizTime = 600; // 10 minutes in seconds
+let quizTimerInterval;
+
+// Signal Visualization
+function initCanvas() {
+  timeCanvas = document.getElementById('timeCanvas');
+  timeCtx = timeCanvas.getContext('2d');
+  freqCanvas = document.getElementById('freqCanvas');
+  freqCtx = freqCanvas.getContext('2d');
+  
+  // Set canvas dimensions
+  timeCanvas.width = timeCanvas.offsetWidth;
+  timeCanvas.height = timeCanvas.offsetHeight;
+  freqCanvas.width = freqCanvas.offsetWidth;
+  freqCanvas.height = freqCanvas.offsetHeight;
+  
+  // Start animation
+  drawSignals();
+}
+
+function drawSignals() {
+  // Clear canvases
+  timeCtx.clearRect(0, 0, timeCanvas.width, timeCanvas.height);
+  freqCtx.clearRect(0, 0, freqCanvas.width, freqCanvas.height);
+  
+  // Draw grids
+  drawGrid(timeCtx, timeCanvas);
+  drawGrid(freqCtx, freqCanvas);
+  
+  // Draw signals based on current selection
+  drawTimeDomainSignal();
+  drawFrequencyDomain();
+  
+  time += 0.05;
+  animationId = requestAnimationFrame(drawSignals);
+}
+
+function drawGrid(ctx, canvas) {
+  ctx.strokeStyle = 'rgba(0, 246, 255, 0.1)';
+  ctx.lineWidth = 1;
+  
+  // Vertical lines
+  for (let x = 0; x < canvas.width; x += 40) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, canvas.height);
+    ctx.stroke();
+  }
+  
+  // Horizontal lines
+  for (let y = 0; y < canvas.height; y += 40) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.stroke();
+  }
+  
+  // Center line
+  ctx.strokeStyle = 'rgba(0, 246, 255, 0.3)';
+  ctx.beginPath();
+  ctx.moveTo(0, canvas.height/2);
+  ctx.lineTo(canvas.width, canvas.height/2);
+  ctx.stroke();
+}
+
+function drawTimeDomainSignal() {
+  const amplitude = 80;
+  const freq = 0.5;
+  let yValues = [];
+  
+  timeCtx.strokeStyle = '#00f6ff';
+  timeCtx.lineWidth = 3;
+  timeCtx.beginPath();
+  
+  for (let x = 0; x < timeCanvas.width; x++) {
+    const t = (x / timeCanvas.width) * 10 + time;
+    let y;
+    
+    switch(currentSignal) {
+      case 'sine':
+        y = canvas.height/2 + amplitude * Math.sin(2 * Math.PI * freq * t);
+        break;
+      case 'square':
+        y = canvas.height/2 + amplitude * (Math.sin(2 * Math.PI * freq * t) > 0 ? 1 : -1);
+        break;
+      case 'triangle':
+        y = canvas.height/2 + amplitude * (2/Math.PI) * Math.asin(Math.sin(2 * Math.PI * freq * t));
+        break;
+      case 'sawtooth':
+        y = canvas.height/2 + amplitude * (2 * (t * freq - Math.floor(t * freq + 0.5)));
+        break;
+    }
+    
+    yValues.push(y);
+    
+    if (x === 0) {
+      timeCtx.moveTo(x, y);
+    } else {
+      timeCtx.lineTo(x, y);
+    }
+  }
+  
+  timeCtx.stroke();
+}
+
+function drawFrequencyDomain() {
+  const centerY = freqCanvas.height / 2;
+  const maxAmplitude = 60;
+  
+  freqCtx.strokeStyle = '#f472b6';
+  freqCtx.lineWidth = 2;
+  freqCtx.beginPath();
+  
+  // Draw frequency spectrum based on signal type
+  for (let x = 0; x < freqCanvas.width; x++) {
+    const freq = (x / freqCanvas.width) * 10;
+    let amplitude;
+    
+    switch(currentSignal) {
+      case 'sine':
+        amplitude = maxAmplitude * Math.exp(-Math.pow(freq - 0.5, 2) * 10);
+        break;
+      case 'square':
+        // Square wave has odd harmonics
+        amplitude = 0;
+        for (let n = 1; n <= 7; n += 2) {
+          amplitude += (maxAmplitude / n) * Math.exp(-Math.pow(freq - 0.5 * n, 2) * 20);
+        }
+        break;
+      case 'triangle':
+        // Triangle wave has odd harmonics with 1/n² decay
+        amplitude = 0;
+        for (let n = 1; n <= 7; n += 2) {
+          amplitude += (maxAmplitude / (n * n)) * Math.exp(-Math.pow(freq - 0.5 * n, 2) * 20);
+        }
+        break;
+      case 'sawtooth':
+        // Sawtooth has all harmonics with 1/n decay
+        amplitude = 0;
+        for (let n = 1; n <= 7; n++) {
+          amplitude += (maxAmplitude / n) * Math.exp(-Math.pow(freq - 0.5 * n, 2) * 20);
+        }
+        break;
+    }
+    
+    const y = centerY - amplitude;
+    
+    if (x === 0) {
+      freqCtx.moveTo(x, y);
+    } else {
+      freqCtx.lineTo(x, y);
+    }
+  }
+  
+  freqCtx.stroke();
+}
+
+function changeSignal(type) {
+  currentSignal = type;
+  const signalNames = {
+    'sine': 'Sine Wave',
+    'square': 'Square Wave',
+    'triangle': 'Triangle Wave',
+    'sawtooth': 'Sawtooth Wave'
+  };
+  document.getElementById('currentSignal').textContent = signalNames[type];
+}
+
+function addNoise() {
+  // Add noise to current signal
+  document.getElementById('currentSignal').textContent = currentSignal.charAt(0).toUpperCase() + currentSignal.slice(1) + ' with Noise';
+}
+
+function resetVisualization() {
+  time = 0;
+  changeSignal('sine');
+}
+
+// Calculator Functions
+function updateTransform() {
+  const signalType = document.getElementById('signalType').value;
+  const width = parseFloat(document.getElementById('pulseWidth').value);
+  const freq = parseFloat(document.getElementById('frequency').value);
+  
+  document.getElementById('widthValue').textContent = width.toFixed(1);
+  document.getElementById('freqValue').textContent = freq.toFixed(1);
+  
+  let formula, value;
+  
+  switch(signalType) {
+    case 'rect':
+      formula = `X(ω) = ${width}·sinc(${width}ω/2)`;
+      value = `At ω=${freq}: X(${freq}) = ${(width * Math.sin(width * freq / 2) / (width * freq / 2)).toFixed(4)}`;
+      break;
+    case 'triangular':
+      formula = `X(ω) = ${width}·sinc²(${width}ω/4)`;
+      value = `At ω=${freq}: X(${freq}) = ${(width * Math.pow(Math.sin(width * freq / 4) / (width * freq / 4), 2)).toFixed(4)}`;
+      break;
+    case 'gaussian':
+      formula = `X(ω) = √(π/${width})·exp(-ω²/${4*width})`;
+      value = `At ω=${freq}: X(${freq}) = ${Math.sqrt(Math.PI/width) * Math.exp(-freq*freq/(4*width)).toFixed(4)}`;
+      break;
+    case 'exponential':
+      formula = `X(ω) = 2${width}/(${width}² + ω²)`;
+      value = `At ω=${freq}: X(${freq}) = ${(2*width/(width*width + freq*freq)).toFixed(4)}`;
+      break;
+  }
+  
+  document.getElementById('transformFormula').textContent = formula;
+  document.getElementById('transformValue').textContent = value;
+}
+
+function calculateConvolution() {
+  const sig1 = document.getElementById('signal1').value;
+  const sig2 = document.getElementById('signal2').value;
+  const t = parseFloat(document.getElementById('convTime').value);
+  
+  document.getElementById('timeValue').textContent = t.toFixed(1);
+  
+  let formula, value;
+  
+  // Simple convolution calculations for demo
+  if (sig1 === 'rect1' && sig2 === 'rect2') {
+    formula = 'y(t) = t for 0≤t≤1, 2-t for 1≤t≤2';
+    value = t <= 1 ? t : (t <= 2 ? 2-t : 0);
+  } else if (sig1 === 'exp1' && sig2 === 'step') {
+    formula = 'y(t) = 1 - e⁻ᵗ for t≥0';
+    value = 1 - Math.exp(-t);
+  } else if (sig1 === 'exp1' && sig2 === 'exp2') {
+    formula = 'y(t) = (e⁻ᵗ - e⁻²ᵗ) for t≥0';
+    value = Math.exp(-t) - Math.exp(-2*t);
+  } else {
+    formula = 'y(t) = Custom convolution result';
+    value = Math.sin(t) * Math.exp(-t/2);
+  }
+  
+  document.getElementById('convFormula').textContent = formula;
+  document.getElementById('convValue').textContent = `At t=${t.toFixed(1)}: y(${t.toFixed(1)}) = ${value.toFixed(4)}`;
+}
+
+// Q&A Toggle Functions
+function toggleAnswer(id) {
+  const answer = document.getElementById(`answer${id}`);
+  const button = event.target;
+  
+  if (answer.style.display === 'block') {
+    answer.style.display = 'none';
+    button.textContent = button.textContent.replace('Hide', 'Show');
+  } else {
+    answer.style.display = 'block';
+    button.textContent = button.textContent.replace('Show', 'Hide');
+  }
+}
+
+// Quiz System
+let currentQuizQuestion = 1;
+let selectedOption = null;
+let quizScore = 0;
+const quizQuestions = [
+  {
+    question: "For a system with impulse response h(t) = e⁻ᵗu(t), what is the response to input x(t) = δ(t) - δ(t-1)?",
+    options: [
+      "y(t) = e⁻ᵗu(t) - e⁻⁽ᵗ⁻¹⁾u(t-1)",
+      "y(t) = e⁻ᵗu(t) + e⁻⁽ᵗ⁻¹⁾u(t-1)",
+      "y(t) = e⁻ᵗu(t) - e⁻ᵗu(t-1)",
+      "y(t) = δ(t) - δ(t-1)"
+    ],
+    correct: 0,
+    explanation: "For LTI systems, response to δ(t-t₀) is h(t-t₀). Using linearity: y(t) = h(t) - h(t-1)."
+  },
+  {
+    question: "What is the Fourier Transform of x(t) = cos(ω₀t) · u(t)?",
+    options: [
+      "π[δ(ω-ω₀) + δ(ω+ω₀)]",
+      "(π/2)[δ(ω-ω₀) + δ(ω+ω₀)] + jω/(ω₀²-ω²)",
+      "1/(j(ω-ω₀)) + 1/(j(ω+ω₀))",
+      "δ(ω-ω₀) + δ(ω+ω₀)"
+    ],
+    correct: 1,
+    explanation: "The unilateral cosine transform includes both impulse terms and the Hilbert transform component."
+  },
+  {
+    question: "A system is described by y''(t) + 3y'(t) + 2y(t) = x(t). What is its impulse response?",
+    options: [
+      "h(t) = (e⁻ᵗ - e⁻²ᵗ)u(t)",
+      "h(t) = (e⁻ᵗ + e⁻²ᵗ)u(t)",
+      "h(t) = (2e⁻ᵗ - e⁻²ᵗ)u(t)",
+      "h(t) = δ(t) - 3δ'(t) + 2δ''(t)"
+    ],
+    correct: 0,
+    explanation: "Solve characteristic equation: s²+3s+2=0 → s=-1,-2. Partial fractions give h(t)=(e⁻ᵗ-e⁻²ᵗ)u(t)."
+  },
+  {
+    question: "What is the region of convergence for the z-transform of x[n] = aⁿu[n] + bⁿu[-n-1]?",
+    options: [
+      "|z| > max(|a|, |b|)",
+      "|z| < min(|a|, |b|)",
+      "|a| < |z| < |b|, assuming |a| < |b|",
+      "Entire z-plane except z=0"
+    ],
+    correct: 2,
+    explanation: "Right-sided sequence converges for |z|>|a|, left-sided for |z|<|b|. Intersection gives annulus."
+  },
+  {
+    question: "The energy of signal x(t) = 2sinc(4t) is:",
+    options: [
+      "0.5",
+      "1.0",
+      "2.0",
+      "π/2"
+    ],
+    correct: 1,
+    explanation: "Using Parseval: E = (1/2π)∫|X(ω)|²dω. X(ω)=0.5Π(ω/8), so E=0.5²×8×(1/2π)×2π=1."
+  },
+  {
+    question: "A signal x(t) with bandwidth 10 kHz is sampled at 15 kHz. What is the maximum frequency without aliasing?",
+    options: [
+      "5 kHz",
+      "7.5 kHz",
+      "10 kHz",
+      "15 kHz"
+    ],
+    correct: 1,
+    explanation: "Nyquist frequency = fₛ/2 = 7.5 kHz. Frequencies above this will alias."
+  },
+  {
+    question: "The Laplace transform of t·sin(ωt)u(t) is:",
+    options: [
+      "2ωs/(s²+ω²)²",
+      "ω/(s²+ω²)²",
+      "2ω/(s²+ω²)²",
+      "s/(s²+ω²)²"
+    ],
+    correct: 0,
+    explanation: "Use property: ℒ{t·f(t)} = -dF(s)/ds. ℒ{sin(ωt)u(t)} = ω/(s²+ω²). Derivative gives 2ωs/(s²+ω²)²."
+  },
+  {
+    question: "The convolution of two rectangular pulses Π(t) * Π(t) gives:",
+    options: [
+      "Triangular pulse Λ(t)",
+      "Rectangular pulse 2Π(t/2)",
+      "Trapezoidal pulse",
+      "Another rectangular pulse"
+    ],
+    correct: 0,
+    explanation: "Convolution of two unit rectangles gives a triangle of base 2 and height 1: Λ(t)."
+  }
+];
+
+function loadQuizQuestion() {
+  const question = quizQuestions[currentQuizQuestion-1];
+  document.querySelector('.quiz-question').textContent = `${currentQuizQuestion}. ${question.question}`;
+  
+  const options = document.querySelectorAll('.quiz-option');
+  options.forEach((option, index) => {
+    option.querySelector('div:nth-child(2)').textContent = question.options[index];
+    option.classList.remove('selected', 'correct', 'incorrect');
+    option.onclick = function() { selectOption(this); };
+  });
+  
+  selectedOption = null;
+}
+
+function selectOption(element) {
+  // Remove selection from all options
+  document.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.classList.remove('selected');
+  });
+  
+  // Add selection to clicked option
+  element.classList.add('selected');
+  selectedOption = Array.from(document.querySelectorAll('.quiz-option')).indexOf(element);
+}
+
+function checkQuizAnswer() {
+  if (selectedOption === null) {
+    alert("Please select an answer first!");
+    return;
+  }
+  
+  const question = quizQuestions[currentQuizQuestion-1];
+  const options = document.querySelectorAll('.quiz-option');
+  
+  // Mark correct answer
+  options[question.correct].classList.add('correct');
+  
+  // Mark incorrect if wrong
+  if (selectedOption !== question.correct) {
+    options[selectedOption].classList.add('incorrect');
+  } else {
+    quizScore++;
+  }
+  
+  // Disable further selection
+  options.forEach(opt => {
+    opt.onclick = null;
+  });
+}
+
+function nextQuizQuestion() {
+  if (currentQuizQuestion < quizQuestions.length) {
+    currentQuizQuestion++;
+    loadQuizQuestion();
+  }
+}
+
+function previousQuizQuestion() {
+  if (currentQuizQuestion > 1) {
+    currentQuizQuestion--;
+    loadQuizQuestion();
+  }
+}
+
+function startQuizTimer() {
+  quizTimerInterval = setInterval(() => {
+    quizTime--;
+    const minutes = Math.floor(quizTime / 60);
+    const seconds = quizTime % 60;
+    document.getElementById('quizTimer').textContent = 
+      `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+    if (quizTime <= 0) {
+      clearInterval(quizTimerInterval);
+      submitQuiz();
+    }
+  }, 1000);
+}
+
+function submitQuiz() {
+  clearInterval(quizTimerInterval);
+  document.getElementById('quizResults').classList.add('show');
+  document.getElementById('quizScore').textContent = quizScore;
+  
+  let feedback = "";
+  if (quizScore === quizQuestions.length) {
+    feedback = "Perfect score! You have mastered Signals & Systems!";
+  } else if (quizScore >= quizQuestions.length * 0.8) {
+    feedback = "Excellent! You have a strong understanding of signal processing concepts.";
+  } else if (quizScore >= quizQuestions.length * 0.6) {
+    feedback = "Good job! Keep practicing to improve your mastery.";
+  } else {
+    feedback = "Review the materials and try again. Focus on fundamental concepts.";
+  }
+  
+  document.getElementById('quizFeedback').textContent = feedback;
+}
+
+function resetQuiz() {
+  currentQuizQuestion = 1;
+  quizScore = 0;
+  selectedOption = null;
+  quizTime = 600;
+  document.getElementById('quizResults').classList.remove('show');
+  loadQuizQuestion();
+  startQuizTimer();
+}
+
+// Initialize progress bar
+function updateProgress() {
+  const progress = 65;
+  document.getElementById('progressBar').style.width = `${progress}%`;
+  document.getElementById('progressText').textContent = `${progress}%`;
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+  updateProgress();
+  loadQuizQuestion();
+  initCanvas();
+  updateTransform();
+  calculateConvolution();
+  startQuizTimer();
+  
+  // Smooth scrolling for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+  
+  // Add KaTeX rendering for formulas
+  renderMath();
+});
+
+function renderMath() {
+  // This function would render KaTeX equations
+  // For now, we'll use plain text representations
+  console.log("Math rendering initialized");
+}
+
+// Handle window resize
+window.addEventListener('resize', function() {
+  if (timeCanvas) {
+    timeCanvas.width = timeCanvas.offsetWidth;
+    timeCanvas.height = timeCanvas.offsetHeight;
+    freqCanvas.width = freqCanvas.offsetWidth;
+    freqCanvas.height = freqCanvas.offsetHeight;
+  }
+});
+</script>
+
+</body>
+</html>

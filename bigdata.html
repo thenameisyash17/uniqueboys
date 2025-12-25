@@ -1,0 +1,3502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Big Data Analytics | BTech LMS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/theme/dracula.min.css">
+
+<style>
+:root {
+  --bg: #0a0f1d;
+  --card: #1a1f2e;
+  --primary: #8b5cf6;
+  --primary-light: #a78bfa;
+  --secondary: #10b981;
+  --accent: #f59e0b;
+  --danger: #ef4444;
+  --spark: #fbbf24;
+  --text: #f1f5f9;
+  --text-light: #94a3b8;
+  --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+  --gradient2: linear-gradient(135deg, var(--accent), var(--danger));
+  --gradient3: linear-gradient(135deg, var(--spark), var(--primary));
+  --data-glow: 0 0 25px rgba(139, 92, 246, 0.4);
+  --hadoop-glow: 0 0 20px rgba(16, 185, 129, 0.3);
+  --spark-glow: 0 0 20px rgba(251, 191, 36, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.15), transparent 30%),
+    radial-gradient(circle at 90% 10%, rgba(16, 185, 129, 0.12), transparent 35%),
+    radial-gradient(circle at 50% 90%, rgba(245, 158, 11, 0.08), transparent 40%),
+    linear-gradient(var(--bg), #0d1117);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Data Stream Animation */
+.data-stream {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.data-bit {
+  position: absolute;
+  color: rgba(139, 92, 246, 0.3);
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  font-size: 0.8rem;
+  animation: dataFlow linear infinite;
+}
+
+@keyframes dataFlow {
+  0% { transform: translateY(-100px) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.sparkle {
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+/* NAV */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 18px 40px;
+  background: rgba(10, 15, 29, 0.95);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: slideDown 0.8s ease-out;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: var(--data-glow);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo i {
+  font-size: 1.6rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+.nav-link {
+  color: var(--text-light);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 15px;
+  border-radius: 8px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+.nav-link:hover::before {
+  width: 100%;
+}
+
+/* Progress bar */
+.progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  z-index: 101;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--gradient);
+  width: 0%;
+  transition: width 0.1s;
+  box-shadow: 0 0 10px var(--primary);
+}
+
+/* HERO */
+.hero {
+  padding: 100px 8% 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.15), transparent 70%);
+  z-index: -1;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  background: linear-gradient(to right, var(--primary), var(--secondary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+  animation: float 4s ease-in-out infinite, textGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+  0% { text-shadow: 0 0 15px rgba(139, 92, 246, 0.4); }
+  100% { text-shadow: 0 0 30px rgba(139, 92, 246, 0.7), 0 0 50px rgba(16, 185, 129, 0.3); }
+}
+
+.hero p {
+  margin-top: 20px;
+  color: var(--text-light);
+  font-size: 1.3rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+  animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+.subject-stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 50px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  background: rgba(26, 31, 46, 0.7);
+  padding: 25px 35px;
+  border-radius: 15px;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  backdrop-filter: blur(10px);
+  min-width: 200px;
+  transition: all 0.3s;
+  animation: fadeInUp 1s ease-out 0.5s both;
+  cursor: pointer;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: var(--data-glow);
+}
+
+.stat-item:nth-child(2) { animation-delay: 0.6s; }
+.stat-item:nth-child(3) { animation-delay: 0.7s; }
+.stat-item:nth-child(4) { animation-delay: 0.8s; }
+.stat-item:nth-child(5) { animation-delay: 0.9s; }
+.stat-item:nth-child(6) { animation-delay: 1.0s; }
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: var(--text-light);
+  margin-top: 8px;
+}
+
+/* QUICK ACCESS */
+.quick-access {
+  padding: 0 8% 50px;
+}
+
+.quick-access-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.quick-card {
+  background: rgba(26, 31, 46, 0.7);
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.1), transparent);
+  transition: left 0.6s;
+}
+
+.quick-card:hover::before {
+  left: 100%;
+}
+
+.quick-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary);
+  box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+}
+
+.quick-card i {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: var(--primary);
+}
+
+.quick-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.quick-card p {
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+/* CONTENT */
+section {
+  padding: 70px 8%;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s, transform 0.8s;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-title {
+  margin-bottom: 50px;
+  font-size: 2rem;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 15px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 4px;
+  background: var(--gradient);
+  border-radius: 2px;
+}
+
+.section-subtitle {
+  color: var(--secondary);
+  font-size: 1.3rem;
+  margin: 35px 0 25px;
+  padding-left: 15px;
+  border-left: 4px solid var(--primary);
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 35px;
+}
+
+.card {
+  background: rgba(26, 31, 46, 0.8);
+  padding: 35px;
+  border-radius: 20px;
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.8s ease-out both;
+}
+
+.card:nth-child(2) { animation-delay: 0.1s; }
+.card:nth-child(3) { animation-delay: 0.2s; }
+.card:nth-child(4) { animation-delay: 0.3s; }
+.card:nth-child(5) { animation-delay: 0.4s; }
+.card:nth-child(6) { animation-delay: 0.5s; }
+.card:nth-child(7) { animation-delay: 0.6s; }
+.card:nth-child(8) { animation-delay: 0.7s; }
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(139, 92, 246, 0.08), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover::after {
+  transform: translateX(100%);
+}
+
+.card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(139, 92, 246, 0.25);
+  border-color: var(--primary);
+}
+
+.card h3 {
+  color: var(--primary);
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card ul {
+  list-style: none;
+  padding-left: 10px;
+}
+
+.card ul li {
+  padding: 12px 0;
+  color: var(--text-light);
+  position: relative;
+  padding-left: 35px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s;
+}
+
+.card ul li:hover {
+  color: var(--primary);
+  padding-left: 40px;
+}
+
+.card ul li::before {
+  content: '📊';
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+/* TOPIC DETAILS MODAL */
+.topic-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 15, 29, 0.98);
+  backdrop-filter: blur(15px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s, visibility 0.5s;
+}
+
+.topic-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: var(--card);
+  width: 90%;
+  max-width: 1200px;
+  max-height: 90vh;
+  border-radius: 20px;
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  overflow: hidden;
+  position: relative;
+  transform: translateY(50px);
+  transition: transform 0.5s;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+.topic-modal.active .modal-content {
+  transform: translateY(0);
+}
+
+.modal-header {
+  padding: 30px 35px;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  color: var(--primary);
+  font-size: 1.8rem;
+}
+
+.close-modal {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: var(--text);
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-modal:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+  color: var(--primary);
+}
+
+.modal-body {
+  padding: 35px;
+  overflow-y: auto;
+  max-height: calc(90vh - 120px);
+}
+
+.topic-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.topic-points, .topic-code, .topic-applications {
+  margin-bottom: 30px;
+}
+
+.topic-points h4, .topic-code h4, .topic-applications h4 {
+  color: var(--secondary);
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(16, 185, 129, 0.3);
+}
+
+.topic-points ul, .topic-applications ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.topic-points li, .topic-applications li {
+  padding: 10px 0;
+  color: var(--text-light);
+  position: relative;
+  padding-left: 28px;
+}
+
+.topic-points li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.code-example {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 15px 0;
+  font-family: 'Courier New', monospace;
+  border-left: 4px solid var(--accent);
+  color: #a3e7ff;
+  overflow-x: auto;
+}
+
+.code-example pre {
+  margin: 0;
+}
+
+.code-example code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+}
+
+/* BIG DATA VISUALIZATION */
+.data-visualization {
+  margin-top: 40px;
+  background: rgba(26, 31, 46, 0.9);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.viz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.viz-header h4 {
+  color: var(--primary);
+  font-size: 1.4rem;
+}
+
+.viz-controls {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.viz-canvas-container {
+  width: 100%;
+  height: 400px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#dataVizCanvas {
+  width: 100%;
+  height: 100%;
+}
+
+.viz-legend {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+/* HADOOP ECOSYSTEM VISUALIZER */
+.hadoop-ecosystem {
+  margin-top: 40px;
+  background: rgba(26, 31, 46, 0.9);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.ecosystem-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.ecosystem-node {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.3s;
+  cursor: pointer;
+  position: relative;
+}
+
+.ecosystem-node:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--hadoop-glow);
+}
+
+.ecosystem-node.hadoop {
+  border-color: var(--secondary);
+}
+
+.ecosystem-node.spark {
+  border-color: var(--spark);
+}
+
+.ecosystem-node.hive {
+  border-color: var(--primary);
+}
+
+.ecosystem-node.hbase {
+  border-color: var(--accent);
+}
+
+.ecosystem-node.kafka {
+  border-color: var(--danger);
+}
+
+.ecosystem-node i {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.ecosystem-node h5 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.ecosystem-node p {
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+/* SPARK CODE PLAYGROUND */
+.spark-playground {
+  margin-top: 40px;
+  background: rgba(26, 31, 46, 0.9);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.playground-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.playground-header h4 {
+  color: var(--spark);
+  font-size: 1.4rem;
+}
+
+.playground-controls {
+  display: flex;
+  gap: 15px;
+}
+
+.spark-editor-container {
+  margin-bottom: 25px;
+}
+
+.CodeMirror {
+  height: 300px;
+  border-radius: 10px;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+
+.playground-results {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  padding: 20px;
+  min-height: 150px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: auto;
+}
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.result-table th {
+  background: rgba(251, 191, 36, 0.2);
+  color: var(--spark);
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--spark);
+}
+
+.result-table td {
+  padding: 10px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-light);
+}
+
+.result-table tr:hover {
+  background: rgba(251, 191, 36, 0.1);
+}
+
+/* DATA PIPELINE SIMULATOR */
+.pipeline-simulator {
+  margin-top: 40px;
+  background: rgba(26, 31, 46, 0.9);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.pipeline-visualization {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 30px;
+  position: relative;
+  height: 200px;
+}
+
+.pipeline-stage {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 20px;
+  width: 150px;
+  text-align: center;
+  border: 2px solid var(--primary);
+  position: relative;
+  z-index: 2;
+  transition: all 0.3s;
+}
+
+.pipeline-stage.active {
+  background: rgba(139, 92, 246, 0.2);
+  box-shadow: var(--data-glow);
+}
+
+.pipeline-connector {
+  flex: 1;
+  height: 4px;
+  background: var(--primary);
+  position: relative;
+}
+
+.pipeline-connector::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid var(--primary);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+}
+
+/* ML WORKFLOW VISUALIZER */
+.ml-workflow {
+  margin-top: 40px;
+  background: rgba(26, 31, 46, 0.9);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.workflow-steps {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.workflow-step {
+  min-width: 200px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 25px;
+  text-align: center;
+  border: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.workflow-step.active {
+  border-color: var(--secondary);
+  box-shadow: var(--hadoop-glow);
+}
+
+.workflow-step i {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: var(--secondary);
+}
+
+.workflow-step h5 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+/* Q&A SECTION */
+.qa-section {
+  margin: 60px 8%;
+  padding: 45px;
+  background: rgba(26, 31, 46, 0.8);
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s, transform 0.8s;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.qa-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.qa-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, transparent 70%);
+  z-index: -1;
+}
+
+.qa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.qa-header h3 {
+  color: var(--secondary);
+  font-size: 1.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.close-qa {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--primary);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.close-qa:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.qa-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.question-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+}
+
+.question-item:hover {
+  border-color: var(--primary);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.question-header {
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.question-header h4 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #f1f5f9;
+  flex: 1;
+}
+
+.arrow {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+  color: var(--primary);
+  margin-left: 15px;
+  flex-shrink: 0;
+}
+
+.answer-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 28px;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-top: 1px solid transparent;
+}
+
+.answer-content.active {
+  max-height: 1200px;
+  padding: 30px;
+  border-top: 1px solid rgba(139, 92, 246, 0.3);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.answer-content p {
+  line-height: 1.7;
+  color: #cbd5e1;
+  margin-bottom: 15px;
+}
+
+.answer-content ul {
+  margin-top: 15px;
+  padding-left: 25px;
+}
+
+.answer-content li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+  color: #cbd5e1;
+}
+
+.answer-content strong {
+  color: var(--primary);
+}
+
+.question-item.active .arrow {
+  transform: rotate(180deg);
+}
+
+/* CAREER PATHS */
+.career-paths {
+  display: flex;
+  gap: 25px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.career-card {
+  flex: 1;
+  min-width: 280px;
+  background: rgba(26, 31, 46, 0.7);
+  border-radius: 15px;
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s;
+}
+
+.career-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+}
+
+.career-card h4 {
+  color: var(--primary);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.3rem;
+}
+
+.career-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.career-card li {
+  padding: 10px 0;
+  color: var(--text-light);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.career-salary {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 2px solid rgba(139, 92, 246, 0.3);
+  color: var(--secondary);
+  font-weight: bold;
+}
+
+/* STUDY TOOLS */
+.study-tools {
+  display: flex;
+  gap: 25px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.tool-card {
+  flex: 1;
+  min-width: 280px;
+  background: rgba(26, 31, 46, 0.7);
+  border-radius: 15px;
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s;
+}
+
+.tool-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(139, 92, 246, 0.2);
+}
+
+.tool-card h4 {
+  color: var(--primary);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.3rem;
+}
+
+.tool-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.tool-card li {
+  padding: 12px 0;
+  color: var(--text-light);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tool-progress {
+  width: 70px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tool-progress-bar {
+  height: 100%;
+  background: var(--gradient);
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+/* ANIMATIONS */
+@keyframes slideDown {
+  0% { transform: translateY(-100%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(139, 92, 246, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* BUTTONS */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 25px;
+  padding: 14px 30px;
+  background: rgba(139, 92, 246, 0.15);
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.btn:hover {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+  transform: translateY(-5px);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--secondary);
+  color: var(--secondary);
+}
+
+.btn-outline:hover {
+  background: var(--secondary);
+  color: white;
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+}
+
+.btn-run {
+  background: var(--secondary);
+  border-color: var(--secondary);
+  color: white;
+}
+
+.btn-run:hover {
+  background: #0da271;
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+}
+
+.btn-reset {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.btn-reset:hover {
+  background: var(--danger);
+  color: white;
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+}
+
+.btn-spark {
+  background: rgba(251, 191, 36, 0.15);
+  border-color: var(--spark);
+  color: var(--spark);
+}
+
+.btn-spark:hover {
+  background: var(--spark);
+  color: black;
+  box-shadow: 0 0 30px rgba(251, 191, 36, 0.5);
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 50px 8%;
+  font-size: 0.95rem;
+  color: #94a3b8;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 80px;
+  background: rgba(10, 15, 29, 0.9);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--text-light);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+}
+
+/* SCROLL TO TOP */
+.scroll-top {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 55px;
+  height: 55px;
+  background: rgba(139, 92, 246, 0.2);
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+  z-index: 99;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-top.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-top:hover {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.7);
+  transform: translateY(-5px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+  .topic-details {
+    grid-template-columns: 1fr;
+  }
+  
+  .pipeline-visualization {
+    flex-direction: column;
+    height: auto;
+    gap: 20px;
+  }
+  
+  .pipeline-connector {
+    width: 4px;
+    height: 50px;
+  }
+  
+  .pipeline-connector::after {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 10px solid var(--primary);
+  }
+}
+
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+  
+  .ecosystem-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  nav {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .hero h1 {
+    font-size: 2.8rem;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+  }
+  
+  .stat-item {
+    min-width: 160px;
+    padding: 20px 25px;
+  }
+  
+  .stat-value {
+    font-size: 2rem;
+  }
+  
+  section, .qa-section, .hero {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  
+  .qa-section {
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 30px;
+  }
+  
+  .card {
+    padding: 25px;
+  }
+  
+  .modal-header {
+    padding: 25px;
+  }
+  
+  .modal-body {
+    padding: 25px;
+  }
+  
+  .scroll-top {
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .playground-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .ecosystem-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  
+  .section-title {
+    font-size: 1.7rem;
+  }
+  
+  .quick-access-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tool-card, .career-card {
+    min-width: 100%;
+  }
+  
+  .viz-controls {
+    justify-content: center;
+  }
+  
+  .workflow-steps {
+    flex-direction: column;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Data Stream Animation -->
+<div class="data-stream" id="dataStream"></div>
+
+<!-- Progress Bar -->
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Scroll to Top Button -->
+<div class="scroll-top" id="scrollTop">
+  <i class="fas fa-arrow-up"></i>
+</div>
+
+<nav>
+  <div class="logo">
+    <i class="fas fa-database"></i>
+    BTech LMS - Big Data Analytics
+  </div>
+  <div class="nav-links">
+    <a href="#" class="nav-link">Home</a>
+    <a href="#" class="nav-link">Syllabus</a>
+    <a href="#" class="nav-link">Hadoop</a>
+    <a href="#" class="nav-link">Spark</a>
+    <a href="#" class="nav-link">Projects</a>
+    <a href="#" class="nav-link">Forum</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>Big Data Analytics & Engineering</h1>
+  <p>Master the art of processing, analyzing, and deriving insights from massive datasets. Learn Hadoop ecosystem, Spark, NoSQL databases, machine learning at scale, and real-time data processing with hands-on projects.</p>
+  
+  <div class="subject-stats">
+    <div class="stat-item" onclick="showTopicModal('fundamentals')">
+      <div class="stat-value">18</div>
+      <div class="stat-label">Core Units</div>
+    </div>
+    <div class="stat-item" onclick="showTopicModal('hadoop')">
+      <div class="stat-value">12+</div>
+      <div class="stat-label">Hadoop Tools</div>
+    </div>
+    <div class="stat-item" onclick="showTopicModal('spark')">
+      <div class="stat-value">50+</div>
+      <div class="stat-label">Spark Transformations</div>
+    </div>
+    <div class="stat-item" onclick="showTopicModal('projects')">
+      <div class="stat-value">25</div>
+      <div class="stat-label">Real Projects</div>
+    </div>
+    <div class="stat-item" onclick="showTopicModal('algorithms')">
+      <div class="stat-value">30+</div>
+      <div class="stat-label">ML Algorithms</div>
+    </div>
+    <div class="stat-item" onclick="showTopicModal('certifications')">
+      <div class="stat-value">8</div>
+      <div class="stat-label">Certifications</div>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Access -->
+<div class="quick-access">
+  <div class="quick-access-grid">
+    <div class="quick-card" onclick="showTopicModal('fundamentals')">
+      <i class="fas fa-chart-bar"></i>
+      <h3>Big Data Fundamentals</h3>
+      <p>5V's, Architectures, Distributed Systems, CAP Theorem</p>
+    </div>
+    <div class="quick-card" onclick="showTopicModal('hadoop')">
+      <i class="fab fa-java"></i>
+      <h3>Hadoop Ecosystem</h3>
+      <p>HDFS, MapReduce, YARN, Hive, Pig, HBase</p>
+    </div>
+    <div class="quick-card" onclick="showTopicModal('spark')">
+      <i class="fas fa-bolt"></i>
+      <h3>Apache Spark</h3>
+      <p>RDDs, DataFrames, Streaming, MLlib, GraphX</p>
+    </div>
+    <div class="quick-card" onclick="showTopicModal('nosql')">
+      <i class="fas fa-layer-group"></i>
+      <h3>NoSQL Databases</h3>
+      <p>MongoDB, Cassandra, Redis, Neo4j, DynamoDB</p>
+    </div>
+  </div>
+</div>
+
+<!-- COMPREHENSIVE TOPICS -->
+<section id="topics">
+  <div class="section-title">
+    <i class="fas fa-sitemap"></i>
+    Complete Big Data Analytics Curriculum
+  </div>
+  
+  <div class="grid">
+    <!-- Unit 1 -->
+    <div class="card" onclick="showTopicModal('fundamentals')">
+      <h3><i class="fas fa-database"></i> Unit 1: Introduction to Big Data</h3>
+      <ul>
+        <li>5 V's of Big Data: Volume, Velocity, Variety, Veracity, Value</li>
+        <li>Evolution of Data Management Systems</li>
+        <li>Challenges of Traditional Databases</li>
+        <li>Big Data Applications & Use Cases</li>
+        <li>Big Data Ecosystem Overview</li>
+        <li>Data Science vs Data Engineering</li>
+        <li>Ethical Considerations in Big Data</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 2 -->
+    <div class="card" onclick="showTopicModal('distributed')">
+      <h3><i class="fas fa-network-wired"></i> Unit 2: Distributed Systems Fundamentals</h3>
+      <ul>
+        <li>Distributed Computing Concepts</li>
+        <li>CAP Theorem: Consistency, Availability, Partition Tolerance</li>
+        <li>BASE Properties: Basically Available, Soft state, Eventual consistency</li>
+        <li>Distributed File Systems</li>
+        <li>Fault Tolerance & Recovery</li>
+        <li>Load Balancing & Data Distribution</li>
+        <li>Consensus Algorithms: Paxos, Raft</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 3 -->
+    <div class="card" onclick="showTopicModal('hadoop')">
+      <h3><i class="fab fa-hadoop"></i> Unit 3: Hadoop Core Components</h3>
+      <ul>
+        <li>Hadoop Architecture & Ecosystem</li>
+        <li>HDFS: NameNode, DataNode, Block Replication</li>
+        <li>MapReduce Programming Model</li>
+        <li>YARN Resource Management</li>
+        <li>Hadoop Cluster Setup & Configuration</li>
+        <li>Hadoop Security: Kerberos, Ranger</li>
+        <li>Performance Tuning & Optimization</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 4 -->
+    <div class="card" onclick="showTopicModal('mapreduce')">
+      <h3><i class="fas fa-code"></i> Unit 4: Advanced MapReduce</h3>
+      <ul>
+        <li>MapReduce Design Patterns</li>
+        <li>Custom InputFormats & OutputFormats</li>
+        <li>Combiners & Partitioners</li>
+        <li>Secondary Sorting Techniques</li>
+        <li>MapReduce Joins: Reduce-side, Map-side</li>
+        <li>Performance Optimization Techniques</li>
+        <li>Real-world MapReduce Applications</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 5 -->
+    <div class="card" onclick="showTopicModal('hive')">
+      <h3><i class="fas fa-table"></i> Unit 5: Apache Hive & Data Warehousing</h3>
+      <ul>
+        <li>Hive Architecture & Metastore</li>
+        <li>HiveQL: DDL, DML, Querying</li>
+        <li>Hive Data Types & SerDe</li>
+        <li>Partitioning & Bucketing</li>
+        <li>Hive Performance Tuning</li>
+        <li>Hive UDFs, UDAFs, UDTFs</li>
+        <li>Hive Integration with Other Tools</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 6 -->
+    <div class="card" onclick="showTopicModal('pig')">
+      <h3><i class="fas fa-code"></i> Unit 6: Apache Pig & Dataflow</h3>
+      <ul>
+        <li>Pig Latin Language Fundamentals</li>
+        <li>Pig Execution Modes: Local, MapReduce</li>
+        <li>Pig Data Types & Schemas</li>
+        <li>Built-in Functions & UDFs</li>
+        <li>Pig Optimization Techniques</li>
+        <li>Pig vs Hive Comparison</li>
+        <li>Real-world ETL Pipelines with Pig</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 7 -->
+    <div class="card" onclick="showTopicModal('spark')">
+      <h3><i class="fas fa-bolt"></i> Unit 7: Apache Spark Fundamentals</h3>
+      <ul>
+        <li>Spark Architecture: Driver, Executors, Cluster Manager</li>
+        <li>RDDs: Resilient Distributed Datasets</li>
+        <li>Transformations & Actions</li>
+        <li>Spark Memory Management</li>
+        <li>Spark vs Hadoop Comparison</li>
+        <li>Spark Deployment Modes</li>
+        <li>Spark Configuration & Tuning</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 8 -->
+    <div class="card" onclick="showTopicModal('sparksql')">
+      <h3><i class="fas fa-search"></i> Unit 8: Spark SQL & DataFrames</h3>
+      <ul>
+        <li>Spark SQL Architecture</li>
+        <li>DataFrames & Datasets API</li>
+        <li>Catalyst Optimizer & Tungsten</li>
+        <li>Spark SQL Functions & Operations</li>
+        <li>Window Functions & Aggregations</li>
+        <li>Integration with Hive & JDBC</li>
+        <li>Performance Tuning for Spark SQL</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 9 -->
+    <div class="card" onclick="showTopicModal('sparkstreaming')">
+      <h3><i class="fas fa-stream"></i> Unit 9: Spark Streaming & Structured Streaming</h3>
+      <ul>
+        <li>Stream Processing Concepts</li>
+        <li>DStreams & Micro-batching</li>
+        <li>Structured Streaming API</li>
+        <li>Window Operations & Watermarking</li>
+        <li>Fault Tolerance & Checkpointing</li>
+        <li>Integration with Kafka</li>
+        <li>Real-time Analytics Use Cases</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 10 -->
+    <div class="card" onclick="showTopicModal('sparkml')">
+      <h3><i class="fas fa-brain"></i> Unit 10: Spark MLlib & Machine Learning</h3>
+      <ul>
+        <li>MLlib Architecture & Pipelines</li>
+        <li>Feature Engineering & Transformers</li>
+        <li>Classification Algorithms</li>
+        <li>Regression Algorithms</li>
+        <li>Clustering Algorithms</li>
+        <li>Recommendation Systems</li>
+        <li>Model Evaluation & Hyperparameter Tuning</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 11 -->
+    <div class="card" onclick="showTopicModal('nosql')">
+      <h3><i class="fas fa-layer-group"></i> Unit 11: NoSQL Databases</h3>
+      <ul>
+        <li>NoSQL Database Types: Document, Key-Value, Column, Graph</li>
+        <li>MongoDB: CRUD Operations, Aggregation Framework</li>
+        <li>Cassandra: Architecture, Data Modeling</li>
+        <li>Redis: In-memory Data Structures</li>
+        <li>Neo4j: Graph Database & Cypher Query Language</li>
+        <li>DynamoDB: AWS Managed NoSQL</li>
+        <li>Database Selection Criteria</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 12 -->
+    <div class="card" onclick="showTopicModal('kafka')">
+      <h3><i class="fas fa-exchange-alt"></i> Unit 12: Apache Kafka & Message Queues</h3>
+      <ul>
+        <li>Kafka Architecture: Brokers, Topics, Partitions</li>
+        <li>Producers & Consumers</li>
+        <li>Consumer Groups & Offset Management</li>
+        <li>Kafka Connect for Data Integration</li>
+        <li>Kafka Streams API</li>
+        <li>Schema Registry & Avro</li>
+        <li>Kafka Security & Monitoring</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 13 -->
+    <div class="card" onclick="showTopicModal('flink')">
+      <h3><i class="fas fa-water"></i> Unit 13: Apache Flink & Stream Processing</h3>
+      <ul>
+        <li>Flink Architecture & Runtime</li>
+        <li>DataStream & DataSet API</li>
+        <li>Event Time Processing & Watermarks</li>
+        <li>State Management & Checkpointing</li>
+        <li>CEP: Complex Event Processing</li>
+        <li>Flink Table API & SQL</li>
+        <li>Flink Deployment & Operations</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 14 -->
+    <div class="card" onclick="showTopicModal('cloud')">
+      <h3><i class="fas fa-cloud"></i> Unit 14: Big Data on Cloud Platforms</h3>
+      <ul>
+        <li>AWS EMR: Elastic MapReduce</li>
+        <li>Azure HDInsight</li>
+        <li>Google Cloud Dataproc</li>
+        <li>Cloud Storage Solutions: S3, ADLS, GCS</li>
+        <li>Serverless Big Data: AWS Lambda, Azure Functions</li>
+        <li>Cloud Data Warehouses: Redshift, Snowflake, BigQuery</li>
+        <li>Cost Optimization Strategies</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 15 -->
+    <div class="card" onclick="showTopicModal('datawarehouse')">
+      <h3><i class="fas fa-warehouse"></i> Unit 15: Data Warehousing & ETL</h3>
+      <ul>
+        <li>Data Warehouse Architecture: Kimball vs Inmon</li>
+        <li>Dimensional Modeling: Facts & Dimensions</li>
+        <li>Star Schema & Snowflake Schema</li>
+        <li>ETL/ELT Design Patterns</li>
+        <li>Data Quality & Governance</li>
+        <li>Metadata Management</li>
+        <li>Modern Data Stack Tools</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 16 -->
+    <div class="card" onclick="showTopicModal('dataviz')">
+      <h3><i class="fas fa-chart-line"></i> Unit 16: Data Visualization & Business Intelligence</h3>
+      <ul>
+        <li>Data Visualization Principles</li>
+        <li>Tableau & Power BI</li>
+        <li>Superset & Metabase (Open Source)</li>
+        <li>Dashboard Design Best Practices</li>
+        <li>Storytelling with Data</li>
+        <li>Real-time Dashboards</li>
+        <li>Mobile BI & Self-Service Analytics</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 17 -->
+    <div class="card" onclick="showTopicModal('mlops')">
+      <h3><i class="fas fa-cogs"></i> Unit 17: MLOps & Production ML</h3>
+      <ul>
+        <li>MLOps Principles & Practices</li>
+        <li>Model Versioning & Registry</li>
+        <li>Feature Stores</li>
+        <li>Model Deployment Strategies</li>
+        <li>Model Monitoring & Drift Detection</li>
+        <li>ML Pipeline Orchestration</li>
+        <li>ML on Kubernetes</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 18 -->
+    <div class="card" onclick="showTopicModal('projects')">
+      <h3><i class="fas fa-laptop-code"></i> Unit 18: Capstone Projects & Real-world Applications</h3>
+      <ul>
+        <li>Real-time Fraud Detection System</li>
+        <li>Recommendation Engine at Scale</li>
+        <li>IoT Data Analytics Pipeline</li>
+        <li>Social Media Sentiment Analysis</li>
+        <li>Log Analytics & Monitoring</li>
+        <li>E-commerce Analytics Platform</li>
+        <li>Healthcare Analytics Solution</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- BIG DATA VISUALIZATION -->
+<section id="dataViz">
+  <div class="section-title">
+    <i class="fas fa-chart-pie"></i>
+    Big Data Volume Visualization
+  </div>
+  
+  <div class="data-visualization">
+    <div class="viz-header">
+      <h4>Visualize Big Data Volumes & Growth</h4>
+      <div class="viz-controls">
+        <button class="btn" onclick="changeVizType('volume')"><i class="fas fa-chart-bar"></i> Data Volume</button>
+        <button class="btn" onclick="changeVizType('velocity')"><i class="fas fa-tachometer-alt"></i> Data Velocity</button>
+        <button class="btn" onclick="changeVizType('sources')"><i class="fas fa-network-wired"></i> Data Sources</button>
+        <button class="btn btn-reset" onclick="resetViz()"><i class="fas fa-redo"></i> Reset</button>
+      </div>
+    </div>
+    
+    <div class="viz-canvas-container">
+      <canvas id="dataVizCanvas"></canvas>
+    </div>
+    
+    <div class="viz-legend" id="vizLegend">
+      <!-- Legend will be populated dynamically -->
+    </div>
+  </div>
+</section>
+
+<!-- HADOOP ECOSYSTEM VISUALIZER -->
+<section id="hadoopEcosystem">
+  <div class="section-title">
+    <i class="fab fa-hadoop"></i>
+    Hadoop Ecosystem Components
+  </div>
+  
+  <div class="hadoop-ecosystem">
+    <div class="simulation-header">
+      <h4>Interactive Hadoop Ecosystem Explorer</h4>
+      <div class="simulation-controls">
+        <button class="btn" onclick="showAllComponents()"><i class="fas fa-eye"></i> Show All</button>
+        <button class="btn btn-outline" onclick="filterComponents('storage')"><i class="fas fa-hdd"></i> Storage</button>
+        <button class="btn btn-outline" onclick="filterComponents('processing')"><i class="fas fa-cogs"></i> Processing</button>
+        <button class="btn btn-outline" onclick="filterComponents('sql')"><i class="fas fa-database"></i> SQL</button>
+      </div>
+    </div>
+    
+    <div class="ecosystem-container" id="ecosystemContainer">
+      <!-- Ecosystem components will be added dynamically -->
+    </div>
+  </div>
+</section>
+
+<!-- SPARK CODE PLAYGROUND -->
+<section id="sparkPlayground">
+  <div class="section-title">
+    <i class="fas fa-bolt"></i>
+    Spark Code Playground
+  </div>
+  
+  <div class="spark-playground">
+    <div class="playground-header">
+      <h4>Practice Spark Transformations & Actions</h4>
+      <div class="playground-controls">
+        <button class="btn btn-spark" onclick="runSparkCode()"><i class="fas fa-play"></i> Run Spark Code</button>
+        <button class="btn btn-reset" onclick="resetSparkCode()"><i class="fas fa-redo"></i> Reset</button>
+        <button class="btn btn-outline" onclick="loadSparkExample()"><i class="fas fa-file-code"></i> Load Example</button>
+      </div>
+    </div>
+    
+    <div class="spark-editor-container">
+      <textarea id="sparkEditor" placeholder="// Write your Spark Scala code here
+// Example: val rdd = sc.parallelize(Seq(1,2,3,4,5))
+// Available variables: sc (SparkContext), spark (SparkSession)
+
+// Write your Spark code below:</textarea>
+    </div>
+    
+    <div class="playground-results" id="sparkResults">
+      <h5><i class="fas fa-table"></i> Execution Results</h5>
+      <p>Execute Spark code to see results here...</p>
+    </div>
+  </div>
+</section>
+
+<!-- DATA PIPELINE SIMULATOR -->
+<section id="pipelineSim">
+  <div class="section-title">
+    <i class="fas fa-project-diagram"></i>
+    ETL Pipeline Simulator
+  </div>
+  
+  <div class="pipeline-simulator">
+    <div class="simulation-header">
+      <h4>Build and Simulate Data Pipelines</h4>
+      <div class="simulation-controls">
+        <button class="btn" onclick="startPipeline()"><i class="fas fa-play"></i> Start Pipeline</button>
+        <button class="btn" onclick="addPipelineStage()"><i class="fas fa-plus"></i> Add Stage</button>
+        <button class="btn btn-reset" onclick="resetPipeline()"><i class="fas fa-trash"></i> Clear</button>
+      </div>
+    </div>
+    
+    <div class="pipeline-visualization" id="pipelineViz">
+      <!-- Pipeline stages will be added dynamically -->
+    </div>
+    
+    <div class="experiment-data" style="margin-top: 30px;">
+      <h5><i class="fas fa-chart-bar"></i> Pipeline Metrics</h5>
+      <div class="data-point">
+        <span class="label">Total Stages:</span>
+        <span class="value" id="totalStages">0</span>
+      </div>
+      <div class="data-point">
+        <span class="label">Data Processed:</span>
+        <span class="value" id="dataProcessed">0 GB</span>
+      </div>
+      <div class="data-point">
+        <span class="label">Processing Time:</span>
+        <span class="value" id="processingTime">0 sec</span>
+      </div>
+      <div class="data-point">
+        <span class="label">Success Rate:</span>
+        <span class="value" id="successRate">0%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Topic Details Modal -->
+<div class="topic-modal" id="topicModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">Big Data Analytics Fundamentals</h3>
+      <button class="close-modal" id="closeModal">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- Content loaded dynamically -->
+    </div>
+  </div>
+</div>
+
+<!-- Q&A SECTION -->
+<div class="qa-section" id="qaSection">
+  <div class="qa-header">
+    <h3><i class="fas fa-question-circle"></i> Big Data Practice Questions</h3>
+    <button class="close-qa" id="closeQa">×</button>
+  </div>
+  <div class="qa-list" id="qaList">
+    
+    <div class="question-item">
+      <div class="question-header">
+        <h4>Explain the CAP theorem and its implications for distributed database systems</h4>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="answer-content">
+        <p><strong>CAP Theorem (Brewer's Theorem):</strong> In a distributed data store, you can only guarantee two out of the following three properties:</p>
+        
+        <div class="code-example">
+          <pre><code>CAP = Consistency, Availability, Partition Tolerance</code></pre>
+        </div>
+        
+        <p><strong>1. Consistency (C):</strong></p>
+        <ul>
+          <li>Every read receives the most recent write or an error</li>
+          <li>All nodes see the same data at the same time</li>
+          <li>Equivalent to having a single up-to-date copy of the data</li>
+          <li><strong>Example:</strong> After updating account balance, all subsequent reads should show updated value</li>
+        </ul>
+        
+        <p><strong>2. Availability (A):</strong></p>
+        <ul>
+          <li>Every request receives a response (non-error)</li>
+          <li>System continues to operate despite node failures</li>
+          <li>No guarantee it contains the most recent write</li>
+          <li><strong>Example:</strong> System remains operational even if some nodes fail</li>
+        </ul>
+        
+        <p><strong>3. Partition Tolerance (P):</strong></p>
+        <ul>
+          <li>System continues to operate despite network partitions</li>
+          <li>Network partition = communication break between nodes</li>
+          <li>Messages can be lost or delayed indefinitely</li>
+          <li><strong>Example:</strong> System works even if network connection between data centers fails</li>
+        </ul>
+        
+        <p><strong>CAP Trade-offs:</strong></p>
+        
+        <div class="code-example">
+          <pre><code>CA Systems: Traditional RDBMS (MySQL, PostgreSQL) - sacrifice P
+CP Systems: MongoDB, Redis, HBase - sacrifice A
+AP Systems: Cassandra, CouchDB, DynamoDB - sacrifice C</code></pre>
+        </div>
+        
+        <p><strong>Real-world Implications:</strong></p>
+        <ul>
+          <li><strong>Banking Systems:</strong> Typically choose CP (Consistency over Availability)</li>
+          <li><strong>Social Media:</strong> Often choose AP (Availability over Consistency)</li>
+          <li><strong>E-commerce:</strong> Might use different strategies for different services</li>
+        </ul>
+        
+        <p><strong>Modern Interpretations:</strong></p>
+        <ul>
+          <li>Systems can be configurable (tunable consistency)</li>
+          <li>Eventual consistency as a practical compromise</li>
+          <li>PACELC extension: adds Latency trade-off</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="question-item">
+      <div class="question-header">
+        <h4>Compare and contrast Hadoop MapReduce vs Apache Spark with examples</h4>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="answer-content">
+        <p><strong>Hadoop MapReduce vs Apache Spark:</strong> Two major frameworks for big data processing with different architectures and use cases.</p>
+        
+        <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+          <thead>
+            <tr style="background: rgba(139, 92, 246, 0.2);">
+              <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--primary);">Aspect</th>
+              <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--primary);">Hadoop MapReduce</th>
+              <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--primary);">Apache Spark</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Processing Model</strong></td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Batch processing only</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Batch, Streaming, Interactive, ML</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Performance</strong></td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Slower (disk-based)</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">10-100x faster (in-memory)</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Ease of Use</strong></td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Complex Java API</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Rich APIs (Scala, Java, Python, R)</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Fault Tolerance</strong></td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Replication-based</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">RDD lineage-based</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Memory Usage</strong></td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Minimal (disk-oriented)</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">High (memory-oriented)</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Cost</strong></td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Lower hardware cost</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Higher memory requirements</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Real-time Processing</strong></td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Not supported</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Spark Streaming</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Machine Learning</strong></td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Separate Mahout library</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Built-in MLlib</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <p><strong>MapReduce Example (Word Count):</strong></p>
+        <div class="code-example">
+          <pre><code>// Mapper
+public class WordCountMapper extends Mapper&lt;LongWritable, Text, Text, IntWritable&gt; {
+    public void map(LongWritable key, Text value, Context context) {
+        String[] words = value.toString().split(" ");
+        for (String word : words) {
+            context.write(new Text(word), new IntWritable(1));
+        }
+    }
+}
+
+// Reducer
+public class WordCountReducer extends Reducer&lt;Text, IntWritable, Text, IntWritable&gt; {
+    public void reduce(Text key, Iterable&lt;IntWritable&gt; values, Context context) {
+        int sum = 0;
+        for (IntWritable val : values) {
+            sum += val.get();
+        }
+        context.write(key, new IntWritable(sum));
+    }
+}</code></pre>
+        </div>
+        
+        <p><strong>Spark Example (Word Count):</strong></p>
+        <div class="code-example">
+          <pre><code>// Scala
+val textFile = sc.textFile("hdfs://...")
+val counts = textFile.flatMap(line => line.split(" "))
+                     .map(word => (word, 1))
+                     .reduceByKey(_ + _)
+counts.saveAsTextFile("hdfs://...")
+
+// Python
+text_file = sc.textFile("hdfs://...")
+counts = text_file.flatMap(lambda line: line.split(" ")) \
+                  .map(lambda word: (word, 1)) \
+                  .reduceByKey(lambda a, b: a + b)
+counts.saveAsTextFile("hdfs://...")</code></pre>
+        </div>
+        
+        <p><strong>When to Use Which:</strong></p>
+        <ul>
+          <li><strong>Use Hadoop MapReduce when:</strong>
+            <ul>
+              <li>Processing extremely large datasets (PB scale)</li>
+              <li>Cost is primary concern</li>
+              <li>Batch processing only required</li>
+              <li>Legacy system integration</li>
+            </ul>
+          </li>
+          <li><strong>Use Apache Spark when:</strong>
+            <ul>
+              <li>Iterative algorithms (machine learning)</li>
+              <li>Real-time or interactive processing needed</li>
+              <li>Developer productivity important</li>
+              <li>Multiple processing paradigms required</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="question-item">
+      <div class="question-header">
+        <h4>Explain different types of NoSQL databases with use cases and examples</h4>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="answer-content">
+        <p><strong>NoSQL Databases:</strong> Non-relational databases designed for specific data models and scalability requirements.</p>
+        
+        <div class="code-example">
+          <pre><code>Four Main Types: Document, Key-Value, Column-Family, Graph</code></pre>
+        </div>
+        
+        <p><strong>1. Document Databases:</strong></p>
+        <ul>
+          <li><strong>Structure:</strong> Store data as JSON/BSON documents</li>
+          <li><strong>Examples:</strong> MongoDB, CouchDB, Firebase Firestore</li>
+          <li><strong>Query Language:</strong> Document-based queries</li>
+          <li><strong>Use Cases:</strong>
+            <ul>
+              <li>Content management systems</li>
+              <li>E-commerce product catalogs</li>
+              <li>User profiles and personalization</li>
+              <li>Real-time analytics</li>
+            </ul>
+          </li>
+          <li><strong>MongoDB Example:</strong></li>
+        </ul>
+        <div class="code-example">
+          <pre><code>// Insert document
+db.users.insertOne({
+  name: "John Doe",
+  email: "john@example.com",
+  age: 30,
+  address: {
+    city: "New York",
+    country: "USA"
+  },
+  tags: ["developer", "premium"]
+});
+
+// Query
+db.users.find({ age: { $gt: 25 } })
+        .sort({ name: 1 })
+        .limit(10);</code></pre>
+        </div>
+        
+        <p><strong>2. Key-Value Databases:</strong></p>
+        <ul>
+          <li><strong>Structure:</strong> Simple key-value pairs</li>
+          <li><strong>Examples:</strong> Redis, Amazon DynamoDB, Riak</li>
+          <li><strong>Query Language:</strong> Simple get/put operations</li>
+          <li><strong>Use Cases:</strong>
+            <ul>
+              <li>Caching layer</li>
+              <li>Session storage</li>
+              <li>Real-time leaderboards</li>
+              <li>Queue implementations</li>
+            </ul>
+          </li>
+          <li><strong>Redis Example:</strong></li>
+        </ul>
+        <div class="code-example">
+          <pre><code># Set key-value
+SET user:1001 "John Doe"
+SET user:1002 "Jane Smith"
+
+# Get value
+GET user:1001
+
+# Increment counter
+INCR page_views
+INCRBY page_views 10</code></pre>
+        </div>
+        
+        <p><strong>3. Column-Family Databases:</strong></p>
+        <ul>
+          <li><strong>Structure:</strong> Store data in columns rather than rows</li>
+          <li><strong>Examples:</strong> Cassandra, HBase, ScyllaDB</li>
+          <li><strong>Query Language:</strong> CQL (Cassandra Query Language)</li>
+          <li><strong>Use Cases:</strong>
+            <ul>
+              <li>Time-series data</li>
+              <li>Event logging</li>
+              <li>IoT sensor data</li>
+              <li>Write-heavy applications</li>
+            </ul>
+          </li>
+          <li><strong>Cassandra Example:</strong></li>
+        </ul>
+        <div class="code-example">
+          <pre><code>-- Create table
+CREATE TABLE users (
+  user_id UUID PRIMARY KEY,
+  name TEXT,
+  email TEXT,
+  created_at TIMESTAMP
+);
+
+-- Insert data
+INSERT INTO users (user_id, name, email, created_at)
+VALUES (uuid(), 'John Doe', 'john@example.com', toTimestamp(now()));
+
+-- Query
+SELECT * FROM users WHERE user_id = ?;</code></pre>
+        </div>
+        
+        <p><strong>4. Graph Databases:</strong></p>
+        <ul>
+          <li><strong>Structure:</strong> Store data as nodes and relationships</li>
+          <li><strong>Examples:</strong> Neo4j, Amazon Neptune, ArangoDB</li>
+          <li><strong>Query Language:</strong> Cypher, Gremlin</li>
+          <li><strong>Use Cases:</strong>
+            <ul>
+              <li>Social networks</li>
+              <li>Recommendation engines</li>
+              <li>Fraud detection</li>
+              <li>Network analysis</li>
+            </ul>
+          </li>
+          <li><strong>Neo4j Example:</strong></li>
+        </ul>
+        <div class="code-example">
+          <pre><code>// Create nodes and relationships
+CREATE (john:Person {name: 'John', age: 30})
+CREATE (jane:Person {name: 'Jane', age: 25})
+CREATE (company:Company {name: 'TechCorp'})
+CREATE (john)-[:WORKS_FOR]->(company)
+CREATE (john)-[:FRIENDS_WITH]->(jane)
+
+// Find friends of friends
+MATCH (john:Person {name: 'John'})-[:FRIENDS_WITH*2]->(fof:Person)
+RETURN fof.name;</code></pre>
+        </div>
+        
+        <p><strong>Selection Criteria:</strong></p>
+        <ul>
+          <li><strong>Document DBs:</strong> When data is semi-structured, needs rich queries</li>
+          <li><strong>Key-Value DBs:</strong> When simple lookups, caching needed</li>
+          <li><strong>Column-Family DBs:</strong> When write-heavy, time-series data</li>
+          <li><strong>Graph DBs:</strong> When relationships are primary concern</li>
+        </ul>
+        
+        <p><strong>Polyglot Persistence:</strong> Using multiple database types in single application, each for its strengths.</p>
+      </div>
+    </div>
+    
+    <div class="question-item">
+      <div class="question-header">
+        <h4>Explain different data partitioning strategies in distributed systems</h4>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="answer-content">
+        <p><strong>Data Partitioning:</strong> Dividing large datasets into smaller, manageable pieces distributed across multiple nodes.</p>
+        
+        <div class="code-example">
+          <pre><code>Goals: Scalability, Performance, Availability, Manageability</code></pre>
+        </div>
+        
+        <p><strong>1. Range Partitioning:</strong></p>
+        <ul>
+          <li>Divide data based on ranges of a key</li>
+          <li><strong>Example:</strong> User IDs 1-1000 on Node1, 1001-2000 on Node2</li>
+          <li><strong>Advantages:</strong>
+            <ul>
+              <li>Efficient range queries</li>
+              <li>Easy to implement</li>
+              <li>Good for sequential access patterns</li>
+            </ul>
+          </li>
+          <li><strong>Disadvantages:</strong>
+            <ul>
+              <li>Can lead to hotspots if data not evenly distributed</li>
+              <li>Rebalancing difficult when ranges change</li>
+            </ul>
+          </li>
+          <li><strong>Used in:</strong> HBase, Google Bigtable</li>
+        </ul>
+        
+        <p><strong>2. Hash Partitioning:</strong></p>
+        <ul>
+          <li>Apply hash function to partition key</li>
+          <li>Hash value determines partition</li>
+          <li><strong>Example:</strong> hash(user_id) % number_of_partitions</li>
+          <li><strong>Advantages:</strong>
+            <ul>
+              <li>Even data distribution</li>
+              <li>No hotspots if hash function good</li>
+              <li>Simple to implement</li>
+            </ul>
+          </li>
+          <li><strong>Disadvantages:</strong>
+            <ul>
+              <li>Inefficient range queries</li>
+              <li>Need to know all partitions for full scan</li>
+            </ul>
+          </li>
+          <li><strong>Used in:</strong> Cassandra, DynamoDB, Redis Cluster</li>
+        </ul>
+        
+        <p><strong>3. List Partitioning:</strong></p>
+        <ul>
+          <li>Explicitly map values to partitions</li>
+          <li><strong>Example:</strong> Country codes: US, CA → Partition1; IN, UK → Partition2</li>
+          <li><strong>Advantages:</strong>
+            <ul>
+              <li>Explicit control over distribution</li>
+              <li>Good for categorical data</li>
+              <li>Efficient queries within categories</li>
+            </ul>
+          </li>
+          <li><strong>Disadvantages:</strong>
+            <ul>
+              <li>Manual management required</li>
+              <li>Can become unbalanced</li>
+            </ul>
+          </li>
+          <li><strong>Used in:</strong> Some RDBMS, custom partitioning schemes</li>
+        </ul>
+        
+        <p><strong>4. Consistent Hashing:</strong></p>
+        <ul>
+          <li>Special hash partitioning that minimizes rehashing</li>
+          <li>Hash space forms a ring, nodes assigned positions</li>
+          <li>Data assigned to next node clockwise</li>
+          <li><strong>Advantages:</strong>
+            <ul>
+              <li>Minimal data movement when nodes added/removed</li>
+              <li>Load distribution</li>
+              <li>Scalable</li>
+            </ul>
+          </li>
+          <li><strong>Disadvantages:</strong>
+            <ul>
+              <li>More complex implementation</li>
+              <li>Virtual nodes needed for better distribution</li>
+            </ul>
+          </li>
+          <li><strong>Used in:</strong> Cassandra, Dynamo, Riak, Voldemort</li>
+        </ul>
+        
+        <p><strong>5. Round-Robin Partitioning:</strong></p>
+        <ul>
+          <li>Distribute data equally across partitions in circular order</li>
+          <li><strong>Example:</strong> Record1→Partition1, Record2→Partition2, etc.</li>
+          <li><strong>Advantages:</strong>
+            <ul>
+              <li>Perfectly even distribution</li>
+              <li>Simple to implement</li>
+              <li>No hotspots</li>
+            </ul>
+          </li>
+          <li><strong>Disadvantages:</strong>
+            <ul>
+              <li>No locality for related data</li>
+              <li>Poor for range queries</li>
+              <li>Random access patterns only</li>
+            </ul>
+          </li>
+          <li><strong>Used in:</strong> Simple load balancers, some message queues</li>
+        </ul>
+        
+        <p><strong>6. Directory-Based Partitioning:</strong></p>
+        <ul>
+          <li>Maintain lookup table mapping keys to partitions</li>
+          <li><strong>Example:</strong> Metadata service tracks data location</li>
+          <li><strong>Advantages:</strong>
+            <ul>
+              <li>Flexible, can change mapping easily</li>
+              <li>Can implement complex policies</li>
+              <li>Good for heterogeneous clusters</li>
+            </ul>
+          </li>
+          <li><strong>Disadvantages:</strong>
+            <ul>
+              <li>Single point of failure (directory service)</li>
+              <li>Performance overhead for lookups</li>
+              <li>Scaling directory service can be challenging</li>
+            </ul>
+          </li>
+          <li><strong>Used in:</strong> HDFS NameNode, some distributed file systems</li>
+        </ul>
+        
+        <p><strong>Partitioning Strategies Comparison:</strong></p>
+        <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+          <thead>
+            <tr style="background: rgba(139, 92, 246, 0.2);">
+              <th style="padding: 10px; border-bottom: 2px solid var(--primary);">Strategy</th>
+              <th style="padding: 10px; border-bottom: 2px solid var(--primary);">Range Queries</th>
+              <th style="padding: 10px; border-bottom: 2px solid var(--primary);">Load Balance</th>
+              <th style="padding: 10px; border-bottom: 2px solid var(--primary);">Scalability</th>
+              <th style="padding: 10px; border-bottom: 2px solid var(--primary);">Complexity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Range</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Excellent</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Poor</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Medium</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Low</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Hash</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Poor</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Excellent</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">High</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Low</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Consistent Hash</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Poor</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Good</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">High</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Medium</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Directory</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Good</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Excellent</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Medium</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">High</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <p><strong>Best Practices:</strong></p>
+        <ul>
+          <li>Choose partition key with high cardinality</li>
+          <li>Avoid skew (uneven distribution)</li>
+          <li>Consider query patterns when designing</li>
+          <li>Monitor and rebalance as needed</li>
+          <li>Use composite keys for hierarchical partitioning</li>
+        </ul>
+        
+        <p><strong>Real-world Examples:</strong></p>
+        <ul>
+          <li><strong>Twitter:</strong> Shards by user_id, uses consistent hashing</li>
+          <li><strong>Netflix:</strong> Partitions by region for content delivery</li>
+          <li><strong>Uber:</strong> Geospatial partitioning for location data</li>
+          <li><strong>Facebook:</strong> Combination of partitioning strategies</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="question-item">
+      <div class="question-header">
+        <h4>Explain Lambda and Kappa architectures for big data processing</h4>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="answer-content">
+        <p><strong>Big Data Architecture Patterns:</strong> Frameworks for building scalable, fault-tolerant data processing systems.</p>
+        
+        <div class="code-example">
+          <pre><code>Lambda: Batch + Speed Layers
+Kappa: Stream Processing Only</code></pre>
+        </div>
+        
+        <p><strong>1. Lambda Architecture:</strong></p>
+        <p>Three-layer architecture that handles both real-time and batch processing.</p>
+        
+        <div class="code-example">
+          <pre><code>Components:
+1. Batch Layer: Processes all data, provides accurate but high-latency results
+2. Speed Layer: Processes recent data, provides low-latency approximate results
+3. Serving Layer: Merges results from batch and speed layers</code></pre>
+        </div>
+        
+        <p><strong>Workflow:</strong></p>
+        <ol>
+          <li>All incoming data goes to both batch and speed layers</li>
+          <li>Batch layer processes complete dataset periodically (e.g., hourly/daily)</li>
+          <li>Speed layer processes real-time data (last few minutes/hours)</li>
+          <li>Serving layer merges batch (accurate) and speed (recent) results</li>
+        </ol>
+        
+        <p><strong>Advantages:</strong></p>
+        <ul>
+          <li>Fault-tolerant (recomputation from raw data)</li>
+          <li>Scalable (horizontal scaling)</li>
+          <li>Accurate results from batch layer</li>
+          <li>Low-latency from speed layer</li>
+        </ul>
+        
+        <p><strong>Disadvantages:</strong></p>
+        <ul>
+          <li>Complex to implement and maintain</li>
+          <li>Code duplication (same logic in batch and speed layers)</li>
+          <li>Resource intensive (two processing pipelines)</li>
+          <li>Serving layer complexity</li>
+        </ul>
+        
+        <p><strong>Example Implementation:</strong></p>
+        <div class="code-example">
+          <pre><code>Batch Layer: Hadoop MapReduce or Spark
+Speed Layer: Apache Storm or Spark Streaming
+Serving Layer: Apache Druid or Cassandra
+Storage: HDFS or S3 for raw data</code></pre>
+        </div>
+        
+        <p><strong>2. Kappa Architecture:</strong></p>
+        <p>Simplified architecture that uses only stream processing for all data.</p>
+        
+        <div class="code-example">
+          <pre><code>Components:
+1. Stream Processing Layer: Processes all data as streams
+2. Serving Layer: Stores processed results</code></pre>
+        </div>
+        
+        <p><strong>Workflow:</strong></p>
+        <ol>
+          <li>All data treated as stream (including historical)</li>
+          <li>Stream processor handles both real-time and reprocessing</li>
+          <li>Reprocessing triggered by code changes or corrections</li>
+          <li>Results stored in serving layer</li>
+        </ol>
+        
+        <p><strong>Advantages:</strong></p>
+        <ul>
+          <li>Simpler architecture</li>
+          <li>No code duplication</li>
+          <li>Lower operational complexity</li>
+          <li>Unified processing model</li>
+          <li>Easier to reason about</li>
+        </ul>
+        
+        <p><strong>Disadvantages:</strong></p>
+        <ul>
+          <li>Requires stream processors that can handle large state</li>
+          <li>Reprocessing can be resource-intensive</li>
+          <li>May have higher latency for complex computations</li>
+          <li>Dependent on stream processing technology maturity</li>
+        </ul>
+        
+        <p><strong>Example Implementation:</strong></p>
+        <div class="code-example">
+          <pre><code>Stream Processing: Apache Flink or Kafka Streams
+Message Queue: Apache Kafka (with long retention)
+Serving Layer: Same as Lambda (Cassandra, etc.)
+Storage: Kafka for raw data (with compaction)</code></pre>
+        </div>
+        
+        <p><strong>Comparison:</strong></p>
+        <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+          <thead>
+            <tr style="background: rgba(139, 92, 246, 0.2);">
+              <th style="padding: 10px; border-bottom: 2px solid var(--primary);">Aspect</th>
+              <th style="padding: 10px; border-bottom: 2px solid var(--primary);">Lambda Architecture</th>
+              <th style="padding: 10px; border-bottom: 2px solid var(--primary);">Kappa Architecture</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Processing Model</strong></td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Batch + Stream</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Stream Only</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Complexity</strong></td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">High</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Medium</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Code Maintenance</strong></td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Duplicate code</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Single codebase</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Reprocessing</strong></td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Batch layer recomputes</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Stream replay</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Latency</strong></td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Mixed (low + high)</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Consistent</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Resource Usage</strong></td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">High (two systems)</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Medium</td>
+            </tr>
+            <tr>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);"><strong>Best For</strong></td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Systems requiring both accurate batch and real-time</td>
+              <td style="padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">Real-time systems that can handle reprocessing</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <p><strong>Modern Variations:</strong></p>
+        <ul>
+          <li><strong>Delta Architecture:</strong> Combines Lambda and Kappa concepts</li>
+          <li><strong>Zeta Architecture:</strong> Focus on microservices and event-driven</li>
+          <li><strong>Serverless Architectures:</strong> Using cloud functions and managed services</li>
+        </ul>
+        
+        <p><strong>Selection Criteria:</strong></p>
+        <ul>
+          <li><strong>Choose Lambda when:</strong>
+            <ul>
+              <li>Need both highly accurate batch and real-time results</li>
+              <li>Have existing batch infrastructure</li>
+              <li>Complex analytics requiring full dataset scans</li>
+            </ul>
+          </li>
+          <li><strong>Choose Kappa when:</strong>
+            <ul>
+              <li>Real-time processing is primary requirement</li>
+              <li>Want simpler operational model</li>
+              <li>Using modern stream processors (Flink, etc.)</li>
+              <li>Frequent model updates requiring reprocessing</li>
+            </ul>
+          </li>
+        </ul>
+        
+        <p><strong>Real-world Implementations:</strong></p>
+        <ul>
+          <li><strong>LinkedIn:</strong> Uses Lambda architecture for many services</li>
+          <li><strong>Uber:</strong> Moved from Lambda to Kappa for many use cases</li>
+          <li><strong>Netflix:</strong> Uses Kappa architecture with Kafka and Flink</li>
+          <li><strong>Twitter:</strong> Uses hybrid approach depending on use case</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- More questions can be added here -->
+    
+  </div>
+</section>
+
+<!-- CAREER PATHS -->
+<section id="careers">
+  <div class="section-title">
+    <i class="fas fa-briefcase"></i>
+    Big Data Career Paths
+  </div>
+  
+  <div class="career-paths">
+    <div class="career-card">
+      <h4><i class="fas fa-server"></i> Big Data Engineer</h4>
+      <ul>
+        <li>Design and build data pipelines</li>
+        <li>Implement ETL/ELT processes</li>
+        <li>Optimize data storage and retrieval</li>
+        <li>Ensure data quality and reliability</li>
+        <li>Manage data infrastructure</li>
+      </ul>
+      <div class="career-salary">Average Salary: $120K - $180K</div>
+    </div>
+    
+    <div class="career-card">
+      <h4><i class="fas fa-chart-line"></i> Data Scientist</h4>
+      <ul>
+        <li>Build predictive models</li>
+        <li>Perform statistical analysis</li>
+        <li>Create machine learning algorithms</li>
+        <li>Communicate insights to stakeholders</li>
+        <li>Design experiments and A/B tests</li>
+      </ul>
+      <div class="career-salary">Average Salary: $130K - $200K</div>
+    </div>
+    
+    <div class="career-card">
+      <h4><i class="fas fa-cogs"></i> ML Engineer</h4>
+      <ul>
+        <li>Productionize machine learning models</li>
+        <li>Build MLOps pipelines</li>
+        <li>Optimize model performance</li>
+        <li>Implement model monitoring</li>
+        <li>Design scalable ML systems</li>
+      </ul>
+      <div class="career-salary">Average Salary: $140K - $220K</div>
+    </div>
+  </div>
+</section>
+
+<!-- STUDY TOOLS -->
+<section id="tools">
+  <div class="section-title">
+    <i class="fas fa-toolbox"></i>
+    Study Tools & Resources
+  </div>
+  
+  <div class="study-tools">
+    <div class="tool-card">
+      <h4><i class="fas fa-download"></i> Download Resources</h4>
+      <ul>
+        <li>Hadoop & Spark Cheat Sheets <span class="tool-progress"><span class="tool-progress-bar" style="width: 100%"></span></span></li>
+        <li>Big Data Architecture Templates <span class="tool-progress"><span class="tool-progress-bar" style="width: 95%"></span></span></li>
+        <li>Interview Questions & Answers <span class="tool-progress"><span class="tool-progress-bar" style="width: 90%"></span></span></li>
+        <li>Real Project Datasets <span class="tool-progress"><span class="tool-progress-bar" style="width: 85%"></span></span></li>
+        <li>Certification Study Guides <span class="tool-progress"><span class="tool-progress-bar" style="width: 80%"></span></span></li>
+      </ul>
+    </div>
+    
+    <div class="tool-card">
+      <h4><i class="fas fa-chart-line"></i> Self-Assessment</h4>
+      <ul>
+        <li>Conceptual Quizzes <span class="tool-progress"><span class="tool-progress-bar" style="width: 90%"></span></span></li>
+        <li>Coding Challenges <span class="tool-progress"><span class="tool-progress-bar" style="width: 85%"></span></span></li>
+        <li>Architecture Design Exercises <span class="tool-progress"><span class="tool-progress-bar" style="width: 80%"></span></span></li>
+        <li>Mock Interviews <span class="tool-progress"><span class="tool-progress-bar" style="width: 75%"></span></span></li>
+        <li>Project Reviews <span class="tool-progress"><span class="tool-progress-bar" style="width: 70%"></span></span></li>
+      </ul>
+    </div>
+    
+    <div class="tool-card">
+      <h4><i class="fas fa-video"></i> Interactive Learning</h4>
+      <ul>
+        <li>Hadoop Cluster Simulator <span class="tool-progress"><span class="tool-progress-bar" style="width: 95%"></span></span></li>
+        <li>Spark Code Playground <span class="tool-progress"><span class="tool-progress-bar" style="width: 90%"></span></span></li>
+        <li>Data Pipeline Designer <span class="tool-progress"><span class="tool-progress-bar" style="width: 85%"></span></span></li>
+        <li>ML Model Trainer <span class="tool-progress"><span class="tool-progress-bar" style="width: 80%"></span></span></li>
+        <li>Real-time Dashboard Builder <span class="tool-progress"><span class="tool-progress-bar" style="width: 75%"></span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="#">Home</a>
+    <a href="#">Syllabus</a>
+    <a href="#">Hadoop Labs</a>
+    <a href="#">Spark Projects</a>
+    <a href="#">Career</a>
+    <a href="#">Contact</a>
+  </div>
+  <p>© 2025 BTech LMS | Computer Science - Big Data Analytics</p>
+  <p>Comprehensive Learning Platform for Big Data Engineering & Analytics</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/contrib/auto-render.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/clike/clike.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/addon/edit/matchbrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+
+<script>
+// Data Stream Animation
+function createDataStream() {
+  const stream = document.getElementById('dataStream');
+  const dataTypes = ['JSON', 'CSV', 'Parquet', 'Avro', 'ORC', 'XML', 'Log', 'Sensor', 'Clickstream', 'Social', 'IoT', 'Transaction'];
+  
+  for (let i = 0; i < 60; i++) {
+    const bit = document.createElement('div');
+    bit.className = 'data-bit';
+    bit.textContent = dataTypes[Math.floor(Math.random() * dataTypes.length)];
+    bit.style.left = Math.random() * 100 + 'vw';
+    bit.style.fontSize = (Math.random() * 12 + 10) + 'px';
+    bit.style.animationDuration = (Math.random() * 10 + 15) + 's';
+    bit.style.animationDelay = Math.random() * 5 + 's';
+    stream.appendChild(bit);
+  }
+}
+
+// Initialize KaTeX for formula rendering
+function renderMath() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true}
+    ],
+    throwOnError: false
+  });
+}
+
+// Initialize CodeMirror for Spark Editor
+let sparkEditor;
+document.addEventListener('DOMContentLoaded', function() {
+  createDataStream();
+  renderMath();
+  
+  // Initialize Spark Editor
+  sparkEditor = CodeMirror.fromTextArea(document.getElementById('sparkEditor'), {
+    mode: 'text/x-scala',
+    theme: 'dracula',
+    lineNumbers: true,
+    matchBrackets: true,
+    indentUnit: 2,
+    lineWrapping: true,
+    autofocus: true
+  });
+  
+  sparkEditor.setSize('100%', '300px');
+  
+  // Initialize syntax highlighting
+  hljs.highlightAll();
+  
+  // Initialize Hadoop ecosystem
+  initializeHadoopEcosystem();
+  
+  // Initialize data visualization
+  initializeDataViz();
+});
+
+// Scroll Progress Bar
+window.addEventListener('scroll', function() {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  document.getElementById('progressBar').style.width = scrolled + '%';
+  
+  // Show/hide scroll to top button
+  const scrollTopBtn = document.getElementById('scrollTop');
+  if (winScroll > 300) {
+    scrollTopBtn.classList.add('active');
+  } else {
+    scrollTopBtn.classList.remove('active');
+  }
+  
+  // Section visibility
+  const sections = document.querySelectorAll('section, .qa-section');
+  sections.forEach(section => {
+    const sectionTop = section.getBoundingClientRect().top;
+    const windowHeight = window.innerHeight;
+    if (sectionTop < windowHeight * 0.85) {
+      section.classList.add('visible');
+    }
+  });
+});
+
+// Scroll to top functionality
+document.getElementById('scrollTop').addEventListener('click', function() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+
+// Topic Modal Functionality
+const topicModal = document.getElementById('topicModal');
+const closeModalBtn = document.getElementById('closeModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalBody = document.getElementById('modalBody');
+
+const topicData = {
+  fundamentals: {
+    title: "Big Data Fundamentals - The 5 V's",
+    content: `
+      <div class="topic-details">
+        <div class="topic-points">
+          <h4>The 5 V's of Big Data</h4>
+          <ul>
+            <li><strong>Volume:</strong> Scale of data (Terabytes to Petabytes)</li>
+            <li><strong>Velocity:</strong> Speed of data generation and processing</li>
+            <li><strong>Variety:</strong> Different forms of data (structured, semi-structured, unstructured)</li>
+            <li><strong>Veracity:</strong> Quality and accuracy of data</li>
+            <li><strong>Value:</strong> Business value derived from data</li>
+            <li><strong>Additional V's:</strong> Variability, Visualization, Validity, Volatility</li>
+          </ul>
+        </div>
+        
+        <div class="topic-code">
+          <h4>Big Data Architecture Components</h4>
+          <div class="code-example">
+            <pre><code>Typical Big Data Stack:
+1. Data Sources: Databases, Logs, Sensors, Social Media
+2. Data Ingestion: Kafka, Flume, Sqoop, NiFi
+3. Data Storage: HDFS, S3, NoSQL Databases
+4. Data Processing: Hadoop, Spark, Flink, Storm
+5. Data Analysis: Hive, Pig, Spark SQL, Presto
+6. Data Visualization: Tableau, Power BI, Superset
+7. Data Governance: Atlas, Ranger, Data Catalog</code></pre>
+          </div>
+        </div>
+        
+        <div class="topic-applications">
+          <h4>Real-world Applications</h4>
+          <ul>
+            <li><strong>Healthcare:</strong> Predictive analytics for patient care</li>
+            <li><strong>Finance:</strong> Fraud detection and risk analysis</li>
+            <li><strong>Retail:</strong> Recommendation engines and inventory optimization</li>
+            <li><strong>Telecom:</strong> Network optimization and customer churn prediction</li>
+            <li><strong>Manufacturing:</strong> Predictive maintenance and quality control</li>
+          </ul>
+        </div>
+      </div>
+    `
+  },
+  hadoop: {
+    title: "Hadoop Ecosystem Components",
+    content: `
+      <div class="topic-details">
+        <div class="topic-points">
+          <h4>Core Hadoop Components</h4>
+          <ul>
+            <li><strong>HDFS:</strong> Hadoop Distributed File System</li>
+            <li><strong>MapReduce:</strong> Programming model for parallel processing</li>
+            <li><strong>YARN:</strong> Resource management and job scheduling</li>
+            <li><strong>Hadoop Common:</strong> Common utilities and libraries</li>
+          </ul>
+        </div>
+        
+        <div class="topic-code">
+          <h4>Hadoop Ecosystem Tools</h4>
+          <div class="code-example">
+            <pre><code>Data Storage: HDFS, HBase, Cassandra
+Data Processing: MapReduce, Spark, Tez
+Data Querying: Hive, Pig, Impala, Presto
+Data Ingestion: Kafka, Flume, Sqoop
+Coordination: Zookeeper
+Workflow: Oozie, Airflow
+Monitoring: Ambari, Cloudera Manager</code></pre>
+          </div>
+        </div>
+        
+        <div class="topic-applications">
+          <h4>Hadoop Use Cases</h4>
+          <ul>
+            <li>Log processing and analysis</li>
+            <li>Data warehousing and ETL</li>
+            <li>Machine learning at scale</li>
+            <li>Recommendation systems</li>
+            <li>Social media analytics</li>
+          </ul>
+        </div>
+      </div>
+    `
+  },
+  // More topics can be added here
+};
+
+function showTopicModal(topicId) {
+  if (topicData[topicId]) {
+    modalTitle.textContent = topicData[topicId].title;
+    modalBody.innerHTML = topicData[topicId].content;
+    topicModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Re-render math equations
+    renderMath();
+    hljs.highlightAll();
+  } else {
+    // Default content
+    modalTitle.textContent = "Big Data Analytics";
+    modalBody.innerHTML = `
+      <div class="topic-details">
+        <div class="topic-points">
+          <h4>Topic Details</h4>
+          <p>Detailed content for ${topicId} will be displayed here.</p>
+          <p>This section includes comprehensive explanations, code examples, and applications.</p>
+        </div>
+      </div>
+    `;
+    topicModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+closeModalBtn.addEventListener('click', function() {
+  topicModal.classList.remove('active');
+  document.body.style.overflow = 'auto';
+});
+
+// Close modal when clicking outside
+topicModal.addEventListener('click', function(e) {
+  if (e.target === topicModal) {
+    topicModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+});
+
+// Data Visualization
+let dataVizChart = null;
+function initializeDataViz() {
+  const ctx = document.getElementById('dataVizCanvas').getContext('2d');
+  
+  // Initial chart
+  dataVizChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Social Media', 'IoT Sensors', 'Business Apps', 'Log Files', 'Mobile Devices', 'Web Traffic'],
+      datasets: [{
+        label: 'Data Volume (PB/Day)',
+        data: [120, 85, 45, 30, 65, 90],
+        backgroundColor: [
+          'rgba(139, 92, 246, 0.7)',
+          'rgba(16, 185, 129, 0.7)',
+          'rgba(245, 158, 11, 0.7)',
+          'rgba(239, 68, 68, 0.7)',
+          'rgba(59, 130, 246, 0.7)',
+          'rgba(139, 92, 246, 0.5)'
+        ],
+        borderColor: [
+          'rgb(139, 92, 246)',
+          'rgb(16, 185, 129)',
+          'rgb(245, 158, 11)',
+          'rgb(239, 68, 68)',
+          'rgb(59, 130, 246)',
+          'rgb(139, 92, 246)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              return `Volume: ${context.parsed.y} PB/Day`;
+            }
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Data Volume (Petabytes/Day)'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Data Sources'
+          }
+        }
+      }
+    }
+  });
+  
+  updateVizLegend('volume');
+}
+
+function changeVizType(type) {
+  if (!dataVizChart) return;
+  
+  if (type === 'velocity') {
+    dataVizChart.data.labels = ['Financial Trades', 'Social Posts', 'Sensor Data', 'Website Clicks', 'Email Traffic', 'Video Streams'];
+    dataVizChart.data.datasets[0].data = [50000, 650000, 1200000, 450000, 300000, 80000];
+    dataVizChart.data.datasets[0].label = 'Events Per Second';
+    dataVizChart.options.scales.y.title.text = 'Events Per Second';
+    dataVizChart.update();
+    updateVizLegend('velocity');
+  } else if (type === 'sources') {
+    dataVizChart.data.labels = ['Structured', 'Semi-structured', 'Unstructured', 'Time-series', 'Graph', 'Spatial'];
+    dataVizChart.data.datasets[0].data = [25, 30, 35, 15, 10, 5];
+    dataVizChart.data.datasets[0].label = 'Data Variety (%)';
+    dataVizChart.options.scales.y.title.text = 'Percentage of Total Data';
+    dataVizChart.update();
+    updateVizLegend('sources');
+  } else {
+    initializeDataViz();
+  }
+}
+
+function updateVizLegend(type) {
+  const legend = document.getElementById('vizLegend');
+  let html = '';
+  
+  if (type === 'volume') {
+    html = `
+      <div class="legend-item">
+        <div class="legend-color" style="background: rgba(139, 92, 246, 0.7);"></div>
+        <span>Social Media: 120 PB/Day</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: rgba(16, 185, 129, 0.7);"></div>
+        <span>IoT Sensors: 85 PB/Day</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: rgba(245, 158, 11, 0.7);"></div>
+        <span>Business Apps: 45 PB/Day</span>
+      </div>
+    `;
+  } else if (type === 'velocity') {
+    html = `
+      <div class="legend-item">
+        <div class="legend-color" style="background: rgba(139, 92, 246, 0.7);"></div>
+        <span>Financial Trades: 50K/sec</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: rgba(16, 185, 129, 0.7);"></div>
+        <span>Social Posts: 650K/sec</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color" style="background: rgba(245, 158, 11, 0.7);"></div>
+        <span>Sensor Data: 1.2M/sec</span>
+      </div>
+    `;
+  }
+  
+  legend.innerHTML = html;
+}
+
+function resetViz() {
+  initializeDataViz();
+}
+
+// Hadoop Ecosystem
+const hadoopComponents = [
+  { id: 'hdfs', name: 'HDFS', type: 'storage', icon: 'fas fa-hdd', color: 'hadoop', desc: 'Distributed file system' },
+  { id: 'mapreduce', name: 'MapReduce', type: 'processing', icon: 'fas fa-code', color: 'hadoop', desc: 'Batch processing framework' },
+  { id: 'yarn', name: 'YARN', type: 'processing', icon: 'fas fa-tasks', color: 'hadoop', desc: 'Resource manager' },
+  { id: 'hive', name: 'Hive', type: 'sql', icon: 'fas fa-table', color: 'hive', desc: 'Data warehouse system' },
+  { id: 'pig', name: 'Pig', type: 'processing', icon: 'fas fa-code', color: 'hadoop', desc: 'Scripting platform' },
+  { id: 'hbase', name: 'HBase', type: 'storage', icon: 'fas fa-database', color: 'hbase', desc: 'NoSQL database' },
+  { id: 'zookeeper', name: 'Zookeeper', type: 'coordination', icon: 'fas fa-network-wired', color: 'hadoop', desc: 'Coordination service' },
+  { id: 'kafka', name: 'Kafka', type: 'ingestion', icon: 'fas fa-exchange-alt', color: 'kafka', desc: 'Distributed streaming' },
+  { id: 'spark', name: 'Spark', type: 'processing', icon: 'fas fa-bolt', color: 'spark', desc: 'In-memory processing' },
+  { id: 'flume', name: 'Flume', type: 'ingestion', icon: 'fas fa-stream', color: 'hadoop', desc: 'Data collection service' },
+  { id: 'sqoop', name: 'Sqoop', type: 'ingestion', icon: 'fas fa-exchange-alt', color: 'hadoop', desc: 'Data transfer tool' },
+  { id: 'oozie', name: 'Oozie', type: 'workflow', icon: 'fas fa-project-diagram', color: 'hadoop', desc: 'Workflow scheduler' }
+];
+
+function initializeHadoopEcosystem() {
+  const container = document.getElementById('ecosystemContainer');
+  container.innerHTML = '';
+  
+  hadoopComponents.forEach(component => {
+    const node = document.createElement('div');
+    node.className = `ecosystem-node ${component.color}`;
+    node.innerHTML = `
+      <i class="${component.icon}"></i>
+      <h5>${component.name}</h5>
+      <p>${component.desc}</p>
+    `;
+    node.onclick = () => showComponentDetails(component);
+    container.appendChild(node);
+  });
+}
+
+function showAllComponents() {
+  initializeHadoopEcosystem();
+}
+
+function filterComponents(type) {
+  const container = document.getElementById('ecosystemContainer');
+  container.innerHTML = '';
+  
+  const filtered = hadoopComponents.filter(comp => comp.type === type);
+  filtered.forEach(component => {
+    const node = document.createElement('div');
+    node.className = `ecosystem-node ${component.color}`;
+    node.innerHTML = `
+      <i class="${component.icon}"></i>
+      <h5>${component.name}</h5>
+      <p>${component.desc}</p>
+    `;
+    node.onclick = () => showComponentDetails(component);
+    container.appendChild(node);
+  });
+}
+
+function showComponentDetails(component) {
+  alert(`${component.name}: ${component.desc}\n\nType: ${component.type}\nColor Code: ${component.color}`);
+}
+
+// Spark Playground
+function runSparkCode() {
+  const code = sparkEditor.getValue();
+  const resultsDiv = document.getElementById('sparkResults');
+  
+  if (code.toLowerCase().includes('rdd') || code.toLowerCase().includes('dataframe')) {
+    resultsDiv.innerHTML = `
+      <h5><i class="fas fa-check-circle" style="color: var(--secondary);"></i> Spark Job Executed Successfully</h5>
+      <table class="result-table">
+        <thead>
+          <tr>
+            <th>Job ID</th>
+            <th>Stage</th>
+            <th>Tasks</th>
+            <th>Duration</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>job_001</td>
+            <td>Stage 0</td>
+            <td>200/200</td>
+            <td>2.3s</td>
+            <td style="color: var(--secondary);">SUCCESS</td>
+          </tr>
+          <tr>
+            <td>job_002</td>
+            <td>Stage 1</td>
+            <td>150/150</td>
+            <td>1.8s</td>
+            <td style="color: var(--secondary);">SUCCESS</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 5px;">
+        <strong>Sample Output:</strong>
+        <pre style="margin: 10px 0; color: var(--text-light);">
++---+-----+
+| id|count|
++---+-----+
+|  1|  145|
+|  2|  203|
+|  3|  189|
++---+-----+
+        </pre>
+      </div>
+    `;
+  } else {
+    resultsDiv.innerHTML = `
+      <h5><i class="fas fa-exclamation-triangle" style="color: var(--accent);"></i> Code Analysis</h5>
+      <p>Please write valid Spark code (RDD/DataFrame operations).</p>
+      <p>Try loading an example to see proper syntax.</p>
+    `;
+  }
+}
+
+function resetSparkCode() {
+  sparkEditor.setValue(`// Write your Spark Scala code here
+// Example: val rdd = sc.parallelize(Seq(1,2,3,4,5))
+// Available variables: sc (SparkContext), spark (SparkSession)
+
+// Write your Spark code below:`);
+  
+  document.getElementById('sparkResults').innerHTML = `
+    <h5><i class="fas fa-table"></i> Execution Results</h5>
+    <p>Execute Spark code to see results here...</p>
+  `;
+}
+
+function loadSparkExample() {
+  const examples = [
+    `// Word Count Example
+val textFile = sc.textFile("hdfs:///input/data.txt")
+val counts = textFile.flatMap(line => line.split(" "))
+                     .map(word => (word, 1))
+                     .reduceByKey(_ + _)
+counts.take(10).foreach(println)`,
+    
+    `// DataFrame Operations
+val df = spark.read.json("hdfs:///input/people.json")
+df.show()
+df.printSchema()
+df.select("name", "age").filter($"age" > 21).show()`,
+    
+    `// Machine Learning Example
+import org.apache.spark.ml.clustering.KMeans
+import org.apache.spark.ml.feature.VectorAssembler
+
+val data = spark.read.format("libsvm").load("data/mllib/sample_kmeans_data.txt")
+val kmeans = new KMeans().setK(2).setSeed(1L)
+val model = kmeans.fit(data)
+val predictions = model.transform(data)
+predictions.show()`
+  ];
+  
+  const randomExample = examples[Math.floor(Math.random() * examples.length)];
+  sparkEditor.setValue(randomExample);
+}
+
+// Pipeline Simulator
+let pipelineStages = [];
+let pipelineInterval = null;
+
+function addPipelineStage() {
+  const stages = ['Ingest', 'Clean', 'Transform', 'Enrich', 'Aggregate', 'Load'];
+  const currentStage = stages[pipelineStages.length % stages.length];
+  
+  const stage = {
+    id: `stage_${Date.now()}`,
+    name: currentStage,
+    status: 'pending',
+    dataProcessed: 0
+  };
+  
+  pipelineStages.push(stage);
+  updatePipelineVisualization();
+}
+
+function updatePipelineVisualization() {
+  const container = document.getElementById('pipelineViz');
+  container.innerHTML = '';
+  
+  pipelineStages.forEach((stage, index) => {
+    const stageDiv = document.createElement('div');
+    stageDiv.className = `pipeline-stage ${stage.status === 'active' ? 'active' : ''}`;
+    stageDiv.id = stage.id;
+    stageDiv.innerHTML = `
+      <i class="fas fa-${getStageIcon(stage.name)}"></i>
+      <h5>${stage.name}</h5>
+      <p>${stage.dataProcessed} GB</p>
+    `;
+    
+    container.appendChild(stageDiv);
+    
+    // Add connector except for last stage
+    if (index < pipelineStages.length - 1) {
+      const connector = document.createElement('div');
+      connector.className = 'pipeline-connector';
+      container.appendChild(connector);
+    }
+  });
+  
+  // Update metrics
+  document.getElementById('totalStages').textContent = pipelineStages.length;
+  const totalData = pipelineStages.reduce((sum, stage) => sum + stage.dataProcessed, 0);
+  document.getElementById('dataProcessed').textContent = totalData.toFixed(1) + ' GB';
+}
+
+function getStageIcon(stageName) {
+  const icons = {
+    'Ingest': 'cloud-download-alt',
+    'Clean': 'broom',
+    'Transform': 'exchange-alt',
+    'Enrich': 'plus-circle',
+    'Aggregate': 'chart-bar',
+    'Load': 'database'
+  };
+  return icons[stageName] || 'cog';
+}
+
+function startPipeline() {
+  if (pipelineStages.length === 0) {
+    alert('Add at least one stage to the pipeline');
+    return;
+  }
+  
+  let currentStageIndex = 0;
+  const startTime = Date.now();
+  
+  pipelineInterval = setInterval(() => {
+    // Reset previous stage
+    if (currentStageIndex > 0) {
+      const prevStage = document.getElementById(pipelineStages[currentStageIndex - 1].id);
+      prevStage.classList.remove('active');
+    }
+    
+    // Activate current stage
+    if (currentStageIndex < pipelineStages.length) {
+      const currentStage = document.getElementById(pipelineStages[currentStageIndex].id);
+      currentStage.classList.add('active');
+      
+      // Simulate data processing
+      pipelineStages[currentStageIndex].dataProcessed += Math.random() * 5;
+      pipelineStages[currentStageIndex].status = 'active';
+      
+      currentStageIndex++;
+    } else {
+      // Pipeline complete
+      clearInterval(pipelineInterval);
+      
+      // Calculate metrics
+      const endTime = Date.now();
+      const processingTime = ((endTime - startTime) / 1000).toFixed(1);
+      const successRate = 95 + Math.random() * 4;
+      
+      document.getElementById('processingTime').textContent = processingTime + ' sec';
+      document.getElementById('successRate').textContent = successRate.toFixed(1) + '%';
+      
+      // Reset all stages
+      setTimeout(() => {
+        pipelineStages.forEach(stage => {
+          stage.status = 'pending';
+        });
+        updatePipelineVisualization();
+      }, 2000);
+    }
+    
+    updatePipelineVisualization();
+  }, 1000);
+}
+
+function resetPipeline() {
+  clearInterval(pipelineInterval);
+  pipelineStages = [];
+  updatePipelineVisualization();
+  
+  document.getElementById('totalStages').textContent = '0';
+  document.getElementById('dataProcessed').textContent = '0 GB';
+  document.getElementById('processingTime').textContent = '0 sec';
+  document.getElementById('successRate').textContent = '0%';
+}
+
+// Q&A Section Functionality
+const questionItems = document.querySelectorAll('.question-item');
+const closeQaBtn = document.getElementById('closeQa');
+const qaSection = document.getElementById('qaSection');
+
+questionItems.forEach(item => {
+  const questionHeader = item.querySelector('.question-header');
+  const answerContent = item.querySelector('.answer-content');
+  
+  questionHeader.addEventListener('click', () => {
+    item.classList.toggle('active');
+    answerContent.classList.toggle('active');
+  });
+});
+
+closeQaBtn.addEventListener('click', () => {
+  qaSection.style.opacity = '0';
+  qaSection.style.transform = 'translateY(30px)';
+  setTimeout(() => {
+    qaSection.style.display = 'none';
+  }, 500);
+});
+
+// Initialize on load
+window.addEventListener('load', function() {
+  // Initialize sections as visible if they're in view
+  window.dispatchEvent(new Event('scroll'));
+});
+
+// Resize handling
+window.addEventListener('resize', function() {
+  // Update charts if they exist
+  if (dataVizChart) {
+    dataVizChart.resize();
+  }
+});
+</script>
+</body>
+</html>

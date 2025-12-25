@@ -1,0 +1,2795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoMaster | Advanced Geotechnical Engineering Learning Platform</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+<style>
+:root {
+  --geo-primary: #2a9d8f;
+  --geo-secondary: #264653;
+  --geo-accent: #e9c46a;
+  --geo-danger: #e76f51;
+  --geo-success: #2a9d8f;
+  --geo-warning: #f4a261;
+  --geo-dark: #1b2a41;
+  --geo-light: #e0e1dd;
+  --glass: rgba(255, 255, 255, 0.08);
+  --glass-dark: rgba(0, 0, 0, 0.3);
+  --text: #e0e1dd;
+  --text-dim: #8d99ae;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(42, 157, 143, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 30%, rgba(233, 196, 106, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(231, 111, 81, 0.08) 0%, transparent 40%),
+    linear-gradient(180deg, #0d1b2a, var(--geo-dark));
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* NAVIGATION */
+.geo-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 18px 40px;
+  background: rgba(27, 42, 65, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 2px solid rgba(42, 157, 143, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--geo-primary), var(--geo-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo i {
+  font-size: 1.6rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  padding: 8px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--geo-primary), var(--geo-accent));
+  transition: left 0.3s;
+}
+
+.nav-link:hover::before {
+  left: 0;
+}
+
+.nav-link:hover {
+  background: rgba(42, 157, 143, 0.1);
+  color: var(--geo-primary);
+}
+
+.nav-link.active {
+  background: linear-gradient(135deg, rgba(42, 157, 143, 0.2), rgba(233, 196, 106, 0.2));
+  color: var(--geo-primary);
+  border: 1px solid rgba(42, 157, 143, 0.3);
+}
+
+/* HERO SECTION */
+.geo-hero {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 0 20px;
+  overflow: hidden;
+}
+
+.hero-content {
+  max-width: 1000px;
+  position: relative;
+  z-index: 2;
+}
+
+.geo-hero h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--geo-primary), var(--geo-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+  text-shadow: 0 0 30px rgba(42, 157, 143, 0.3);
+}
+
+.hero-subtitle {
+  font-size: 1.8rem;
+  color: var(--geo-accent);
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.geo-diagram {
+  width: 100%;
+  max-width: 800px;
+  height: 300px;
+  margin: 40px auto;
+  background: rgba(27, 42, 65, 0.5);
+  border-radius: 15px;
+  border: 2px solid rgba(42, 157, 143, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.soil-layers {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.soil-layer {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  font-weight: 600;
+  color: white;
+  transition: all 0.3s;
+}
+
+.layer-sand { background: linear-gradient(90deg, #e9c46a, #f4a261); }
+.layer-clay { background: linear-gradient(90deg, #8b4513, #a0522d); }
+.layer-silt { background: linear-gradient(90deg, #c2b280, #d4c29c); }
+.layer-gravel { background: linear-gradient(90deg, #808080, #a9a9a9); }
+.layer-rock { background: linear-gradient(90deg, #696969, #808080); }
+
+.hero-btns {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.geo-btn {
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.geo-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s;
+}
+
+.geo-btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--geo-primary), var(--geo-secondary));
+  color: var(--geo-light);
+  box-shadow: 0 0 30px rgba(42, 157, 143, 0.4);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--geo-accent);
+  border: 2px solid var(--geo-accent);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, var(--geo-danger), var(--geo-warning));
+  color: white;
+}
+
+.geo-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(42, 157, 143, 0.3);
+}
+
+/* STUDY MODES */
+.study-modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+  margin: 50px auto;
+  padding: 0 20px;
+  max-width: 1400px;
+}
+
+.mode-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+  border-radius: 16px;
+  padding: 25px;
+  text-align: center;
+  border: 1px solid rgba(42, 157, 143, 0.1);
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mode-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(42, 157, 143, 0.05) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.mode-card:hover::before {
+  transform: translateX(100%);
+}
+
+.mode-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--geo-primary);
+  box-shadow: 0 15px 40px rgba(42, 157, 143, 0.15);
+}
+
+.mode-card.active {
+  background: linear-gradient(145deg, rgba(42, 157, 143, 0.15), rgba(233, 196, 106, 0.15));
+  border-color: var(--geo-primary);
+  box-shadow: 0 15px 40px rgba(42, 157, 143, 0.2);
+}
+
+.mode-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, var(--geo-primary), var(--geo-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mode-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--geo-primary);
+}
+
+.mode-desc {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+.mode-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: var(--geo-danger);
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+/* STUDY SECTIONS */
+.study-section {
+  display: none;
+  animation: fadeIn 0.5s ease;
+  padding: 60px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.study-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(42, 157, 143, 0.1);
+}
+
+.section-icon {
+  font-size: 2.2rem;
+  margin-right: 20px;
+  background: linear-gradient(90deg, var(--geo-primary), var(--geo-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--geo-primary), var(--geo-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-dim);
+  margin-top: 10px;
+  max-width: 800px;
+}
+
+/* THEORY MATERIALS */
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.topic-card {
+  background: linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+  border-radius: 15px;
+  padding: 25px;
+  border: 1px solid rgba(42, 157, 143, 0.1);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.topic-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--geo-success), var(--geo-primary));
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.topic-card:hover::after {
+  transform: translateX(0);
+}
+
+.topic-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--geo-primary);
+  box-shadow: 0 15px 40px rgba(42, 157, 143, 0.1);
+}
+
+.topic-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.topic-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--geo-primary);
+}
+
+.topic-chapters {
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  background: rgba(42, 157, 143, 0.15);
+  color: var(--geo-primary);
+}
+
+.topic-description {
+  color: var(--text-dim);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.topic-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.topic-feature {
+  background: rgba(42, 157, 143, 0.08);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--geo-primary);
+}
+
+/* FORMULAS & CALCULATORS */
+.calculators-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.calculator-card {
+  background: linear-gradient(145deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
+  border-radius: 15px;
+  padding: 25px;
+  border: 1px solid rgba(42, 157, 143, 0.1);
+  position: relative;
+}
+
+.calculator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calculator-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--geo-accent);
+}
+
+.calculator-formula {
+  background: rgba(233, 196, 106, 0.1);
+  border-left: 4px solid var(--geo-accent);
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 0 8px 8px 0;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.input-field {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(42, 157, 143, 0.3);
+  border-radius: 8px;
+  padding: 12px 15px;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.calculate-btn {
+  background: linear-gradient(90deg, var(--geo-primary), var(--geo-success));
+  color: var(--geo-light);
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.calculate-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(42, 157, 143, 0.3);
+}
+
+.result-container {
+  background: rgba(42, 157, 143, 0.05);
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 15px;
+  border-left: 3px solid var(--geo-success);
+  display: none;
+}
+
+/* LAB TESTS SIMULATION */
+.lab-container {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+  padding: 30px;
+  border: 1px solid rgba(42, 157, 143, 0.2);
+  margin-top: 30px;
+}
+
+.lab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.lab-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--geo-primary);
+}
+
+.lab-controls {
+  display: flex;
+  gap: 15px;
+}
+
+.test-visualization {
+  height: 400px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* FOUNDATION DESIGN SIMULATOR */
+.design-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.design-canvas {
+  height: 500px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  border: 1px solid rgba(42, 157, 143, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.design-controls {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 25px;
+}
+
+.foundation-element {
+  position: absolute;
+  background: rgba(233, 196, 106, 0.8);
+  border: 2px solid var(--geo-accent);
+}
+
+.soil-pressure {
+  position: absolute;
+  background: rgba(231, 111, 81, 0.6);
+}
+
+/* EXAM BANK */
+.exam-filters {
+  display: flex;
+  gap: 15px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 10px 25px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filter-btn:hover {
+  background: rgba(42, 157, 143, 0.1);
+  border-color: var(--geo-primary);
+}
+
+.filter-btn.active {
+  background: linear-gradient(90deg, var(--geo-primary), var(--geo-accent));
+  color: var(--geo-dark);
+  border-color: transparent;
+}
+
+.exam-bank {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.exam-question {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+  border-radius: 18px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s;
+}
+
+.exam-question:hover {
+  border-color: var(--geo-primary);
+  transform: translateY(-5px);
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.question-title {
+  background: linear-gradient(90deg, var(--geo-primary), var(--geo-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.difficulty {
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.difficulty.easy {
+  background: rgba(42, 157, 143, 0.15);
+  color: var(--geo-success);
+}
+
+.difficulty.medium {
+  background: rgba(244, 162, 97, 0.15);
+  color: var(--geo-warning);
+}
+
+.difficulty.hard {
+  background: rgba(231, 111, 81, 0.15);
+  color: var(--geo-danger);
+}
+
+.question-text {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.question-options {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.option {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.option:hover {
+  background: rgba(42, 157, 143, 0.1);
+  border-color: var(--geo-primary);
+}
+
+.option.selected {
+  background: rgba(42, 157, 143, 0.2);
+  border-color: var(--geo-primary);
+}
+
+.option-letter {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--geo-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.show-answer-btn {
+  background: transparent;
+  border: 1px solid var(--geo-accent);
+  color: var(--geo-accent);
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.show-answer-btn:hover {
+  background: rgba(233, 196, 106, 0.1);
+}
+
+.answer {
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(42, 157, 143, 0.05);
+  border-radius: 10px;
+  border-left: 3px solid var(--geo-success);
+  display: none;
+}
+
+/* INTERACTIVE QUIZ */
+.quiz-container {
+  margin-top: 40px;
+  background: linear-gradient(145deg, rgba(42, 157, 143, 0.05), rgba(233, 196, 106, 0.05));
+  border-radius: 22px;
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.quiz-header h3 {
+  background: linear-gradient(90deg, var(--geo-primary), var(--geo-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+}
+
+.quiz-progress {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.quiz-question {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.quiz-options {
+  display: grid;
+  gap: 15px;
+}
+
+.quiz-option {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.quiz-option:hover {
+  background: rgba(42, 157, 143, 0.1);
+  border-color: var(--geo-primary);
+}
+
+.quiz-option.selected {
+  background: rgba(42, 157, 143, 0.2);
+  border-color: var(--geo-primary);
+}
+
+.quiz-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.quiz-btn {
+  padding: 12px 25px;
+  border-radius: 12px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--geo-primary);
+  border: 2px solid var(--geo-primary);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.quiz-btn:hover {
+  background: rgba(42, 157, 143, 0.1);
+}
+
+.quiz-btn.primary {
+  background: linear-gradient(90deg, var(--geo-primary), var(--geo-accent));
+  color: var(--geo-dark);
+}
+
+.quiz-result {
+  text-align: center;
+  padding: 30px;
+}
+
+.quiz-score {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--geo-primary), var(--geo-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 20px 0;
+}
+
+/* PROGRESS DASHBOARD */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.dashboard-card {
+  background: linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+  border-radius: 15px;
+  padding: 25px;
+  border: 1px solid rgba(42, 157, 143, 0.1);
+}
+
+.dashboard-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--geo-primary);
+  margin-bottom: 20px;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--geo-primary), var(--geo-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-top: 5px;
+}
+
+.progress-ring {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+}
+
+.ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 8;
+}
+
+.ring-progress {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 1s ease;
+}
+
+.ring-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--geo-primary);
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1200px) {
+  .design-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .geo-nav {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .nav-links {
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 10px;
+  }
+  
+  .geo-hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.3rem;
+  }
+  
+  .study-modes {
+    grid-template-columns: 1fr;
+  }
+  
+  .mode-card {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .topics-grid, .calculators-container, .exam-bank {
+    grid-template-columns: 1fr;
+  }
+  
+  .quiz-footer {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .quiz-btn {
+    width: 100%;
+  }
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--geo-primary), var(--geo-accent));
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--geo-success), var(--geo-primary));
+}
+</style>
+</head>
+
+<body>
+<!-- NAVIGATION -->
+<nav class="geo-nav">
+  <div class="logo">
+    <i class="fas fa-mountain"></i>
+    GeoMaster
+  </div>
+  <div class="nav-links">
+    <a href="#" class="nav-link active" onclick="setActiveMode('theory')">
+      <i class="fas fa-book"></i> Theory & Concepts
+    </a>
+    <a href="#" class="nav-link" onclick="setActiveMode('formulas')">
+      <i class="fas fa-calculator"></i> Formulas & Calculators
+    </a>
+    <a href="#" class="nav-link" onclick="setActiveMode('lab')">
+      <i class="fas fa-flask"></i> Lab Tests Simulation
+    </a>
+    <a href="#" class="nav-link" onclick="setActiveMode('design')">
+      <i class="fas fa-drafting-compass"></i> Foundation Design
+    </a>
+    <a href="#" class="nav-link" onclick="setActiveMode('exam')">
+      <i class="fas fa-file-alt"></i> Exam Bank (500+ Qs)
+    </a>
+    <a href="#" class="nav-link" onclick="setActiveMode('quiz')">
+      <i class="fas fa-brain"></i> Interactive Quiz
+    </a>
+    <a href="#" class="nav-link" onclick="setActiveMode('progress')">
+      <i class="fas fa-chart-line"></i> Progress Dashboard
+    </a>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="geo-hero">
+  <div class="hero-content">
+    <h1>GEOTECHNICAL ENGINEERING MASTER</h1>
+    <div class="hero-subtitle">Soil Mechanics • Foundation Design • Slope Stability • Geotechnical Analysis</div>
+    
+    <div class="geo-diagram">
+      <div class="soil-layers">
+        <div class="soil-layer layer-sand">SAND LAYER - φ=30°, γ=18 kN/m³</div>
+        <div class="soil-layer layer-clay">CLAY LAYER - c=25 kPa, φ=0°</div>
+        <div class="soil-layer layer-silt">SILT LAYER - φ=28°, γ=19 kN/m³</div>
+        <div class="soil-layer layer-gravel">GRAVEL LAYER - φ=35°, γ=20 kN/m³</div>
+        <div class="soil-layer layer-rock">BEDROCK - Ultimate Bearing Capacity: 5000 kPa</div>
+      </div>
+    </div>
+    
+    <div class="hero-btns">
+      <button class="geo-btn btn-primary" onclick="setActiveMode('theory')">
+        <i class="fas fa-graduation-cap"></i> Start Learning
+      </button>
+      <button class="geo-btn btn-secondary" onclick="setActiveMode('exam')">
+        <i class="fas fa-file-alt"></i> Practice Exams
+      </button>
+      <button class="geo-btn btn-danger" onclick="setActiveMode('design')">
+        <i class="fas fa-hard-hat"></i> Design Simulation
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- STUDY MODES -->
+<div class="study-modes">
+  <div class="mode-card active" onclick="setActiveMode('theory')">
+    <div class="mode-icon"><i class="fas fa-book"></i></div>
+    <div class="mode-title">Theory & Concepts</div>
+    <div class="mode-desc">Complete coverage of geotechnical engineering principles</div>
+    <div class="mode-badge">12 Modules</div>
+  </div>
+  
+  <div class="mode-card" onclick="setActiveMode('formulas')">
+    <div class="mode-icon"><i class="fas fa-calculator"></i></div>
+    <div class="mode-title">Formulas & Calculators</div>
+    <div class="mode-desc">Interactive calculations for all geotechnical formulas</div>
+    <div class="mode-badge">25+ Tools</div>
+  </div>
+  
+  <div class="mode-card" onclick="setActiveMode('lab')">
+    <div class="mode-icon"><i class="fas fa-flask"></i></div>
+    <div class="mode-title">Lab Tests Simulation</div>
+    <div class="mode-desc">Virtual soil testing with real-time results</div>
+  </div>
+  
+  <div class="mode-card" onclick="setActiveMode('design')">
+    <div class="mode-icon"><i class="fas fa-drafting-compass"></i></div>
+    <div class="mode-title">Foundation Design</div>
+    <div class="mode-desc">Interactive foundation design and analysis</div>
+    <div class="mode-badge">PRO</div>
+  </div>
+  
+  <div class="mode-card" onclick="setActiveMode('exam')">
+    <div class="mode-icon"><i class="fas fa-file-alt"></i></div>
+    <div class="mode-title">Exam Bank</div>
+    <div class="mode-desc">500+ questions with detailed solutions</div>
+    <div class="mode-badge">500+</div>
+  </div>
+  
+  <div class="mode-card" onclick="setActiveMode('quiz')">
+    <div class="mode-icon"><i class="fas fa-brain"></i></div>
+    <div class="mode-title">Interactive Quiz</div>
+    <div class="mode-desc">Test your knowledge with adaptive quizzes</div>
+  </div>
+</div>
+
+<!-- THEORY & CONCEPTS SECTION -->
+<section id="theory" class="study-section active">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-book"></i></div>
+    <div>
+      <h2 class="section-title">Geotechnical Engineering Theory</h2>
+      <p class="section-subtitle">Comprehensive coverage of soil mechanics, foundation engineering, and geotechnical analysis.</p>
+    </div>
+  </div>
+  
+  <div class="topics-grid" id="topics-container">
+    <!-- Topics will be generated by JavaScript -->
+  </div>
+</section>
+
+<!-- FORMULAS & CALCULATORS SECTION -->
+<section id="formulas" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-calculator"></i></div>
+    <div>
+      <h2 class="section-title">Geotechnical Formulas & Calculators</h2>
+      <p class="section-subtitle">Interactive calculations for all essential geotechnical engineering formulas.</p>
+    </div>
+  </div>
+  
+  <div class="calculators-container" id="calculators-container">
+    <!-- Calculators will be generated by JavaScript -->
+  </div>
+</section>
+
+<!-- LAB TESTS SIMULATION SECTION -->
+<section id="lab" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-flask"></i></div>
+    <div>
+      <h2 class="section-title">Soil Testing Laboratory</h2>
+      <p class="section-subtitle">Simulate standard geotechnical laboratory tests with interactive results.</p>
+    </div>
+  </div>
+  
+  <div class="lab-container">
+    <div class="lab-header">
+      <h3 class="lab-title">Triaxial Compression Test Simulation</h3>
+      <div class="lab-controls">
+        <select id="soil-type" class="input-field" style="width: 200px;">
+          <option value="clay">Clay Soil</option>
+          <option value="sand">Sand</option>
+          <option value="silt">Silt</option>
+          <option value="gravel">Gravel</option>
+        </select>
+        <button class="geo-btn btn-primary" onclick="runTriaxialTest()">
+          <i class="fas fa-play"></i> Run Test
+        </button>
+        <button class="geo-btn btn-secondary" onclick="resetLabTest()">
+          <i class="fas fa-redo"></i> Reset
+        </button>
+      </div>
+    </div>
+    
+    <div class="test-visualization" id="test-visualization">
+      <canvas id="stress-strain-chart" width="600" height="350" style="width: 100%; height: 100%;"></canvas>
+    </div>
+    
+    <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+      <div style="background: rgba(42, 157, 143, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--geo-primary);">
+        <div style="font-size: 0.9rem; color: var(--text-dim);">Cohesion (c)</div>
+        <div id="cohesion-value" style="font-size: 1.5rem; font-weight: 600; color: var(--geo-primary);">-- kPa</div>
+      </div>
+      <div style="background: rgba(233, 196, 106, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--geo-accent);">
+        <div style="font-size: 0.9rem; color: var(--text-dim);">Friction Angle (φ)</div>
+        <div id="friction-angle" style="font-size: 1.5rem; font-weight: 600; color: var(--geo-accent);">-- °</div>
+      </div>
+      <div style="background: rgba(231, 111, 81, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--geo-danger);">
+        <div style="font-size: 0.9rem; color: var(--text-dim);">Young's Modulus (E)</div>
+        <div id="youngs-modulus" style="font-size: 1.5rem; font-weight: 600; color: var(--geo-danger);">-- MPa</div>
+      </div>
+      <div style="background: rgba(244, 162, 97, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--geo-warning);">
+        <div style="font-size: 0.9rem; color: var(--text-dim);">Failure Stress</div>
+        <div id="failure-stress" style="font-size: 1.5rem; font-weight: 600; color: var(--geo-warning);">-- kPa</div>
+      </div>
+    </div>
+  </div>
+  
+  <div style="margin-top: 50px;">
+    <h3 style="color: var(--geo-accent); margin-bottom: 20px;">Other Laboratory Tests</h3>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+      <button class="filter-btn" onclick="runLabTest('sieve')">Sieve Analysis</button>
+      <button class="filter-btn" onclick="runLabTest('atterberg')">Atterberg Limits</button>
+      <button class="filter-btn" onclick="runLabTest('proctor')">Proctor Compaction</button>
+      <button class="filter-btn" onclick="runLabTest('consolidation')">Consolidation Test</button>
+      <button class="filter-btn" onclick="runLabTest('directshear')">Direct Shear Test</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDATION DESIGN SECTION -->
+<section id="design" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-drafting-compass"></i></div>
+    <div>
+      <h2 class="section-title">Foundation Design Simulator</h2>
+      <p class="section-subtitle">Interactive foundation design with real-time calculations and visualizations.</p>
+    </div>
+  </div>
+  
+  <div class="design-container">
+    <div class="design-canvas" id="foundation-canvas">
+      <!-- Foundation design visualization will be generated by JavaScript -->
+    </div>
+    
+    <div class="design-controls">
+      <h3 style="color: var(--geo-primary); margin-bottom: 25px;">Design Parameters</h3>
+      
+      <div class="input-group">
+        <label class="input-label">Foundation Type</label>
+        <select id="foundation-type" class="input-field" onchange="updateFoundationDesign()">
+          <option value="strip">Strip Footing</option>
+          <option value="square">Square Footing</option>
+          <option value="circular">Circular Footing</option>
+          <option value="mat">Mat Foundation</option>
+          <option value="pile">Pile Foundation</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Width (B) - m</label>
+        <input type="range" id="width-slider" class="input-field" min="0.5" max="10" step="0.1" value="2" oninput="updateFoundationDesign()">
+        <div style="display: flex; justify-content: space-between;">
+          <span>0.5 m</span>
+          <span id="width-value">2.0 m</span>
+          <span>10 m</span>
+        </div>
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Depth (D) - m</label>
+        <input type="range" id="depth-slider" class="input-field" min="0.5" max="5" step="0.1" value="1.5" oninput="updateFoundationDesign()">
+        <div style="display: flex; justify-content: space-between;">
+          <span>0.5 m</span>
+          <span id="depth-value">1.5 m</span>
+          <span>5 m</span>
+        </div>
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Load (Q) - kN</label>
+        <input type="number" id="load-input" class="input-field" value="1000" oninput="updateFoundationDesign()">
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Soil Type</label>
+        <select id="design-soil-type" class="input-field" onchange="updateFoundationDesign()">
+          <option value="dense_sand">Dense Sand (φ=35°)</option>
+          <option value="medium_sand">Medium Sand (φ=30°)</option>
+          <option value="loose_sand">Loose Sand (φ=25°)</option>
+          <option value="stiff_clay">Stiff Clay (c=50 kPa)</option>
+          <option value="soft_clay">Soft Clay (c=25 kPa)</option>
+        </select>
+      </div>
+      
+      <button class="calculate-btn" onclick="calculateBearingCapacity()">
+        <i class="fas fa-calculator"></i> Calculate Bearing Capacity
+      </button>
+      
+      <div class="result-container" id="design-result">
+        <h4 style="color: var(--geo-success); margin-bottom: 10px;">Design Results</h4>
+        <div id="capacity-result">--</div>
+        <div id="settlement-result">--</div>
+        <div id="safety-factor">--</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAM BANK SECTION -->
+<section id="exam" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-file-alt"></i></div>
+    <div>
+      <h2 class="section-title">Geotechnical Engineering Exam Bank</h2>
+      <p class="section-subtitle">500+ exam questions with detailed solutions. Filter by topic and difficulty.</p>
+    </div>
+  </div>
+  
+  <div class="exam-filters">
+    <button class="filter-btn active" onclick="filterQuestions('all')">All Questions</button>
+    <button class="filter-btn" onclick="filterQuestions('soil_mechanics')">Soil Mechanics</button>
+    <button class="filter-btn" onclick="filterQuestions('foundations')">Foundation Engineering</button>
+    <button class="filter-btn" onclick="filterQuestions('slope_stability')">Slope Stability</button>
+    <button class="filter-btn" onclick="filterQuestions('earth_pressure')">Earth Pressure</button>
+    <button class="filter-btn" onclick="filterQuestions('site_investigation')">Site Investigation</button>
+    <button class="filter-btn" onclick="filterQuestions('soil_dynamics')">Soil Dynamics</button>
+    <button class="filter-btn" onclick="filterQuestions('geosynthetics')">Geosynthetics</button>
+  </div>
+  
+  <div class="exam-bank" id="exam-bank">
+    <!-- Exam questions will be generated by JavaScript -->
+  </div>
+</section>
+
+<!-- INTERACTIVE QUIZ SECTION -->
+<section id="quiz" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-brain"></i></div>
+    <div>
+      <h2 class="section-title">Interactive Geotechnical Quiz</h2>
+      <p class="section-subtitle">Test your knowledge with adaptive quizzes. Immediate feedback and explanations.</p>
+    </div>
+  </div>
+
+  <div class="quiz-container">
+    <div class="quiz-header">
+      <h3>Geotechnical Engineering Challenge</h3>
+      <div class="quiz-progress">Question <span id="current-question">1</span> of <span id="total-questions">10</span></div>
+    </div>
+    
+    <div id="quiz-content">
+      <div class="quiz-question" id="question-text">
+        What is the effective stress at a depth of 5m in a saturated soil layer with total unit weight of 20 kN/m³ and water table at ground surface?
+      </div>
+      
+      <div class="quiz-options" id="options-container">
+        <div class="quiz-option" onclick="selectQuizOption(0)">
+          <div class="option-letter">A</div>
+          <div>50 kPa</div>
+        </div>
+        <div class="quiz-option" onclick="selectQuizOption(1)">
+          <div class="option-letter">B</div>
+          <div>100 kPa</div>
+        </div>
+        <div class="quiz-option" onclick="selectQuizOption(2)">
+          <div class="option-letter">C</div>
+          <div>51 kPa</div>
+        </div>
+        <div class="quiz-option" onclick="selectQuizOption(3)">
+          <div class="option-letter">D</div>
+          <div>49 kPa</div>
+        </div>
+      </div>
+      
+      <div class="quiz-footer">
+        <div id="quiz-feedback" style="color: var(--geo-primary); font-weight: 600;"></div>
+        <div>
+          <button class="quiz-btn" onclick="previousQuizQuestion()" id="prev-btn" disabled>
+            <i class="fas fa-arrow-left"></i> Previous
+          </button>
+          <button class="quiz-btn primary" onclick="nextQuizQuestion()" id="next-btn">
+            Next <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div id="quiz-result" class="quiz-result" style="display: none;">
+      <h3>Quiz Completed!</h3>
+      <div class="quiz-score" id="final-score">0/10</div>
+      <p id="result-message">Your geotechnical engineering knowledge is developing!</p>
+      <button class="quiz-btn primary" onclick="resetQuiz()" style="margin-top: 20px;">
+        <i class="fas fa-redo"></i> Restart Quiz
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS DASHBOARD -->
+<section id="progress" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-chart-line"></i></div>
+    <div>
+      <h2 class="section-title">Learning Progress Dashboard</h2>
+      <p class="section-subtitle">Track your progress through geotechnical engineering topics and exam preparation.</p>
+    </div>
+  </div>
+  
+  <div class="dashboard-grid">
+    <div class="dashboard-card">
+      <h3 class="dashboard-card-title">Topics Mastered</h3>
+      <div class="progress-ring">
+        <svg width="120" height="120">
+          <circle class="ring-bg" cx="60" cy="60" r="50"></circle>
+          <circle class="ring-progress" id="topics-ring" cx="60" cy="60" r="50" stroke="url(#gradient1)"></circle>
+          <defs>
+            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="var(--geo-primary)" />
+              <stop offset="100%" stop-color="var(--geo-accent)" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="ring-text" id="topics-percent">0%</div>
+      </div>
+      <div style="text-align: center; margin-top: 15px;">
+        <div class="stat-number" id="topics-count">0/12</div>
+        <div class="stat-label">Geotechnical Topics</div>
+      </div>
+    </div>
+    
+    <div class="dashboard-card">
+      <h3 class="dashboard-card-title">Exam Performance</h3>
+      <div class="stat-number" id="exam-score">0%</div>
+      <div class="stat-label">average score on practice exams</div>
+      <div style="margin-top: 20px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+          <span style="font-size: 0.9rem;">Soil Mechanics</span>
+          <span style="font-size: 0.9rem;" id="soil-mech-score">0%</span>
+        </div>
+        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+          <div id="soil-mech-bar" style="height: 100%; width: 0%; background: var(--geo-primary); border-radius: 4px;"></div>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; margin: 15px 0 5px;">
+          <span style="font-size: 0.9rem;">Foundation Eng.</span>
+          <span style="font-size: 0.9rem;" id="foundation-score">0%</span>
+        </div>
+        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+          <div id="foundation-bar" style="height: 100%; width: 0%; background: var(--geo-accent); border-radius: 4px;"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="dashboard-card">
+      <h3 class="dashboard-card-title">Questions Solved</h3>
+      <div class="stat-number" id="questions-solved">0</div>
+      <div class="stat-label">out of 500+ exam questions</div>
+      <div style="margin-top: 20px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <div style="width: 12px; height: 12px; border-radius: 50%; background: var(--geo-primary);"></div>
+          <span style="font-size: 0.9rem;">Easy</span>
+          <span style="margin-left: auto; font-weight: 600;" id="easy-questions">0</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <div style="width: 12px; height: 12px; border-radius: 50%; background: var(--geo-accent);"></div>
+          <span style="font-size: 0.9rem;">Medium</span>
+          <span style="margin-left: auto; font-weight: 600;" id="medium-questions">0</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 12px; height: 12px; border-radius: 50%; background: var(--geo-danger);"></div>
+          <span style="font-size: 0.9rem;">Hard</span>
+          <span style="margin-left: auto; font-weight: 600;" id="hard-questions">0</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="dashboard-card">
+      <h3 class="dashboard-card-title">Certification Progress</h3>
+      <div style="margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span style="font-size: 0.9rem;">FE Civil Exam</span>
+          <span style="font-size: 0.9rem;" id="fe-progress">0%</span>
+        </div>
+        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+          <div id="fe-bar" style="height: 100%; width: 0%; background: var(--geo-accent); border-radius: 4px;"></div>
+        </div>
+      </div>
+      
+      <div style="margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span style="font-size: 0.9rem;">PE Civil (Geotech)</span>
+          <span style="font-size: 0.9rem;" id="pe-progress">0%</span>
+        </div>
+        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+          <div id="pe-bar" style="height: 100%; width: 0%; background: var(--geo-primary); border-radius: 4px;"></div>
+        </div>
+      </div>
+      
+      <div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span style="font-size: 0.9rem;">M.Tech (Geotech)</span>
+          <span style="font-size: 0.9rem;" id="mtech-progress">0%</span>
+        </div>
+        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+          <div id="mtech-bar" style="height: 100%; width: 0%; background: var(--geo-success); border-radius: 4px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div style="margin-top: 40px; background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px;">
+    <h3 style="color: var(--geo-primary); margin-bottom: 20px;">Recommended Study Path</h3>
+    <div id="recommendations" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+      <!-- Recommendations will be generated by JavaScript -->
+    </div>
+  </div>
+</section>
+
+<footer style="text-align: center; padding: 30px; opacity: 0.6; font-size: 0.9rem; border-top: 2px solid rgba(42, 157, 143, 0.2); margin-top: 50px;">
+  <div>© 2024 GeoMaster | Advanced Geotechnical Engineering Learning Platform</div>
+  <div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-dim);">
+    Based on IS Codes, Terzaghi's Principles, and Modern Geotechnical Practices
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// ==================== MAIN STATE MANAGEMENT ====================
+let currentMode = 'theory';
+let userProgress = JSON.parse(localStorage.getItem('geo-progress')) || {
+  topicsStudied: [],
+  questionsSolved: 0,
+  easyQuestions: 0,
+  mediumQuestions: 0,
+  hardQuestions: 0,
+  examScores: [],
+  soilMechScore: 0,
+  foundationScore: 0,
+  slopeStabilityScore: 0,
+  labTestsCompleted: [],
+  designProjects: []
+};
+
+// ==================== MODE MANAGEMENT ====================
+function setActiveMode(mode) {
+  currentMode = mode;
+  
+  // Update active nav links
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.classList.remove('active');
+  });
+  document.querySelectorAll('.mode-card').forEach(card => {
+    card.classList.remove('active');
+  });
+  
+  // Update active mode card
+  document.querySelectorAll('.mode-card').forEach(card => {
+    if (card.querySelector('.mode-title').textContent.toLowerCase().includes(mode) ||
+        (mode === 'theory' && card.querySelector('.mode-title').textContent.includes('Theory'))) {
+      card.classList.add('active');
+    }
+  });
+  
+  // Show active section
+  document.querySelectorAll('.study-section').forEach(section => {
+    section.classList.remove('active');
+  });
+  document.getElementById(mode).classList.add('active');
+  
+  // Initialize specific mode
+  if (mode === 'theory') generateTopics();
+  if (mode === 'formulas') generateCalculators();
+  if (mode === 'exam') generateExamQuestions('all');
+  if (mode === 'design') initializeFoundationDesign();
+  if (mode === 'quiz') initializeQuiz();
+  if (mode === 'progress') updateDashboard();
+  if (mode === 'lab') initializeLabTest();
+}
+
+// ==================== THEORY TOPICS ====================
+const topicsData = [
+  {
+    id: 1,
+    title: "Soil Mechanics Fundamentals",
+    chapters: 8,
+    description: "Introduction to soil properties, phase relationships, index properties, and soil classification.",
+    features: ["Phase Diagrams", "Index Properties", "Soil Classification", "Compaction"],
+    icon: "fas fa-layer-group",
+    subtopics: [
+      "Soil Formation & Types",
+      "Phase Relationships",
+      "Index Properties",
+      "Soil Classification Systems",
+      "Compaction Theory",
+      "Permeability",
+      "Seepage Analysis",
+      "Effective Stress Principle"
+    ]
+  },
+  {
+    id: 2,
+    title: "Stress Distribution in Soils",
+    chapters: 6,
+    description: "Boussinesq's theory, Westergaard's theory, pressure bulbs, and stress distribution patterns.",
+    features: ["Boussinesq Theory", "Westergaard Theory", "Pressure Bulbs", "Contact Pressure"],
+    icon: "fas fa-weight-hanging",
+    subtopics: [
+      "Vertical Stress Increase",
+      "Boussinesq's Equation",
+      "Westergaard's Solution",
+      "Pressure Distribution Diagrams",
+      "Contact Pressure Distribution",
+      "Approximate Methods"
+    ]
+  },
+  {
+    id: 3,
+    title: "Consolidation & Settlement",
+    chapters: 7,
+    description: "Primary consolidation, secondary compression, settlement calculations, and time rate of settlement.",
+    features: ["Terzaghi's Theory", "Consolidation Test", "Settlement Types", "Time Rate"],
+    icon: "fas fa-compress-arrows-alt",
+    subtopics: [
+      "Consolidation Process",
+      "Terzaghi's 1D Theory",
+      "Consolidation Test (Oedometer)",
+      "Compression Index",
+      "Preconsolidation Pressure",
+      "Settlement Calculations",
+      "Time Rate of Consolidation"
+    ]
+  },
+  {
+    id: 4,
+    title: "Shear Strength of Soils",
+    chapters: 8,
+    description: "Mohr-Coulomb failure criterion, shear tests, pore pressure parameters, and stress paths.",
+    features: ["Mohr-Coulomb", "Triaxial Test", "Direct Shear", "Stress Paths"],
+    icon: "fas fa-cut",
+    subtopics: [
+      "Mohr-Coulomb Failure Criterion",
+      "Triaxial Compression Test",
+      "Direct Shear Test",
+      "Unconfined Compression Test",
+      "Vane Shear Test",
+      "Pore Pressure Parameters",
+      "Stress Path Analysis",
+      "Residual Strength"
+    ]
+  },
+  {
+    id: 5,
+    title: "Earth Pressure Theories",
+    chapters: 6,
+    description: "Rankine's theory, Coulomb's theory, lateral earth pressure coefficients, and retaining wall design.",
+    features: ["Rankine Theory", "Coulomb Theory", "Earth Pressure Coefficients", "Retaining Walls"],
+    icon: "fas fa-mountain",
+    subtopics: [
+      "Active & Passive Pressures",
+      "Rankine's Earth Pressure Theory",
+      "Coulomb's Wedge Theory",
+      "Earth Pressure Coefficients",
+      "Retaining Wall Types",
+      "Design of Retaining Structures"
+    ]
+  },
+  {
+    id: 6,
+    title: "Bearing Capacity of Shallow Foundations",
+    chapters: 7,
+    description: "Terzaghi's bearing capacity theory, Meyerhof, Hansen, and Vesic methods, and foundation settlement.",
+    features: ["Terzaghi's Theory", "Bearing Capacity Factors", "Shape Factors", "Settlement"],
+    icon: "fas fa-building",
+    subtopics: [
+      "Terzaghi's Bearing Capacity Theory",
+      "Meyerhof's Method",
+      "Hansen's Method",
+      "Vesic's Method",
+      "Effect of Water Table",
+      "Bearing Capacity from Field Tests",
+      "Allowable Bearing Pressure"
+    ]
+  },
+  {
+    id: 7,
+    title: "Deep Foundations & Piles",
+    chapters: 8,
+    description: "Pile types, load capacity calculations, group action, negative skin friction, and pile load tests.",
+    features: ["Pile Types", "Load Capacity", "Group Efficiency", "Load Tests"],
+    icon: "fas fa-anchor",
+    subtopics: [
+      "Types of Piles",
+      "Pile Load Capacity",
+      "Static Formulas",
+      "Dynamic Formulas",
+      "Pile Load Tests",
+      "Group Action of Piles",
+      "Negative Skin Friction",
+      "Laterally Loaded Piles"
+    ]
+  },
+  {
+    id: 8,
+    title: "Slope Stability Analysis",
+    chapters: 6,
+    description: "Failure surfaces, factor of safety, methods of slices, and slope stabilization techniques.",
+    features: ["Failure Surfaces", "Factor of Safety", "Method of Slices", "Stabilization"],
+    icon: "fas fa-chart-line",
+    subtopics: [
+      "Types of Slope Failures",
+      "Factor of Safety",
+      "Infinite Slope Analysis",
+      "Method of Slices",
+      "Bishop's Method",
+      "Slope Stabilization Methods"
+    ]
+  }
+];
+
+function generateTopics() {
+  const container = document.getElementById('topics-container');
+  container.innerHTML = '';
+  
+  topicsData.forEach(topic => {
+    const isStudied = userProgress.topicsStudied.includes(topic.id);
+    
+    const topicCard = document.createElement('div');
+    topicCard.className = 'topic-card';
+    topicCard.dataset.id = topic.id;
+    
+    topicCard.innerHTML = `
+      <div class="topic-header">
+        <h3 class="topic-title"><i class="${topic.icon}"></i> ${topic.title}</h3>
+        <span class="topic-chapters">${topic.chapters} Chapters</span>
+      </div>
+      <p class="topic-description">${topic.description}</p>
+      <div class="topic-features">
+        ${topic.features.map(feature => `<span class="topic-feature">${feature}</span>`).join('')}
+      </div>
+      <div class="lab-actions">
+        <button class="geo-btn btn-primary" onclick="studyTopic(${topic.id})" style="flex: 1;">
+          <i class="fas fa-play"></i> ${isStudied ? 'Review Topic' : 'Start Learning'}
+        </button>
+        ${isStudied ? `<span style="margin-left: 10px; color: var(--geo-success);"><i class="fas fa-check-circle"></i> Studied</span>` : ''}
+      </div>
+    `;
+    
+    container.appendChild(topicCard);
+  });
+}
+
+function studyTopic(topicId) {
+  const topic = topicsData.find(t => t.id === topicId);
+  alert(`Starting Topic: ${topic.title}\n\nSubtopic Areas:\n${topic.subtopics.join('\n• ')}`);
+  
+  // Mark as studied if not already
+  if (!userProgress.topicsStudied.includes(topicId)) {
+    userProgress.topicsStudied.push(topicId);
+    saveProgress();
+    updateDashboard();
+    generateTopics(); // Refresh to show updated status
+  }
+}
+
+// ==================== FORMULAS & CALCULATORS ====================
+const calculatorsData = [
+  {
+    id: 1,
+    title: "Effective Stress Calculator",
+    formula: "σ' = σ - u\nWhere:\nσ' = Effective stress\nσ = Total stress\nu = Pore water pressure",
+    inputs: [
+      { id: 'total-stress', label: 'Total Stress (σ) - kPa', defaultValue: '100' },
+      { id: 'pore-pressure', label: 'Pore Water Pressure (u) - kPa', defaultValue: '40' }
+    ],
+    calculate: function(inputs) {
+      const σ = parseFloat(inputs['total-stress']);
+      const u = parseFloat(inputs['pore-pressure']);
+      return σ - u;
+    },
+    resultText: function(result) {
+      return `Effective Stress (σ') = ${result.toFixed(2)} kPa`;
+    }
+  },
+  {
+    id: 2,
+    title: "Bearing Capacity (Terzaghi)",
+    formula: "q_ult = cN_c + γDN_q + 0.5γBN_γ\nFor strip footing",
+    inputs: [
+      { id: 'cohesion', label: 'Cohesion (c) - kPa', defaultValue: '10' },
+      { id: 'unit-weight', label: 'Unit Weight (γ) - kN/m³', defaultValue: '18' },
+      { id: 'depth', label: 'Depth (D) - m', defaultValue: '1.5' },
+      { id: 'width', label: 'Width (B) - m', defaultValue: '2' },
+      { id: 'friction-angle', label: 'Friction Angle (φ) - degrees', defaultValue: '30' }
+    ],
+    calculate: function(inputs) {
+      const c = parseFloat(inputs['cohesion']);
+      const γ = parseFloat(inputs['unit-weight']);
+      const D = parseFloat(inputs['depth']);
+      const B = parseFloat(inputs['width']);
+      const φ = parseFloat(inputs['friction-angle']);
+      
+      // Bearing capacity factors (simplified)
+      const φ_rad = φ * Math.PI / 180;
+      const N_q = Math.exp(Math.PI * Math.tan(φ_rad)) * Math.pow(Math.tan(45 + φ/2 * Math.PI/180), 2);
+      const N_c = (N_q - 1) / Math.tan(φ_rad);
+      const N_γ = 2 * (N_q + 1) * Math.tan(φ_rad);
+      
+      return c * N_c + γ * D * N_q + 0.5 * γ * B * N_γ;
+    },
+    resultText: function(result) {
+      return `Ultimate Bearing Capacity (q_ult) = ${result.toFixed(2)} kPa\nAllowable Bearing Capacity (FS=3) = ${(result/3).toFixed(2)} kPa`;
+    }
+  },
+  {
+    id: 3,
+    title: "Settlement Calculation",
+    formula: "S = (C_c/(1+e_0)) * H * log((σ_0'+Δσ)/σ_0')\nFor normally consolidated clay",
+    inputs: [
+      { id: 'compression-index', label: 'Compression Index (C_c)', defaultValue: '0.3' },
+      { id: 'initial-void-ratio', label: 'Initial Void Ratio (e₀)', defaultValue: '0.8' },
+      { id: 'layer-thickness', label: 'Layer Thickness (H) - m', defaultValue: '5' },
+      { id: 'initial-effective-stress', label: 'Initial Effective Stress (σ₀\') - kPa', defaultValue: '100' },
+      { id: 'stress-increase', label: 'Stress Increase (Δσ) - kPa', defaultValue: '50' }
+    ],
+    calculate: function(inputs) {
+      const C_c = parseFloat(inputs['compression-index']);
+      const e_0 = parseFloat(inputs['initial-void-ratio']);
+      const H = parseFloat(inputs['layer-thickness']);
+      const σ0 = parseFloat(inputs['initial-effective-stress']);
+      const Δσ = parseFloat(inputs['stress-increase']);
+      
+      return (C_c / (1 + e_0)) * H * Math.log10((σ0 + Δσ) / σ0);
+    },
+    resultText: function(result) {
+      return `Primary Consolidation Settlement = ${result.toFixed(4)} m\n= ${(result*1000).toFixed(1)} mm`;
+    }
+  },
+  {
+    id: 4,
+    title: "Active Earth Pressure",
+    formula: "P_a = 0.5 * γ * H² * K_a\nK_a = (1-sinφ)/(1+sinφ) for cohesionless soil",
+    inputs: [
+      { id: 'unit-weight-ep', label: 'Unit Weight (γ) - kN/m³', defaultValue: '18' },
+      { id: 'wall-height', label: 'Wall Height (H) - m', defaultValue: '5' },
+      { id: 'friction-angle-ep', label: 'Friction Angle (φ) - degrees', defaultValue: '30' }
+    ],
+    calculate: function(inputs) {
+      const γ = parseFloat(inputs['unit-weight-ep']);
+      const H = parseFloat(inputs['wall-height']);
+      const φ = parseFloat(inputs['friction-angle-ep']);
+      
+      const φ_rad = φ * Math.PI / 180;
+      const K_a = Math.pow(Math.tan(45 - φ/2 * Math.PI/180), 2);
+      
+      return 0.5 * γ * Math.pow(H, 2) * K_a;
+    },
+    resultText: function(result) {
+      return `Total Active Earth Pressure = ${result.toFixed(2)} kN/m\nPressure at base = ${(result*2/25).toFixed(2)} kPa`;
+    }
+  }
+];
+
+function generateCalculators() {
+  const container = document.getElementById('calculators-container');
+  container.innerHTML = '';
+  
+  calculatorsData.forEach(calc => {
+    const calcCard = document.createElement('div');
+    calcCard.className = 'calculator-card';
+    calcCard.dataset.id = calc.id;
+    
+    calcCard.innerHTML = `
+      <div class="calculator-header">
+        <h3 class="calculator-title">${calc.title}</h3>
+      </div>
+      <div class="calculator-formula">${calc.formula}</div>
+      <div class="calculator-inputs">
+        ${calc.inputs.map(input => `
+          <div class="input-group">
+            <label class="input-label">${input.label}</label>
+            <input type="number" id="${input.id}" class="input-field" value="${input.defaultValue}" step="0.1">
+          </div>
+        `).join('')}
+      </div>
+      <button class="calculate-btn" onclick="calculateResult(${calc.id})">
+        <i class="fas fa-calculator"></i> Calculate
+      </button>
+      <div class="result-container" id="result-${calc.id}"></div>
+    `;
+    
+    container.appendChild(calcCard);
+  });
+}
+
+function calculateResult(calculatorId) {
+  const calculator = calculatorsData.find(c => c.id === calculatorId);
+  const inputs = {};
+  
+  calculator.inputs.forEach(input => {
+    inputs[input.id] = document.getElementById(input.id).value;
+  });
+  
+  try {
+    const result = calculator.calculate(inputs);
+    const resultContainer = document.getElementById(`result-${calculatorId}`);
+    resultContainer.innerHTML = calculator.resultText(result);
+    resultContainer.style.display = 'block';
+    
+    // Update progress
+    if (!userProgress.labTestsCompleted.includes(`calc_${calculatorId}`)) {
+      userProgress.labTestsCompleted.push(`calc_${calculatorId}`);
+      saveProgress();
+      updateDashboard();
+    }
+  } catch (error) {
+    alert('Error in calculation: ' + error.message);
+  }
+}
+
+// ==================== LAB TESTS SIMULATION ====================
+let stressStrainChart = null;
+
+function initializeLabTest() {
+  const canvas = document.getElementById('stress-strain-chart');
+  if (stressStrainChart) {
+    stressStrainChart.destroy();
+  }
+  
+  stressStrainChart = new Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [{
+        label: 'Deviator Stress (kPa)',
+        data: [],
+        borderColor: 'rgba(42, 157, 143, 1)',
+        backgroundColor: 'rgba(42, 157, 143, 0.1)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Axial Strain (%)',
+            color: 'rgba(224, 225, 221, 0.8)'
+          },
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: 'rgba(224, 225, 221, 0.8)'
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Deviator Stress (kPa)',
+            color: 'rgba(224, 225, 221, 0.8)'
+          },
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: 'rgba(224, 225, 221, 0.8)'
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: 'rgba(224, 225, 221, 0.8)'
+          }
+        }
+      }
+    }
+  });
+}
+
+function runTriaxialTest() {
+  const soilType = document.getElementById('soil-type').value;
+  
+  // Simulate test data based on soil type
+  let testData;
+  switch(soilType) {
+    case 'clay':
+      testData = generateTestData(25, 0, 20); // c=25 kPa, φ=0°, E=20 MPa
+      break;
+    case 'sand':
+      testData = generateTestData(0, 30, 40); // c=0 kPa, φ=30°, E=40 MPa
+      break;
+    case 'silt':
+      testData = generateTestData(5, 28, 30); // c=5 kPa, φ=28°, E=30 MPa
+      break;
+    case 'gravel':
+      testData = generateTestData(0, 35, 60); // c=0 kPa, φ=35°, E=60 MPa
+      break;
+  }
+  
+  // Update chart
+  stressStrainChart.data.labels = testData.strains;
+  stressStrainChart.data.datasets[0].data = testData.stresses;
+  stressStrainChart.update();
+  
+  // Update results
+  document.getElementById('cohesion-value').textContent = testData.cohesion.toFixed(1) + ' kPa';
+  document.getElementById('friction-angle').textContent = testData.frictionAngle.toFixed(1) + '°';
+  document.getElementById('youngs-modulus').textContent = testData.youngsModulus.toFixed(1) + ' MPa';
+  document.getElementById('failure-stress').textContent = testData.failureStress.toFixed(1) + ' kPa';
+  
+  // Update progress
+  if (!userProgress.labTestsCompleted.includes('triaxial')) {
+    userProgress.labTestsCompleted.push('triaxial');
+    saveProgress();
+    updateDashboard();
+  }
+}
+
+function generateTestData(cohesion, frictionAngle, youngsModulus) {
+  const strains = [];
+  const stresses = [];
+  
+  // Generate realistic stress-strain curve
+  for (let i = 0; i <= 20; i++) {
+    const strain = i * 0.5; // 0% to 10% strain
+    strains.push(strain.toFixed(1));
+    
+    // Simplified stress-strain relationship
+    let stress;
+    if (strain < 2) {
+      // Elastic region
+      stress = youngsModulus * strain / 100; // Convert % to decimal
+    } else if (strain < 8) {
+      // Plastic region
+      stress = youngsModulus * 0.02 + cohesion * 10 + frictionAngle * strain / 10;
+    } else {
+      // Strain softening/hardening
+      stress = youngsModulus * 0.02 + cohesion * 10 + frictionAngle * 0.8 - (strain - 8) * 5;
+    }
+    stresses.push(stress.toFixed(1));
+  }
+  
+  return {
+    strains: strains,
+    stresses: stresses,
+    cohesion: cohesion,
+    frictionAngle: frictionAngle,
+    youngsModulus: youngsModulus,
+    failureStress: Math.max(...stresses.map(s => parseFloat(s)))
+  };
+}
+
+function runLabTest(testType) {
+  alert(`Starting ${testType.replace('_', ' ').toUpperCase()} Test\n\nThis would show detailed test procedure and results in a full implementation.`);
+  
+  if (!userProgress.labTestsCompleted.includes(testType)) {
+    userProgress.labTestsCompleted.push(testType);
+    saveProgress();
+    updateDashboard();
+  }
+}
+
+function resetLabTest() {
+  stressStrainChart.data.labels = [];
+  stressStrainChart.data.datasets[0].data = [];
+  stressStrainChart.update();
+  
+  document.getElementById('cohesion-value').textContent = '-- kPa';
+  document.getElementById('friction-angle').textContent = '-- °';
+  document.getElementById('youngs-modulus').textContent = '-- MPa';
+  document.getElementById('failure-stress').textContent = '-- kPa';
+}
+
+// ==================== FOUNDATION DESIGN ====================
+function initializeFoundationDesign() {
+  updateFoundationDesign();
+}
+
+function updateFoundationDesign() {
+  const width = parseFloat(document.getElementById('width-slider').value);
+  const depth = parseFloat(document.getElementById('depth-slider').value);
+  const type = document.getElementById('foundation-type').value;
+  
+  document.getElementById('width-value').textContent = width.toFixed(1) + ' m';
+  document.getElementById('depth-value').textContent = depth.toFixed(1) + ' m';
+  
+  // Update visualization
+  const canvas = document.getElementById('foundation-canvas');
+  canvas.innerHTML = '';
+  
+  // Create soil layers
+  const layers = [
+    { type: 'sand', height: 100, color: '#e9c46a' },
+    { type: 'clay', height: 150, color: '#8b4513' },
+    { type: 'silt', height: 100, color: '#c2b280' },
+    { type: 'rock', height: 50, color: '#696969' }
+  ];
+  
+  let currentTop = 0;
+  layers.forEach(layer => {
+    const layerDiv = document.createElement('div');
+    layerDiv.style.position = 'absolute';
+    layerDiv.style.top = currentTop + 'px';
+    layerDiv.style.left = '0';
+    layerDiv.style.width = '100%';
+    layerDiv.style.height = layer.height + 'px';
+    layerDiv.style.background = layer.color;
+    layerDiv.style.opacity = '0.7';
+    canvas.appendChild(layerDiv);
+    
+    // Layer label
+    const label = document.createElement('div');
+    label.style.position = 'absolute';
+    label.style.top = (currentTop + layer.height/2 - 10) + 'px';
+    label.style.left = '10px';
+    label.style.color = 'white';
+    label.style.fontSize = '0.8rem';
+    label.style.fontWeight = '600';
+    label.textContent = layer.type.toUpperCase();
+    canvas.appendChild(label);
+    
+    currentTop += layer.height;
+  });
+  
+  // Create foundation based on type
+  const foundation = document.createElement('div');
+  foundation.className = 'foundation-element';
+  
+  const canvasWidth = canvas.offsetWidth;
+  const canvasHeight = canvas.offsetHeight;
+  
+  if (type === 'strip' || type === 'mat') {
+    foundation.style.width = '80%';
+    foundation.style.height = '30px';
+    foundation.style.left = '10%';
+    foundation.style.top = (canvasHeight * 0.1) + 'px';
+  } else if (type === 'square') {
+    foundation.style.width = '150px';
+    foundation.style.height = '150px';
+    foundation.style.left = (canvasWidth/2 - 75) + 'px';
+    foundation.style.top = (canvasHeight * 0.1) + 'px';
+  } else if (type === 'circular') {
+    foundation.style.width = '150px';
+    foundation.style.height = '150px';
+    foundation.style.borderRadius = '50%';
+    foundation.style.left = (canvasWidth/2 - 75) + 'px';
+    foundation.style.top = (canvasHeight * 0.1) + 'px';
+  } else if (type === 'pile') {
+    // Multiple piles
+    for (let i = 0; i < 3; i++) {
+      const pile = document.createElement('div');
+      pile.className = 'foundation-element';
+      pile.style.width = '30px';
+      pile.style.height = '200px';
+      pile.style.left = (canvasWidth/4 * (i+1) - 15) + 'px';
+      pile.style.top = (canvasHeight * 0.1) + 'px';
+      canvas.appendChild(pile);
+    }
+    return;
+  }
+  
+  canvas.appendChild(foundation);
+  
+  // Add load arrow
+  const load = document.createElement('div');
+  load.style.position = 'absolute';
+  load.style.width = '2px';
+  load.style.height = '50px';
+  load.style.background = 'var(--geo-danger)';
+  load.style.left = (canvasWidth/2) + 'px';
+  load.style.top = '10px';
+  canvas.appendChild(load);
+  
+  const arrow = document.createElement('div');
+  arrow.style.position = 'absolute';
+  arrow.style.width = '0';
+  arrow.style.height = '0';
+  arrow.style.borderLeft = '10px solid transparent';
+  arrow.style.borderRight = '10px solid transparent';
+  arrow.style.borderTop = '15px solid var(--geo-danger)';
+  arrow.style.left = (canvasWidth/2 - 10) + 'px';
+  arrow.style.top = '5px';
+  canvas.appendChild(arrow);
+  
+  const loadLabel = document.createElement('div');
+  loadLabel.style.position = 'absolute';
+  loadLabel.style.left = (canvasWidth/2 + 15) + 'px';
+  loadLabel.style.top = '25px';
+  loadLabel.style.color = 'var(--geo-danger)';
+  loadLabel.style.fontWeight = '600';
+  loadLabel.textContent = 'Q = ' + document.getElementById('load-input').value + ' kN';
+  canvas.appendChild(loadLabel);
+}
+
+function calculateBearingCapacity() {
+  const width = parseFloat(document.getElementById('width-slider').value);
+  const depth = parseFloat(document.getElementById('depth-slider').value);
+  const load = parseFloat(document.getElementById('load-input').value);
+  const soilType = document.getElementById('design-soil-type').value;
+  
+  // Simplified bearing capacity calculation
+  let capacity;
+  switch(soilType) {
+    case 'dense_sand':
+      capacity = 800 + 200 * width + 100 * depth;
+      break;
+    case 'medium_sand':
+      capacity = 400 + 150 * width + 80 * depth;
+      break;
+    case 'loose_sand':
+      capacity = 200 + 100 * width + 60 * depth;
+      break;
+    case 'stiff_clay':
+      capacity = 600 + 180 * width + 120 * depth;
+      break;
+    case 'soft_clay':
+      capacity = 150 + 80 * width + 50 * depth;
+      break;
+  }
+  
+  const pressure = load / (width * width); // For square footing
+  const safetyFactor = capacity / pressure;
+  
+  // Settlement estimation
+  const settlement = (pressure * width * 1000) / (30 * 1000); // Simplified formula
+  
+  const resultDiv = document.getElementById('design-result');
+  resultDiv.innerHTML = `
+    <h4 style="color: var(--geo-success); margin-bottom: 10px;">Design Results</h4>
+    <div><strong>Ultimate Bearing Capacity:</strong> ${capacity.toFixed(0)} kPa</div>
+    <div><strong>Applied Pressure:</strong> ${pressure.toFixed(1)} kPa</div>
+    <div><strong>Factor of Safety:</strong> ${safetyFactor.toFixed(2)}</div>
+    <div><strong>Estimated Settlement:</strong> ${settlement.toFixed(1)} mm</div>
+    <div style="margin-top: 10px; color: ${safetyFactor > 3 ? 'var(--geo-success)' : 'var(--geo-danger)'};">
+      <strong>Design Status:</strong> ${safetyFactor > 3 ? 'SAFE ✓' : 'UNSAFE ✗ - Redesign Required'}
+    </div>
+  `;
+  resultDiv.style.display = 'block';
+  
+  // Update progress
+  if (!userProgress.designProjects.includes('foundation_design')) {
+    userProgress.designProjects.push('foundation_design');
+    saveProgress();
+    updateDashboard();
+  }
+}
+
+// ==================== EXAM BANK ====================
+const examQuestions = [
+  {
+    id: 1,
+    question: "What is the effective stress at a depth of 5m in a saturated soil layer with total unit weight of 20 kN/m³ and water table at ground surface?",
+    options: [
+      "50 kPa",
+      "100 kPa", 
+      "51 kPa",
+      "49 kPa"
+    ],
+    answer: 2,
+    explanation: "Effective stress = Total stress - Pore pressure. Total stress = 20 × 5 = 100 kPa. Pore pressure = 9.81 × 5 = 49.05 kPa. Effective stress = 100 - 49.05 = 50.95 kPa ≈ 51 kPa.",
+    category: "soil_mechanics",
+    difficulty: "easy"
+  },
+  {
+    id: 2,
+    question: "According to Terzaghi's bearing capacity theory, the bearing capacity factors Nc, Nq, and Nγ depend on:",
+    options: [
+      "Cohesion only",
+      "Friction angle only",
+      "Both cohesion and friction angle",
+      "Unit weight of soil only"
+    ],
+    answer: 1,
+    explanation: "Terzaghi's bearing capacity factors (Nc, Nq, Nγ) are functions of the soil's friction angle (φ) only. They are dimensionless coefficients that increase with increasing friction angle.",
+    category: "foundations",
+    difficulty: "medium"
+  },
+  {
+    id: 3,
+    question: "The compression index (Cc) for a normally consolidated clay can be estimated from:",
+    options: [
+      "Liquid limit (LL)",
+      "Plastic limit (PL)",
+      "Plasticity index (PI)",
+      "All of the above"
+    ],
+    answer: 0,
+    explanation: "For normally consolidated clays, the compression index can be estimated as Cc = 0.009(LL - 10), where LL is the liquid limit in percentage. This empirical relationship is often used in practice.",
+    category: "soil_mechanics",
+    difficulty: "medium"
+  },
+  {
+    id: 4,
+    question: "In slope stability analysis using the method of slices, the factor of safety is defined as:",
+    options: [
+      "Ratio of restoring moment to disturbing moment",
+      "Ratio of shear strength to shear stress",
+      "Ratio of cohesion to friction angle",
+      "Ratio of slope height to slope angle"
+    ],
+    answer: 1,
+    explanation: "The factor of safety in slope stability analysis is generally defined as the ratio of available shear strength to the shear stress required for equilibrium along the potential failure surface.",
+    category: "slope_stability",
+    difficulty: "hard"
+  },
+  {
+    id: 5,
+    question: "The coefficient of earth pressure at rest (K₀) for normally consolidated soils is approximately:",
+    options: [
+      "K₀ = 1 - sin φ'",
+      "K₀ = (1 - sin φ')/(1 + sin φ')",
+      "K₀ = tan²(45 - φ'/2)",
+      "K₀ = 1.0"
+    ],
+    answer: 0,
+    explanation: "For normally consolidated soils, Jaky's equation K₀ = 1 - sin φ' is commonly used, where φ' is the effective friction angle. This empirical relationship has been widely validated.",
+    category: "earth_pressure",
+    difficulty: "medium"
+  },
+  {
+    id: 6,
+    question: "Which of the following statements about pile foundations is INCORRECT?",
+    options: [
+      "End bearing piles transfer load through tip resistance",
+      "Friction piles transfer load through skin friction",
+      "Negative skin friction increases pile capacity",
+      "Group efficiency is usually less than 1.0"
+    ],
+    answer: 2,
+    explanation: "Negative skin friction actually reduces pile capacity as it acts downward on the pile shaft, increasing the load on the pile rather than providing resistance.",
+    category: "foundations",
+    difficulty: "hard"
+  },
+  {
+    id: 7,
+    question: "The standard penetration test (SPT) N-value is corrected for:",
+    options: [
+      "Overburden pressure only",
+      "Energy ratio only",
+      "Both overburden pressure and energy ratio",
+      "Soil type only"
+    ],
+    answer: 2,
+    explanation: "The measured SPT N-value is corrected for both overburden pressure (using Cn factor) and hammer energy efficiency to obtain (N₁)₆₀ value for correlation with soil properties.",
+    category: "site_investigation",
+    difficulty: "medium"
+  },
+  {
+    id: 8,
+    question: "The primary function of geotextiles in reinforcement applications is to:",
+    options: [
+      "Separate soil layers",
+      "Provide tensile strength",
+      "Filter fine particles",
+      "Drain water"
+    ],
+    answer: 1,
+    explanation: "While geotextiles serve multiple functions, in reinforcement applications their primary role is to provide tensile strength to the soil mass, improving stability through membrane action.",
+    category: "geosynthetics",
+    difficulty: "easy"
+  }
+];
+
+function generateExamQuestions(filter = 'all') {
+  const container = document.getElementById('exam-bank');
+  container.innerHTML = '';
+  
+  const filteredQuestions = filter === 'all' 
+    ? examQuestions 
+    : examQuestions.filter(q => q.category === filter);
+  
+  filteredQuestions.forEach((q, index) => {
+    const isSolved = userProgress.questionsSolved >= q.id; // Simplified logic
+    
+    const questionEl = document.createElement('div');
+    questionEl.className = 'exam-question';
+    questionEl.dataset.id = q.id;
+    
+    questionEl.innerHTML = `
+      <div class="question-header">
+        <div class="question-title">
+          Question ${index + 1}
+          <span class="difficulty ${q.difficulty}">${q.difficulty.toUpperCase()}</span>
+        </div>
+        ${isSolved ? '<span style="color: var(--geo-success); font-size: 0.8rem;"><i class="fas fa-check-circle"></i> Solved</span>' : ''}
+      </div>
+      <div class="question-text">${q.question}</div>
+      <div class="question-options">
+        ${q.options.map((option, i) => `
+          <div class="option ${isSolved && i === q.answer ? 'selected' : ''}" onclick="selectAnswer(${q.id}, ${i})">
+            <div class="option-letter">${String.fromCharCode(65 + i)}</div>
+            <div>${option}</div>
+          </div>
+        `).join('')}
+      </div>
+      <button class="show-answer-btn" onclick="showAnswer(${q.id})">
+        Show Solution & Explanation
+      </button>
+      <div class="answer" id="answer-${q.id}">
+        <strong>Correct Answer: ${String.fromCharCode(65 + q.answer)} - ${q.options[q.answer]}</strong>
+        <div style="margin-top: 10px; color: var(--text-dim);">${q.explanation}</div>
+      </div>
+    `;
+    
+    container.appendChild(questionEl);
+  });
+}
+
+function filterQuestions(category) {
+  // Update filter buttons
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  generateExamQuestions(category);
+}
+
+function selectAnswer(questionId, optionIndex) {
+  const question = examQuestions.find(q => q.id === questionId);
+  const options = document.querySelectorAll(`[data-id="${questionId}"] .option`);
+  
+  // Remove selected class from all options
+  options.forEach(opt => opt.classList.remove('selected'));
+  
+  // Add selected class to clicked option
+  options[optionIndex].classList.add('selected');
+  
+  // Update progress
+  if (optionIndex === question.answer) {
+    if (!userProgress.questionsSolved) userProgress.questionsSolved = 0;
+    userProgress.questionsSolved++;
+    
+    // Update difficulty counts
+    if (question.difficulty === 'easy') userProgress.easyQuestions++;
+    if (question.difficulty === 'medium') userProgress.mediumQuestions++;
+    if (question.difficulty === 'hard') userProgress.hardQuestions++;
+    
+    // Update category scores
+    if (question.category === 'soil_mechanics') userProgress.soilMechScore++;
+    if (question.category === 'foundations') userProgress.foundationScore++;
+    if (question.category === 'slope_stability') userProgress.slopeStabilityScore++;
+    
+    saveProgress();
+    updateDashboard();
+    
+    // Show correct feedback
+    const button = document.querySelector(`[data-id="${questionId}"] .show-answer-btn`);
+    button.innerHTML = '<i class="fas fa-check"></i> Correct! View Explanation';
+    button.style.background = 'var(--geo-success)';
+    button.style.color = 'var(--geo-dark)';
+  }
+}
+
+function showAnswer(questionId) {
+  const answerDiv = document.getElementById(`answer-${questionId}`);
+  const button = answerDiv.previousElementSibling;
+  
+  if (answerDiv.style.display === 'block') {
+    answerDiv.style.display = 'none';
+    button.textContent = 'Show Solution & Explanation';
+  } else {
+    answerDiv.style.display = 'block';
+    button.textContent = 'Hide Solution';
+  }
+}
+
+// ==================== INTERACTIVE QUIZ ====================
+const quizQuestions = [
+  {
+    question: "What is the effective stress at a depth of 5m in a saturated soil layer with total unit weight of 20 kN/m³ and water table at ground surface?",
+    options: [
+      "50 kPa",
+      "100 kPa", 
+      "51 kPa",
+      "49 kPa"
+    ],
+    correct: 2,
+    explanation: "Effective stress = Total stress - Pore pressure. Total stress = 20 × 5 = 100 kPa. Pore pressure = 9.81 × 5 = 49.05 kPa. Effective stress = 100 - 49.05 = 50.95 kPa ≈ 51 kPa."
+  },
+  {
+    question: "According to Terzaghi's bearing capacity theory, the bearing capacity factors depend on:",
+    options: [
+      "Cohesion only",
+      "Friction angle only",
+      "Both cohesion and friction angle",
+      "Unit weight of soil only"
+    ],
+    correct: 1,
+    explanation: "Terzaghi's bearing capacity factors (Nc, Nq, Nγ) are functions of the soil's friction angle (φ) only."
+  },
+  {
+    question: "The compression index (Cc) for normally consolidated clay is estimated from:",
+    options: [
+      "Liquid limit (LL)",
+      "Plastic limit (PL)",
+      "Plasticity index (PI)",
+      "All of the above"
+    ],
+    correct: 0,
+    explanation: "Cc = 0.009(LL - 10) for normally consolidated clays."
+  },
+  {
+    question: "In slope stability analysis, factor of safety is defined as:",
+    options: [
+      "Ratio of restoring moment to disturbing moment",
+      "Ratio of shear strength to shear stress",
+      "Ratio of cohesion to friction angle",
+      "Ratio of slope height to slope angle"
+    ],
+    correct: 1,
+    explanation: "FS = Available shear strength / Mobilized shear stress."
+  },
+  {
+    question: "Coefficient of earth pressure at rest (K₀) for normally consolidated soils is:",
+    options: [
+      "K₀ = 1 - sin φ'",
+      "K₀ = (1 - sin φ')/(1 + sin φ')",
+      "K₀ = tan²(45 - φ'/2)",
+      "K₀ = 1.0"
+    ],
+    correct: 0,
+    explanation: "Jaky's equation: K₀ = 1 - sin φ' for normally consolidated soils."
+  }
+];
+
+let currentQuizQuestion = 0;
+let quizAnswers = new Array(quizQuestions.length).fill(null);
+let quizScore = 0;
+
+function initializeQuiz() {
+  document.getElementById('total-questions').textContent = quizQuestions.length;
+  loadQuizQuestion(currentQuizQuestion);
+}
+
+function loadQuizQuestion(index) {
+  const question = quizQuestions[index];
+  document.getElementById('question-text').textContent = question.question;
+  document.getElementById('current-question').textContent = index + 1;
+  
+  const optionsContainer = document.getElementById('options-container');
+  optionsContainer.innerHTML = '';
+  
+  question.options.forEach((option, i) => {
+    const optionElement = document.createElement('div');
+    optionElement.className = 'quiz-option';
+    if (quizAnswers[index] === i) {
+      optionElement.classList.add('selected');
+    }
+    optionElement.onclick = () => selectQuizOption(i);
+    
+    optionElement.innerHTML = `
+      <div class="option-letter">${String.fromCharCode(65 + i)}</div>
+      <div>${option}</div>
+    `;
+    
+    optionsContainer.appendChild(optionElement);
+  });
+  
+  // Update buttons
+  document.getElementById('prev-btn').disabled = index === 0;
+  document.getElementById('next-btn').textContent = index === quizQuestions.length - 1 ? 'Submit Quiz' : 'Next';
+  
+  // Clear feedback
+  document.getElementById('quiz-feedback').textContent = '';
+}
+
+function selectQuizOption(optionIndex) {
+  quizAnswers[currentQuizQuestion] = optionIndex;
+  loadQuizQuestion(currentQuizQuestion);
+  
+  // Check if correct
+  if (optionIndex === quizQuestions[currentQuizQuestion].correct) {
+    document.getElementById('quiz-feedback').textContent = 'Correct!';
+    document.getElementById('quiz-feedback').style.color = 'var(--geo-success)';
+  } else {
+    document.getElementById('quiz-feedback').textContent = 'Incorrect. The correct answer will be shown after submission.';
+    document.getElementById('quiz-feedback').style.color = 'var(--geo-danger)';
+  }
+}
+
+function nextQuizQuestion() {
+  if (currentQuizQuestion < quizQuestions.length - 1) {
+    currentQuizQuestion++;
+    loadQuizQuestion(currentQuizQuestion);
+  } else {
+    // Calculate score
+    quizScore = 0;
+    for (let i = 0; i < quizQuestions.length; i++) {
+      if (quizAnswers[i] === quizQuestions[i].correct) {
+        quizScore++;
+      }
+    }
+    
+    // Show result
+    document.getElementById('quiz-content').style.display = 'none';
+    document.getElementById('quiz-result').style.display = 'block';
+    
+    document.getElementById('final-score').textContent = `${quizScore}/${quizQuestions.length}`;
+    
+    // Set result message
+    if (quizScore === quizQuestions.length) {
+      document.getElementById('result-message').textContent = 'Excellent! You have mastered geotechnical fundamentals!';
+    } else if (quizScore >= quizQuestions.length * 0.7) {
+      document.getElementById('result-message').textContent = 'Very good! Solid understanding of key concepts!';
+    } else if (quizScore >= quizQuestions.length * 0.5) {
+      document.getElementById('result-message').textContent = 'Good effort! Review the topics and try again!';
+    } else {
+      document.getElementById('result-message').textContent = 'Keep studying! Focus on the basic principles!';
+    }
+    
+    // Update progress
+    userProgress.examScores.push(quizScore / quizQuestions.length * 100);
+    saveProgress();
+    updateDashboard();
+  }
+}
+
+function previousQuizQuestion() {
+  if (currentQuizQuestion > 0) {
+    currentQuizQuestion--;
+    loadQuizQuestion(currentQuizQuestion);
+  }
+}
+
+function resetQuiz() {
+  currentQuizQuestion = 0;
+  quizAnswers = new Array(quizQuestions.length).fill(null);
+  quizScore = 0;
+  
+  document.getElementById('quiz-content').style.display = 'block';
+  document.getElementById('quiz-result').style.display = 'none';
+  
+  loadQuizQuestion(currentQuizQuestion);
+}
+
+// ==================== PROGRESS DASHBOARD ====================
+function updateDashboard() {
+  // Update topics progress
+  const topicsPercent = Math.min(100, (userProgress.topicsStudied.length / topicsData.length) * 100);
+  document.getElementById('topics-percent').textContent = Math.round(topicsPercent) + '%';
+  document.getElementById('topics-count').textContent = `${userProgress.topicsStudied.length}/${topicsData.length}`;
+  
+  // Update topics ring
+  const topicsRing = document.getElementById('topics-ring');
+  const circumference = 2 * Math.PI * 50;
+  const offset = circumference - (topicsPercent / 100) * circumference;
+  topicsRing.style.strokeDasharray = `${circumference} ${circumference}`;
+  topicsRing.style.strokeDashoffset = offset;
+  
+  // Update exam performance
+  const avgScore = userProgress.examScores.length > 0 
+    ? userProgress.examScores.reduce((a, b) => a + b, 0) / userProgress.examScores.length 
+    : 0;
+  document.getElementById('exam-score').textContent = Math.round(avgScore) + '%';
+  
+  // Update category scores
+  const soilMechPercent = Math.min(100, (userProgress.soilMechScore / 3) * 100);
+  const foundationPercent = Math.min(100, (userProgress.foundationScore / 2) * 100);
+  
+  document.getElementById('soil-mech-score').textContent = Math.round(soilMechPercent) + '%';
+  document.getElementById('foundation-score').textContent = Math.round(foundationPercent) + '%';
+  
+  document.getElementById('soil-mech-bar').style.width = soilMechPercent + '%';
+  document.getElementById('foundation-bar').style.width = foundationPercent + '%';
+  
+  // Update questions solved
+  document.getElementById('questions-solved').textContent = userProgress.questionsSolved || 0;
+  document.getElementById('easy-questions').textContent = userProgress.easyQuestions || 0;
+  document.getElementById('medium-questions').textContent = userProgress.mediumQuestions || 0;
+  document.getElementById('hard-questions').textContent = userProgress.hardQuestions || 0;
+  
+  // Update certification progress
+  const feProgress = Math.min(100, (userProgress.questionsSolved / 50) * 100);
+  const peProgress = Math.min(100, (userProgress.topicsStudied.length / topicsData.length * 100));
+  const mtechProgress = Math.min(100, ((userProgress.labTestsCompleted.length + userProgress.designProjects.length) / 10) * 100);
+  
+  document.getElementById('fe-progress').textContent = Math.round(feProgress) + '%';
+  document.getElementById('pe-progress').textContent = Math.round(peProgress) + '%';
+  document.getElementById('mtech-progress').textContent = Math.round(mtechProgress) + '%';
+  
+  document.getElementById('fe-bar').style.width = feProgress + '%';
+  document.getElementById('pe-bar').style.width = peProgress + '%';
+  document.getElementById('mtech-bar').style.width = mtechProgress + '%';
+  
+  // Update recommendations
+  const recommendations = document.getElementById('recommendations');
+  recommendations.innerHTML = '';
+  
+  const recs = [];
+  
+  if (userProgress.topicsStudied.length < 3) {
+    recs.push({
+      title: "Start with Soil Mechanics",
+      description: "Complete the Soil Mechanics Fundamentals module to build a strong foundation.",
+      icon: "fas fa-layer-group",
+      color: "var(--geo-primary)"
+    });
+  }
+  
+  if (userProgress.questionsSolved < 10) {
+    recs.push({
+      title: "Practice Exam Questions",
+      description: "Solve at least 10 exam questions to test your understanding.",
+      icon: "fas fa-file-alt",
+      color: "var(--geo-accent)"
+    });
+  }
+  
+  if (!userProgress.labTestsCompleted.includes('triaxial')) {
+    recs.push({
+      title: "Complete Lab Test Simulations",
+      description: "Run the Triaxial Compression Test to understand soil strength parameters.",
+      icon: "fas fa-flask",
+      color: "var(--geo-success)"
+    });
+  }
+  
+  if (feProgress < 50) {
+    recs.push({
+      title: "Prepare for FE Civil Exam",
+      description: `You're ${Math.round(feProgress)}% prepared. Focus on foundation engineering questions.`,
+      icon: "fas fa-graduation-cap",
+      color: "var(--geo-warning)"
+    });
+  }
+  
+  recs.forEach(rec => {
+    const recEl = document.createElement('div');
+    recEl.style.background = 'rgba(255,255,255,0.05)';
+    recEl.style.padding = '20px';
+    recEl.style.borderRadius = '10px';
+    recEl.style.borderLeft = `4px solid ${rec.color}`;
+    recEl.innerHTML = `
+      <div style="display: flex; align-items: flex-start; gap: 15px;">
+        <i class="${rec.icon}" style="font-size: 1.5rem; color: ${rec.color};"></i>
+        <div>
+          <h4 style="color: var(--text); margin-bottom: 8px;">${rec.title}</h4>
+          <p style="color: var(--text-dim); font-size: 0.9rem;">${rec.description}</p>
+        </div>
+      </div>
+    `;
+    recommendations.appendChild(recEl);
+  });
+}
+
+// ==================== UTILITY FUNCTIONS ====================
+function saveProgress() {
+  localStorage.setItem('geo-progress', JSON.stringify(userProgress));
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', function() {
+  // Set up initial state
+  if (!localStorage.getItem('geo-progress')) {
+    // Add some initial progress for demo
+    userProgress = {
+      topicsStudied: [1, 2],
+      questionsSolved: 3,
+      easyQuestions: 2,
+      mediumQuestions: 1,
+      hardQuestions: 0,
+      examScores: [60, 70],
+      soilMechScore: 2,
+      foundationScore: 1,
+      slopeStabilityScore: 0,
+      labTestsCompleted: ['triaxial'],
+      designProjects: ['foundation_design']
+    };
+    saveProgress();
+  }
+  
+  // Initialize all components
+  generateTopics();
+  generateCalculators();
+  generateExamQuestions('all');
+  initializeFoundationDesign();
+  initializeQuiz();
+  initializeLabTest();
+  updateDashboard();
+});
+</script>
+</body>
+</html>

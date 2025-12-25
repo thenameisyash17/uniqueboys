@@ -1,0 +1,2102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deep Learning | BTech LMS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+
+<style>
+:root {
+  --bg: #0a0a1a;
+  --card: #1a1a2e;
+  --primary: #00ff9d;
+  --secondary: #00b7ff;
+  --accent: #9d4edd;
+  --danger: #ff375f;
+  --success: #06d6a0;
+  --warning: #ffd166;
+  --text: #f0f0ff;
+  --dark: #16213e;
+  --purple: #7b2cbf;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(0, 255, 157, 0.05) 0%, transparent 30%),
+    radial-gradient(circle at 90% 80%, rgba(157, 78, 221, 0.05) 0%, transparent 30%),
+    linear-gradient(135deg, var(--bg), var(--dark));
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Neural Network Background */
+.nn-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  opacity: 0.1;
+}
+
+.nn-node {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: var(--primary);
+  border-radius: 50%;
+  box-shadow: 0 0 20px var(--primary);
+  animation: node-pulse 3s infinite alternate;
+}
+
+.nn-connection {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), transparent);
+  transform-origin: left center;
+  opacity: 0.1;
+}
+
+@keyframes node-pulse {
+  0% { transform: scale(1); opacity: 0.3; }
+  100% { transform: scale(1.2); opacity: 0.7; }
+}
+
+/* Data Flow Animation */
+.data-flow {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.data-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--secondary);
+  border-radius: 50%;
+  filter: blur(1px);
+  animation: data-flow 10s linear infinite;
+}
+
+@keyframes data-flow {
+  0% { transform: translateX(-100px) translateY(0); opacity: 0; }
+  10% { opacity: 0.8; }
+  90% { opacity: 0.8; }
+  100% { transform: translateX(calc(100vw + 100px)) translateY(200px); opacity: 0; }
+}
+
+/* ---------- NAV ---------- */
+nav {
+  padding: 20px 40px;
+  background: rgba(26, 26, 46, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 2px solid rgba(0, 255, 157, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--primary);
+  text-shadow: 0 0 20px rgba(0, 255, 157, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo i {
+  animation: brain-pulse 2s ease-in-out infinite;
+}
+
+@keyframes brain-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.nav-links {
+  display: flex;
+  gap: 35px;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s;
+  position: relative;
+  padding: 8px 0;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 3px;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 2px;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ---------- HERO ---------- */
+.hero {
+  padding: 120px 8% 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 25px;
+  animation: text-glow 3s ease-in-out infinite alternate;
+  text-shadow: 0 0 40px rgba(0, 255, 157, 0.3);
+}
+
+@keyframes text-glow {
+  0% { text-shadow: 0 0 30px rgba(0, 255, 157, 0.3); }
+  100% { text-shadow: 0 0 60px rgba(0, 183, 255, 0.5), 0 0 90px rgba(0, 183, 255, 0.3); }
+}
+
+.hero p {
+  font-size: 1.3rem;
+  color: #cbd5f5;
+  margin-bottom: 40px;
+  line-height: 1.7;
+}
+
+/* Neural Network Visualization */
+.nn-visualization {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0;
+  height: 200px;
+  position: relative;
+}
+
+.nn-layer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 30px;
+  position: relative;
+}
+
+.layer-label {
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.nn-neuron {
+  width: 40px;
+  height: 40px;
+  background: rgba(26, 26, 46, 0.8);
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  margin: 10px 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  font-size: 0.8rem;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.nn-neuron:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 25px var(--primary);
+  background: rgba(0, 255, 157, 0.1);
+}
+
+.nn-neuron.active {
+  background: rgba(0, 255, 157, 0.3);
+  border-color: var(--success);
+}
+
+.nn-connection-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transform-origin: left center;
+  z-index: -1;
+  opacity: 0.3;
+  transition: opacity 0.3s;
+}
+
+.nn-connection-line:hover {
+  opacity: 0.8;
+}
+
+/* Progress Dashboard */
+.progress-dashboard {
+  max-width: 900px;
+  margin: 50px auto 0;
+  background: rgba(26, 26, 46, 0.7);
+  border-radius: 20px;
+  padding: 30px;
+  border: 2px solid rgba(0, 255, 157, 0.2);
+  backdrop-filter: blur(10px);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.progress-item {
+  text-align: center;
+}
+
+.progress-icon {
+  width: 60px;
+  height: 60px;
+  background: rgba(0, 255, 157, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px;
+  color: var(--primary);
+  font-size: 1.5rem;
+  border: 2px solid rgba(0, 255, 157, 0.3);
+}
+
+.progress-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 5px 0;
+}
+
+/* ---------- CONTENT ---------- */
+section {
+  padding: 80px 8%;
+}
+
+.section-title {
+  margin-bottom: 40px;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 2px;
+}
+
+/* ---------- GRID ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 30px;
+}
+
+.card {
+  background: rgba(26, 26, 46, 0.8);
+  padding: 30px;
+  border-radius: 15px;
+  border: 2px solid rgba(0, 255, 157, 0.1);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 157, 0.1), transparent);
+  transition: left 0.7s;
+}
+
+.card:hover::before {
+  left: 100%;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary);
+  box-shadow: 0 20px 40px rgba(0, 255, 157, 0.2);
+}
+
+.card h3 {
+  color: var(--primary);
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card ul {
+  list-style: none;
+}
+
+.card li {
+  padding: 12px 0;
+  color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.card li:last-child {
+  border-bottom: none;
+}
+
+.card li:hover {
+  transform: translateX(10px);
+  color: var(--primary);
+}
+
+.card li i {
+  color: var(--secondary);
+  font-size: 0.9rem;
+  min-width: 20px;
+}
+
+/* Unit Badges */
+.unit-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: var(--bg);
+  padding: 6px 15px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* Interactive Q&A Cards */
+.qa-card {
+  cursor: pointer;
+  border-color: rgba(157, 78, 221, 0.2);
+}
+
+.qa-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 20px 40px rgba(157, 78, 221, 0.2);
+}
+
+.qa-question {
+  color: var(--accent) !important;
+  font-weight: 600;
+}
+
+.qa-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s ease-out;
+  margin-top: 15px;
+  color: #cbd5f5;
+  line-height: 1.6;
+}
+
+.qa-answer.active {
+  max-height: 1000px;
+}
+
+.qa-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  font-size: 0.85rem;
+  color: #9aa4d1;
+}
+
+/* Math Formulas */
+.math-formula {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px 0;
+  border-left: 4px solid var(--primary);
+  font-family: 'KaTeX_Math', 'Times New Roman', serif;
+}
+
+.formula-title {
+  color: var(--secondary);
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.katex-display {
+  margin: 10px 0 !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* Interactive Visualization */
+.visualization-container {
+  width: 100%;
+  height: 400px;
+  background: rgba(10, 10, 26, 0.8);
+  border-radius: 15px;
+  border: 2px solid rgba(0, 255, 157, 0.3);
+  margin: 40px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.viz-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  z-index: 10;
+}
+
+.viz-btn {
+  background: rgba(26, 26, 46, 0.9);
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+  font-weight: 600;
+}
+
+.viz-btn:hover {
+  background: var(--primary);
+  color: var(--bg);
+}
+
+/* Training Simulator */
+.training-simulator {
+  background: rgba(26, 26, 46, 0.9);
+  border-radius: 15px;
+  padding: 30px;
+  margin-top: 40px;
+  border: 2px solid rgba(0, 255, 157, 0.2);
+}
+
+.sim-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  color: var(--primary);
+}
+
+.sim-controls {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.control-label {
+  color: var(--secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.control-slider {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.control-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.sim-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.metric-card {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.metric-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 5px 0;
+}
+
+.metric-label {
+  color: var(--secondary);
+  font-size: 0.9rem;
+}
+
+/* Loss Function Graph */
+.loss-graph {
+  width: 100%;
+  height: 200px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  margin-top: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.graph-line {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: var(--primary);
+  bottom: 50px;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: graph-animate 3s ease-out forwards;
+}
+
+@keyframes graph-animate {
+  to { transform: scaleX(1); }
+}
+
+.graph-point {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--danger);
+  border-radius: 50%;
+  transform: translate(-50%, 50%);
+  animation: point-pulse 2s infinite;
+}
+
+@keyframes point-pulse {
+  0%, 100% { transform: translate(-50%, 50%) scale(1); }
+  50% { transform: translate(-50%, 50%) scale(1.5); }
+}
+
+/* Code Editor */
+.code-editor {
+  background: #1e1e3f;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 25px 0;
+}
+
+.code-header {
+  background: #2d2b55;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+}
+
+.code-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.dot.red { background: #ff5f56; }
+.dot.yellow { background: #ffbd2e; }
+.dot.green { background: #27ca3f; }
+
+.code-content {
+  padding: 20px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #8a8aff;
+  overflow-x: auto;
+}
+
+.code-keyword { color: #ff79c6; }
+.code-function { color: #50fa7b; }
+.code-string { color: #f1fa8c; }
+.code-comment { color: #6272a4; }
+.code-number { color: #bd93f9; }
+
+/* Dataset Visualizer */
+.dataset-viz {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+  margin: 25px 0;
+}
+
+.dataset-item {
+  width: 80px;
+  height: 80px;
+  background: rgba(0, 255, 157, 0.1);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: var(--primary);
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.dataset-item:hover {
+  transform: scale(1.1);
+  background: rgba(0, 255, 157, 0.2);
+}
+
+/* Model Architecture Builder */
+.architecture-builder {
+  width: 100%;
+  min-height: 300px;
+  background: rgba(10, 10, 26, 0.8);
+  border-radius: 15px;
+  border: 2px dashed rgba(0, 255, 157, 0.3);
+  margin: 40px 0;
+  padding: 30px;
+}
+
+.layer-palette {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.layer-type {
+  background: rgba(26, 26, 46, 0.9);
+  border: 2px solid var(--secondary);
+  color: var(--secondary);
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: grab;
+  transition: all 0.3s;
+  font-weight: 600;
+}
+
+.layer-type:hover {
+  background: rgba(0, 183, 255, 0.2);
+  transform: translateY(-3px);
+}
+
+.builder-area {
+  width: 100%;
+  min-height: 200px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border: 2px solid rgba(0, 255, 157, 0.2);
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 26, 0.98);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal.active {
+  display: flex;
+  animation: modal-appear 0.3s;
+}
+
+@keyframes modal-appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: linear-gradient(135deg, var(--card), var(--dark));
+  padding: 40px;
+  border-radius: 20px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 3px solid var(--primary);
+  box-shadow: 0 0 60px rgba(0, 255, 157, 0.5);
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  color: var(--primary);
+}
+
+.close-modal {
+  background: rgba(0, 255, 157, 0.1);
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 1.5rem;
+}
+
+.close-modal:hover {
+  background: var(--primary);
+  color: var(--bg);
+  transform: rotate(90deg);
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  text-align: center;
+  padding: 50px 8%;
+  font-size: 0.9rem;
+  color: #9aa4d1;
+  border-top: 2px solid rgba(0, 255, 157, 0.1);
+  margin-top: 80px;
+  background: rgba(10, 10, 26, 0.8);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 25px 0;
+}
+
+.footer-link {
+  color: var(--secondary);
+  text-decoration: none;
+  transition: color 0.3s;
+  font-weight: 500;
+}
+
+.footer-link:hover {
+  color: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .hero h1 {
+    font-size: 2.8rem;
+  }
+  
+  .progress-dashboard {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .sim-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  nav {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .nav-links {
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .hero {
+    padding: 100px 5% 50px;
+  }
+  
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  
+  .nn-visualization {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .nn-layer {
+    flex-direction: row;
+    margin: 15px 0;
+  }
+  
+  .layer-label {
+    margin-bottom: 0;
+    margin-right: 15px;
+    min-width: 80px;
+  }
+  
+  section {
+    padding: 50px 5%;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .progress-dashboard {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Animated Background -->
+<div class="nn-background" id="nnBackground"></div>
+<div class="data-flow" id="dataFlow"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <i class="fas fa-brain"></i>
+    BTech LMS | Deep Learning
+  </div>
+  <div class="nav-links">
+    <a href="#fundamentals" class="nav-link">Fundamentals</a>
+    <a href="#networks" class="nav-link">Neural Networks</a>
+    <a href="#architectures" class="nav-link">Architectures</a>
+    <a href="#training" class="nav-link">Training</a>
+    <a href="#applications" class="nav-link">Applications</a>
+    <a href="#qna" class="nav-link">Q&A</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <h1 class="animate__animated animate__fadeInDown">Deep Learning Engineering</h1>
+    <p class="animate__animated animate__fadeInUp">Master artificial neural networks, backpropagation, convolutional networks, transformers, and state-of-the-art AI models with interactive visualizations and practical implementations.</p>
+    
+    <!-- Neural Network Visualization -->
+    <div class="nn-visualization animate__animated animate__fadeInUp">
+      <div class="nn-layer">
+        <div class="layer-label">Input Layer</div>
+        <div class="nn-neuron" onmouseover="activateNeuron(this)" onmouseout="deactivateNeuron(this)">x₁</div>
+        <div class="nn-neuron" onmouseover="activateNeuron(this)" onmouseout="deactivateNeuron(this)">x₂</div>
+        <div class="nn-neuron" onmouseover="activateNeuron(this)" onmouseout="deactivateNeuron(this)">x₃</div>
+      </div>
+      
+      <div class="nn-layer">
+        <div class="layer-label">Hidden Layer 1</div>
+        <div class="nn-neuron" onmouseover="activateNeuron(this)" onmouseout="deactivateNeuron(this)">h₁</div>
+        <div class="nn-neuron" onmouseover="activateNeuron(this)" onmouseout="deactivateNeuron(this)">h₂</div>
+        <div class="nn-neuron" onmouseover="activateNeuron(this)" onmouseout="deactivateNeuron(this)">h₃</div>
+        <div class="nn-neuron" onmouseover="activateNeuron(this)" onmouseout="deactivateNeuron(this)">h₄</div>
+      </div>
+      
+      <div class="nn-layer">
+        <div class="layer-label">Hidden Layer 2</div>
+        <div class="nn-neuron" onmouseover="activateNeuron(this)" onmouseout="deactivateNeuron(this)">h₅</div>
+        <div class="nn-neuron" onmouseover="activateNeuron(this)" onmouseout="deactivateNeuron(this)">h₆</div>
+      </div>
+      
+      <div class="nn-layer">
+        <div class="layer-label">Output Layer</div>
+        <div class="nn-neuron" onmouseover="activateNeuron(this)" onmouseout="deactivateNeuron(this)">ŷ</div>
+      </div>
+    </div>
+    
+    <!-- Progress Dashboard -->
+    <div class="progress-dashboard animate__animated animate__fadeInUp">
+      <div class="progress-item">
+        <div class="progress-icon">
+          <i class="fas fa-neuron"></i>
+        </div>
+        <div class="progress-value">85%</div>
+        <div>NN Fundamentals</div>
+      </div>
+      
+      <div class="progress-item">
+        <div class="progress-icon">
+          <i class="fas fa-project-diagram"></i>
+        </div>
+        <div class="progress-value">62%</div>
+        <div>CNN & RNN</div>
+      </div>
+      
+      <div class="progress-item">
+        <div class="progress-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="progress-value">45%</div>
+        <div>Transformers</div>
+      </div>
+      
+      <div class="progress-item">
+        <div class="progress-icon">
+          <i class="fas fa-robot"></i>
+        </div>
+        <div class="progress-value">30%</div>
+        <div>Advanced Topics</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FUNDAMENTALS SECTION -->
+<section id="fundamentals">
+  <div class="section-title">
+    <i class="fas fa-atom"></i>
+    <h2>🧠 Deep Learning Fundamentals</h2>
+  </div>
+  
+  <div class="grid">
+    <!-- Unit 1 -->
+    <div class="card">
+      <div class="unit-badge">Unit 1</div>
+      <h3><i class="fas fa-cube"></i> Introduction & Basics</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> History of Deep Learning</li>
+        <li><i class="fas fa-check-circle"></i> Biological vs Artificial Neurons</li>
+        <li><i class="fas fa-check-circle"></i> Perceptron & Activation Functions</li>
+        <li><i class="fas fa-check-circle"></i> Forward Propagation</li>
+        <li><i class="fas fa-check-circle"></i> Loss Functions & Metrics</li>
+      </ul>
+      
+      <!-- Important Q&A -->
+      <div class="qa-card" onclick="toggleAnswer('q1')">
+        <div class="qa-question">
+          <i class="fas fa-question-circle"></i> Q1: What is the difference between AI, ML, and DL?
+        </div>
+        <div class="qa-answer" id="q1">
+          <p><strong>AI (Artificial Intelligence):</strong> Broad field of creating intelligent machines.</p>
+          <p><strong>ML (Machine Learning):</strong> Subset of AI that enables machines to learn from data without explicit programming.</p>
+          <p><strong>DL (Deep Learning):</strong> Subset of ML using neural networks with multiple layers to learn representations of data.</p>
+          <div class="qa-meta">
+            <span><i class="fas fa-star"></i> Important Concept</span>
+            <span><i class="fas fa-clock"></i> 5 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Unit 2 -->
+    <div class="card">
+      <div class="unit-badge">Unit 2</div>
+      <h3><i class="fas fa-sitemap"></i> Neural Network Mathematics</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Linear Algebra for DL</li>
+        <li><i class="fas fa-check-circle"></i> Calculus & Gradients</li>
+        <li><i class="fas fa-check-circle"></i> Backpropagation Algorithm</li>
+        <li><i class="fas fa-check-circle"></i> Chain Rule Application</li>
+        <li><i class="fas fa-check-circle"></i> Computational Graphs</li>
+      </ul>
+      
+      <!-- Math Formula -->
+      <div class="math-formula">
+        <div class="formula-title">Backpropagation Update Rule</div>
+        <div class="katex-display">
+          \[
+          w_{ij}^{(l)} = w_{ij}^{(l)} - \eta \frac{\partial \mathcal{L}}{\partial w_{ij}^{(l)}}
+          \]
+        </div>
+        <div style="color: #cbd5f5; font-size: 0.9rem; margin-top: 10px;">
+          Where η is learning rate, ℒ is loss function, w are weights
+        </div>
+      </div>
+    </div>
+    
+    <!-- Unit 3 -->
+    <div class="card">
+      <div class="unit-badge">Unit 3</div>
+      <h3><i class="fas fa-chart-line"></i> Optimization Algorithms</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Gradient Descent Variants</li>
+        <li><i class="fas fa-check-circle"></i> Momentum & Nesterov Accelerated GD</li>
+        <li><i class="fas fa-check-circle"></i> RMSprop & Adam Optimizer</li>
+        <li><i class="fas fa-check-circle"></i> Learning Rate Scheduling</li>
+        <li><i class="fas fa-check-circle"></i> Regularization Techniques</li>
+      </ul>
+      
+      <!-- Important Q&A -->
+      <div class="qa-card" onclick="toggleAnswer('q2')">
+        <div class="qa-question">
+          <i class="fas fa-question-circle"></i> Q2: Compare Batch, Mini-batch, and Stochastic GD
+        </div>
+        <div class="qa-answer" id="q2">
+          <p><strong>Batch GD:</strong> Uses entire dataset for each update. Stable convergence but slow for large datasets.</p>
+          <p><strong>Mini-batch GD:</strong> Uses small random subsets. Best trade-off between speed and stability.</p>
+          <p><strong>Stochastic GD:</strong> Uses single sample per update. Fast but noisy convergence.</p>
+          <div class="qa-meta">
+            <span><i class="fas fa-star"></i> Frequently Asked</span>
+            <span><i class="fas fa-clock"></i> 3 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Interactive Gradient Descent Visualization -->
+  <div class="visualization-container">
+    <div style="position: absolute; top: 20px; left: 20px; color: var(--primary); font-weight: 600;">
+      Gradient Descent Visualization
+    </div>
+    <div style="position: absolute; top: 20px; right: 20px;">
+      <select class="viz-btn" style="background: rgba(26,26,46,0.9);" onchange="changeOptimizer(this.value)">
+        <option value="gd">Gradient Descent</option>
+        <option value="momentum">Momentum</option>
+        <option value="adam">Adam</option>
+      </select>
+    </div>
+    <div style="display: flex; height: 100%; align-items: center; justify-content: center;">
+      <div style="text-align: center; color: var(--secondary);">
+        <i class="fas fa-chart-line" style="font-size: 4rem; margin-bottom: 20px;"></i>
+        <h3>Loss Surface Optimization</h3>
+        <p>Visualizing optimization algorithms finding minima</p>
+        <div class="viz-controls">
+          <button class="viz-btn" onclick="startOptimization()">
+            <i class="fas fa-play"></i> Start Optimization
+          </button>
+          <button class="viz-btn" onclick="resetOptimization()">
+            <i class="fas fa-redo"></i> Reset
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEURAL NETWORKS SECTION -->
+<section id="networks">
+  <div class="section-title">
+    <i class="fas fa-project-diagram"></i>
+    <h2>⚡ Neural Network Architectures</h2>
+  </div>
+  
+  <div class="grid">
+    <!-- Unit 4 -->
+    <div class="card">
+      <div class="unit-badge">Unit 4</div>
+      <h3><i class="fas fa-layer-group"></i> Multi-Layer Perceptrons</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Architecture Design</li>
+        <li><i class="fas fa-check-circle"></i> Activation Functions (ReLU, Sigmoid, Tanh)</li>
+        <li><i class="fas fa-check-circle"></i> Weight Initialization</li>
+        <li><i class="fas fa-check-circle"></i> Vanishing/Exploding Gradients</li>
+        <li><i class="fas fa-check-circle"></i> Batch Normalization</li>
+      </ul>
+      
+      <!-- Code Example -->
+      <div class="code-editor">
+        <div class="code-header">
+          <div class="code-dots">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+          </div>
+          <span>mlp.py</span>
+        </div>
+        <div class="code-content">
+          <span class="code-keyword">import</span> tensorflow <span class="code-keyword">as</span> tf<br>
+          <br>
+          <span class="code-keyword">def</span> <span class="code-function">create_mlp</span>():<br>
+          &nbsp;&nbsp;model = tf.keras.Sequential([<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;tf.keras.layers.Dense(128, <span class="code-string">'relu'</span>),<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;tf.keras.layers.BatchNormalization(),<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;tf.keras.layers.Dropout(0.3),<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;tf.keras.layers.Dense(64, <span class="code-string">'relu'</span>),<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;tf.keras.layers.Dense(10, <span class="code-string">'softmax'</span>)<br>
+          &nbsp;&nbsp;])<br>
+          &nbsp;&nbsp;<span class="code-keyword">return</span> model
+        </div>
+      </div>
+    </div>
+    
+    <!-- Unit 5 -->
+    <div class="card">
+      <div class="unit-badge">Unit 5</div>
+      <h3><i class="fas fa-eye"></i> Convolutional Neural Networks</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Convolution Operations</li>
+        <li><i class="fas fa-check-circle"></i> Pooling Layers</li>
+        <li><i class="fas fa-check-circle"></i> CNN Architectures (LeNet, AlexNet)</li>
+        <li><i class="fas fa-check-circle"></i> Transfer Learning</li>
+        <li><i class="fas fa-check-circle"></i> Object Detection</li>
+      </ul>
+      
+      <!-- Important Q&A -->
+      <div class="qa-card" onclick="toggleAnswer('q3')">
+        <div class="qa-question">
+          <i class="fas fa-question-circle"></i> Q3: What are the advantages of CNNs over MLPs for image data?
+        </div>
+        <div class="qa-answer" id="q3">
+          <p><strong>1. Parameter Sharing:</strong> Same filter used across image reduces parameters.</p>
+          <p><strong>2. Translation Invariance:</strong> Can detect patterns anywhere in image.</p>
+          <p><strong>3. Hierarchical Features:</strong> Learns edges → textures → objects.</p>
+          <p><strong>4. Spatial Hierarchy:</strong> Preserves spatial relationships.</p>
+          <div class="qa-meta">
+            <span><i class="fas fa-star"></i> Exam Favorite</span>
+            <span><i class="fas fa-clock"></i> 4 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Unit 6 -->
+    <div class="card">
+      <div class="unit-badge">Unit 6</div>
+      <h3><i class="fas fa-history"></i> Recurrent Neural Networks</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Sequence Modeling</li>
+        <li><i class="fas fa-check-circle"></i> LSTM & GRU Architecture</li>
+        <li><i class="fas fa-check-circle"></i> Bidirectional RNNs</li>
+        <li><i class="fas fa-check-circle"></i> Attention Mechanism</li>
+        <li><i class="fas fa-check-circle"></i> Seq2Seq Models</li>
+      </ul>
+      
+      <!-- Math Formula -->
+      <div class="math-formula">
+        <div class="formula-title">LSTM Cell Equations</div>
+        <div class="katex-display" style="font-size: 0.9rem;">
+          \[
+          \begin{aligned}
+          f_t &= \sigma(W_f \cdot [h_{t-1}, x_t] + b_f) \\
+          i_t &= \sigma(W_i \cdot [h_{t-1}, x_t] + b_i) \\
+          \tilde{C}_t &= \tanh(W_C \cdot [h_{t-1}, x_t] + b_C) \\
+          C_t &= f_t * C_{t-1} + i_t * \tilde{C}_t \\
+          o_t &= \sigma(W_o \cdot [h_{t-1}, x_t] + b_o) \\
+          h_t &= o_t * \tanh(C_t)
+          \end{aligned}
+          \]
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Dataset Visualizer -->
+  <div class="visualization-container">
+    <div style="position: absolute; top: 20px; left: 20px; color: var(--primary); font-weight: 600;">
+      MNIST Dataset Visualization
+    </div>
+    <div class="dataset-viz" style="position: absolute; top: 60px; left: 20px; right: 20px; bottom: 20px;">
+      <div class="dataset-item">0</div>
+      <div class="dataset-item">1</div>
+      <div class="dataset-item">2</div>
+      <div class="dataset-item">3</div>
+      <div class="dataset-item">4</div>
+      <div class="dataset-item">5</div>
+      <div class="dataset-item">6</div>
+      <div class="dataset-item">7</div>
+      <div class="dataset-item">8</div>
+      <div class="dataset-item">9</div>
+      <div class="dataset-item">0</div>
+      <div class="dataset-item">1</div>
+      <div class="dataset-item">2</div>
+      <div class="dataset-item">3</div>
+      <div class="dataset-item">4</div>
+      <div class="dataset-item">5</div>
+      <div class="dataset-item">6</div>
+      <div class="dataset-item">7</div>
+    </div>
+  </div>
+</section>
+
+<!-- ADVANCED ARCHITECTURES -->
+<section id="architectures">
+  <div class="section-title">
+    <i class="fas fa-robot"></i>
+    <h2>🚀 Advanced Architectures</h2>
+  </div>
+  
+  <div class="grid">
+    <!-- Unit 7 -->
+    <div class="card">
+      <div class="unit-badge">Unit 7</div>
+      <h3><i class="fas fa-exchange-alt"></i> Transformers & Attention</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Self-Attention Mechanism</li>
+        <li><i class="fas fa-check-circle"></i> Multi-Head Attention</li>
+        <li><i class="fas fa-check-circle"></i> Positional Encoding</li>
+        <li><i class="fas fa-check-circle"></i> Encoder-Decoder Architecture</li>
+        <li><i class="fas fa-check-circle"></i> BERT & GPT Models</li>
+      </ul>
+      
+      <!-- Important Q&A -->
+      <div class="qa-card" onclick="toggleAnswer('q4')">
+        <div class="qa-question">
+          <i class="fas fa-question-circle"></i> Q4: Why do transformers outperform RNNs for NLP?
+        </div>
+        <div class="qa-answer" id="q4">
+          <p><strong>1. Parallelization:</strong> Transformers process all tokens simultaneously vs sequential RNNs.</p>
+          <p><strong>2. Long-range Dependencies:</strong> Self-attention captures relationships regardless of distance.</p>
+          <p><strong>3. Gradient Flow:</strong> No vanishing gradient problem in deep networks.</p>
+          <p><strong>4. Context Understanding:</strong> Bidirectional context in BERT vs unidirectional in RNNs.</p>
+          <div class="qa-meta">
+            <span><i class="fas fa-star"></i> Research Focus</span>
+            <span><i class="fas fa-clock"></i> 5 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Unit 8 -->
+    <div class="card">
+      <div class="unit-badge">Unit 8</div>
+      <h3><i class="fas fa-chess-board"></i> Generative Models</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Autoencoders & Variational AE</li>
+        <li><i class="fas fa-check-circle"></i> Generative Adversarial Networks</li>
+        <li><i class="fas fa-check-circle"></i> Diffusion Models</li>
+        <li><i class="fas fa-check-circle"></i> Normalizing Flows</li>
+        <li><i class="fas fa-check-circle"></i> StyleGAN & Stable Diffusion</li>
+      </ul>
+      
+      <!-- Math Formula -->
+      <div class="math-formula">
+        <div class="formula-title">GAN Objective Function</div>
+        <div class="katex-display">
+          \[
+          \min_G \max_D V(D,G) = \mathbb{E}_{x\sim p_{data}}[\log D(x)] + \mathbb{E}_{z\sim p_z}[\log(1-D(G(z)))]
+          \]
+        </div>
+      </div>
+    </div>
+    
+    <!-- Unit 9 -->
+    <div class="card">
+      <div class="unit-badge">Unit 9</div>
+      <h3><i class="fas fa-sitemap"></i> Modern Architectures</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> ResNet & DenseNet</li>
+        <li><i class="fas fa-check-circle"></i> EfficientNet & MobileNet</li>
+        <li><i class="fas fa-check-circle"></i> Vision Transformers</li>
+        <li><i class="fas fa-check-circle"></i> Graph Neural Networks</li>
+        <li><i class="fas fa-check-circle"></i> Neural Architecture Search</li>
+      </ul>
+      
+      <!-- Important Q&A -->
+      <div class="qa-card" onclick="toggleAnswer('q5')">
+        <div class="qa-question">
+          <i class="fas fa-question-circle"></i> Q5: What is the key innovation in ResNet?
+        </div>
+        <div class="qa-answer" id="q5">
+          <p><strong>Residual Connections:</strong> Skip connections that allow gradients to flow directly through layers.</p>
+          <p><strong>Problem Solved:</strong> Vanishing gradients in very deep networks.</p>
+          <p><strong>Key Equation:</strong> \( H(x) = F(x) + x \) where F(x) is residual mapping</p>
+          <p><strong>Impact:</strong> Enabled networks with 100+ layers (ResNet-152).</p>
+          <div class="qa-meta">
+            <span><i class="fas fa-star"></i> Architecture Innovation</span>
+            <span><i class="fas fa-clock"></i> 3 min read</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Model Architecture Builder -->
+  <div class="architecture-builder">
+    <h3 style="color: var(--primary); margin-bottom: 20px; text-align: center;">Neural Network Architecture Builder</h3>
+    <div class="layer-palette">
+      <div class="layer-type" draggable="true" data-type="conv">Conv2D</div>
+      <div class="layer-type" draggable="true" data-type="pool">MaxPool</div>
+      <div class="layer-type" draggable="true" data-type="dense">Dense</div>
+      <div class="layer-type" draggable="true" data-type="dropout">Dropout</div>
+      <div class="layer-type" draggable="true" data-type="batchnorm">BatchNorm</div>
+      <div class="layer-type" draggable="true" data-type="lstm">LSTM</div>
+      <div class="layer-type" draggable="true" data-type="attention">Attention</div>
+    </div>
+    <div class="builder-area" id="builderArea">
+      <p style="color: rgba(255,255,255,0.5);">Drag and drop layers to build your model</p>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+      <button class="viz-btn" onclick="exportModel()">
+        <i class="fas fa-code"></i> Generate Model Code
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- TRAINING SECTION -->
+<section id="training">
+  <div class="section-title">
+    <i class="fas fa-graduation-cap"></i>
+    <h2>🎯 Training & Optimization</h2>
+  </div>
+  
+  <div class="training-simulator">
+    <div class="sim-header">
+      <i class="fas fa-chart-line"></i>
+      <h3>Neural Network Training Simulator</h3>
+    </div>
+    
+    <div class="sim-controls">
+      <div class="control-group">
+        <label class="control-label">Learning Rate</label>
+        <input type="range" class="control-slider" id="lrSlider" min="-4" max="0" step="0.1" value="-2" oninput="updateLR(this.value)">
+        <div id="lrValue" style="color: var(--primary);">0.01</div>
+      </div>
+      
+      <div class="control-group">
+        <label class="control-label">Batch Size</label>
+        <input type="range" class="control-slider" id="batchSlider" min="1" max="128" step="1" value="32" oninput="updateBatch(this.value)">
+        <div id="batchValue" style="color: var(--primary);">32</div>
+      </div>
+      
+      <div class="control-group">
+        <label class="control-label">Epochs</label>
+        <input type="range" class="control-slider" id="epochSlider" min="1" max="100" step="1" value="20" oninput="updateEpochs(this.value)">
+        <div id="epochValue" style="color: var(--primary);">20</div>
+      </div>
+    </div>
+    
+    <div class="viz-controls">
+      <button class="viz-btn" onclick="startTraining()">
+        <i class="fas fa-play"></i> Start Training
+      </button>
+      <button class="viz-btn" onclick="pauseTraining()">
+        <i class="fas fa-pause"></i> Pause
+      </button>
+      <button class="viz-btn" onclick="resetTraining()">
+        <i class="fas fa-redo"></i> Reset
+      </button>
+    </div>
+    
+    <!-- Loss Graph -->
+    <div class="loss-graph">
+      <div class="graph-line" id="lossCurve"></div>
+      <div class="graph-point" style="left: 10%; bottom: 30%;"></div>
+      <div class="graph-point" style="left: 30%; bottom: 40%;"></div>
+      <div class="graph-point" style="left: 50%; bottom: 60%;"></div>
+      <div class="graph-point" style="left: 70%; bottom: 70%;"></div>
+      <div class="graph-point" style="left: 90%; bottom: 80%;"></div>
+    </div>
+    
+    <div class="sim-metrics">
+      <div class="metric-card">
+        <div class="metric-label">Training Loss</div>
+        <div class="metric-value" id="trainLoss">0.854</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Validation Loss</div>
+        <div class="metric-value" id="valLoss">0.921</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Accuracy</div>
+        <div class="metric-value" id="accuracy">89.2%</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Time/Epoch</div>
+        <div class="metric-value" id="timeEpoch">2.1s</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="grid" style="margin-top: 50px;">
+    <!-- Unit 10 -->
+    <div class="card">
+      <div class="unit-badge">Unit 10</div>
+      <h3><i class="fas fa-tools"></i> Training Techniques</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Early Stopping</li>
+        <li><i class="fas fa-check-circle"></i> Learning Rate Decay</li>
+        <li><i class="fas fa-check-circle"></i> Gradient Clipping</li>
+        <li><i class="fas fa-check-circle"></i> Weight Decay</li>
+        <li><i class="fas fa-check-circle"></i> Label Smoothing</li>
+      </ul>
+    </div>
+    
+    <!-- Unit 11 -->
+    <div class="card">
+      <div class="unit-badge">Unit 11</div>
+      <h3><i class="fas fa-vial"></i> Evaluation & Debugging</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Train/Val/Test Split</li>
+        <li><i class="fas fa-check-circle"></i> Cross-Validation</li>
+        <li><i class="fas fa-check-circle"></i> Overfitting Detection</li>
+        <li><i class="fas fa-check-circle"></i> Gradient Checking</li>
+        <li><i class="fas fa-check-circle"></i> Model Interpretation</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- APPLICATIONS SECTION -->
+<section id="applications">
+  <div class="section-title">
+    <i class="fas fa-rocket"></i>
+    <h2>🌍 Real-World Applications</h2>
+  </div>
+  
+  <div class="grid">
+    <div class="card">
+      <h3><i class="fas fa-language"></i> Natural Language Processing</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Text Classification</li>
+        <li><i class="fas fa-check-circle"></i> Machine Translation</li>
+        <li><i class="fas fa-check-circle"></i> Named Entity Recognition</li>
+        <li><i class="fas fa-check-circle"></i> Sentiment Analysis</li>
+        <li><i class="fas fa-check-circle"></i> Question Answering</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3><i class="fas fa-eye"></i> Computer Vision</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Image Classification</li>
+        <li><i class="fas fa-check-circle"></i> Object Detection</li>
+        <li><i class="fas fa-check-circle"></i> Image Segmentation</li>
+        <li><i class="fas fa-check-circle"></i> Face Recognition</li>
+        <li><i class="fas fa-check-circle"></i> Medical Imaging</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3><i class="fas fa-chart-bar"></i> Time Series & Forecasting</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Stock Prediction</li>
+        <li><i class="fas fa-check-circle"></i> Weather Forecasting</li>
+        <li><i class="fas fa-check-circle"></i> Anomaly Detection</li>
+        <li><i class="fas fa-check-circle"></i> Demand Forecasting</li>
+        <li><i class="fas fa-check-circle"></i> Predictive Maintenance</li>
+      </ul>
+    </div>
+    
+    <div class="card">
+      <h3><i class="fas fa-robot"></i> Reinforcement Learning</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Game Playing (AlphaGo)</li>
+        <li><i class="fas fa-check-circle"></i> Robotics Control</li>
+        <li><i class="fas fa-check-circle"></i> Autonomous Driving</li>
+        <li><i class="fas fa-check-circle"></i> Resource Management</li>
+        <li><i class="fas fa-check-circle"></i> Recommendation Systems</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Q&A SECTION -->
+<section id="qna">
+  <div class="section-title">
+    <i class="fas fa-question-circle"></i>
+    <h2>❓ Important Questions & Answers</h2>
+  </div>
+  
+  <div class="grid">
+    <!-- Fundamental Q&A -->
+    <div class="card qa-card" onclick="toggleAnswer('q6')">
+      <h3><i class="fas fa-brain"></i> Fundamentals</h3>
+      <div class="qa-question">
+        Q6: Explain the bias-variance tradeoff in deep learning
+      </div>
+      <div class="qa-answer" id="q6">
+        <p><strong>Bias:</strong> Error from erroneous assumptions in learning algorithm. High bias causes underfitting.</p>
+        <p><strong>Variance:</strong> Error from sensitivity to small fluctuations in training set. High variance causes overfitting.</p>
+        <p><strong>Tradeoff:</strong> As model complexity increases, bias decreases but variance increases.</p>
+        <p><strong>DL Solution:</strong> Large networks have low bias; regularization controls variance.</p>
+        <div class="qa-meta">
+          <span><i class="fas fa-star"></i> Core Concept</span>
+          <span><i class="fas fa-clock"></i> 4 min read</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- CNN Q&A -->
+    <div class="card qa-card" onclick="toggleAnswer('q7')">
+      <h3><i class="fas fa-eye"></i> CNN Questions</h3>
+      <div class="qa-question">
+        Q7: What is the purpose of padding in convolutional layers?
+      </div>
+      <div class="qa-answer" id="q7">
+        <p><strong>1. Size Preservation:</strong> 'Same' padding maintains input spatial dimensions.</p>
+        <p><strong>2. Border Information:</strong> Prevents loss of information at edges.</p>
+        <p><strong>3. Kernel Application:</strong> Allows kernel to be applied to border pixels.</p>
+        <p><strong>4. Control Output Size:</strong> Controls output feature map dimensions.</p>
+        <div class="qa-meta">
+          <span><i class="fas fa-star"></i> Technical Detail</span>
+          <span><i class="fas fa-clock"></i> 2 min read</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- RNN Q&A -->
+    <div class="card qa-card" onclick="toggleAnswer('q8')">
+      <h3><i class="fas fa-history"></i> RNN Questions</h3>
+      <div class="qa-question">
+        Q8: How does LSTM solve vanishing gradient problem?
+      </div>
+      <div class="qa-answer" id="q8">
+        <p><strong>1. Cell State:</strong> Constant error carousel allows gradient flow.</p>
+        <p><strong>2. Gates:</strong> Forget gate controls what to remember/forget.</p>
+        <p><strong>3. Additive Updates:</strong> Gradient doesn't vanish through addition.</p>
+        <p><strong>4. Selective Memory:</strong> Learns what information to preserve.</p>
+        <div class="qa-meta">
+          <span><i class="fas fa-star"></i> Architecture Detail</span>
+          <span><i class="fas fa-clock"></i> 3 min read</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Training Q&A -->
+    <div class="card qa-card" onclick="toggleAnswer('q9')">
+      <h3><i class="fas fa-graduation-cap"></i> Training Questions</h3>
+      <div class="qa-question">
+        Q9: Compare Adam vs SGD with momentum
+      </div>
+      <div class="qa-answer" id="q9">
+        <p><strong>Adam:</strong> Adaptive learning rates per parameter, combines momentum and RMSprop.</p>
+        <p><strong>SGD+Momentum:</strong> Fixed learning rate with velocity accumulation.</p>
+        <p><strong>When to use Adam:</strong> Default choice for most problems.</p>
+        <p><strong>When to use SGD:</strong> When you need reproducible results or better generalization.</p>
+        <div class="qa-meta">
+          <span><i class="fas fa-star"></i> Practical Choice</span>
+          <span><i class="fas fa-clock"></i> 3 min read</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Transformers Q&A -->
+    <div class="card qa-card" onclick="toggleAnswer('q10')">
+      <h3><i class="fas fa-exchange-alt"></i> Transformer Questions</h3>
+      <div class="qa-question">
+        Q10: What is self-attention and how is it calculated?
+      </div>
+      <div class="qa-answer" id="q10">
+        <p><strong>Definition:</strong> Mechanism to compute representation of sequence by attending to all positions.</p>
+        <p><strong>Calculation:</strong> \( \text{Attention}(Q,K,V) = \text{softmax}(\frac{QK^T}{\sqrt{d_k}})V \)</p>
+        <p><strong>Q, K, V:</strong> Query, Key, Value matrices from input.</p>
+        <p><strong>Scale factor:</strong> \( \sqrt{d_k} \) prevents small gradients.</p>
+        <div class="qa-meta">
+          <span><i class="fas fa-star"></i> Key Mechanism</span>
+          <span><i class="fas fa-clock"></i> 4 min read</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Ethics Q&A -->
+    <div class="card qa-card" onclick="toggleAnswer('q11')">
+      <h3><i class="fas fa-balance-scale"></i> Ethics & Limitations</h3>
+      <div class="qa-question">
+        Q11: What are major limitations of current DL?
+      </div>
+      <div class="qa-answer" id="q11">
+        <p><strong>1. Data Hungry:</strong> Requires large labeled datasets.</p>
+        <p><strong>2. Black Box:</strong> Lack of interpretability.</p>
+        <p><strong>3. Computationally Expensive:</strong> High GPU requirements.</p>
+        <p><strong>4. Brittle:</strong> Vulnerable to adversarial attacks.</p>
+        <p><strong>5. Bias Amplification:</strong> Can amplify societal biases.</p>
+        <div class="qa-meta">
+          <span><i class="fas fa-star"></i> Critical Thinking</span>
+          <span><i class="fas fa-clock"></i> 5 min read</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Simulation Modal -->
+<div class="modal" id="simModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="simTitle">Deep Learning Simulation</h2>
+      <button class="close-modal" onclick="closeModal()">&times;</button>
+    </div>
+    <div id="simContent">
+      <!-- Simulation content will be loaded here -->
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-content">
+    <p>© 2025 BTech LMS | Deep Learning Engineering</p>
+    <p style="margin: 20px 0; font-size: 0.95rem; color: #cbd5f5;">
+      Comprehensive platform covering neural networks, deep architectures, training techniques, and real-world applications with interactive visualizations
+    </p>
+    <div class="footer-links">
+      <a href="#" class="footer-link">Research Papers</a>
+      <a href="#" class="footer-link">Code Examples</a>
+      <a href="#" class="footer-link">Datasets</a>
+      <a href="#" class="footer-link">Projects</a>
+      <a href="#" class="footer-link">Career Paths</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+<script>
+// Create neural network background
+function createNNBackground() {
+  const container = document.getElementById('nnBackground');
+  const nodeCount = 50;
+  const nodes = [];
+  
+  // Create nodes
+  for (let i = 0; i < nodeCount; i++) {
+    const node = document.createElement('div');
+    node.className = 'nn-node';
+    
+    // Random position
+    const x = Math.random() * 100;
+    const y = Math.random() * 100;
+    node.style.left = `${x}%`;
+    node.style.top = `${y}%`;
+    
+    // Random animation delay
+    node.style.animationDelay = `${Math.random() * 3}s`;
+    
+    container.appendChild(node);
+    nodes.push({x, y, element: node});
+  }
+  
+  // Create connections
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      
+      // Only connect nearby nodes
+      if (distance < 20) {
+        const line = document.createElement('div');
+        line.className = 'nn-connection';
+        
+        const length = distance;
+        const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+        
+        line.style.width = `${length}%`;
+        line.style.left = `${Math.min(nodes[i].x, nodes[j].x)}%`;
+        line.style.top = `${Math.min(nodes[i].y, nodes[j].y)}%`;
+        line.style.transform = `rotate(${angle}deg)`;
+        line.style.opacity = 0.05 + (0.15 * (1 - distance/20));
+        
+        container.appendChild(line);
+      }
+    }
+  }
+}
+
+// Create data flow particles
+function createDataFlow() {
+  const container = document.getElementById('dataFlow');
+  const particleCount = 30;
+  
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'data-particle';
+    
+    // Random vertical position
+    const y = Math.random() * 100;
+    particle.style.top = `${y}%`;
+    
+    // Random delay and duration
+    const delay = Math.random() * 10;
+    const duration = 8 + Math.random() * 8;
+    
+    particle.style.animationDelay = `${delay}s`;
+    particle.style.animationDuration = `${duration}s`;
+    
+    container.appendChild(particle);
+  }
+}
+
+// Neuron interaction
+function activateNeuron(neuron) {
+  neuron.classList.add('active');
+}
+
+function deactivateNeuron(neuron) {
+  neuron.classList.remove('active');
+}
+
+// Toggle Q&A answers
+function toggleAnswer(id) {
+  const answer = document.getElementById(id);
+  answer.classList.toggle('active');
+}
+
+// Training simulator controls
+function updateLR(value) {
+  const lr = Math.pow(10, parseFloat(value));
+  document.getElementById('lrValue').textContent = lr.toExponential(2);
+}
+
+function updateBatch(value) {
+  document.getElementById('batchValue').textContent = value;
+}
+
+function updateEpochs(value) {
+  document.getElementById('epochValue').textContent = value;
+}
+
+function startTraining() {
+  const lossCurve = document.getElementById('lossCurve');
+  lossCurve.style.animation = 'graph-animate 3s ease-out forwards';
+  
+  // Simulate training updates
+  let epoch = 0;
+  const maxEpochs = parseInt(document.getElementById('epochValue').textContent);
+  const interval = setInterval(() => {
+    epoch++;
+    
+    // Update metrics
+    const trainLoss = (0.8 * Math.exp(-epoch/10) + 0.2 * Math.random()).toFixed(3);
+    const valLoss = (0.85 * Math.exp(-epoch/10) + 0.25 * Math.random()).toFixed(3);
+    const accuracy = (90 + 5 * (1 - Math.exp(-epoch/5)) + 2 * Math.random()).toFixed(1);
+    
+    document.getElementById('trainLoss').textContent = trainLoss;
+    document.getElementById('valLoss').textContent = valLoss;
+    document.getElementById('accuracy').textContent = `${accuracy}%`;
+    
+    if (epoch >= maxEpochs) {
+      clearInterval(interval);
+      document.getElementById('timeEpoch').textContent = 'Complete';
+    }
+  }, 500);
+  
+  // Store interval ID for pause functionality
+  window.trainingInterval = interval;
+}
+
+function pauseTraining() {
+  if (window.trainingInterval) {
+    clearInterval(window.trainingInterval);
+    const lossCurve = document.getElementById('lossCurve');
+    lossCurve.style.animationPlayState = 'paused';
+  }
+}
+
+function resetTraining() {
+  if (window.trainingInterval) {
+    clearInterval(window.trainingInterval);
+  }
+  
+  const lossCurve = document.getElementById('lossCurve');
+  lossCurve.style.animation = 'none';
+  
+  // Reset metrics
+  document.getElementById('trainLoss').textContent = '0.854';
+  document.getElementById('valLoss').textContent = '0.921';
+  document.getElementById('accuracy').textContent = '89.2%';
+  document.getElementById('timeEpoch').textContent = '2.1s';
+  
+  // Trigger reflow
+  setTimeout(() => {
+    lossCurve.style.animation = '';
+  }, 10);
+}
+
+// Architecture builder
+function setupArchitectureBuilder() {
+  const layers = document.querySelectorAll('.layer-type');
+  const builderArea = document.getElementById('builderArea');
+  
+  layers.forEach(layer => {
+    layer.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', layer.dataset.type);
+      layer.style.opacity = '0.5';
+    });
+    
+    layer.addEventListener('dragend', () => {
+      layer.style.opacity = '1';
+    });
+  });
+  
+  builderArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    builderArea.style.borderColor = 'var(--primary)';
+    builderArea.style.backgroundColor = 'rgba(0, 255, 157, 0.05)';
+  });
+  
+  builderArea.addEventListener('dragleave', () => {
+    builderArea.style.borderColor = 'rgba(0, 255, 157, 0.2)';
+    builderArea.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+  });
+  
+  builderArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const layerType = e.dataTransfer.getData('text/plain');
+    
+    // Remove placeholder text
+    const placeholder = builderArea.querySelector('p');
+    if (placeholder) {
+      placeholder.remove();
+    }
+    
+    // Create layer visualization
+    const layerViz = document.createElement('div');
+    layerViz.className = 'layer-type';
+    layerViz.textContent = layerType;
+    layerViz.style.cursor = 'default';
+    layerViz.style.margin = '5px';
+    layerViz.style.opacity = '1';
+    
+    builderArea.appendChild(layerViz);
+    
+    builderArea.style.borderColor = 'rgba(0, 255, 157, 0.2)';
+    builderArea.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+  });
+}
+
+function exportModel() {
+  const layers = Array.from(document.querySelectorAll('#builderArea .layer-type'));
+  if (layers.length === 0) {
+    alert('Add layers first to generate code!');
+    return;
+  }
+  
+  let code = 'import tensorflow as tf\n\n';
+  code += 'model = tf.keras.Sequential([\n';
+  
+  layers.forEach((layer, index) => {
+    const type = layer.textContent;
+    let codeLine = '';
+    
+    switch(type) {
+      case 'Conv2D':
+        codeLine = '    tf.keras.layers.Conv2D(32, (3,3), activation="relu")';
+        break;
+      case 'MaxPool':
+        codeLine = '    tf.keras.layers.MaxPooling2D((2,2))';
+        break;
+      case 'Dense':
+        codeLine = '    tf.keras.layers.Dense(128, activation="relu")';
+        break;
+      case 'Dropout':
+        codeLine = '    tf.keras.layers.Dropout(0.5)';
+        break;
+      case 'BatchNorm':
+        codeLine = '    tf.keras.layers.BatchNormalization()';
+        break;
+      case 'LSTM':
+        codeLine = '    tf.keras.layers.LSTM(64, return_sequences=True)';
+        break;
+      case 'Attention':
+        codeLine = '    # Attention layer implementation here';
+        break;
+      default:
+        codeLine = `    tf.keras.layers.${type}()`;
+    }
+    
+    code += codeLine;
+    if (index < layers.length - 1) code += ',';
+    code += '\n';
+  });
+  
+  code += '])\n\n';
+  code += 'model.compile(optimizer="adam", loss="categorical_crossentropy", metrics=["accuracy"])';
+  
+  const modal = document.getElementById('simModal');
+  const title = document.getElementById('simTitle');
+  const content = document.getElementById('simContent');
+  
+  title.textContent = 'Generated Model Code';
+  content.innerHTML = `
+    <div style="text-align: center;">
+      <h3 style="color: var(--primary); margin-bottom: 20px;">Your Model Architecture</h3>
+      <div class="code-editor">
+        <div class="code-header">
+          <div class="code-dots">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+          </div>
+          <span>generated_model.py</span>
+        </div>
+        <div class="code-content">
+          ${code.replace(/\n/g, '<br>').replace(/ /g, '&nbsp;')}
+        </div>
+      </div>
+      <button class="viz-btn" onclick="copyCode()" style="margin-top: 20px;">
+        <i class="fas fa-copy"></i> Copy Code
+      </button>
+    </div>
+  `;
+  
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function copyCode() {
+  const code = document.querySelector('.code-content').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    alert('Code copied to clipboard!');
+  });
+}
+
+// Gradient descent visualization
+function changeOptimizer(type) {
+  console.log(`Changed optimizer to ${type}`);
+}
+
+function startOptimization() {
+  console.log('Starting optimization visualization');
+}
+
+function resetOptimization() {
+  console.log('Resetting optimization visualization');
+}
+
+// Modal functions
+function closeModal() {
+  const modal = document.getElementById('simModal');
+  modal.classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+// Render KaTeX formulas
+document.addEventListener('DOMContentLoaded', function() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true}
+    ],
+    throwOnError: false
+  });
+});
+
+// Smooth scrolling for navigation
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    
+    const targetId = this.getAttribute('href');
+    if (targetId === '#') return;
+    
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 80,
+        behavior: 'smooth'
+      });
+    }
+  });
+});
+
+// Initialize when page loads
+window.onload = function() {
+  createNNBackground();
+  createDataFlow();
+  setupArchitectureBuilder();
+  
+  // Initialize training simulator
+  updateLR(-2);
+  
+  // Add entrance animations to cards
+  const cards = document.querySelectorAll('.card');
+  cards.forEach((card, index) => {
+    card.style.animationDelay = `${index * 0.1}s`;
+    card.classList.add('animate__animated', 'animate__fadeInUp');
+  });
+};
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+  const modal = document.getElementById('simModal');
+  if (event.target === modal) {
+    closeModal();
+  }
+};
+</script>
+
+</body>
+</html>

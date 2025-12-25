@@ -1,0 +1,2994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fluid Mechanics | BTech LMS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css">
+
+<style>
+:root {
+  --bg: #0a1a2d;
+  --card: #112240;
+  --fluid-blue: #3b82f6;
+  --fluid-green: #10b981;
+  --fluid-purple: #8b5cf6;
+  --fluid-red: #ef4444;
+  --fluid-orange: #f59e0b;
+  --text: #e2e8f0;
+  --text-light: #94a3b8;
+  --gradient: linear-gradient(135deg, var(--fluid-blue), var(--fluid-green));
+  --gradient2: linear-gradient(135deg, var(--fluid-purple), var(--fluid-red));
+  --gradient3: linear-gradient(135deg, var(--fluid-orange), var(--fluid-blue));
+  --flow-glow: 0 0 25px rgba(59, 130, 246, 0.4);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.15), transparent 30%),
+    radial-gradient(circle at 90% 10%, rgba(16, 185, 129, 0.12), transparent 35%),
+    radial-gradient(circle at 50% 90%, rgba(139, 92, 246, 0.08), transparent 40%),
+    linear-gradient(var(--bg), #0d1a2e);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Fluid Flow Animation */
+.fluid-flow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.flow-particle {
+  position: absolute;
+  background: radial-gradient(circle, var(--fluid-blue), transparent);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: flow linear infinite;
+}
+
+@keyframes flow {
+  0% { transform: translateX(-100px) translateY(-100px) scale(0.5); opacity: 0; }
+  10% { opacity: 0.3; }
+  90% { opacity: 0.3; }
+  100% { transform: translateX(100vw) translateY(100vh) scale(1); opacity: 0; }
+}
+
+@keyframes turbulent {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(5px, -5px); }
+  50% { transform: translate(-5px, 10px); }
+  75% { transform: translate(5px, 5px); }
+}
+
+.turbulent {
+  animation: turbulent 3s ease-in-out infinite;
+}
+
+/* NAV */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 18px 40px;
+  background: rgba(10, 26, 45, 0.92);
+  backdrop-filter: blur(15px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: slideDown 0.8s ease-out;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: var(--flow-glow);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo i {
+  font-size: 1.6rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+.nav-link {
+  color: var(--text-light);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 15px;
+  border-radius: 8px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--fluid-blue);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--fluid-blue);
+}
+
+.nav-link:hover::before {
+  width: 100%;
+}
+
+/* Progress bar */
+.progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: transparent;
+  z-index: 101;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--gradient);
+  width: 0%;
+  transition: width 0.1s;
+  box-shadow: 0 0 10px var(--fluid-blue);
+}
+
+/* HERO */
+.hero {
+  padding: 100px 8% 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  left: -100px;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15), transparent 70%);
+  z-index: -1;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  background: linear-gradient(to right, var(--fluid-blue), var(--fluid-green), var(--fluid-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+  animation: float 4s ease-in-out infinite, textGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+  0% { text-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
+  100% { text-shadow: 0 0 30px rgba(59, 130, 246, 0.7), 0 0 50px rgba(16, 185, 129, 0.3); }
+}
+
+.hero p {
+  margin-top: 20px;
+  color: var(--text-light);
+  font-size: 1.3rem;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+  animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+.subject-stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 50px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  background: rgba(17, 34, 64, 0.7);
+  padding: 25px 35px;
+  border-radius: 15px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  backdrop-filter: blur(10px);
+  min-width: 200px;
+  transition: all 0.3s;
+  animation: fadeInUp 1s ease-out 0.5s both;
+  cursor: pointer;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+  border-color: var(--fluid-blue);
+  box-shadow: var(--flow-glow);
+}
+
+.stat-item:nth-child(2) { animation-delay: 0.6s; }
+.stat-item:nth-child(3) { animation-delay: 0.7s; }
+.stat-item:nth-child(4) { animation-delay: 0.8s; }
+.stat-item:nth-child(5) { animation-delay: 0.9s; }
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 1rem;
+  color: var(--text-light);
+  margin-top: 8px;
+}
+
+/* QUICK ACCESS */
+.quick-access {
+  padding: 0 8% 50px;
+}
+
+.quick-access-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.quick-card {
+  background: rgba(17, 34, 64, 0.7);
+  border-radius: 15px;
+  padding: 30px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+  transition: left 0.6s;
+}
+
+.quick-card:hover::before {
+  left: 100%;
+}
+
+.quick-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--fluid-blue);
+  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+}
+
+.quick-card i {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: var(--fluid-blue);
+}
+
+.quick-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+.quick-card p {
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+/* CONTENT */
+section {
+  padding: 70px 8%;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s, transform 0.8s;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section-title {
+  margin-bottom: 50px;
+  font-size: 2rem;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 15px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 4px;
+  background: var(--gradient);
+  border-radius: 2px;
+}
+
+.section-subtitle {
+  color: var(--fluid-green);
+  font-size: 1.3rem;
+  margin: 35px 0 25px;
+  padding-left: 15px;
+  border-left: 4px solid var(--fluid-blue);
+}
+
+/* GRID */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 35px;
+}
+
+.card {
+  background: rgba(17, 34, 64, 0.8);
+  padding: 35px;
+  border-radius: 20px;
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.8s ease-out both;
+}
+
+.card:nth-child(2) { animation-delay: 0.1s; }
+.card:nth-child(3) { animation-delay: 0.2s; }
+.card:nth-child(4) { animation-delay: 0.3s; }
+.card:nth-child(5) { animation-delay: 0.4s; }
+.card:nth-child(6) { animation-delay: 0.5s; }
+.card:nth-child(7) { animation-delay: 0.6s; }
+.card:nth-child(8) { animation-delay: 0.7s; }
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(59, 130, 246, 0.08), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover::after {
+  transform: translateX(100%);
+}
+
+.card:hover {
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(59, 130, 246, 0.25);
+  border-color: var(--fluid-blue);
+}
+
+.card h3 {
+  color: var(--fluid-blue);
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card ul {
+  list-style: none;
+  padding-left: 10px;
+}
+
+.card ul li {
+  padding: 12px 0;
+  color: var(--text-light);
+  position: relative;
+  padding-left: 35px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s;
+}
+
+.card ul li:hover {
+  color: var(--fluid-blue);
+  padding-left: 40px;
+}
+
+.card ul li::before {
+  content: '🌊';
+  position: absolute;
+  left: 0;
+  color: var(--fluid-blue);
+  font-size: 1rem;
+}
+
+/* TOPIC DETAILS MODAL */
+.topic-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 26, 45, 0.96);
+  backdrop-filter: blur(15px);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s, visibility 0.5s;
+}
+
+.topic-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: var(--card);
+  width: 90%;
+  max-width: 1100px;
+  max-height: 90vh;
+  border-radius: 20px;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  overflow: hidden;
+  position: relative;
+  transform: translateY(50px);
+  transition: transform 0.5s;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+}
+
+.topic-modal.active .modal-content {
+  transform: translateY(0);
+}
+
+.modal-header {
+  padding: 30px 35px;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  color: var(--fluid-blue);
+  font-size: 1.8rem;
+}
+
+.close-modal {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: var(--text);
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-modal:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+  color: var(--fluid-blue);
+}
+
+.modal-body {
+  padding: 35px;
+  overflow-y: auto;
+  max-height: calc(90vh - 120px);
+}
+
+.topic-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.topic-points, .topic-formulas, .topic-applications {
+  margin-bottom: 30px;
+}
+
+.topic-points h4, .topic-formulas h4, .topic-applications h4 {
+  color: var(--fluid-green);
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(16, 185, 129, 0.3);
+}
+
+.topic-points ul, .topic-applications ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.topic-points li, .topic-applications li {
+  padding: 10px 0;
+  color: var(--text-light);
+  position: relative;
+  padding-left: 28px;
+}
+
+.topic-points li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--fluid-blue);
+  font-weight: bold;
+}
+
+.formula-box {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  border-radius: 10px;
+  margin: 15px 0;
+  border-left: 4px solid var(--fluid-orange);
+  color: #a3e7ff;
+  overflow-x: auto;
+}
+
+.formula-box .katex {
+  font-size: 1.1rem;
+}
+
+/* FLOW SIMULATION */
+.flow-simulation {
+  margin-top: 40px;
+  background: rgba(17, 34, 64, 0.9);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.simulation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.simulation-header h4 {
+  color: var(--fluid-blue);
+  font-size: 1.4rem;
+}
+
+.simulation-controls {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.flow-canvas-container {
+  width: 100%;
+  height: 400px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+#flowCanvas {
+  width: 100%;
+  height: 100%;
+  cursor: crosshair;
+}
+
+.flow-parameters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.param-control {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.param-control label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-light);
+}
+
+.param-control input[type="range"] {
+  width: 100%;
+  background: rgba(59, 130, 246, 0.2);
+  height: 6px;
+  border-radius: 3px;
+  outline: none;
+}
+
+.param-control .value-display {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5px;
+  font-size: 0.9rem;
+  color: var(--fluid-blue);
+}
+
+/* BERNOULLI'S DEMO */
+.bernoulli-demo {
+  margin-top: 40px;
+  background: rgba(17, 34, 64, 0.9);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.demo-visualization {
+  display: flex;
+  gap: 30px;
+  margin-top: 25px;
+}
+
+.demo-pipe {
+  flex: 1;
+  height: 300px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pipe-section {
+  position: absolute;
+  background: linear-gradient(90deg, #1e40af, #3b82f6);
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  transition: all 0.5s;
+}
+
+.demo-controls {
+  flex: 0 0 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.bernoulli-equation {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 4px solid var(--fluid-green);
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+/* FORMULA VISUALIZER */
+.formula-visualizer {
+  margin-top: 40px;
+  background: rgba(17, 34, 64, 0.9);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.formula-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.formula-item {
+  padding: 12px 20px;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid var(--fluid-blue);
+  color: var(--fluid-blue);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.formula-item:hover {
+  background: var(--fluid-blue);
+  color: white;
+  transform: translateY(-3px);
+}
+
+.formula-item.active {
+  background: var(--fluid-blue);
+  color: white;
+  box-shadow: 0 0 15px var(--fluid-blue);
+}
+
+.formula-display {
+  background: rgba(0, 0, 0, 0.4);
+  padding: 30px;
+  border-radius: 10px;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.formula-explanation {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 4px solid var(--fluid-purple);
+}
+
+/* Q&A SECTION */
+.qa-section {
+  margin: 60px 8%;
+  padding: 45px;
+  background: rgba(17, 34, 64, 0.8);
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s, transform 0.8s;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.qa-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.qa-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+  z-index: -1;
+}
+
+.qa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.qa-header h3 {
+  color: var(--fluid-green);
+  font-size: 1.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.close-qa {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--fluid-blue);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.close-qa:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.qa-list {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.question-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+}
+
+.question-item:hover {
+  border-color: var(--fluid-blue);
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.question-header {
+  padding: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.question-header h4 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #f1f5f9;
+  flex: 1;
+}
+
+.arrow {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s;
+  color: var(--fluid-blue);
+  margin-left: 15px;
+  flex-shrink: 0;
+}
+
+.answer-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 28px;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-top: 1px solid transparent;
+}
+
+.answer-content.active {
+  max-height: 1000px;
+  padding: 30px;
+  border-top: 1px solid rgba(59, 130, 246, 0.3);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.answer-content p {
+  line-height: 1.7;
+  color: #cbd5e1;
+  margin-bottom: 15px;
+}
+
+.answer-content ul {
+  margin-top: 15px;
+  padding-left: 25px;
+}
+
+.answer-content li {
+  margin-bottom: 10px;
+  line-height: 1.6;
+  color: #cbd5e1;
+}
+
+.answer-content strong {
+  color: var(--fluid-blue);
+}
+
+.question-item.active .arrow {
+  transform: rotate(180deg);
+}
+
+/* EXPERIMENT SIMULATION */
+.experiment-sim {
+  margin-top: 40px;
+  background: rgba(17, 34, 64, 0.9);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.experiment-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.experiment-visualization {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.experiment-setup {
+  flex: 1;
+  height: 350px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.experiment-data {
+  flex: 0 0 300px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.data-point {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 5px;
+}
+
+.data-point .label {
+  color: var(--text-light);
+}
+
+.data-point .value {
+  color: var(--fluid-blue);
+  font-weight: bold;
+}
+
+/* STUDY TOOLS */
+.study-tools {
+  display: flex;
+  gap: 25px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.tool-card {
+  flex: 1;
+  min-width: 280px;
+  background: rgba(17, 34, 64, 0.7);
+  border-radius: 15px;
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s;
+}
+
+.tool-card:hover {
+  border-color: var(--fluid-blue);
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+}
+
+.tool-card h4 {
+  color: var(--fluid-blue);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.3rem;
+}
+
+.tool-card ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.tool-card li {
+  padding: 12px 0;
+  color: var(--text-light);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tool-progress {
+  width: 70px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tool-progress-bar {
+  height: 100%;
+  background: var(--gradient);
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+/* ANIMATIONS */
+@keyframes slideDown {
+  0% { transform: translateY(-100%); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(59, 130, 246, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
+}
+
+/* BUTTONS */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 25px;
+  padding: 14px 30px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 2px solid var(--fluid-blue);
+  color: var(--fluid-blue);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.btn:hover {
+  background: var(--fluid-blue);
+  color: white;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+  transform: translateY(-5px);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--fluid-green);
+  color: var(--fluid-green);
+}
+
+.btn-outline:hover {
+  background: var(--fluid-green);
+  color: white;
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+}
+
+.btn-run {
+  background: var(--fluid-green);
+  border-color: var(--fluid-green);
+  color: white;
+}
+
+.btn-run:hover {
+  background: #0da271;
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+}
+
+.btn-reset {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: var(--fluid-red);
+  color: var(--fluid-red);
+}
+
+.btn-reset:hover {
+  background: var(--fluid-red);
+  color: white;
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.5);
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 50px 8%;
+  font-size: 0.95rem;
+  color: #94a3b8;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 80px;
+  background: rgba(10, 26, 45, 0.9);
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--text-light);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover {
+  color: var(--fluid-blue);
+}
+
+/* SCROLL TO TOP */
+.scroll-top {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  width: 55px;
+  height: 55px;
+  background: rgba(59, 130, 246, 0.2);
+  border: 2px solid var(--fluid-blue);
+  color: var(--fluid-blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+  z-index: 99;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-top.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.scroll-top:hover {
+  background: var(--fluid-blue);
+  color: white;
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.7);
+  transform: translateY(-5px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+  .topic-details {
+    grid-template-columns: 1fr;
+  }
+  
+  .demo-visualization {
+    flex-direction: column;
+  }
+  
+  .experiment-visualization {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  nav {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .hero h1 {
+    font-size: 2.8rem;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+  }
+  
+  .stat-item {
+    min-width: 160px;
+    padding: 20px 25px;
+  }
+  
+  .stat-value {
+    font-size: 2rem;
+  }
+  
+  section, .qa-section, .hero {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  
+  .qa-section {
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 30px;
+  }
+  
+  .card {
+    padding: 25px;
+  }
+  
+  .modal-header {
+    padding: 25px;
+  }
+  
+  .modal-body {
+    padding: 25px;
+  }
+  
+  .scroll-top {
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .flow-parameters {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  
+  .section-title {
+    font-size: 1.7rem;
+  }
+  
+  .quick-access-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tool-card {
+    min-width: 100%;
+  }
+  
+  .simulation-controls {
+    justify-content: center;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Fluid Flow Animation -->
+<div class="fluid-flow" id="fluidFlow"></div>
+
+<!-- Progress Bar -->
+<div class="progress-container">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Scroll to Top Button -->
+<div class="scroll-top" id="scrollTop">
+  <i class="fas fa-arrow-up"></i>
+</div>
+
+<nav>
+  <div class="logo">
+    <i class="fas fa-water"></i>
+    BTech LMS - Fluid Mechanics
+  </div>
+  <div class="nav-links">
+    <a href="#" class="nav-link">Home</a>
+    <a href="#" class="nav-link">Syllabus</a>
+    <a href="#" class="nav-link">Simulations</a>
+    <a href="#" class="nav-link">Experiments</a>
+    <a href="#" class="nav-link">Tests</a>
+    <a href="#" class="nav-link">Forum</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>Fluid Mechanics Engineering</h1>
+  <p>Master the science of fluids at rest and in motion. Study fluid properties, fluid statics, fluid dynamics, boundary layers, flow measurement, and engineering applications with interactive simulations and real-world problem solving.</p>
+  
+  <div class="subject-stats">
+    <div class="stat-item" onclick="showTopicModal('properties')">
+      <div class="stat-value">16</div>
+      <div class="stat-label">Core Units</div>
+    </div>
+    <div class="stat-item" onclick="showTopicModal('formulas')">
+      <div class="stat-value">120+</div>
+      <div class="stat-label">Key Formulas</div>
+    </div>
+    <div class="stat-item" onclick="showTopicModal('problems')">
+      <div class="stat-value">85</div>
+      <div class="stat-label">Solved Problems</div>
+    </div>
+    <div class="stat-item" onclick="showTopicModal('experiments')">
+      <div class="stat-value">15</div>
+      <div class="stat-label">Virtual Experiments</div>
+    </div>
+    <div class="stat-item" onclick="showTopicModal('applications')">
+      <div class="stat-value">50+</div>
+      <div class="stat-label">Applications</div>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Access -->
+<div class="quick-access">
+  <div class="quick-access-grid">
+    <div class="quick-card" onclick="showTopicModal('properties')">
+      <i class="fas fa-tint"></i>
+      <h3>Fluid Properties</h3>
+      <p>Density, Viscosity, Surface Tension, Compressibility</p>
+    </div>
+    <div class="quick-card" onclick="showTopicModal('statics')">
+      <i class="fas fa-balance-scale"></i>
+      <h3>Fluid Statics</h3>
+      <p>Pressure, Buoyancy, Manometers, Hydrostatic Forces</p>
+    </div>
+    <div class="quick-card" onclick="showTopicModal('dynamics')">
+      <i class="fas fa-wind"></i>
+      <h3>Fluid Dynamics</h3>
+      <p>Continuity, Bernoulli, Momentum, Energy Equations</p>
+    </div>
+    <div class="quick-card" onclick="showTopicModal('flow')">
+      <i class="fas fa-stream"></i>
+      <h3>Flow Analysis</h3>
+      <p>Laminar/Turbulent, Boundary Layer, Pipe Flow, Dimensional Analysis</p>
+    </div>
+  </div>
+</div>
+
+<!-- COMPREHENSIVE TOPICS -->
+<section id="topics">
+  <div class="section-title">
+    <i class="fas fa-book-open"></i>
+    Complete Fluid Mechanics Curriculum
+  </div>
+  
+  <div class="grid">
+    <!-- Unit 1 -->
+    <div class="card" onclick="showTopicModal('intro')">
+      <h3><i class="fas fa-water"></i> Unit 1: Introduction to Fluid Mechanics</h3>
+      <ul>
+        <li>Definition of Fluid & Fluid Mechanics</li>
+        <li>Applications in Engineering</li>
+        <li>Continuum Hypothesis</li>
+        <li>System & Control Volume Approaches</li>
+        <li>Dimensions & Units</li>
+        <li>Fundamental & Derived Dimensions</li>
+        <li>Historical Development</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 2 -->
+    <div class="card" onclick="showTopicModal('properties')">
+      <h3><i class="fas fa-vial"></i> Unit 2: Fluid Properties</h3>
+      <ul>
+        <li>Density, Specific Weight, Specific Gravity</li>
+        <li>Viscosity: Dynamic & Kinematic</li>
+        <li>Newtonian & Non-Newtonian Fluids</li>
+        <li>Surface Tension & Capillarity</li>
+        <li>Vapor Pressure & Cavitation</li>
+        <li>Bulk Modulus & Compressibility</li>
+        <li>Measurement of Fluid Properties</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 3 -->
+    <div class="card" onclick="showTopicModal('statics')">
+      <h3><i class="fas fa-weight-hanging"></i> Unit 3: Fluid Statics</h3>
+      <ul>
+        <li>Pressure at a Point & Pascal's Law</li>
+        <li>Hydrostatic Pressure Distribution</li>
+        <li>Manometers: Simple, Differential, Inclined</li>
+        <li>Hydrostatic Forces on Plane Surfaces</li>
+        <li>Hydrostatic Forces on Curved Surfaces</li>
+        <li>Buoyancy & Stability of Floating Bodies</li>
+        <li>Pressure Measurement Instruments</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 4 -->
+    <div class="card" onclick="showTopicModal('kinematics')">
+      <h3><i class="fas fa-project-diagram"></i> Unit 4: Fluid Kinematics</h3>
+      <ul>
+        <li>Lagrangian & Eulerian Descriptions</li>
+        <li>Types of Flow: Steady/Unsteady, Uniform/Non-uniform</li>
+        <li>Streamlines, Streaklines & Pathlines</li>
+        <li>Continuity Equation (Mass Conservation)</li>
+        <li>Acceleration of Fluid Particles</li>
+        <li>Circulation & Vorticity</li>
+        <li>Velocity Potential & Stream Function</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 5 -->
+    <div class="card" onclick="showTopicModal('dynamics')">
+      <h3><i class="fas fa-bolt"></i> Unit 5: Fluid Dynamics</h3>
+      <ul>
+        <li>Euler's Equation of Motion</li>
+        <li>Bernoulli's Equation & Applications</li>
+        <li>Energy Equation with Head Loss</li>
+        <li>Momentum Equation & Applications</li>
+        <li>Forces on Pipe Bends & Nozzles</li>
+        <li>Venturi Meter & Orifice Meter</li>
+        <li>Pitot Tube & Flow Measurement</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 6 -->
+    <div class="card" onclick="showTopicModal('viscous')">
+      <h3><i class="fas fa-oil-can"></i> Unit 6: Viscous Flow</h3>
+      <ul>
+        <li>Navier-Stokes Equations</li>
+        <li>Exact Solutions: Couette & Poiseuille Flow</li>
+        <li>Flow Between Parallel Plates</li>
+        <li>Flow Through Circular Pipes</li>
+        <li>Flow Through Annulus</li>
+        <li>Stokes' Law & Drag on Spheres</li>
+        <li>Reynolds Number & Flow Regimes</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 7 -->
+    <div class="card" onclick="showTopicModal('pipeflow')">
+      <h3><i class="fas fa-pipe"></i> Unit 7: Pipe Flow</h3>
+      <ul>
+        <li>Major & Minor Losses</li>
+        <li>Darcy-Weisbach Equation</li>
+        <li>Friction Factor: Moody Chart</li>
+        <li>Commercial Pipe Roughness</li>
+        <li>Losses in Fittings & Valves</li>
+        <li>Pipe Networks & Series-Parallel Systems</li>
+        <li>Water Hammer & Surge Analysis</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 8 -->
+    <div class="card" onclick="showTopicModal('boundary')">
+      <h3><i class="fas fa-layer-group"></i> Unit 8: Boundary Layer Theory</h3>
+      <ul>
+        <li>Boundary Layer Concepts</li>
+        <li>Laminar & Turbulent Boundary Layers</li>
+        <li>Boundary Layer Equations</li>
+        <li>Blasius Solution for Flat Plate</li>
+        <li>Boundary Layer Separation</li>
+        <li>Drag & Lift Coefficients</li>
+        <li>Streamlining & Drag Reduction</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 9 -->
+    <div class="card" onclick="showTopicModal('turbulent')">
+      <h3><i class="fas fa-wind"></i> Unit 9: Turbulent Flow</h3>
+      <ul>
+        <li>Characteristics of Turbulence</li>
+        <li>Reynolds Decomposition</li>
+        <li>Turbulent Shear Stress</li>
+        <li>Prandtl's Mixing Length Theory</li>
+        <li>Turbulent Flow in Pipes</li>
+        <li>Turbulent Boundary Layers</li>
+        <li>Statistical Analysis of Turbulence</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 10 -->
+    <div class="card" onclick="showTopicModal('compressible')">
+      <h3><i class="fas fa-compress-arrows-alt"></i> Unit 10: Compressible Flow</h3>
+      <ul>
+        <li>Speed of Sound & Mach Number</li>
+        <li>Isentropic Flow Relations</li>
+        <li>Normal Shock Waves</li>
+        <li>Oblique Shock Waves</li>
+        <li>Prandtl-Meyer Expansion Fans</li>
+        <li>Flow Through Nozzles & Diffusers</li>
+        <li>Rayleigh & Fanno Flow</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 11 -->
+    <div class="card" onclick="showTopicModal('openchannel')">
+      <h3><i class="fas fa-water-river"></i> Unit 11: Open Channel Flow</h3>
+      <ul>
+        <li>Types of Open Channel Flow</li>
+        <li>Uniform Flow: Chezy & Manning Equations</li>
+        <li>Specific Energy & Critical Depth</li>
+        <li>Hydraulic Jump & Applications</li>
+        <li>Gradually Varied Flow</li>
+        <li>Rapidly Varied Flow</li>
+        <li>Flow Measurement in Channels</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 12 -->
+    <div class="card" onclick="showTopicModal('pumps')">
+      <h3><i class="fas fa-gas-pump"></i> Unit 12: Pumps & Turbines</h3>
+      <ul>
+        <li>Centrifugal Pumps: Working & Characteristics</li>
+        <li>Positive Displacement Pumps</li>
+        <li>Pump Performance Curves</li>
+        <li>Cavitation & NPSH</li>
+        <li>Impulse Turbines: Pelton Wheel</li>
+        <li>Reaction Turbines: Francis & Kaplan</li>
+        <li>Pump-Turbine Matching & Selection</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 13 -->
+    <div class="card" onclick="showTopicModal('dimensional')">
+      <h3><i class="fas fa-ruler-combined"></i> Unit 13: Dimensional Analysis</h3>
+      <ul>
+        <li>Buckingham Pi Theorem</li>
+        <li>Dimensional Homogeneity</li>
+        <li>Important Dimensionless Numbers</li>
+        <li>Similitude & Model Testing</li>
+        <li>Scale Effects & Model Laws</li>
+        <li>Applications to Engineering Problems</li>
+        <li>Correlation of Experimental Data</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 14 -->
+    <div class="card" onclick="showTopicModal('flowmeasurement')">
+      <h3><i class="fas fa-tachometer-alt"></i> Unit 14: Flow Measurement</h3>
+      <ul>
+        <li>Pressure-Based Measurements</li>
+        <li>Velocity Measurements: Pitot, Hot-Wire</li>
+        <li>Flow Rate Measurements</li>
+        <li>Venturimeter, Orificemeter, Nozzle</li>
+        <li>Rotameter & Turbine Flow Meters</li>
+        <li>Ultrasonic & Magnetic Flow Meters</li>
+        <li>Calibration & Accuracy</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 15 -->
+    <div class="card" onclick="showTopicModal('cfd')">
+      <h3><i class="fas fa-desktop"></i> Unit 15: Computational Fluid Dynamics</h3>
+      <ul>
+        <li>Introduction to CFD</li>
+        <li>Governing Equations</li>
+        <li>Discretization Methods</li>
+        <li>Finite Difference & Finite Volume Methods</li>
+        <li>Turbulence Modeling</li>
+        <li>CFD Software Overview</li>
+        <li>Applications & Case Studies</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <!-- Unit 16 -->
+    <div class="card" onclick="showTopicModal('applications')">
+      <h3><i class="fas fa-cogs"></i> Unit 16: Engineering Applications</h3>
+      <ul>
+        <li>Aerodynamics: Airfoils & Wings</li>
+        <li>Hydraulic Machinery & Systems</li>
+        <li>Environmental Fluid Mechanics</li>
+        <li>Biomedical Fluid Mechanics</li>
+        <li>Microfluidics & Nanofluidics</li>
+        <li>Multiphase Flow</li>
+        <li>Non-Newtonian Fluid Applications</li>
+      </ul>
+      <button class="btn">Explore Unit <i class="fas fa-arrow-right"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- FLOW SIMULATION -->
+<section id="flowSimulation">
+  <div class="section-title">
+    <i class="fas fa-wind"></i>
+    Interactive Flow Simulation
+  </div>
+  
+  <div class="flow-simulation">
+    <div class="simulation-header">
+      <h4>Simulate Fluid Flow Patterns</h4>
+      <div class="simulation-controls">
+        <button class="btn btn-run" onclick="startFlowSimulation()"><i class="fas fa-play"></i> Start Flow</button>
+        <button class="btn btn-reset" onclick="resetFlowSimulation()"><i class="fas fa-stop"></i> Reset</button>
+        <button class="btn" onclick="changeFlowType('laminar')"><i class="fas fa-stream"></i> Laminar</button>
+        <button class="btn" onclick="changeFlowType('turbulent')"><i class="fas fa-water"></i> Turbulent</button>
+      </div>
+    </div>
+    
+    <div class="flow-canvas-container">
+      <canvas id="flowCanvas"></canvas>
+    </div>
+    
+    <div class="flow-parameters">
+      <div class="param-control">
+        <label>Viscosity (μ): <span id="viscosityValue">0.001 Pa·s</span></label>
+        <input type="range" id="viscosity" min="0.0001" max="0.01" step="0.0001" value="0.001" oninput="updateViscosity(this.value)">
+        <div class="value-display">
+          <span>Water (0.001)</span>
+          <span>Honey (0.01)</span>
+        </div>
+      </div>
+      
+      <div class="param-control">
+        <label>Flow Velocity (V): <span id="velocityValue">2 m/s</span></label>
+        <input type="range" id="velocity" min="0.1" max="10" step="0.1" value="2" oninput="updateVelocity(this.value)">
+        <div class="value-display">
+          <span>Slow (0.1)</span>
+          <span>Fast (10)</span>
+        </div>
+      </div>
+      
+      <div class="param-control">
+        <label>Pipe Diameter (D): <span id="diameterValue">0.1 m</span></label>
+        <input type="range" id="diameter" min="0.01" max="0.5" step="0.01" value="0.1" oninput="updateDiameter(this.value)">
+        <div class="value-display">
+          <span>Small (0.01)</span>
+          <span>Large (0.5)</span>
+        </div>
+      </div>
+      
+      <div class="param-control">
+        <label>Reynolds Number: <span id="reynoldsValue" class="turbulent">2000</span></label>
+        <div style="margin-top: 10px; padding: 8px; background: rgba(0,0,0,0.3); border-radius: 5px;">
+          <span style="color: var(--fluid-green);">Re = ρVD/μ = </span>
+          <span id="reCalc">2000</span>
+          <span id="flowRegime" style="color: var(--fluid-blue); margin-left: 10px;">(Laminar)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BERNOULLI'S PRINCIPLE DEMO -->
+<section id="bernoulliDemo">
+  <div class="section-title">
+    <i class="fas fa-chart-line"></i>
+    Bernoulli's Principle Demonstration
+  </div>
+  
+  <div class="bernoulli-demo">
+    <div class="simulation-header">
+      <h4>Visualize Bernoulli's Equation in Action</h4>
+      <div class="simulation-controls">
+        <button class="btn" onclick="startBernoulliDemo()"><i class="fas fa-play"></i> Start Demo</button>
+        <button class="btn btn-outline" onclick="changePipeShape('converging')"><i class="fas fa-arrow-right"></i> Converging</button>
+        <button class="btn btn-outline" onclick="changePipeShape('diverging')"><i class="fas fa-arrow-left"></i> Diverging</button>
+        <button class="btn btn-outline" onclick="changePipeShape('venturi')"><i class="fas fa-tachometer-alt"></i> Venturi</button>
+      </div>
+    </div>
+    
+    <div class="demo-visualization">
+      <div class="demo-pipe" id="bernoulliPipe">
+        <!-- Pipe sections will be created dynamically -->
+      </div>
+      
+      <div class="demo-controls">
+        <div class="bernoulli-equation">
+          <div id="bernoulliEquation" style="font-size: 1.4rem; margin-bottom: 10px;">
+            P/ρg + V²/2g + z = Constant
+          </div>
+          <div style="font-size: 0.9rem; color: var(--text-light);">
+            Bernoulli's Equation (per unit weight)
+          </div>
+        </div>
+        
+        <div class="experiment-data">
+          <div class="data-point">
+            <span class="label">Pressure Head (P/ρg):</span>
+            <span class="value" id="pressureHead">10.2 m</span>
+          </div>
+          <div class="data-point">
+            <span class="label">Velocity Head (V²/2g):</span>
+            <span class="value" id="velocityHead">2.1 m</span>
+          </div>
+          <div class="data-point">
+            <span class="label">Elevation Head (z):</span>
+            <span class="value" id="elevationHead">1.5 m</span>
+          </div>
+          <div class="data-point" style="background: rgba(59, 130, 246, 0.1);">
+            <span class="label" style="color: var(--fluid-blue); font-weight: bold;">Total Head:</span>
+            <span class="value" style="color: var(--fluid-green); font-weight: bold;" id="totalHead">13.8 m</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULA VISUALIZER -->
+<section id="formulaVisualizer">
+  <div class="section-title">
+    <i class="fas fa-square-root-alt"></i>
+    Fluid Mechanics Formula Visualizer
+  </div>
+  
+  <div class="formula-visualizer">
+    <div class="formula-selector">
+      <div class="formula-item active" onclick="showFormula('continuity')">Continuity Equation</div>
+      <div class="formula-item" onclick="showFormula('bernoulli')">Bernoulli's Equation</div>
+      <div class="formula-item" onclick="showFormula('navierstokes')">Navier-Stokes Equations</div>
+      <div class="formula-item" onclick="showFormula('reynolds')">Reynolds Number</div>
+      <div class="formula-item" onclick="showFormula('darcyweisbach')">Darcy-Weisbach Equation</div>
+      <div class="formula-item" onclick="showFormula('manning')">Manning's Equation</div>
+      <div class="formula-item" onclick="showFormula('stokes')">Stokes' Law</div>
+      <div class="formula-item" onclick="showFormula('mach')">Mach Number</div>
+    </div>
+    
+    <div class="formula-display" id="formulaDisplay">
+      <!-- Formulas will be displayed here -->
+    </div>
+    
+    <div class="formula-explanation" id="formulaExplanation">
+      <!-- Explanations will be displayed here -->
+    </div>
+  </div>
+</section>
+
+<!-- Topic Details Modal -->
+<div class="topic-modal" id="topicModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="modalTitle">Fluid Mechanics Fundamentals</h3>
+      <button class="close-modal" id="closeModal">&times;</button>
+    </div>
+    <div class="modal-body" id="modalBody">
+      <!-- Content loaded dynamically -->
+    </div>
+  </div>
+</div>
+
+<!-- Q&A SECTION -->
+<div class="qa-section" id="qaSection">
+  <div class="qa-header">
+    <h3><i class="fas fa-question-circle"></i> Fluid Mechanics Practice Questions</h3>
+    <button class="close-qa" id="closeQa">×</button>
+  </div>
+  <div class="qa-list" id="qaList">
+    
+    <div class="question-item">
+      <div class="question-header">
+        <h4>Derive and explain Bernoulli's equation with its assumptions and applications</h4>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="answer-content">
+        <p><strong>Bernoulli's Equation:</strong> A fundamental equation in fluid mechanics describing the conservation of energy in a flowing fluid.</p>
+        
+        <div class="formula-box">
+          <div id="bernoulli-derivation">P/ρg + V²/2g + z = constant</div>
+        </div>
+        
+        <p><strong>Derivation:</strong> From Euler's equation of motion along a streamline:</p>
+        <div class="formula-box">
+          <div>dp/ρ + V dV + g dz = 0</div>
+          <div>Integrating: ∫dp/ρ + V²/2 + gz = constant</div>
+          <div>For incompressible fluid: P/ρ + V²/2 + gz = constant</div>
+          <div>Dividing by g: P/ρg + V²/2g + z = constant</div>
+        </div>
+        
+        <p><strong>Assumptions:</strong></p>
+        <ul>
+          <li><strong>Steady flow:</strong> No change with time</li>
+          <li><strong>Incompressible fluid:</strong> Constant density</li>
+          <li><strong>Inviscid flow:</strong> Negligible viscosity</li>
+          <li><strong>Along a streamline:</strong> Valid only along same streamline</li>
+          <li><strong>No shaft work:</strong> No pumps or turbines</li>
+          <li><strong>No heat transfer:</strong> Isothermal conditions</li>
+        </ul>
+        
+        <p><strong>Applications:</strong></p>
+        <ul>
+          <li><strong>Venturimeter:</strong> Flow rate measurement</li>
+          <li><strong>Pitot tube:</strong> Velocity measurement</li>
+          <li><strong>Airfoil design:</strong> Lift generation</li>
+          <li><strong>Carburetors:</strong> Fuel mixing in engines</li>
+          <li><strong>Atomizers:</strong> Spray formation</li>
+          <li><strong>Siphons:</strong> Liquid transfer</li>
+        </ul>
+        
+        <p><strong>Limitations:</strong></p>
+        <ul>
+          <li>Not applicable for viscous flows</li>
+          <li>Cannot predict flow separation</li>
+          <li>Invalid across streamlines</li>
+          <li>Not valid for compressible flow at high Mach numbers</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="question-item">
+      <div class="question-header">
+        <h4>Explain the concept of boundary layer and its characteristics in fluid flow</h4>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="answer-content">
+        <p><strong>Boundary Layer:</strong> A thin region near a solid surface where viscous effects are significant, connecting the no-slip condition at the wall to the inviscid outer flow.</p>
+        
+        <div class="formula-box">
+          <div>Boundary Layer Thickness (δ): Distance from wall where u = 0.99U<sub>∞</sub></div>
+          <div>Displacement Thickness (δ*): ∫<sub>0</sub><sup>∞</sup> (1 - u/U<sub>∞</sub>) dy</div>
+          <div>Momentum Thickness (θ): ∫<sub>0</sub><sup>∞</sup> (u/U<sub>∞</sub>)(1 - u/U<sub>∞</sub>) dy</div>
+        </div>
+        
+        <p><strong>Characteristics:</strong></p>
+        
+        <p><strong>1. Laminar Boundary Layer:</strong></p>
+        <ul>
+          <li>Smooth, orderly fluid motion</li>
+          <li>Lower shear stress at wall</li>
+          <li>Less mixing, higher velocity gradient</li>
+          <li>Thickness: δ ≈ 5.0x/√Re<sub>x</sub></li>
+          <li>Transition at Re<sub>x</sub> ≈ 5×10<sup>5</sup></li>
+        </ul>
+        
+        <p><strong>2. Turbulent Boundary Layer:</strong></p>
+        <ul>
+          <li>Chaotic, irregular fluid motion</li>
+          <li>Higher shear stress at wall</li>
+          <li>More mixing, fuller velocity profile</li>
+          <li>Thickness grows faster: δ ≈ 0.37x/Re<sub>x</sub><sup>1/5</sup></li>
+          <li>Contains viscous sublayer, buffer layer, and log layer</li>
+        </ul>
+        
+        <p><strong>3. Boundary Layer Separation:</strong></p>
+        <ul>
+          <li>Occurs when ∂u/∂y at wall = 0</li>
+          <li>Caused by adverse pressure gradient (dp/dx > 0)</li>
+          <li>Leads to formation of eddies and wake</li>
+          <li>Increases form drag significantly</li>
+        </ul>
+        
+        <p><strong>4. Boundary Layer Equations (Prandtl):</strong></p>
+        <div class="formula-box">
+          <div>Continuity: ∂u/∂x + ∂v/∂y = 0</div>
+          <div>x-momentum: u(∂u/∂x) + v(∂u/∂y) = -1/ρ(dp/dx) + ν(∂²u/∂y²)</div>
+          <div>y-momentum: ∂p/∂y ≈ 0 (Pressure constant across BL)</div>
+        </div>
+        
+        <p><strong>Applications:</strong></p>
+        <ul>
+          <li>Aircraft wing design for lift optimization</li>
+          <li>Reducing drag on vehicles and ships</li>
+          <li>Heat transfer enhancement</li>
+          <li>Flow control devices design</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="question-item">
+      <div class="question-header">
+        <h4>Compare and contrast laminar and turbulent flow with their characteristics</h4>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="answer-content">
+        <p><strong>Flow Regimes:</strong> Based on Reynolds number Re = ρVD/μ</p>
+        
+        <div class="formula-box">
+          <div>Laminar: Re < 2000 (pipe flow), Re<sub>x</sub> < 5×10<sup>5</sup> (flat plate)</div>
+          <div>Transition: 2000 < Re < 4000 (pipe flow)</div>
+          <div>Turbulent: Re > 4000 (pipe flow), Re<sub>x</sub> > 5×10<sup>5</sup> (flat plate)</div>
+        </div>
+        
+        <p><strong>Comparison:</strong></p>
+        
+        <table style="width:100%; border-collapse: collapse; margin: 20px 0;">
+          <thead>
+            <tr style="background: rgba(59, 130, 246, 0.2);">
+              <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--fluid-blue);">Characteristic</th>
+              <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--fluid-blue);">Laminar Flow</th>
+              <th style="padding: 12px; text-align: left; border-bottom: 2px solid var(--fluid-blue);">Turbulent Flow</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Flow Pattern</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Smooth, parallel layers</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Chaotic, irregular eddies</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Mixing</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Molecular diffusion only</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Strong eddy mixing</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Velocity Profile</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Parabolic (pipe flow)</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Flatter, fuller profile</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Friction Factor</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">f = 64/Re</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">From Moody chart, depends on ε/D</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Pressure Drop</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">ΔP ∝ V (linear)</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">ΔP ∝ V² (quadratic)</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Heat Transfer</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Lower rates</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Higher rates</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Energy Dissipation</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Lower</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Higher</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Transition</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Smooth, predictable</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Abrupt, sensitive to disturbances</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <p><strong>Engineering Significance:</strong></p>
+        <ul>
+          <li><strong>Laminar flow preferred for:</strong> Microfluidics, precision flow control, low energy systems</li>
+          <li><strong>Turbulent flow preferred for:</strong> Heat exchangers, mixing processes, combustion chambers</li>
+          <li><strong>Transition control:</strong> Important in aircraft design, pipelines, and hydraulic systems</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="question-item">
+      <div class="question-header">
+        <h4>Explain the Moody chart and its use in determining friction factor for pipe flow</h4>
+        <div class="arrow">▼</div>
+      </div>
+      <div class="answer-content">
+        <p><strong>Moody Chart:</strong> A graphical representation showing the Darcy friction factor (f) as a function of Reynolds number (Re) and relative roughness (ε/D).</p>
+        
+        <div class="formula-box">
+          <div>Darcy-Weisbach Equation: h<sub>f</sub> = f (L/D) (V²/2g)</div>
+          <div>where: f = friction factor, L = pipe length, D = diameter, V = velocity</div>
+        </div>
+        
+        <p><strong>Chart Characteristics:</strong></p>
+        <ul>
+          <li><strong>X-axis:</strong> Reynolds number (Re) on logarithmic scale</li>
+          <li><strong>Y-axis:</strong> Friction factor (f) on logarithmic scale</li>
+          <li><strong>Curves:</strong> Each curve represents different relative roughness (ε/D)</li>
+          <li><strong>Regions:</strong> Laminar, transitional, and turbulent zones</li>
+        </ul>
+        
+        <p><strong>Key Regions:</strong></p>
+        
+        <p><strong>1. Laminar Region (Re < 2000):</strong></p>
+        <div class="formula-box">
+          <div>f = 64/Re (straight line on log-log plot)</div>
+        </div>
+        <ul>
+          <li>Independent of pipe roughness</li>
+          <li>All fluids follow same line</li>
+          <li>Theoretical result from Hagen-Poiseuille equation</li>
+        </ul>
+        
+        <p><strong>2. Critical Region (2000 < Re < 4000):</strong></p>
+        <ul>
+          <li>Unpredictable flow behavior</li>
+          <li>Transition between laminar and turbulent</li>
+          <li>Usually avoided in design</li>
+        </ul>
+        
+        <p><strong>3. Turbulent Region (Re > 4000):</strong></p>
+        <ul>
+          <li><strong>Smooth pipes:</strong> Follow Blasius equation: f = 0.316/Re<sup>0.25</sup> (Re < 10<sup>5</sup>)</li>
+          <li><strong>Rough pipes:</strong> f depends on relative roughness ε/D</li>
+          <li><strong>Complete turbulence:</strong> f becomes constant (horizontal lines)</li>
+        </ul>
+        
+        <p><strong>How to Use Moody Chart:</strong></p>
+        <ol>
+          <li>Calculate Reynolds number: Re = ρVD/μ</li>
+          <li>Determine relative roughness: ε/D (ε from roughness table)</li>
+          <li>Locate Re on x-axis (log scale)</li>
+          <li>Move vertically to intersect appropriate roughness curve</li>
+          <li>Move horizontally to read f on y-axis</li>
+          <li>Use f in Darcy-Weisbach equation to find head loss</li>
+        </ol>
+        
+        <p><strong>Common Roughness Values (ε):</strong></p>
+        <ul>
+          <li>Drawn tubing: 0.0015 mm</li>
+          <li>Commercial steel: 0.045 mm</li>
+          <li>Galvanized iron: 0.15 mm</li>
+          <li>Cast iron: 0.26 mm</li>
+          <li>Concrete: 0.3-3.0 mm</li>
+          <li>Riveted steel: 0.9-9.0 mm</li>
+        </ul>
+        
+        <p><strong>Alternative: Colebrook-White Equation:</strong></p>
+        <div class="formula-box">
+          <div>1/√f = -2 log₁₀[(ε/D)/3.7 + 2.51/(Re√f)]</div>
+          <div>Implicit equation requiring iterative solution</div>
+        </div>
+        
+        <p><strong>Applications:</strong></p>
+        <ul>
+          <li>Pipeline design and sizing</li>
+          <li>Pump selection and power calculation</li>
+          <li>Water distribution network analysis</li>
+          <li>Industrial piping system design</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- More questions can be added here -->
+    
+  </div>
+</section>
+
+<!-- EXPERIMENT SIMULATION -->
+<section id="experimentSim">
+  <div class="section-title">
+    <i class="fas fa-flask"></i>
+    Virtual Fluid Mechanics Experiments
+  </div>
+  
+  <div class="experiment-sim">
+    <div class="simulation-header">
+      <h4>Interactive Fluid Mechanics Experiments</h4>
+      <div class="experiment-controls">
+        <button class="btn" onclick="startExperiment('venturi')"><i class="fas fa-tachometer-alt"></i> Venturi Meter</button>
+        <button class="btn" onclick="startExperiment('manometer')"><i class="fas fa-ruler-vertical"></i> U-Tube Manometer</button>
+        <button class="btn" onclick="startExperiment('reynolds')"><i class="fas fa-vial"></i> Reynolds Apparatus</button>
+        <button class="btn" onclick="startExperiment('orifice')"><i class="fas fa-filter"></i> Orifice Meter</button>
+        <button class="btn btn-reset" onclick="resetExperiment()"><i class="fas fa-redo"></i> Reset</button>
+      </div>
+    </div>
+    
+    <div class="experiment-visualization">
+      <div class="experiment-setup" id="experimentSetup">
+        <!-- Experiment visualization will be created dynamically -->
+        <div style="text-align: center; color: var(--text-light); padding: 20px;">
+          <i class="fas fa-flask" style="font-size: 4rem; margin-bottom: 20px; color: var(--fluid-blue);"></i>
+          <h3>Virtual Fluid Mechanics Lab</h3>
+          <p>Select an experiment to begin interactive learning</p>
+        </div>
+      </div>
+      
+      <div class="experiment-data" id="experimentData">
+        <h5><i class="fas fa-chart-bar"></i> Experimental Data</h5>
+        <div class="data-point">
+          <span class="label">Experiment:</span>
+          <span class="value">Select an experiment</span>
+        </div>
+        <div class="data-point">
+          <span class="label">Status:</span>
+          <span class="value">Ready</span>
+        </div>
+        <!-- More data points will be added dynamically -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STUDY TOOLS -->
+<section id="tools">
+  <div class="section-title">
+    <i class="fas fa-toolbox"></i>
+    Study Tools & Resources
+  </div>
+  
+  <div class="study-tools">
+    <div class="tool-card">
+      <h4><i class="fas fa-download"></i> Download Resources</h4>
+      <ul>
+        <li>Complete Formula Handbook <span class="tool-progress"><span class="tool-progress-bar" style="width: 100%"></span></span></li>
+        <li>Fluid Properties Tables <span class="tool-progress"><span class="tool-progress-bar" style="width: 95%"></span></span></li>
+        <li>Solved Problem Sets <span class="tool-progress"><span class="tool-progress-bar" style="width: 90%"></span></span></li>
+        <li>GATE Previous Papers <span class="tool-progress"><span class="tool-progress-bar" style="width: 98%"></span></span></li>
+        <li>Lab Manual & Experiments <span class="tool-progress"><span class="tool-progress-bar" style="width: 85%"></span></span></li>
+      </ul>
+    </div>
+    
+    <div class="tool-card">
+      <h4><i class="fas fa-chart-line"></i> Self-Assessment</h4>
+      <ul>
+        <li>Conceptual Quizzes <span class="tool-progress"><span class="tool-progress-bar" style="width: 85%"></span></span></li>
+        <li>Numerical Problems <span class="tool-progress"><span class="tool-progress-bar" style="width: 75%"></span></span></li>
+        <li>Derivation Exercises <span class="tool-progress"><span class="tool-progress-bar" style="width: 70%"></span></span></li>
+        <li>Application Scenarios <span class="tool-progress"><span class="tool-progress-bar" style="width: 65%"></span></span></li>
+        <li>Mock Tests <span class="tool-progress"><span class="tool-progress-bar" style="width: 80%"></span></span></li>
+      </ul>
+    </div>
+    
+    <div class="tool-card">
+      <h4><i class="fas fa-video"></i> Interactive Learning</h4>
+      <ul>
+        <li>Flow Visualization Tools <span class="tool-progress"><span class="tool-progress-bar" style="width: 95%"></span></span></li>
+        <li>Virtual Experiments <span class="tool-progress"><span class="tool-progress-bar" style="width: 90%"></span></span></li>
+        <li>Formula Calculator <span class="tool-progress"><span class="tool-progress-bar" style="width: 85%"></span></span></li>
+        <li>CFD Simulations <span class="tool-progress"><span class="tool-progress-bar" style="width: 70%"></span></span></li>
+        <li>Real-world Applications <span class="tool-progress"><span class="tool-progress-bar" style="width: 80%"></span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="#">Home</a>
+    <a href="#">Syllabus</a>
+    <a href="#">Simulations</a>
+    <a href="#">Experiments</a>
+    <a href="#">Contact</a>
+    <a href="#">Privacy Policy</a>
+  </div>
+  <p>© 2025 BTech LMS | Mechanical Engineering - Fluid Mechanics</p>
+  <p>Comprehensive Learning Platform for Fluid Mechanics Engineering</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/contrib/auto-render.min.js"></script>
+
+<script>
+// Fluid Flow Animation
+function createFluidFlow() {
+  const flow = document.getElementById('fluidFlow');
+  
+  for (let i = 0; i < 40; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'flow-particle';
+    particle.style.width = Math.random() * 30 + 10 + 'px';
+    particle.style.height = particle.style.width;
+    particle.style.left = Math.random() * 100 + 'vw';
+    particle.style.top = Math.random() * 100 + 'vh';
+    particle.style.animationDuration = Math.random() * 20 + 10 + 's';
+    particle.style.animationDelay = Math.random() * 5 + 's';
+    particle.style.opacity = Math.random() * 0.3 + 0.1;
+    flow.appendChild(particle);
+  }
+}
+
+// Initialize KaTeX for formula rendering
+function renderMath() {
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true}
+    ],
+    throwOnError: false
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  createFluidFlow();
+  renderMath();
+  
+  // Initialize syntax highlighting
+  hljs.highlightAll();
+  
+  // Initialize flow simulation canvas
+  initFlowCanvas();
+  
+  // Initialize formula visualizer
+  showFormula('continuity');
+});
+
+// Scroll Progress Bar
+window.addEventListener('scroll', function() {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (winScroll / height) * 100;
+  document.getElementById('progressBar').style.width = scrolled + '%';
+  
+  // Show/hide scroll to top button
+  const scrollTopBtn = document.getElementById('scrollTop');
+  if (winScroll > 300) {
+    scrollTopBtn.classList.add('active');
+  } else {
+    scrollTopBtn.classList.remove('active');
+  }
+  
+  // Section visibility
+  const sections = document.querySelectorAll('section, .qa-section');
+  sections.forEach(section => {
+    const sectionTop = section.getBoundingClientRect().top;
+    const windowHeight = window.innerHeight;
+    if (sectionTop < windowHeight * 0.85) {
+      section.classList.add('visible');
+    }
+  });
+});
+
+// Scroll to top functionality
+document.getElementById('scrollTop').addEventListener('click', function() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+});
+
+// Topic Modal Functionality
+const topicModal = document.getElementById('topicModal');
+const closeModalBtn = document.getElementById('closeModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalBody = document.getElementById('modalBody');
+
+const topicData = {
+  properties: {
+    title: "Fluid Properties and Characteristics",
+    content: `
+      <div class="topic-details">
+        <div class="topic-points">
+          <h4>Key Fluid Properties</h4>
+          <ul>
+            <li><strong>Density (ρ):</strong> Mass per unit volume [kg/m³]</li>
+            <li><strong>Specific Weight (γ):</strong> Weight per unit volume = ρg [N/m³]</li>
+            <li><strong>Specific Gravity (SG):</strong> Ratio of density to water density</li>
+            <li><strong>Viscosity (μ):</strong> Resistance to shear deformation [Pa·s]</li>
+            <li><strong>Kinematic Viscosity (ν):</strong> μ/ρ [m²/s]</li>
+            <li><strong>Surface Tension (σ):</strong> Force per unit length at surface [N/m]</li>
+            <li><strong>Vapor Pressure:</strong> Pressure at which liquid vaporizes</li>
+            <li><strong>Bulk Modulus (K):</strong> Resistance to compression [Pa]</li>
+          </ul>
+        </div>
+        
+        <div class="topic-formulas">
+          <h4>Important Formulas</h4>
+          <div class="formula-box">
+            <div>$$\\rho = \\frac{m}{V}$$</div>
+            <div>$$\\gamma = \\rho g$$</div>
+            <div>$$SG = \\frac{\\rho_{fluid}}{\\rho_{water}}$$</div>
+            <div>$$\\tau = \\mu \\frac{du}{dy} \\quad \\text{(Newton's Law of Viscosity)}$$</div>
+            <div>$$\\nu = \\frac{\\mu}{\\rho}$$</div>
+            <div>$$\\Delta P = \\frac{2\\sigma}{R} \\quad \\text{(Laplace's Law for Bubble)}$$</div>
+            <div>$$K = -V \\frac{dP}{dV}$$</div>
+          </div>
+        </div>
+        
+        <div class="topic-applications">
+          <h4>Applications & Examples</h4>
+          <ul>
+            <li>Oil viscosity selection for lubrication</li>
+            <li>Surface tension in capillary action</li>
+            <li>Compressibility in hydraulic systems</li>
+            <li>Vapor pressure in cavitation prevention</li>
+            <li>Specific gravity in buoyancy calculations</li>
+          </ul>
+        </div>
+      </div>
+    `
+  },
+  statics: {
+    title: "Fluid Statics - Pressure and Forces",
+    content: `
+      <div class="topic-details">
+        <div class="topic-points">
+          <h4>Key Concepts</h4>
+          <ul>
+            <li><strong>Pressure at a Point:</strong> Same in all directions (Pascal's Law)</li>
+            <li><strong>Hydrostatic Pressure:</strong> $P = P_0 + \\rho g h$</li>
+            <li><strong>Manometers:</strong> Pressure measurement using liquid columns</li>
+            <li><strong>Hydrostatic Force on Plane Surface:</strong> $F = \\rho g h_c A$</li>
+            <li><strong>Center of Pressure:</strong> $y_p = y_c + \\frac{I_{xc}}{y_c A}$</li>
+            <li><strong>Buoyancy Force:</strong> $F_b = \\rho g V_{displaced}$</li>
+            <li><strong>Metacentric Height:</strong> Stability criterion for floating bodies</li>
+          </ul>
+        </div>
+        
+        <div class="topic-formulas">
+          <h4>Important Formulas</h4>
+          <div class="formula-box">
+            <div>$$P = P_0 + \\rho g h$$</div>
+            <div>$$F = \\rho g h_c A$$</div>
+            <div>$$y_p = y_c + \\frac{I_{xc}}{y_c A}$$</div>
+            <div>$$F_b = \\rho g V_{displaced}$$</div>
+            <div>$$GM = \\frac{I}{V} - BG$$</div>
+            <div>Stable if $GM > 0$, Unstable if $GM < 0$</div>
+          </div>
+        </div>
+        
+        <div class="topic-applications">
+          <h4>Applications & Examples</h4>
+          <ul>
+            <li>Dam design and stability analysis</li>
+            <li>Submarine buoyancy control</li>
+            <li>Hydraulic press operation</li>
+            <li>Ship stability and metacentric height</li>
+            <li>Pressure vessel design</li>
+          </ul>
+        </div>
+      </div>
+    `
+  },
+  // More topics can be added here
+};
+
+function showTopicModal(topicId) {
+  if (topicData[topicId]) {
+    modalTitle.textContent = topicData[topicId].title;
+    modalBody.innerHTML = topicData[topicId].content;
+    topicModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Re-render math equations
+    renderMath();
+  } else {
+    // Default content if topic not found
+    modalTitle.textContent = "Fluid Mechanics";
+    modalBody.innerHTML = `
+      <div class="topic-details">
+        <div class="topic-points">
+          <h4>Topic Details</h4>
+          <p>Detailed content for ${topicId} will be displayed here.</p>
+          <p>This section includes comprehensive explanations, formulas, examples, and applications.</p>
+        </div>
+      </div>
+    `;
+    topicModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+closeModalBtn.addEventListener('click', function() {
+  topicModal.classList.remove('active');
+  document.body.style.overflow = 'auto';
+});
+
+// Close modal when clicking outside
+topicModal.addEventListener('click', function(e) {
+  if (e.target === topicModal) {
+    topicModal.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+});
+
+// Flow Simulation Variables
+let flowCanvas, flowCtx;
+let flowAnimationId = null;
+let flowType = 'laminar';
+let viscosity = 0.001; // Pa·s
+let velocity = 2; // m/s
+let diameter = 0.1; // m
+let density = 1000; // kg/m³
+
+function initFlowCanvas() {
+  flowCanvas = document.getElementById('flowCanvas');
+  flowCtx = flowCanvas.getContext('2d');
+  
+  // Set canvas size to container
+  flowCanvas.width = flowCanvas.parentElement.clientWidth;
+  flowCanvas.height = flowCanvas.parentElement.clientHeight;
+}
+
+function startFlowSimulation() {
+  if (flowAnimationId) {
+    cancelAnimationFrame(flowAnimationId);
+  }
+  
+  drawFlow();
+}
+
+function drawFlow() {
+  const width = flowCanvas.width;
+  const height = flowCanvas.height;
+  const pipeHeight = height * 0.6;
+  const pipeY = (height - pipeHeight) / 2;
+  
+  // Clear canvas
+  flowCtx.clearRect(0, 0, width, height);
+  
+  // Draw pipe
+  flowCtx.fillStyle = 'rgba(59, 130, 246, 0.1)';
+  flowCtx.fillRect(0, pipeY, width, pipeHeight);
+  flowCtx.strokeStyle = 'rgba(59, 130, 246, 0.5)';
+  flowCtx.lineWidth = 2;
+  flowCtx.strokeRect(0, pipeY, width, pipeHeight);
+  
+  // Calculate Reynolds number
+  const reynolds = (density * velocity * diameter) / viscosity;
+  const isLaminar = reynolds < 2000;
+  
+  // Update display
+  document.getElementById('reynoldsValue').textContent = Math.round(reynolds);
+  document.getElementById('reCalc').textContent = Math.round(reynolds);
+  
+  const regimeElement = document.getElementById('flowRegime');
+  const reynoldsElement = document.getElementById('reynoldsValue');
+  
+  if (isLaminar) {
+    regimeElement.textContent = '(Laminar)';
+    regimeElement.style.color = 'var(--fluid-green)';
+    reynoldsElement.classList.remove('turbulent');
+  } else {
+    regimeElement.textContent = '(Turbulent)';
+    regimeElement.style.color = 'var(--fluid-red)';
+    reynoldsElement.classList.add('turbulent');
+  }
+  
+  // Draw flow particles
+  const particleCount = isLaminar ? 20 : 100;
+  const time = Date.now() / 1000;
+  
+  for (let i = 0; i < particleCount; i++) {
+    const x = (width * 0.1) + ((time * 50 * velocity) + i * 20) % (width * 0.8);
+    let y;
+    
+    if (isLaminar) {
+      // Parabolic velocity profile for laminar flow
+      const relativeY = i / particleCount;
+      const centerY = pipeY + pipeHeight / 2;
+      const maxOffset = pipeHeight / 2 * 0.8;
+      y = centerY + maxOffset * (2 * relativeY - 1);
+    } else {
+      // Random turbulent motion
+      y = pipeY + pipeHeight / 2 + Math.sin(time * 2 + i) * pipeHeight * 0.3;
+    }
+    
+    // Draw particle
+    flowCtx.beginPath();
+    flowCtx.arc(x, y, isLaminar ? 4 : 2, 0, Math.PI * 2);
+    flowCtx.fillStyle = isLaminar ? 'rgba(16, 185, 129, 0.8)' : 'rgba(239, 68, 68, 0.8)';
+    flowCtx.fill();
+    
+    // Draw velocity vector
+    const vectorLength = velocity * 10;
+    flowCtx.beginPath();
+    flowCtx.moveTo(x, y);
+    flowCtx.lineTo(x + vectorLength, y);
+    flowCtx.strokeStyle = isLaminar ? 'rgba(16, 185, 129, 0.5)' : 'rgba(239, 68, 68, 0.5)';
+    flowCtx.lineWidth = 1;
+    flowCtx.stroke();
+  }
+  
+  // Draw velocity profile
+  flowCtx.beginPath();
+  flowCtx.moveTo(width * 0.9, pipeY);
+  
+  for (let y = pipeY; y <= pipeY + pipeHeight; y += 2) {
+    const normalizedY = (y - pipeY) / pipeHeight;
+    let velocityRatio;
+    
+    if (isLaminar) {
+      // Parabolic profile
+      velocityRatio = 1 - Math.pow(2 * normalizedY - 1, 2);
+    } else {
+      // Turbulent profile (1/7th power law approximation)
+      velocityRatio = Math.pow(1 - Math.abs(2 * normalizedY - 1), 1/7);
+    }
+    
+    const x = width * 0.9 + velocityRatio * 50;
+    flowCtx.lineTo(x, y);
+  }
+  
+  flowCtx.lineTo(width * 0.9, pipeY + pipeHeight);
+  flowCtx.strokeStyle = 'rgba(245, 158, 11, 0.7)';
+  flowCtx.lineWidth = 2;
+  flowCtx.stroke();
+  
+  flowAnimationId = requestAnimationFrame(drawFlow);
+}
+
+function resetFlowSimulation() {
+  if (flowAnimationId) {
+    cancelAnimationFrame(flowAnimationId);
+    flowAnimationId = null;
+  }
+  
+  // Reset to default values
+  viscosity = 0.001;
+  velocity = 2;
+  diameter = 0.1;
+  
+  document.getElementById('viscosity').value = viscosity;
+  document.getElementById('velocity').value = velocity;
+  document.getElementById('diameter').value = diameter;
+  
+  document.getElementById('viscosityValue').textContent = viscosity.toFixed(4) + ' Pa·s';
+  document.getElementById('velocityValue').textContent = velocity.toFixed(1) + ' m/s';
+  document.getElementById('diameterValue').textContent = diameter.toFixed(2) + ' m';
+  
+  // Clear canvas
+  flowCtx.clearRect(0, 0, flowCanvas.width, flowCanvas.height);
+}
+
+function changeFlowType(type) {
+  flowType = type;
+  if (type === 'laminar') {
+    viscosity = 0.001;
+    velocity = 1;
+    document.getElementById('viscosity').value = viscosity;
+    document.getElementById('velocity').value = velocity;
+    document.getElementById('viscosityValue').textContent = viscosity.toFixed(4) + ' Pa·s';
+    document.getElementById('velocityValue').textContent = velocity.toFixed(1) + ' m/s';
+  } else {
+    viscosity = 0.001;
+    velocity = 5;
+    document.getElementById('viscosity').value = viscosity;
+    document.getElementById('velocity').value = velocity;
+    document.getElementById('viscosityValue').textContent = viscosity.toFixed(4) + ' Pa·s';
+    document.getElementById('velocityValue').textContent = velocity.toFixed(1) + ' m/s';
+  }
+}
+
+function updateViscosity(value) {
+  viscosity = parseFloat(value);
+  document.getElementById('viscosityValue').textContent = viscosity.toFixed(4) + ' Pa·s';
+}
+
+function updateVelocity(value) {
+  velocity = parseFloat(value);
+  document.getElementById('velocityValue').textContent = velocity.toFixed(1) + ' m/s';
+}
+
+function updateDiameter(value) {
+  diameter = parseFloat(value);
+  document.getElementById('diameterValue').textContent = diameter.toFixed(2) + ' m';
+}
+
+// Bernoulli's Principle Demo
+function startBernoulliDemo() {
+  const pipe = document.getElementById('bernoulliPipe');
+  pipe.innerHTML = '';
+  
+  // Create pipe sections
+  const sections = 5;
+  const pipeWidth = pipe.clientWidth * 0.9;
+  const pipeHeight = pipe.clientHeight * 0.6;
+  const startX = pipe.clientWidth * 0.05;
+  const startY = (pipe.clientHeight - pipeHeight) / 2;
+  
+  let currentX = startX;
+  const sectionWidth = pipeWidth / sections;
+  
+  for (let i = 0; i < sections; i++) {
+    const section = document.createElement('div');
+    section.className = 'pipe-section';
+    
+    let height;
+    if (i === 0 || i === 4) {
+      height = pipeHeight * 0.8; // Larger sections
+    } else if (i === 1 || i === 3) {
+      height = pipeHeight * 0.6; // Medium sections
+    } else {
+      height = pipeHeight * 0.4; // Throat section
+    }
+    
+    const y = startY + (pipeHeight - height) / 2;
+    
+    section.style.width = sectionWidth + 'px';
+    section.style.height = height + 'px';
+    section.style.left = currentX + 'px';
+    section.style.top = y + 'px';
+    section.style.backgroundColor = `rgba(59, 130, 246, ${0.3 + i * 0.1})`;
+    
+    // Add section label
+    const label = document.createElement('div');
+    label.style.position = 'absolute';
+    label.style.bottom = '-25px';
+    label.style.width = '100%';
+    label.style.textAlign = 'center';
+    label.style.color = 'var(--text-light)';
+    label.style.fontSize = '0.9rem';
+    
+    if (i === 0) label.textContent = 'Section 1 (Large)';
+    else if (i === 2) label.textContent = 'Throat (Small)';
+    else if (i === 4) label.textContent = 'Section 3 (Large)';
+    else label.textContent = `Section ${i+1}`;
+    
+    section.appendChild(label);
+    pipe.appendChild(section);
+    
+    currentX += sectionWidth;
+  }
+  
+  // Update data display
+  updateBernoulliData();
+}
+
+function changePipeShape(shape) {
+  const pipe = document.getElementById('bernoulliPipe');
+  pipe.innerHTML = '';
+  
+  const pipeWidth = pipe.clientWidth * 0.9;
+  const pipeHeight = pipe.clientHeight * 0.6;
+  const startX = pipe.clientWidth * 0.05;
+  const startY = (pipe.clientHeight - pipeHeight) / 2;
+  
+  let sections;
+  if (shape === 'converging') {
+    sections = 3;
+    const sectionWidth = pipeWidth / sections;
+    let currentX = startX;
+    
+    for (let i = 0; i < sections; i++) {
+      const section = document.createElement('div');
+      section.className = 'pipe-section';
+      
+      const height = pipeHeight * (0.8 - i * 0.2);
+      const y = startY + (pipeHeight - height) / 2;
+      
+      section.style.width = sectionWidth + 'px';
+      section.style.height = height + 'px';
+      section.style.left = currentX + 'px';
+      section.style.top = y + 'px';
+      section.style.backgroundColor = `rgba(59, 130, 246, ${0.3 + i * 0.2})`;
+      pipe.appendChild(section);
+      
+      currentX += sectionWidth;
+    }
+  } else if (shape === 'diverging') {
+    sections = 3;
+    const sectionWidth = pipeWidth / sections;
+    let currentX = startX;
+    
+    for (let i = 0; i < sections; i++) {
+      const section = document.createElement('div');
+      section.className = 'pipe-section';
+      
+      const height = pipeHeight * (0.4 + i * 0.2);
+      const y = startY + (pipeHeight - height) / 2;
+      
+      section.style.width = sectionWidth + 'px';
+      section.style.height = height + 'px';
+      section.style.left = currentX + 'px';
+      section.style.top = y + 'px';
+      section.style.backgroundColor = `rgba(59, 130, 246, ${0.3 + i * 0.2})`;
+      pipe.appendChild(section);
+      
+      currentX += sectionWidth;
+    }
+  } else if (shape === 'venturi') {
+    sections = 5;
+    const sectionWidth = pipeWidth / sections;
+    let currentX = startX;
+    
+    for (let i = 0; i < sections; i++) {
+      const section = document.createElement('div');
+      section.className = 'pipe-section';
+      
+      let height;
+      if (i === 0 || i === 4) {
+        height = pipeHeight * 0.8;
+      } else if (i === 1 || i === 3) {
+        height = pipeHeight * 0.6;
+      } else {
+        height = pipeHeight * 0.4;
+      }
+      
+      const y = startY + (pipeHeight - height) / 2;
+      
+      section.style.width = sectionWidth + 'px';
+      section.style.height = height + 'px';
+      section.style.left = currentX + 'px';
+      section.style.top = y + 'px';
+      section.style.backgroundColor = `rgba(59, 130, 246, ${0.3 + i * 0.15})`;
+      pipe.appendChild(section);
+      
+      currentX += sectionWidth;
+    }
+  }
+  
+  updateBernoulliData();
+}
+
+function updateBernoulliData() {
+  // Simulate Bernoulli's equation values
+  const pressureHead = (10 + Math.random() * 2).toFixed(1);
+  const velocityHead = (2 + Math.random() * 1).toFixed(1);
+  const elevationHead = (1.5 + Math.random() * 0.5).toFixed(1);
+  const totalHead = (parseFloat(pressureHead) + parseFloat(velocityHead) + parseFloat(elevationHead)).toFixed(1);
+  
+  document.getElementById('pressureHead').textContent = pressureHead + ' m';
+  document.getElementById('velocityHead').textContent = velocityHead + ' m';
+  document.getElementById('elevationHead').textContent = elevationHead + ' m';
+  document.getElementById('totalHead').textContent = totalHead + ' m';
+}
+
+// Formula Visualizer
+const formulaData = {
+  continuity: {
+    display: '$$\\frac{\\partial \\rho}{\\partial t} + \\nabla \\cdot (\\rho \\vec{V}) = 0$$',
+    explanation: '<p><strong>Continuity Equation (Mass Conservation):</strong> The rate of mass accumulation within a control volume equals the net rate of mass flow into the volume.</p><p><strong>For incompressible flow:</strong> $\\nabla \\cdot \\vec{V} = 0$ or $A_1V_1 = A_2V_2$</p>'
+  },
+  bernoulli: {
+    display: '$$\\frac{P}{\\rho g} + \\frac{V^2}{2g} + z = \\text{constant}$$',
+    explanation: '<p><strong>Bernoulli\'s Equation (Energy Conservation):</strong> Along a streamline, the sum of pressure head, velocity head, and elevation head remains constant for steady, incompressible, inviscid flow.</p>'
+  },
+  navierstokes: {
+    display: '$$\\rho \\left(\\frac{\\partial \\vec{V}}{\\partial t} + \\vec{V} \\cdot \\nabla \\vec{V}\\right) = -\\nabla P + \\mu \\nabla^2 \\vec{V} + \\rho \\vec{g}$$',
+    explanation: '<p><strong>Navier-Stokes Equations:</strong> The fundamental equations describing the motion of viscous fluid substances. These are momentum conservation equations for Newtonian fluids.</p>'
+  },
+  reynolds: {
+    display: '$$Re = \\frac{\\rho V D}{\\mu} = \\frac{V D}{\\nu}$$',
+    explanation: '<p><strong>Reynolds Number:</strong> Dimensionless number representing the ratio of inertial forces to viscous forces. Determines flow regime: Laminar (Re < 2000), Transitional (2000-4000), Turbulent (Re > 4000).</p>'
+  },
+  darcyweisbach: {
+    display: '$$h_f = f \\frac{L}{D} \\frac{V^2}{2g}$$',
+    explanation: '<p><strong>Darcy-Weisbach Equation:</strong> Calculates head loss due to friction in pipe flow. The friction factor (f) depends on Reynolds number and relative pipe roughness.</p>'
+  },
+  manning: {
+    display: '$$V = \\frac{1}{n} R_h^{2/3} S^{1/2}$$',
+    explanation: '<p><strong>Manning\'s Equation:</strong> Empirical formula for uniform flow in open channels. n is Manning\'s roughness coefficient, R_h is hydraulic radius, S is channel slope.</p>'
+  },
+  stokes: {
+    display: '$$F_d = 3\\pi \\mu D V$$',
+    explanation: '<p><strong>Stokes\' Law:</strong> Drag force on a sphere moving slowly through a viscous fluid. Valid for Re < 1 (creeping flow).</p>'
+  },
+  mach: {
+    display: '$$M = \\frac{V}{a} = \\frac{V}{\\sqrt{\\gamma R T}}$$',
+    explanation: '<p><strong>Mach Number:</strong> Ratio of flow velocity to local speed of sound. Classifies compressible flow: Subsonic (M < 1), Transonic (M ≈ 1), Supersonic (M > 1), Hypersonic (M > 5).</p>'
+  }
+};
+
+function showFormula(formulaId) {
+  // Update active button
+  document.querySelectorAll('.formula-item').forEach(item => {
+    item.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  // Display formula
+  document.getElementById('formulaDisplay').innerHTML = formulaData[formulaId].display;
+  document.getElementById('formulaExplanation').innerHTML = formulaData[formulaId].explanation;
+  
+  // Re-render math
+  renderMath();
+}
+
+// Experiment Simulation
+function startExperiment(experimentType) {
+  const setup = document.getElementById('experimentSetup');
+  const data = document.getElementById('experimentData');
+  
+  setup.innerHTML = '';
+  data.innerHTML = '<h5><i class="fas fa-chart-bar"></i> Experimental Data</h5>';
+  
+  if (experimentType === 'venturi') {
+    setup.innerHTML = `
+      <div style="width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
+        <div style="position: relative; width: 80%; height: 60%;">
+          <!-- Venturi meter drawing -->
+          <div style="position: absolute; top: 30%; left: 0; width: 100%; height: 40%; background: linear-gradient(90deg, #1e40af, #3b82f6); border-radius: 50px;"></div>
+          <!-- Throat section -->
+          <div style="position: absolute; top: 40%; left: 40%; width: 20%; height: 20%; background: #3b82f6; border-radius: 30px;"></div>
+          <!-- Manometer tubes -->
+          <div style="position: absolute; top: 0; left: 20%; width: 10px; height: 30%; background: #10b981; border-radius: 5px;"></div>
+          <div style="position: absolute; top: 0; left: 50%; width: 10px; height: 50%; background: #ef4444; border-radius: 5px;"></div>
+          <div style="position: absolute; top: 0; left: 80%; width: 10px; height: 30%; background: #10b981; border-radius: 5px;"></div>
+          <!-- Labels -->
+          <div style="position: absolute; top: 70%; left: 15%; color: white; font-weight: bold;">Section 1</div>
+          <div style="position: absolute; top: 70%; left: 45%; color: white; font-weight: bold;">Throat</div>
+          <div style="position: absolute; top: 70%; left: 75%; color: white; font-weight: bold;">Section 2</div>
+        </div>
+      </div>
+    `;
+    
+    data.innerHTML += `
+      <div class="data-point">
+        <span class="label">Experiment:</span>
+        <span class="value">Venturi Meter</span>
+      </div>
+      <div class="data-point">
+        <span class="label">D₁ (inlet):</span>
+        <span class="value">50 mm</span>
+      </div>
+      <div class="data-point">
+        <span class="label">D₂ (throat):</span>
+        <span class="value">25 mm</span>
+      </div>
+      <div class="data-point">
+        <span class="label">Δh (manometer):</span>
+        <span class="value">150 mm</span>
+      </div>
+      <div class="data-point">
+        <span class="label">Flow Rate (Q):</span>
+        <span class="value" style="color: var(--fluid-green);">0.0021 m³/s</span>
+      </div>
+      <div class="data-point">
+        <span class="label">Coefficient (C<sub>d</sub>):</span>
+        <span class="value">0.98</span>
+      </div>
+    `;
+  } else if (experimentType === 'manometer') {
+    setup.innerHTML = `
+      <div style="width: 100%; height: 100%; position: relative; display: flex; align-items: center; justify-content: center;">
+        <div style="position: relative; width: 60%; height: 80%;">
+          <!-- U-tube manometer -->
+          <div style="position: absolute; left: 30%; top: 20%; width: 40%; height: 60%; border: 3px solid #3b82f6; border-top: none; border-radius: 0 0 50px 50px;"></div>
+          <!-- Liquid columns -->
+          <div style="position: absolute; left: 30%; bottom: 20%; width: 40%; height: 40%; background: rgba(59, 130, 246, 0.5); border-radius: 50px 50px 0 0;"></div>
+          <!-- Differential height -->
+          <div style="position: absolute; left: 65%; top: 30%; width: 5%; height: 20%; background: #ef4444; border-radius: 3px;"></div>
+          <!-- Labels -->
+          <div style="position: absolute; left: 20%; top: 25%; color: var(--text); font-weight: bold;">P₁</div>
+          <div style="position: absolute; right: 20%; top: 25%; color: var(--text); font-weight: bold;">P₂</div>
+          <div style="position: absolute; left: 70%; top: 55%; color: var(--fluid-red); font-weight: bold;">Δh</div>
+        </div>
+      </div>
+    `;
+    
+    data.innerHTML += `
+      <div class="data-point">
+        <span class="label">Experiment:</span>
+        <span class="value">U-Tube Manometer</span>
+      </div>
+      <div class="data-point">
+        <span class="label">Manometer Fluid:</span>
+        <span class="value">Mercury (SG=13.6)</span>
+      </div>
+      <div class="data-point">
+        <span class="label">Δh reading:</span>
+        <span class="value">250 mm</span>
+      </div>
+      <div class="data-point">
+        <span class="label">Pressure Difference:</span>
+        <span class="value" style="color: var(--fluid-green);">33.4 kPa</span>
+      </div>
+      <div class="data-point">
+        <span class="label">Formula:</span>
+        <span class="value">ΔP = ρgΔh(SG - 1)</span>
+      </div>
+    `;
+  }
+  // Add more experiment types as needed
+}
+
+function resetExperiment() {
+  const setup = document.getElementById('experimentSetup');
+  const data = document.getElementById('experimentData');
+  
+  setup.innerHTML = `
+    <div style="text-align: center; color: var(--text-light); padding: 20px;">
+      <i class="fas fa-flask" style="font-size: 4rem; margin-bottom: 20px; color: var(--fluid-blue);"></i>
+      <h3>Virtual Fluid Mechanics Lab</h3>
+      <p>Select an experiment to begin interactive learning</p>
+    </div>
+  `;
+  
+  data.innerHTML = `
+    <h5><i class="fas fa-chart-bar"></i> Experimental Data</h5>
+    <div class="data-point">
+      <span class="label">Experiment:</span>
+      <span class="value">Select an experiment</span>
+    </div>
+    <div class="data-point">
+      <span class="label">Status:</span>
+      <span class="value">Ready</span>
+    </div>
+  `;
+}
+
+// Q&A Section Functionality
+const questionItems = document.querySelectorAll('.question-item');
+const closeQaBtn = document.getElementById('closeQa');
+const qaSection = document.getElementById('qaSection');
+
+questionItems.forEach(item => {
+  const questionHeader = item.querySelector('.question-header');
+  const answerContent = item.querySelector('.answer-content');
+  
+  questionHeader.addEventListener('click', () => {
+    item.classList.toggle('active');
+    answerContent.classList.toggle('active');
+  });
+});
+
+closeQaBtn.addEventListener('click', () => {
+  qaSection.style.opacity = '0';
+  qaSection.style.transform = 'translateY(30px)';
+  setTimeout(() => {
+    qaSection.style.display = 'none';
+  }, 500);
+});
+
+// Initialize on load
+window.addEventListener('load', function() {
+  // Initialize sections as visible if they're in view
+  window.dispatchEvent(new Event('scroll'));
+  
+  // Start default simulations
+  startBernoulliDemo();
+});
+
+// Resize handling
+window.addEventListener('resize', function() {
+  // Reinitialize flow canvas
+  if (flowCanvas) {
+    flowCanvas.width = flowCanvas.parentElement.clientWidth;
+    flowCanvas.height = flowCanvas.parentElement.clientHeight;
+  }
+  
+  // Redraw Bernoulli demo
+  startBernoulliDemo();
+});
+</script>
+
+</body>
+</html>

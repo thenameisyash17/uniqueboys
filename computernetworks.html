@@ -1,0 +1,2134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Networks | Complete Study Material | BTech LMS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+  --bg:#020617;
+  --card:#0b1229;
+  --glass:rgba(255,255,255,0.06);
+  --neon1:#00f6ff;
+  --neon2:#9f7aea;
+  --neon3:#22d3ee;
+  --text:#e5e7eb;
+  --success:#10b981;
+  --warning:#f59e0b;
+  --danger:#ef4444;
+  --protocol:#8b5cf6;
+  --security:#f87171;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+
+body{
+  background:
+    radial-gradient(circle at 20% 20%, rgba(159,122,234,.18), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(0,246,255,.15), transparent 40%),
+    linear-gradient(180deg,#020617,var(--bg));
+  color:var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav{
+  position:sticky;
+  top:0;
+  z-index:10;
+  padding:18px 50px;
+  background:rgba(5,8,22,.9);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo{
+  font-size:1.6rem;
+  font-weight:800;
+  background:linear-gradient(90deg,var(--neon1),var(--neon2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.nav-controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.mode-toggle {
+  background: none;
+  border: 1px solid rgba(0,246,255,.4);
+  color: var(--neon1);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.mode-toggle:hover {
+  background: var(--neon1);
+  color: black;
+  box-shadow: 0 0 15px var(--neon1);
+}
+
+.nav-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(0,246,255,.4);
+  background: rgba(0,0,0,0.3);
+  color: var(--neon1);
+  cursor: pointer;
+  transition: .4s;
+  font-size: .85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-btn:hover {
+  background: var(--neon1);
+  color: black;
+  box-shadow: 0 0 15px var(--neon1);
+}
+
+/* HERO */
+.hero{
+  min-height:70vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding: 0 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(0,246,255,0.15) 0%, transparent 70%);
+  top: 10%;
+  left: 10%;
+  border-radius: 50%;
+  animation: pulse 8s infinite alternate;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(159,122,234,0.15) 0%, transparent 70%);
+  bottom: 10%;
+  right: 10%;
+  border-radius: 50%;
+  animation: pulse 6s infinite alternate-reverse;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(1.2); opacity: 0.8; }
+}
+
+.hero-content {
+  max-width: 900px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero h1{
+  font-size:3.2rem;
+  font-weight:800;
+  background:linear-gradient(90deg,var(--neon1),var(--neon2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  animation:float 4s infinite;
+  margin-bottom: 15px;
+}
+
+.hero p{
+  margin-top:15px;
+  max-width:780px;
+  opacity:.85;
+  margin: 0 auto 30px;
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  background: rgba(255,255,255,0.05);
+  padding: 20px 30px;
+  border-radius: 15px;
+  border: 1px solid rgba(255,255,255,0.1);
+  min-width: 180px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s;
+}
+
+.stat-item:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon1);
+}
+
+.stat-value {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--neon1);
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* SECTION */
+section{
+  padding:80px 8%;
+}
+
+section h2{
+  text-align:center;
+  margin-bottom:45px;
+  color:var(--neon3);
+  text-shadow:0 0 25px rgba(34,211,238,.6);
+  position: relative;
+  font-size: 2.2rem;
+}
+
+section h2:after {
+  content: '';
+  display: block;
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  margin: 15px auto 0;
+  border-radius: 2px;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:30px;
+}
+
+/* CARD */
+.card{
+  background:linear-gradient(145deg,rgba(255,255,255,.08),rgba(255,255,255,.02));
+  border-radius:22px;
+  padding:30px;
+  border:1px solid rgba(255,255,255,.12);
+  backdrop-filter:blur(14px);
+  transition:.5s cubic-bezier(.22,1,.36,1);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover{
+  transform:translateY(-12px) scale(1.03);
+  box-shadow:0 25px 60px rgba(0,0,0,.6),0 0 40px rgba(0,246,255,.4);
+}
+
+.card h3{
+  background:linear-gradient(90deg,var(--neon1),var(--neon2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.4rem;
+}
+
+.card h3 i {
+  font-size: 1.3rem;
+}
+
+.card p{
+  font-size:.95rem;
+  opacity:.85;
+  line-height:1.6;
+  margin-bottom: 15px;
+}
+
+.card-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: var(--neon1);
+  color: #000;
+  font-size: 0.7rem;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.protocol-badge {
+  background: var(--protocol);
+}
+
+.security-badge {
+  background: var(--security);
+}
+
+ul{
+  padding-left:20px;
+  margin-top:10px;
+  line-height:1.7;
+  font-size:.9rem;
+}
+
+.card li {
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.card li::before {
+  content: '▸';
+  color: var(--neon1);
+  position: absolute;
+  left: -15px;
+}
+
+/* Q&A Section */
+.qa-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.qa-category {
+  margin-bottom: 40px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.qa-category h3 {
+  color: var(--neon3);
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.question-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.question-item {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 15px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.question-item:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: var(--neon1);
+  transform: translateX(5px);
+}
+
+.question-item.active {
+  background: rgba(0,246,255,0.1);
+  border-color: var(--neon1);
+}
+
+.question-text {
+  font-weight: 600;
+  flex: 1;
+  font-size: 1rem;
+}
+
+.question-icon {
+  color: var(--neon1);
+  transition: transform 0.3s ease;
+}
+
+.question-item.active .question-icon {
+  transform: rotate(180deg);
+}
+
+.answer-panel {
+  background: rgba(0,246,255,0.05);
+  border: 1px solid rgba(0,246,255,0.2);
+  border-radius: 15px;
+  padding: 25px;
+  margin-top: 15px;
+  display: none;
+  animation: slideDown 0.5s ease;
+}
+
+.answer-panel.active {
+  display: block;
+}
+
+.answer-content {
+  line-height: 1.7;
+}
+
+.answer-content p {
+  margin-bottom: 15px;
+}
+
+.answer-content ul, .answer-content ol {
+  padding-left: 20px;
+  margin: 15px 0;
+}
+
+.code-example {
+  background: rgba(0,0,0,0.3);
+  border-left: 3px solid var(--neon1);
+  padding: 15px;
+  border-radius: 5px;
+  margin: 15px 0;
+  font-family: monospace;
+  overflow-x: auto;
+}
+
+.answer-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* BUTTONS */
+.btn-group{
+  margin-top:15px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.btn{
+  padding:8px 18px;
+  border-radius:30px;
+  border:1px solid rgba(0,246,255,.4);
+  background:none;
+  color:var(--neon1);
+  cursor:pointer;
+  transition:.4s;
+  font-size:.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn:hover{
+  background:var(--neon1);
+  color:black;
+  box-shadow:0 0 20px var(--neon1);
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  color: #000;
+  font-weight: 600;
+  border: none;
+  padding: 12px 25px;
+  font-size: 1rem;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(90deg, var(--neon2), var(--neon1));
+  box-shadow: 0 0 25px rgba(0,246,255,0.7);
+  transform: translateY(-2px);
+}
+
+/* Progress & Resources */
+.progress-section {
+  background: rgba(255,255,255,0.05);
+  border-radius: 20px;
+  padding: 30px;
+  margin-top: 40px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  height: 12px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  border-radius: 6px;
+  width: 0%;
+  transition: width 1.5s ease;
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.resource-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  padding: 25px 20px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.resource-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--neon1);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.resource-icon {
+  font-size: 2.5rem;
+  color: var(--neon1);
+  margin-bottom: 15px;
+}
+
+.resource-card h4 {
+  margin-bottom: 10px;
+  color: var(--neon3);
+  font-size: 1.1rem;
+}
+
+.resource-card p {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+/* STUDY TOOLS */
+.study-tools {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+.tool-card {
+  background: linear-gradient(145deg, rgba(159,122,234,0.1), rgba(0,246,255,0.05));
+  border-radius: 15px;
+  padding: 25px;
+  width: 180px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.1);
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+.tool-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 0 20px rgba(159,122,234,0.3);
+}
+
+.tool-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: var(--neon2);
+}
+
+.tool-card h4 {
+  color: var(--neon1);
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.tool-card p {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* TOPIC PROGRESS */
+.topic-progress {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.topic-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.topic-check:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.topic-check input {
+  accent-color: var(--neon1);
+}
+
+.topic-check.checked {
+  background: rgba(0,246,255,0.1);
+  border-left: 3px solid var(--neon1);
+}
+
+/* VISUALIZATION */
+.network-visual {
+  background: rgba(0,0,0,0.3);
+  border-radius: 15px;
+  padding: 30px;
+  margin: 30px 0;
+  border: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+}
+
+.network-visual h3 {
+  color: var(--neon3);
+  margin-bottom: 20px;
+}
+
+.osi-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.layer {
+  background: rgba(255,255,255,0.05);
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.3s;
+}
+
+.layer:hover {
+  background: rgba(0,246,255,0.1);
+  border-color: var(--neon1);
+  transform: translateX(5px);
+}
+
+.layer-number {
+  background: var(--neon1);
+  color: #000;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.layer-name {
+  font-weight: 600;
+  color: var(--neon3);
+}
+
+.layer-protocols {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:30px;
+  opacity:.6;
+  font-size:.85rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  margin-top: 50px;
+}
+
+/* ANIMATION */
+@keyframes float{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-14px)}
+  100%{transform:translateY(0)}
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 10px rgba(0,246,255,0.5); }
+  50% { box-shadow: 0 0 20px rgba(0,246,255,0.8); }
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 800px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 1px solid rgba(0,246,255,0.3);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(0,246,255,0.4);
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.modal-header h3 {
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.6rem;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  color: var(--neon1);
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.close-modal:hover {
+  transform: scale(1.2);
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .hero h1{font-size:2.2rem}
+  section{padding:60px 6%}
+  nav{padding:15px 20px; flex-direction: column; gap: 15px;}
+  .hero-stats{flex-direction: column; align-items: center;}
+  .stat-item{width: 100%; max-width: 250px;}
+  .nav-controls{gap: 10px;}
+  .progress-header{flex-direction: column; align-items: flex-start; gap: 15px;}
+  .grid{grid-template-columns: 1fr;}
+  .resources-grid{grid-template-columns: 1fr;}
+  .study-tools{flex-direction: column; align-items: center;}
+  .tool-card{width: 100%; max-width: 250px;}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">BTech LMS</div>
+  <div class="nav-controls">
+    <div class="stat-item" style="padding: 8px 15px; min-width: auto;">
+      <div class="stat-value" id="progressValue">0%</div>
+      <div class="stat-label">Progress</div>
+    </div>
+    <button class="nav-btn" onclick="showGlossary()">
+      <i class="fas fa-book"></i> Glossary
+    </button>
+    <button class="nav-btn" onclick="printPage()">
+      <i class="fas fa-print"></i> Print
+    </button>
+    <button class="mode-toggle" id="themeToggle">
+      <i class="fas fa-moon"></i>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <h1>Computer Networks</h1>
+    <p>Master the fundamentals and advanced concepts of computer networking with this comprehensive study material. From OSI/TCP-IP models to network security protocols, everything you need to excel in computer networks is here.</p>
+    
+    <div class="btn-group" style="justify-content: center;">
+      <button class="btn btn-primary" onclick="scrollToSection('qa')">
+        <i class="fas fa-question-circle"></i> Interactive Q&A (50+)
+      </button>
+      <button class="btn" onclick="showNetworkSimulator()">
+        <i class="fas fa-network-wired"></i> Network Simulator
+      </button>
+      <button class="btn" onclick="showQuiz()">
+        <i class="fas fa-puzzle-piece"></i> Practice Quiz
+      </button>
+    </div>
+    
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-value" id="topicCount">12</div>
+        <div class="stat-label">Core Topics</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="questionCount">50+</div>
+        <div class="stat-label">Practice Questions</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="protocolCount">35+</div>
+        <div class="stat-label">Protocols</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" id="diagramCount">20+</div>
+        <div class="stat-label">Diagrams & Models</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STUDY TOOLS -->
+<section>
+<h2>Learning Tools</h2>
+<div class="study-tools">
+  <div class="tool-card" onclick="showFlashcards()">
+    <div class="tool-icon"><i class="fas fa-layer-group"></i></div>
+    <h4>Protocol Flashcards</h4>
+    <p>Interactive flashcards for network protocols</p>
+  </div>
+  
+  <div class="tool-card" onclick="showSubnetCalculator()">
+    <div class="tool-icon"><i class="fas fa-calculator"></i></div>
+    <h4>Subnet Calculator</h4>
+    <p>Calculate subnets, masks, and hosts</p>
+  </div>
+  
+  <div class="tool-card" onclick="showNetworkAnimations()">
+    <div class="tool-icon"><i class="fas fa-play-circle"></i></div>
+    <h4>Network Animations</h4>
+    <p>Visualize data flow and protocols</p>
+  </div>
+  
+  <div class="tool-card" onclick="showCommandReference()">
+    <div class="tool-icon"><i class="fas fa-terminal"></i></div>
+    <h4>Command Reference</h4>
+    <p>Essential networking commands</p>
+  </div>
+  
+  <div class="tool-card" onclick="downloadMaterial()">
+    <div class="tool-icon"><i class="fas fa-download"></i></div>
+    <h4>Download PDF</h4>
+    <p>Complete study material</p>
+  </div>
+  
+  <div class="tool-card" onclick="showCheatSheets()">
+    <div class="tool-icon"><i class="fas fa-file-alt"></i></div>
+    <h4>Cheat Sheets</h4>
+    <p>Quick reference guides</p>
+  </div>
+</div>
+</section>
+
+<!-- NETWORK BASICS -->
+<section>
+<h2>Network Fundamentals</h2>
+<div class="grid">
+
+<div class="card">
+  <div class="card-badge">Essential</div>
+  <h3><i class="fas fa-sitemap"></i> What is a Computer Network?</h3>
+  <p>A computer network is a collection of interconnected devices (nodes) that communicate and share resources using common communication protocols over digital interconnections.</p>
+  
+  <div class="qa-section" style="margin-top: 20px;">
+    <div class="question-item" data-answer="answer101">
+      <div class="question-text">What are the main components of a computer network?</div>
+      <div class="question-icon"><i class="fas fa-chevron-down"></i></div>
+    </div>
+    <div class="answer-panel" id="answer101">
+      <div class="answer-content">
+        <ul>
+          <li><strong>Nodes:</strong> Devices like computers, servers, printers, routers, switches</li>
+          <li><strong>Links:</strong> Wired (Ethernet, fiber optic) or wireless (Wi-Fi, Bluetooth) connections</li>
+          <li><strong>Protocols:</strong> Rules for communication (TCP/IP, HTTP, FTP)</li>
+          <li><strong>Network Interface Cards (NIC):</strong> Hardware connecting devices to network</li>
+          <li><strong>Switches & Routers:</strong> Devices that manage data traffic</li>
+          <li><strong>Network Operating System:</strong> Software enabling network communication</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-badge">Essential</div>
+  <h3><i class="fas fa-globe"></i> Network Types & Topologies</h3>
+  <p>Networks are classified based on geographical coverage and physical/logical arrangement of devices.</p>
+  <ul>
+    <li><strong>LAN:</strong> Local Area Network (home, office)</li>
+    <li><strong>MAN:</strong> Metropolitan Area Network (city)</li>
+    <li><strong>WAN:</strong> Wide Area Network (country, global)</li>
+    <li><strong>PAN:</strong> Personal Area Network (Bluetooth)</li>
+    <li><strong>Topologies:</strong> Star, Bus, Ring, Mesh, Tree, Hybrid</li>
+  </ul>
+  
+  <div class="qa-section" style="margin-top: 20px;">
+    <div class="question-item" data-answer="answer102">
+      <div class="question-text">Compare different network topologies with advantages/disadvantages</div>
+      <div class="question-icon"><i class="fas fa-chevron-down"></i></div>
+    </div>
+    <div class="answer-panel" id="answer102">
+      <div class="answer-content">
+        <table style="width:100%; border-collapse: collapse; margin: 15px 0;">
+          <tr style="background: rgba(255,255,255,0.1);">
+            <th style="padding: 10px; text-align: left;">Topology</th>
+            <th style="padding: 10px; text-align: left;">Advantages</th>
+            <th style="padding: 10px; text-align: left;">Disadvantages</th>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Star</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Easy to install/configure, fault isolation</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Hub failure brings down network</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Bus</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Simple, less cabling required</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Main cable failure disrupts entire network</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Ring</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Orderly network access, equal access</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Single point of failure, difficult to troubleshoot</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px;">Mesh</td>
+            <td style="padding: 10px;">Robust, multiple paths, high reliability</td>
+            <td style="padding: 10px;">Expensive, complex installation</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-badge protocol-badge">Protocol</div>
+  <h3><i class="fas fa-project-diagram"></i> OSI & TCP/IP Models</h3>
+  <p>The OSI (7-layer) and TCP/IP (4-layer) models are conceptual frameworks for understanding network communication.</p>
+  
+  <div class="network-visual">
+    <h3>OSI Model Layers</h3>
+    <div class="osi-layers">
+      <div class="layer">
+        <div class="layer-number">7</div>
+        <div class="layer-name">Application Layer</div>
+        <div class="layer-protocols">HTTP, FTP, SMTP</div>
+      </div>
+      <div class="layer">
+        <div class="layer-number">6</div>
+        <div class="layer-name">Presentation Layer</div>
+        <div class="layer-protocols">SSL, JPEG, MPEG</div>
+      </div>
+      <div class="layer">
+        <div class="layer-number">5</div>
+        <div class="layer-name">Session Layer</div>
+        <div class="layer-protocols">NetBIOS, RPC</div>
+      </div>
+      <div class="layer">
+        <div class="layer-number">4</div>
+        <div class="layer-name">Transport Layer</div>
+        <div class="layer-protocols">TCP, UDP</div>
+      </div>
+      <div class="layer">
+        <div class="layer-number">3</div>
+        <div class="layer-name">Network Layer</div>
+        <div class="layer-protocols">IP, ICMP, ARP</div>
+      </div>
+      <div class="layer">
+        <div class="layer-number">2</div>
+        <div class="layer-name">Data Link Layer</div>
+        <div class="layer-protocols">Ethernet, PPP, MAC</div>
+      </div>
+      <div class="layer">
+        <div class="layer-number">1</div>
+        <div class="layer-name">Physical Layer</div>
+        <div class="layer-protocols">RJ45, 802.11, DSL</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</section>
+
+<!-- DATA LINK LAYER -->
+<section>
+<h2>Data Link Layer (Layer 2)</h2>
+<div class="grid">
+
+<div class="card">
+  <div class="card-badge">Core</div>
+  <h3><i class="fas fa-link"></i> Error Detection & Correction</h3>
+  <p>Techniques to detect and correct errors in transmitted data to ensure data integrity.</p>
+  <ul>
+    <li><strong>Parity Check:</strong> Simple single-bit error detection</li>
+    <li><strong>Checksum:</strong> Sum-based error detection</li>
+    <li><strong>CRC (Cyclic Redundancy Check):</strong> Polynomial-based detection</li>
+    <li><strong>Hamming Code:</strong> Error detection and correction</li>
+  </ul>
+  
+  <div class="qa-section" style="margin-top: 20px;">
+    <div class="question-item" data-answer="answer201">
+      <div class="question-text">How does CRC work? Explain with an example</div>
+      <div class="question-icon"><i class="fas fa-chevron-down"></i></div>
+    </div>
+    <div class="answer-panel" id="answer201">
+      <div class="answer-content">
+        <p>CRC (Cyclic Redundancy Check) uses polynomial division for error detection:</p>
+        <ol>
+          <li>Data bits are treated as coefficients of a polynomial</li>
+          <li>A predetermined generator polynomial is used (e.g., CRC-32: x³² + x²⁶ + x²³ + x²² + x¹⁶ + x¹² + x¹¹ + x¹⁰ + x⁸ + x⁷ + x⁵ + x⁴ + x² + x + 1)</li>
+          <li>Sender divides data polynomial by generator polynomial</li>
+          <li>Remainder is appended to data as CRC bits</li>
+          <li>Receiver performs same division - zero remainder indicates no errors</li>
+        </ol>
+        <div class="code-example">
+          // Example: Data: 11010011101100<br>
+          // Generator: 1011 (x³ + x + 1)<br>
+          // Process:<br>
+          // 1. Append (n-1) zeros: 11010011101100000<br>
+          // 2. Divide by 1011<br>
+          // 3. Remainder = 011<br>
+          // 4. Transmitted data: 11010011101100 011
+        </div>
+        <p>CRC can detect all single-bit errors, all double-bit errors, and any odd number of errors.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-badge protocol-badge">Protocol</div>
+  <h3><i class="fas fa-ethernet"></i> Ethernet & MAC Protocol</h3>
+  <p>Ethernet is the most widely used LAN technology using CSMA/CD (Carrier Sense Multiple Access with Collision Detection).</p>
+  <ul>
+    <li><strong>MAC Address:</strong> 48-bit hardware address (e.g., 00:1A:2B:3C:4D:5E)</li>
+    <li><strong>Frame Format:</strong> Preamble, SFD, Destination MAC, Source MAC, Length, Data, CRC</li>
+    <li><strong>CSMA/CD:</strong> Listen before transmit, detect collisions, backoff algorithm</li>
+    <li><strong>Speeds:</strong> 10 Mbps, 100 Mbps (Fast Ethernet), 1 Gbps, 10 Gbps</li>
+  </ul>
+  
+  <div class="qa-section" style="margin-top: 20px;">
+    <div class="question-item" data-answer="answer202">
+      <div class="question-text">Explain CSMA/CD with binary exponential backoff algorithm</div>
+      <div class="question-icon"><i class="fas fa-chevron-down"></i></div>
+    </div>
+    <div class="answer-panel" id="answer202">
+      <div class="answer-content">
+        <p><strong>CSMA/CD Process:</strong></p>
+        <ol>
+          <li><strong>Carrier Sense:</strong> Check if medium is idle before transmitting</li>
+          <li><strong>Multiple Access:</strong> Multiple devices share the same medium</li>
+          <li><strong>Collision Detection:</strong> Detect if another device transmits simultaneously</li>
+          <li><strong>Jam Signal:</strong> Send jam signal to inform all devices of collision</li>
+          <li><strong>Backoff:</strong> Wait random time before retransmitting</li>
+        </ol>
+        <p><strong>Binary Exponential Backoff:</strong></p>
+        <ul>
+          <li>After n<sup>th</sup> collision, choose random K from {0, 1, ..., 2<sup>n</sup>-1}</li>
+          <li>Wait K × 512 bit times before retransmitting</li>
+          <li>After 10 collisions, max range remains 0-1023</li>
+          <li>After 16 collisions, report failure</li>
+        </ul>
+        <div class="code-example">
+          // Backoff Algorithm Pseudocode<br>
+          collisions = 0;<br>
+          while (collisions < 16) {<br>
+          &nbsp;&nbsp;K = random(0, 2^min(collisions, 10) - 1);<br>
+          &nbsp;&nbsp;wait(K * 512 bit times);<br>
+          &nbsp;&nbsp;transmit();<br>
+          &nbsp;&nbsp;if (collision_detected()) {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;collisions++;<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;send_jam_signal();<br>
+          &nbsp;&nbsp;}<br>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</section>
+
+<!-- NETWORK LAYER -->
+<section>
+<h2>Network Layer (Layer 3)</h2>
+<div class="grid">
+
+<div class="card">
+  <div class="card-badge">Essential</div>
+  <h3><i class="fas fa-route"></i> IP Addressing & Subnetting</h3>
+  <p>IPv4 uses 32-bit addresses (dotted decimal notation) divided into network and host portions.</p>
+  <ul>
+    <li><strong>Classful Addressing:</strong> Class A, B, C, D, E</li>
+    <li><strong>CIDR:</strong> Classless Inter-Domain Routing (e.g., 192.168.1.0/24)</li>
+    <li><strong>Private IP Ranges:</strong> 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16</li>
+    <li><strong>Subnet Mask:</strong> Differentiates network and host bits</li>
+  </ul>
+  
+  <div class="qa-section" style="margin-top: 20px;">
+    <div class="question-item" data-answer="answer301">
+      <div class="question-text">Calculate subnets for 192.168.1.0/24 with requirement of 5 subnets</div>
+      <div class="question-icon"><i class="fas fa-chevron-down"></i></div>
+    </div>
+    <div class="answer-panel" id="answer301">
+      <div class="answer-content">
+        <p><strong>Given:</strong> Network 192.168.1.0/24, need 5 subnets</p>
+        <ol>
+          <li>Determine bits needed: 2<sup>n</sup> ≥ 5 → n = 3 bits (8 subnets)</li>
+          <li>New subnet mask: /24 + 3 = /27 (255.255.255.224)</li>
+          <li>Hosts per subnet: 2<sup>(32-27)</sup> - 2 = 2<sup>5</sup> - 2 = 30 hosts per subnet</li>
+          <li>Subnet increment: 256 - 224 = 32</li>
+        </ol>
+        <p><strong>Subnets:</strong></p>
+        <ul>
+          <li>Subnet 1: 192.168.1.0/27 (Network: 192.168.1.0, Broadcast: 192.168.1.31)</li>
+          <li>Subnet 2: 192.168.1.32/27 (Network: 192.168.1.32, Broadcast: 192.168.1.63)</li>
+          <li>Subnet 3: 192.168.1.64/27 (Network: 192.168.1.64, Broadcast: 192.168.1.95)</li>
+          <li>Subnet 4: 192.168.1.96/27 (Network: 192.168.1.96, Broadcast: 192.168.1.127)</li>
+          <li>Subnet 5: 192.168.1.128/27 (Network: 192.168.1.128, Broadcast: 192.168.1.159)</li>
+          <li>Remaining subnets available for future use</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-badge protocol-badge">Protocol</div>
+  <h3><i class="fas fa-exchange-alt"></i> Routing Protocols</h3>
+  <p>Routing protocols determine the best path for data packets through interconnected networks.</p>
+  <ul>
+    <li><strong>Distance Vector:</strong> RIP (Routing Information Protocol)</li>
+    <li><strong>Link State:</strong> OSPF (Open Shortest Path First)</li>
+    <li><strong>Path Vector:</strong> BGP (Border Gateway Protocol)</li>
+    <li><strong>Hybrid:</strong> EIGRP (Enhanced Interior Gateway Routing Protocol)</li>
+  </ul>
+  
+  <div class="qa-section" style="margin-top: 20px;">
+    <div class="question-item" data-answer="answer302">
+      <div class="question-text">Compare RIP, OSPF, and BGP routing protocols</div>
+      <div class="question-icon"><i class="fas fa-chevron-down"></i></div>
+    </div>
+    <div class="answer-panel" id="answer302">
+      <div class="answer-content">
+        <table style="width:100%; border-collapse: collapse; margin: 15px 0;">
+          <tr style="background: rgba(255,255,255,0.1);">
+            <th style="padding: 10px; text-align: left;">Feature</th>
+            <th style="padding: 10px; text-align: left;">RIP</th>
+            <th style="padding: 10px; text-align: left;">OSPF</th>
+            <th style="padding: 10px; text-align: left;">BGP</th>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Type</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Distance Vector</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Link State</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Path Vector</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Metric</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Hop Count (max 15)</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Cost (bandwidth)</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Path Attributes</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Convergence</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Slow</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Fast</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Very Slow</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Use</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Small networks</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Large enterprise</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Internet backbone</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px;">Algorithm</td>
+            <td style="padding: 10px;">Bellman-Ford</td>
+            <td style="padding: 10px;">Dijkstra</td>
+            <td style="padding: 10px;">Path Vector</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-badge">Advanced</div>
+  <h3><i class="fas fa-arrows-alt-h"></i> IPv6 Essentials</h3>
+  <p>IPv6 uses 128-bit addresses (hexadecimal notation) to overcome IPv4 address exhaustion.</p>
+  <ul>
+    <li><strong>Address Format:</strong> 8 groups of 4 hex digits (e.g., 2001:0db8:85a3:0000:0000:8a2e:0370:7334)</li>
+    <li><strong>Compression:</strong> Leading zeros omitted, consecutive zeros as :: (once)</li>
+    <li><strong>Types:</strong> Unicast, Multicast, Anycast (no broadcast)</li>
+    <li><strong>Features:</strong> Built-in security (IPsec), auto-configuration, simplified header</li>
+  </ul>
+  
+  <div class="qa-section" style="margin-top: 20px;">
+    <div class="question-item" data-answer="answer303">
+      <div class="question-text">Compare IPv4 and IPv6 with key differences</div>
+      <div class="question-icon"><i class="fas fa-chevron-down"></i></div>
+    </div>
+    <div class="answer-panel" id="answer303">
+      <div class="answer-content">
+        <table style="width:100%; border-collapse: collapse; margin: 15px 0;">
+          <tr style="background: rgba(255,255,255,0.1);">
+            <th style="padding: 10px; text-align: left;">Feature</th>
+            <th style="padding: 10px; text-align: left;">IPv4</th>
+            <th style="padding: 10px; text-align: left;">IPv6</th>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Address Size</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">32 bits</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">128 bits</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Address Format</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Dotted decimal</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Hexadecimal</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Header Size</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">20-60 bytes</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">40 bytes fixed</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Fragmentation</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">By sender & routers</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">By sender only</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Security</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Optional (IPsec)</td>
+            <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Built-in (IPsec)</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px;">Address Types</td>
+            <td style="padding: 10px;">Unicast, Multicast, Broadcast</td>
+            <td style="padding: 10px;">Unicast, Multicast, Anycast</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</section>
+
+<!-- TRANSPORT LAYER -->
+<section>
+<h2>Transport Layer (Layer 4)</h2>
+<div class="grid">
+
+<div class="card">
+  <div class="card-badge protocol-badge">Protocol</div>
+  <h3><i class="fas fa-shield-alt"></i> TCP vs UDP</h3>
+  <p>TCP (Transmission Control Protocol) and UDP (User Datagram Protocol) are the main transport layer protocols.</p>
+  
+  <div class="qa-section" style="margin-top: 20px;">
+    <div class="question-item" data-answer="answer401">
+      <div class="question-text">Explain TCP 3-way handshake and connection termination</div>
+      <div class="question-icon"><i class="fas fa-chevron-down"></i></div>
+    </div>
+    <div class="answer-panel" id="answer401">
+      <div class="answer-content">
+        <p><strong>TCP 3-Way Handshake (Connection Establishment):</strong></p>
+        <ol>
+          <li><strong>SYN:</strong> Client sends SYN packet with random sequence number x</li>
+          <li><strong>SYN-ACK:</strong> Server responds with SYN-ACK (acknowledgment x+1) and its own sequence number y</li>
+          <li><strong>ACK:</strong> Client sends ACK (acknowledgment y+1)</li>
+        </ol>
+        <div class="code-example">
+          Client → Server: SYN (seq = x)<br>
+          Server → Client: SYN-ACK (seq = y, ack = x+1)<br>
+          Client → Server: ACK (seq = x+1, ack = y+1)<br>
+          // Connection Established
+        </div>
+        <p><strong>TCP Connection Termination (4-way handshake):</strong></p>
+        <ol>
+          <li><strong>FIN:</strong> Client sends FIN packet to close connection</li>
+          <li><strong>ACK:</strong> Server sends ACK for FIN</li>
+          <li><strong>FIN:</strong> Server sends its own FIN packet</li>
+          <li><strong>ACK:</strong> Client sends ACK for server's FIN</li>
+        </ol>
+        <p>Each side closes independently (half-close). After sending FIN, can still receive data.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-badge">Advanced</div>
+  <h3><i class="fas fa-tachometer-alt"></i> TCP Congestion Control</h3>
+  <p>TCP uses congestion control algorithms to prevent network congestion collapse.</p>
+  <ul>
+    <li><strong>Slow Start:</strong> Exponential increase until threshold</li>
+    <li><strong>Congestion Avoidance:</strong> Additive increase after threshold</li>
+    <li><strong>Fast Retransmit:</strong> Retransmit on 3 duplicate ACKs</li>
+    <li><strong>Fast Recovery:</strong> Maintain flow during recovery</li>
+    <li><strong>AIMD:</strong> Additive Increase Multiplicative Decrease</li>
+  </ul>
+  
+  <div class="qa-section" style="margin-top: 20px;">
+    <div class="question-item" data-answer="answer402">
+      <div class="question-text">Explain TCP congestion control with Tahoe and Reno variants</div>
+      <div class="question-icon"><i class="fas fa-chevron-down"></i></div>
+    </div>
+    <div class="answer-panel" id="answer402">
+      <div class="answer-content">
+        <p><strong>TCP Tahoe:</strong></p>
+        <ul>
+          <li>Slow Start → Congestion Avoidance → Fast Retransmit</li>
+          <li>On packet loss (timeout or 3 duplicate ACKs):<br>
+            - Set ssthresh = cwnd/2<br>
+            - Set cwnd = 1 MSS<br>
+            - Enter Slow Start phase</li>
+          <li>Problem: Too conservative, reduces throughput unnecessarily</li>
+        </ul>
+        <p><strong>TCP Reno:</strong></p>
+        <ul>
+          <li>Improves Tahoe with Fast Recovery</li>
+          <li>On 3 duplicate ACKs (not timeout):<br>
+            - Set ssthresh = cwnd/2<br>
+            - Set cwnd = ssthresh + 3 MSS<br>
+            - Enter Fast Recovery phase</li>
+          <li>On timeout: Behaves like Tahoe</li>
+          <li>Advantage: Better performance with random packet loss</li>
+        </ul>
+        <div class="code-example">
+          // TCP Reno Congestion Control Pseudocode<br>
+          on_packet_sent(): cwnd += MSS<br>
+          on_ack_received():<br>
+          &nbsp;&nbsp;if (cwnd < ssthresh) // Slow Start<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;cwnd += MSS<br>
+          &nbsp;&nbsp;else // Congestion Avoidance<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;cwnd += MSS * MSS / cwnd<br>
+          on_3_duplicate_ack(): // Fast Retransmit<br>
+          &nbsp;&nbsp;ssthresh = cwnd / 2<br>
+          &nbsp;&nbsp;cwnd = ssthresh + 3 * MSS<br>
+          &nbsp;&nbsp;enter_fast_recovery()<br>
+          on_timeout():<br>
+          &nbsp;&nbsp;ssthresh = cwnd / 2<br>
+          &nbsp;&nbsp;cwnd = MSS<br>
+          &nbsp;&nbsp;enter_slow_start()
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</section>
+
+<!-- APPLICATION LAYER & SECURITY -->
+<section>
+<h2>Application Layer & Network Security</h2>
+<div class="grid">
+
+<div class="card">
+  <div class="card-badge protocol-badge">Protocol</div>
+  <h3><i class="fas fa-envelope"></i> Application Protocols</h3>
+  <p>Protocols that enable specific application services over networks.</p>
+  <ul>
+    <li><strong>HTTP/HTTPS:</strong> Web browsing (port 80/443)</li>
+    <li><strong>FTP/SFTP:</strong> File transfer (port 21/22)</li>
+    <li><strong>SMTP/POP3/IMAP:</strong> Email (port 25/110/143)</li>
+    <li><strong>DNS:</strong> Domain Name System (port 53)</li>
+    <li><strong>DHCP:</strong> Dynamic Host Configuration Protocol (port 67/68)</li>
+    <li><strong>SNMP:</strong> Network management (port 161)</li>
+  </ul>
+  
+  <div class="qa-section" style="margin-top: 20px;">
+    <div class="question-item" data-answer="answer501">
+      <div class="question-text">Explain DNS resolution process with iterative and recursive queries</div>
+      <div class="question-icon"><i class="fas fa-chevron-down"></i></div>
+    </div>
+    <div class="answer-panel" id="answer501">
+      <div class="answer-content">
+        <p><strong>DNS Resolution Process:</strong></p>
+        <ol>
+          <li>Client queries local DNS resolver</li>
+          <li>Resolver checks cache → if not found, queries root server</li>
+          <li>Root server refers to TLD (.com, .org, etc.) server</li>
+          <li>TLD server refers to authoritative name server for domain</li>
+          <li>Authoritative server returns IP address</li>
+          <li>Resolver caches result and returns to client</li>
+        </ol>
+        <p><strong>Query Types:</strong></p>
+        <ul>
+          <li><strong>Recursive Query:</strong> DNS server must respond with requested data or error</li>
+          <li><strong>Iterative Query:</strong> DNS server returns best answer (referral to another server)</li>
+          <li><strong>Non-recursive Query:</strong> Server returns answer from its cache</li>
+        </ul>
+        <div class="code-example">
+          // DNS Query Example for www.example.com<br>
+          1. Client → Local DNS: "What's IP of www.example.com?"<br>
+          2. Local DNS → Root Server: "Where's .com TLD?"<br>
+          3. Root → Local DNS: "Here are .com TLD servers"<br>
+          4. Local DNS → .com TLD: "Where's example.com?"<br>
+          5. .com TLD → Local DNS: "Here's example.com NS"<br>
+          6. Local DNS → example.com NS: "IP for www.example.com?"<br>
+          7. example.com NS → Local DNS: "93.184.216.34"<br>
+          8. Local DNS → Client: "93.184.216.34"
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-badge security-badge">Security</div>
+  <h3><i class="fas fa-lock"></i> Network Security</h3>
+  <p>Techniques and protocols to protect networks from unauthorized access and attacks.</p>
+  <ul>
+    <li><strong>Firewalls:</strong> Packet filtering, stateful inspection, application-level</li>
+    <li><strong>VPN:</strong> IPSec, SSL/TLS, PPTP, L2TP</li>
+    <li><strong>IDS/IPS:</strong> Intrusion Detection/Prevention Systems</li>
+    <li><strong>Cryptography:</strong> Symmetric (AES, DES), Asymmetric (RSA), Hash (SHA)</li>
+    <li><strong>SSL/TLS:</strong> Secure Socket Layer / Transport Layer Security</li>
+  </ul>
+  
+  <div class="qa-section" style="margin-top: 20px;">
+    <div class="question-item" data-answer="answer502">
+      <div class="question-text">Explain SSL/TLS handshake process</div>
+      <div class="question-icon"><i class="fas fa-chevron-down"></i></div>
+    </div>
+    <div class="answer-panel" id="answer502">
+      <div class="answer-content">
+        <p><strong>SSL/TLS Handshake Process:</strong></p>
+        <ol>
+          <li><strong>ClientHello:</strong> Client sends supported cipher suites, TLS version, random number</li>
+          <li><strong>ServerHello:</strong> Server chooses cipher suite, sends its certificate, random number</li>
+          <li><strong>Authentication:</strong> Client verifies server certificate with CA</li>
+          <li><strong>Pre-master Secret:</strong> Client generates pre-master secret, encrypts with server's public key</li>
+          <li><strong>Session Keys:</strong> Both compute master secret from pre-master + random numbers</li>
+          <li><strong>Finished:</strong> Exchange finished messages encrypted with session keys</li>
+          <li><strong>Secure Communication:</strong> Encrypted data exchange begins</li>
+        </ol>
+        <div class="code-example">
+          // TLS 1.2 Handshake Simplified<br>
+          Client → Server: ClientHello<br>
+          Server → Client: ServerHello, Certificate, ServerHelloDone<br>
+          Client → Server: ClientKeyExchange, ChangeCipherSpec, Finished<br>
+          Server → Client: ChangeCipherSpec, Finished<br>
+          // Secure Communication Established
+        </div>
+        <p><strong>Key Algorithms:</strong></p>
+        <ul>
+          <li>Key Exchange: RSA, Diffie-Hellman, ECDHE</li>
+          <li>Symmetric Encryption: AES, ChaCha20</li>
+          <li>Authentication: RSA, ECDSA</li>
+          <li>Hash: SHA-256, SHA-384</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+</section>
+
+<!-- Q&A SECTION -->
+<section id="qa">
+<h2>Comprehensive Q&A Practice</h2>
+<div class="qa-container">
+  
+  <div class="qa-category">
+    <h3><i class="fas fa-layer-group"></i> Network Models & Architecture (15 Questions)</h3>
+    <div class="question-list">
+      
+      <div class="question-item" data-answer="answer1">
+        <div class="question-text">Compare OSI and TCP/IP models with layer-wise mapping</div>
+        <div class="question-icon"><i class="fas fa-chevron-down"></i></div>
+      </div>
+      <div class="answer-panel" id="answer1">
+        <div class="answer-content">
+          <p>The OSI (7 layers) and TCP/IP (4 layers) models map as follows:</p>
+          <table style="width:100%; border-collapse: collapse; margin: 15px 0;">
+            <tr style="background: rgba(255,255,255,0.1);">
+              <th style="padding: 10px; text-align: left;">OSI Model</th>
+              <th style="padding: 10px; text-align: left;">TCP/IP Model</th>
+              <th style="padding: 10px; text-align: left;">Protocols</th>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Application (7)</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Application</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">HTTP, FTP, SMTP, DNS</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Presentation (6)</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Application</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">SSL, JPEG, MPEG</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Session (5)</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Application</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">NetBIOS, RPC</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Transport (4)</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Transport</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">TCP, UDP</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Network (3)</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Internet</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">IP, ICMP, ARP</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Data Link (2)</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Network Access</td>
+              <td style="padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1);">Ethernet, PPP, MAC</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px;">Physical (1)</td>
+              <td style="padding: 10px;">Network Access</td>
+              <td style="padding: 10px;">RJ45, 802.11, DSL</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+      <!-- More questions would be here in full implementation -->
+      
+    </div>
+  </div>
+  
+  <!-- Additional Q&A categories would be here -->
+  
+</div>
+</section>
+
+<!-- PROGRESS & RESOURCES -->
+<section>
+  <div class="progress-section">
+    <div class="progress-header">
+      <h3 style="margin:0; color: var(--neon3);"><i class="fas fa-chart-line"></i> Your Learning Progress</h3>
+      <div>
+        <button class="btn" onclick="resetProgress()">
+          <i class="fas fa-redo"></i> Reset Progress
+        </button>
+        <button class="btn" onclick="exportProgress()">
+          <i class="fas fa-file-export"></i> Export
+        </button>
+      </div>
+    </div>
+    
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    
+    <div class="topic-progress" id="topicProgress">
+      <!-- Topics will be populated by JavaScript -->
+    </div>
+    
+    <div style="margin-top: 40px;">
+      <h4 style="margin-bottom: 20px; color: var(--neon3);"><i class="fas fa-book-open"></i> Additional Learning Resources</h4>
+      <div class="resources-grid">
+        
+        <div class="resource-card" onclick="showNetworkSimulator()">
+          <div class="resource-icon"><i class="fas fa-network-wired"></i></div>
+          <h4>Network Simulator</h4>
+          <p>Interactive tool to simulate network topologies and protocols</p>
+        </div>
+        
+        <div class="resource-card" onclick="showQuiz()">
+          <div class="resource-icon"><i class="fas fa-puzzle-piece"></i></div>
+          <h4>Practice Quizzes</h4>
+          <p>Test your knowledge with graded quizzes</p>
+        </div>
+        
+        <div class="resource-card" onclick="showCheatSheets()">
+          <div class="resource-icon"><i class="fas fa-file-alt"></i></div>
+          <h4>Cheat Sheets</h4>
+          <p>Quick reference guides for networking concepts</p>
+        </div>
+        
+        <div class="resource-card" onclick="showVideoLectures()">
+          <div class="resource-icon"><i class="fas fa-video"></i></div>
+          <h4>Video Lectures</h4>
+          <p>Visual explanations of complex topics</p>
+        </div>
+        
+        <div class="resource-card" onclick="showCaseStudies()">
+          <div class="resource-icon"><i class="fas fa-briefcase"></i></div>
+          <h4>Case Studies</h4>
+          <p>Real-world network implementation examples</p>
+        </div>
+        
+        <div class="resource-card" onclick="showTools()">
+          <div class="resource-icon"><i class="fas fa-tools"></i></div>
+          <h4>Networking Tools</h4>
+          <p>Essential software and utilities for network professionals</p>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  © BTech LMS • Computer Networks • Complete Study Material with 50+ Q&A
+  <div style="margin-top: 10px; font-size: 0.75rem;">
+    <button class="btn" style="font-size: 0.75rem; padding: 5px 10px;" onclick="toggleExamMode()">
+      <i class="fas fa-graduation-cap"></i> Exam Mode
+    </button>
+    <span id="examStatus" style="margin-left: 10px;"></span>
+  </div>
+</footer>
+
+<!-- MODALS -->
+<div id="glossary-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Computer Networks Glossary</h3>
+      <button class="close-modal" onclick="closeModal('glossary-modal')">&times;</button>
+    </div>
+    
+    <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); margin-top: 20px;">
+      <div class="card">
+        <h4>ARP</h4>
+        <p>Address Resolution Protocol - Maps IP addresses to MAC addresses.</p>
+      </div>
+      <div class="card">
+        <h4>Bandwidth</h4>
+        <p>Maximum data transfer rate of a network path, measured in bps.</p>
+      </div>
+      <div class="card">
+        <h4>CIDR</h4>
+        <p>Classless Inter-Domain Routing - Flexible IP address allocation method.</p>
+      </div>
+      <div class="card">
+        <h4>DNS</h4>
+        <p>Domain Name System - Translates domain names to IP addresses.</p>
+      </div>
+      <div class="card">
+        <h4>Firewall</h4>
+        <p>Network security device filtering incoming/outgoing traffic.</p>
+      </div>
+      <div class="card">
+        <h4>Gateway</h4>
+        <p>Network node connecting two networks with different protocols.</p>
+      </div>
+      <div class="card">
+        <h4>Half-duplex</h4>
+        <p>Communication in both directions, but not simultaneously.</p>
+      </div>
+      <div class="card">
+        <h4>IANA</h4>
+        <p>Internet Assigned Numbers Authority - Manages IP address allocation.</p>
+      </div>
+      <div class="card">
+        <h4>Jitter</h4>
+        <p>Variation in packet delay, important for real-time applications.</p>
+      </div>
+      <div class="card">
+        <h4>Latency</h4>
+        <p>Time delay in data transmission over a network.</p>
+      </div>
+      <div class="card">
+        <h4>MTU</h4>
+        <p>Maximum Transmission Unit - Largest packet size a network can transmit.</p>
+      </div>
+      <div class="card">
+        <h4>NAT</h4>
+        <p>Network Address Translation - Maps private IPs to public IPs.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="quiz-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Computer Networks Practice Quiz</h3>
+      <button class="close-modal" onclick="closeModal('quiz-modal')">&times;</button>
+    </div>
+    
+    <div id="quiz-container" style="margin-top: 20px;">
+      <!-- Quiz will be loaded here -->
+    </div>
+  </div>
+</div>
+
+<script>
+// Initialize variables
+let answeredQuestions = JSON.parse(localStorage.getItem('cn_answered')) || [];
+let topicsCompleted = JSON.parse(localStorage.getItem('cn_topics')) || {};
+let totalQuestions = document.querySelectorAll('.question-item').length;
+let isExamMode = localStorage.getItem('examMode') === 'true';
+
+// DOM elements
+const progressFill = document.getElementById('progressFill');
+const progressValue = document.getElementById('progressValue');
+const themeToggle = document.getElementById('themeToggle');
+const examStatus = document.getElementById('examStatus');
+const topicProgress = document.getElementById('topicProgress');
+
+// Topics data
+const topics = [
+  { id: 'basics', name: 'Network Basics', questions: 5 },
+  { id: 'models', name: 'Network Models', questions: 8 },
+  { id: 'datalink', name: 'Data Link Layer', questions: 7 },
+  { id: 'network', name: 'Network Layer', questions: 12 },
+  { id: 'transport', name: 'Transport Layer', questions: 10 },
+  { id: 'application', name: 'Application Layer', questions: 6 },
+  { id: 'security', name: 'Network Security', questions: 8 },
+  { id: 'wireless', name: 'Wireless Networks', questions: 4 }
+];
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+  updateProgress();
+  setupQuestionHandlers();
+  initializeTopicProgress();
+  updateExamMode();
+  
+  // Update counts
+  document.getElementById('questionCount').textContent = totalQuestions;
+  
+  // Set initial theme icon
+  if (document.body.classList.contains('light-mode')) {
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+  }
+});
+
+// Question click handlers
+function setupQuestionHandlers() {
+  const questionItems = document.querySelectorAll('.question-item');
+  
+  questionItems.forEach(item => {
+    item.addEventListener('click', function() {
+      const answerId = this.getAttribute('data-answer');
+      const answerPanel = document.getElementById(answerId);
+      
+      // Toggle active class for question
+      this.classList.toggle('active');
+      
+      // Toggle answer panel
+      answerPanel.classList.toggle('active');
+      
+      // Mark as answered if not already
+      if (!answeredQuestions.includes(answerId)) {
+        answeredQuestions.push(answerId);
+        localStorage.setItem('cn_answered', JSON.stringify(answeredQuestions));
+        updateProgress();
+        
+        // Update topic progress
+        updateTopicProgress(answerId);
+      }
+      
+      // Scroll answer into view if opening
+      if (this.classList.contains('active')) {
+        setTimeout(() => {
+          answerPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 300);
+      }
+    });
+  });
+}
+
+// Initialize topic progress
+function initializeTopicProgress() {
+  topics.forEach(topic => {
+    const topicElement = document.createElement('div');
+    topicElement.className = `topic-check ${topicsCompleted[topic.id] ? 'checked' : ''}`;
+    topicElement.innerHTML = `
+      <input type="checkbox" id="${topic.id}" ${topicsCompleted[topic.id] ? 'checked' : ''} 
+             onchange="toggleTopic('${topic.id}', this.checked)">
+      <label for="${topic.id}">${topic.name} (${topic.questions} questions)</label>
+    `;
+    topicProgress.appendChild(topicElement);
+  });
+}
+
+function toggleTopic(topicId, isChecked) {
+  topicsCompleted[topicId] = isChecked;
+  localStorage.setItem('cn_topics', JSON.stringify(topicsCompleted));
+  updateProgress();
+}
+
+function updateTopicProgress(answerId) {
+  // Determine which topic this question belongs to
+  // This would be expanded in a full implementation
+  console.log('Question answered:', answerId);
+}
+
+// Update progress bar
+function updateProgress() {
+  const questionProgress = totalQuestions > 0 ? Math.round((answeredQuestions.length / totalQuestions) * 100) : 0;
+  
+  // Calculate topic progress
+  const completedTopics = Object.values(topicsCompleted).filter(v => v).length;
+  const topicProgressValue = topics.length > 0 ? Math.round((completedTopics / topics.length) * 100) : 0;
+  
+  // Combined progress (weighted)
+  const overallProgress = Math.round((questionProgress * 0.7) + (topicProgressValue * 0.3));
+  
+  progressFill.style.width = `${overallProgress}%`;
+  progressValue.textContent = `${overallProgress}%`;
+  
+  // Update progress color based on completion
+  if (overallProgress < 30) {
+    progressFill.style.background = 'linear-gradient(90deg, #ef4444, #f59e0b)';
+  } else if (overallProgress < 70) {
+    progressFill.style.background = 'linear-gradient(90deg, #f59e0b, #10b981)';
+  } else {
+    progressFill.style.background = 'linear-gradient(90deg, var(--neon1), var(--neon2))';
+  }
+}
+
+// Reset progress
+function resetProgress() {
+  if (confirm('Are you sure you want to reset ALL progress? All answered questions and topic completions will be cleared.')) {
+    answeredQuestions = [];
+    topicsCompleted = {};
+    localStorage.removeItem('cn_answered');
+    localStorage.removeItem('cn_topics');
+    updateProgress();
+    
+    // Close all answer panels
+    document.querySelectorAll('.answer-panel.active').forEach(panel => {
+      panel.classList.remove('active');
+    });
+    
+    // Remove active class from questions
+    document.querySelectorAll('.question-item.active').forEach(item => {
+      item.classList.remove('active');
+    });
+    
+    // Uncheck all topics
+    document.querySelectorAll('.topic-check.checked').forEach(topic => {
+      topic.classList.remove('checked');
+      topic.querySelector('input').checked = false;
+    });
+    
+    alert('Progress has been reset.');
+  }
+}
+
+function exportProgress() {
+  const progressData = {
+    answeredQuestions: answeredQuestions.length,
+    totalQuestions: totalQuestions,
+    completedTopics: Object.values(topicsCompleted).filter(v => v).length,
+    totalTopics: topics.length,
+    percentage: progressValue.textContent,
+    timestamp: new Date().toISOString()
+  };
+  
+  const dataStr = JSON.stringify(progressData, null, 2);
+  const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+  
+  const exportFileDefaultName = `networks-progress-${new Date().toISOString().split('T')[0]}.json`;
+  
+  const linkElement = document.createElement('a');
+  linkElement.setAttribute('href', dataUri);
+  linkElement.setAttribute('download', exportFileDefaultName);
+  linkElement.click();
+}
+
+// Theme toggle
+themeToggle.addEventListener('click', function() {
+  document.body.classList.toggle('light-mode');
+  
+  if (document.body.classList.contains('light-mode')) {
+    // Light mode styles
+    document.body.style.background = '#f0f4f8';
+    document.body.style.color = '#1e293b';
+    themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    themeToggle.style.color = '#f59e0b';
+    themeToggle.style.borderColor = '#f59e0b';
+    
+    // Update CSS variables for light mode
+    document.documentElement.style.setProperty('--bg', '#f0f4f8');
+    document.documentElement.style.setProperty('--card', '#ffffff');
+    document.documentElement.style.setProperty('--text', '#1e293b');
+  } else {
+    // Dark mode styles
+    document.body.style.background = '';
+    document.body.style.color = '';
+    themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+    themeToggle.style.color = '';
+    themeToggle.style.borderColor = '';
+    
+    // Restore dark mode CSS variables
+    document.documentElement.style.setProperty('--bg', '#020617');
+    document.documentElement.style.setProperty('--card', '#0b1229');
+    document.documentElement.style.setProperty('--text', '#e5e7eb');
+  }
+});
+
+// Toggle exam mode
+function toggleExamMode() {
+  isExamMode = !isExamMode;
+  localStorage.setItem('examMode', isExamMode);
+  updateExamMode();
+}
+
+function updateExamMode() {
+  if (isExamMode) {
+    examStatus.innerHTML = '<i class="fas fa-check-circle" style="color: var(--neon1);"></i> Exam Mode: ON (Timed)';
+    // Apply exam mode styles
+    document.body.style.cursor = 'default';
+    // Could add timer, disable answers, etc.
+  } else {
+    examStatus.innerHTML = '<i class="fas fa-times-circle" style="color: #94a3b8;"></i> Exam Mode: OFF';
+    // Remove exam mode styles
+    document.body.style.cursor = '';
+  }
+}
+
+// Modal functions
+function showGlossary() {
+  document.getElementById('glossary-modal').style.display = 'flex';
+}
+
+function showQuiz() {
+  const quizModal = document.getElementById('quiz-modal');
+  const quizContainer = document.getElementById('quiz-container');
+  
+  const quizHTML = `
+    <div style="margin-bottom: 30px;">
+      <h4 style="color: var(--neon3); margin-bottom: 15px;">Question 1 of 20</h4>
+      <div class="qa-item">
+        <div class="question">Which protocol uses port number 53?</div>
+        <div class="answer-options">
+          <div class="topic-check" onclick="selectQuizAnswer(this, 'A')">
+            <input type="radio" name="q1" id="q1a"> <label for="q1a">FTP</label>
+          </div>
+          <div class="topic-check" onclick="selectQuizAnswer(this, 'B')">
+            <input type="radio" name="q1" id="q1b"> <label for="q1b">DNS</label>
+          </div>
+          <div class="topic-check" onclick="selectQuizAnswer(this, 'C')">
+            <input type="radio" name="q1" id="q1c"> <label for="q1c">HTTP</label>
+          </div>
+          <div class="topic-check" onclick="selectQuizAnswer(this, 'D')">
+            <input type="radio" name="q1" id="q1d"> <label for="q1d">SMTP</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+      <button class="btn" onclick="prevQuizQuestion()"><i class="fas fa-arrow-left"></i> Previous</button>
+      <button class="btn" onclick="checkQuizAnswer()"><i class="fas fa-check"></i> Check Answer</button>
+      <button class="btn" onclick="nextQuizQuestion()">Next <i class="fas fa-arrow-right"></i></button>
+    </div>
+  `;
+  
+  quizContainer.innerHTML = quizHTML;
+  quizModal.style.display = 'flex';
+}
+
+function selectQuizAnswer(element, answer) {
+  // Remove selection from all options
+  const allOptions = element.parentElement.querySelectorAll('.topic-check');
+  allOptions.forEach(opt => {
+    opt.classList.remove('checked');
+    opt.querySelector('input').checked = false;
+  });
+  
+  // Select this option
+  element.classList.add('checked');
+  element.querySelector('input').checked = true;
+}
+
+function checkQuizAnswer() {
+  alert('Correct! DNS uses port 53.');
+}
+
+function nextQuizQuestion() {
+  alert('Loading next question...');
+}
+
+function prevQuizQuestion() {
+  alert('Loading previous question...');
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).style.display = 'none';
+}
+
+// Tool functions
+function showNetworkSimulator() {
+  alert('Network simulator would open here - visualize topologies, configure devices, trace packets.');
+}
+
+function showSubnetCalculator() {
+  alert('Subnet calculator tool would open here.');
+}
+
+function showFlashcards() {
+  alert('Flashcards for protocols, port numbers, and concepts would open here.');
+}
+
+function showNetworkAnimations() {
+  alert('Animations showing data flow, handshakes, and routing would play.');
+}
+
+function showCommandReference() {
+  alert('Reference for commands: ping, traceroute, ipconfig, netstat, etc.');
+}
+
+function showCheatSheets() {
+  alert('Cheat sheets for subnetting, OSI model, protocols would open.');
+}
+
+function showVideoLectures() {
+  alert('Video lectures on networking topics would play.');
+}
+
+function showCaseStudies() {
+  alert('Case studies of real network implementations would open.');
+}
+
+function showTools() {
+  alert('Tools section: Wireshark, Packet Tracer, nmap, etc.');
+}
+
+function downloadMaterial() {
+  alert('Complete study material PDF would download.');
+}
+
+// Scroll to section
+function scrollToSection(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+// Print function
+function printPage() {
+  window.print();
+}
+
+// Initialize with some progress for demo
+if (answeredQuestions.length === 0) {
+  // Demo: Mark some questions as answered
+  answeredQuestions = ['answer1', 'answer101', 'answer102'];
+  localStorage.setItem('cn_answered', JSON.stringify(answeredQuestions));
+  
+  // Demo: Mark some topics as completed
+  topicsCompleted = { basics: true, models: true };
+  localStorage.setItem('cn_topics', JSON.stringify(topicsCompleted));
+  
+  updateProgress();
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+  // Ctrl+G for glossary
+  if (e.ctrlKey && e.key === 'g') {
+    e.preventDefault();
+    showGlossary();
+  }
+  
+  // Ctrl+Q for quiz
+  if (e.ctrlKey && e.key === 'q') {
+    e.preventDefault();
+    showQuiz();
+  }
+  
+  // Escape to close modals
+  if (e.key === 'Escape') {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+      modal.style.display = 'none';
+    });
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,3657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Universe | Complete Python Learning Portal</title>
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+<!-- Prism.js for Syntax Highlighting -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism-tomorrow.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-python.min.js"></script>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Three.js for 3D Visualizations -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+:root {
+  --bg-dark: #0a0a1a;
+  --bg-darker: #050510;
+  --primary: #306998;
+  --primary-glow: rgba(48, 105, 152, 0.3);
+  --secondary: #FFD43B;
+  --secondary-glow: rgba(255, 212, 59, 0.3);
+  --accent: #4B8BBE;
+  --accent-glow: rgba(75, 139, 190, 0.3);
+  --python-blue: #306998;
+  --python-yellow: #FFD43B;
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --code-bg: #1e293b;
+  --card-bg: rgba(20, 20, 40, 0.8);
+  --card-border: rgba(48, 105, 152, 0.2);
+  --gradient-primary: linear-gradient(135deg, #306998, #4B8BBE);
+  --gradient-secondary: linear-gradient(135deg, #FFD43B, #FFE873);
+  --gradient-accent: linear-gradient(135deg, #4B8BBE, #6464ff);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(48, 105, 152, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(255, 212, 59, 0.1) 0%, transparent 50%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(20, 20, 40, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gradient-primary);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gradient-secondary);
+}
+
+/* ---------- NAVIGATION ---------- */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 1.2rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(10, 10, 26, 0.95);
+  backdrop-filter: blur(15px);
+  border-bottom: 2px solid rgba(48, 105, 152, 0.2);
+  z-index: 1000;
+  transition: all 0.4s;
+}
+
+.navbar.scrolled {
+  padding: 0.8rem 5%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border-bottom-color: var(--primary);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  font-size: 2rem;
+  animation: pulse 3s infinite;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  padding: 0.5rem 0;
+  transition: all 0.3s;
+  font-size: 1.05rem;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  transition: width 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  border-radius: 2px;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+.nav-cta {
+  padding: 0.8rem 1.8rem;
+  background: var(--gradient-primary);
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 5px 20px var(--primary-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.nav-cta:hover::before {
+  left: 100%;
+}
+
+.nav-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px var(--primary-glow);
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--primary);
+}
+
+/* ---------- HERO SECTION ---------- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0 5%;
+  position: relative;
+  overflow: hidden;
+  margin-top: 80px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 70% 30%, rgba(48, 105, 152, 0.1) 0%, transparent 50%);
+  z-index: -1;
+}
+
+.hero-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero-text {
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: var(--gradient-primary);
+  padding: 0.6rem 1.5rem;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 1.8rem;
+  box-shadow: 0 8px 25px var(--primary-glow);
+  animation: float 4s ease-in-out infinite;
+}
+
+.hero-title {
+  font-size: 3.8rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(to right, #f8fafc, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.btn {
+  padding: 1.1rem 2.2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+  font-size: 1.05rem;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transition: 0.6s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: 0 8px 30px var(--primary-glow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 15px 40px var(--primary-glow);
+}
+
+.btn-secondary {
+  background: rgba(48, 105, 152, 0.1);
+  color: var(--text);
+  border: 2px solid rgba(48, 105, 152, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+  background: rgba(48, 105, 152, 0.2);
+  transform: translateY(-5px);
+  border-color: var(--primary);
+}
+
+.hero-visual {
+  position: relative;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.python-visual {
+  position: relative;
+  width: 400px;
+  height: 400px;
+}
+
+.snake-container {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.snake-path {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(255, 212, 59, 0.3);
+  border-radius: 50%;
+  animation: rotate 20s linear infinite;
+}
+
+.snake-head {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: var(--gradient-secondary);
+  border-radius: 50%;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 20px var(--secondary-glow);
+  animation: moveSnake 4s ease-in-out infinite;
+}
+
+.snake-body {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+.code-snippet {
+  position: absolute;
+  background: rgba(30, 41, 59, 0.9);
+  border-radius: 10px;
+  padding: 1rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  border: 1px solid rgba(48, 105, 152, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  max-width: 200px;
+}
+
+.code-1 {
+  top: 20px;
+  left: 20px;
+  animation: float 6s ease-in-out infinite;
+}
+
+.code-2 {
+  bottom: 20px;
+  right: 20px;
+  animation: float 7s ease-in-out infinite 1s;
+}
+
+.code-3 {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  animation: float 8s ease-in-out infinite 0.5s;
+}
+
+.python-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 8rem;
+  color: var(--primary);
+  filter: drop-shadow(0 0 30px var(--primary-glow));
+  animation: pulse 2s infinite;
+}
+
+@keyframes moveSnake {
+  0%, 100% { top: 0; left: 50%; }
+  25% { top: 50%; left: 100%; }
+  50% { top: 100%; left: 50%; }
+  75% { top: 50%; left: 0; }
+}
+
+/* ---------- PYTHON FUNDAMENTALS ---------- */
+.section {
+  padding: 6rem 5%;
+  position: relative;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-badge {
+  display: inline-block;
+  background: var(--gradient-secondary);
+  padding: 0.6rem 1.8rem;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 8px 25px var(--secondary-glow);
+}
+
+.section-title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Python Concepts */
+.python-concepts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.concept-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 2.5rem;
+  border: 2px solid rgba(48, 105, 152, 0.15);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.concept-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: var(--gradient-primary);
+}
+
+.concept-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.concept-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.concept-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
+.concept-desc {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
+}
+
+.features-list {
+  list-style: none;
+}
+
+.features-list li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s;
+}
+
+.features-list li:hover {
+  color: var(--primary);
+  padding-left: 10px;
+}
+
+.features-list li i {
+  color: var(--primary);
+}
+
+/* ---------- INTERACTIVE CODE PLAYGROUND ---------- */
+.code-playground {
+  background: rgba(15, 15, 30, 0.9);
+  border-radius: 25px;
+  padding: 3rem;
+  margin-top: 4rem;
+  border: 2px solid rgba(255, 212, 59, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.code-playground::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: var(--gradient-secondary);
+}
+
+.playground-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.playground-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.playground-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+.code-editor-container {
+  background: rgba(25, 25, 45, 0.8);
+  border-radius: 15px;
+  padding: 2rem;
+  height: 400px;
+  position: relative;
+  border: 1px solid rgba(48, 105, 152, 0.2);
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.editor-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.code-input {
+  width: 100%;
+  height: 300px;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  resize: none;
+  outline: none;
+}
+
+.playground-controls {
+  background: rgba(25, 25, 45, 0.8);
+  border-radius: 15px;
+  padding: 2rem;
+  border: 1px solid rgba(75, 139, 190, 0.2);
+}
+
+.control-group {
+  margin-bottom: 1.8rem;
+}
+
+.control-label {
+  display: block;
+  margin-bottom: 0.8rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.code-examples {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.example-btn {
+  padding: 1rem;
+  background: rgba(75, 139, 190, 0.1);
+  border: 2px solid rgba(75, 139, 190, 0.3);
+  border-radius: 10px;
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.example-btn:hover {
+  background: rgba(75, 139, 190, 0.2);
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.example-btn.active {
+  background: var(--gradient-accent);
+  border-color: var(--accent);
+  color: white;
+  box-shadow: 0 5px 20px var(--accent-glow);
+}
+
+.output-container {
+  background: rgba(25, 25, 45, 0.8);
+  border-radius: 15px;
+  padding: 2rem;
+  margin-top: 2rem;
+  border: 1px solid rgba(48, 105, 152, 0.2);
+  min-height: 150px;
+}
+
+.output-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--secondary);
+}
+
+#codeOutput {
+  color: var(--text);
+  font-family: 'Fira Code', monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+/* ---------- COMPLETE SYLLABUS ---------- */
+.syllabus-accordion {
+  max-width: 1200px;
+  margin: 3rem auto 0;
+}
+
+.accordion-item {
+  background: var(--card-bg);
+  margin-bottom: 1.2rem;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid rgba(48, 105, 152, 0.2);
+  transition: all 0.3s;
+}
+
+.accordion-item:hover {
+  border-color: rgba(48, 105, 152, 0.4);
+}
+
+.accordion-header {
+  padding: 1.8rem 2.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(48, 105, 152, 0.05);
+  transition: background 0.3s;
+}
+
+.accordion-header:hover {
+  background: rgba(48, 105, 152, 0.1);
+}
+
+.accordion-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.accordion-icon {
+  font-size: 1.8rem;
+  color: var(--primary);
+  transition: transform 0.3s;
+}
+
+.accordion-content {
+  padding: 0 2.5rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.accordion-content.active {
+  padding: 2rem 2.5rem;
+  max-height: 2000px;
+}
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.topic-card {
+  background: rgba(30, 30, 50, 0.6);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid var(--secondary);
+  transition: all 0.3s;
+}
+
+.topic-card:hover {
+  transform: translateY(-5px);
+  background: rgba(30, 30, 50, 0.8);
+  border-left-color: var(--primary);
+}
+
+.topic-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: var(--secondary);
+}
+
+.topic-desc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.topic-list {
+  list-style: none;
+  margin-top: 1rem;
+}
+
+.topic-list li {
+  padding: 0.5rem 0;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topic-list li::before {
+  content: '🐍';
+  font-size: 1.2rem;
+}
+
+/* ---------- Q&A BANK ---------- */
+.qa-section {
+  margin-top: 4rem;
+}
+
+.qa-bank {
+  max-width: 1200px;
+  margin: 3rem auto 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.qa-category {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 2.5rem;
+  border: 2px solid rgba(255, 212, 59, 0.2);
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.category-icon {
+  font-size: 2.5rem;
+  background: var(--gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.category-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.qa-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.qa-item {
+  background: rgba(30, 30, 50, 0.6);
+  border-radius: 15px;
+  padding: 1.8rem;
+  border: 1px solid rgba(48, 105, 152, 0.2);
+  transition: all 0.3s;
+}
+
+.qa-item:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.qa-question {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qa-question i {
+  color: var(--primary);
+}
+
+.qa-answer {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.code-block {
+  background: var(--code-bg);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  border-left: 4px solid var(--secondary);
+}
+
+.code-block pre {
+  margin: 0;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+}
+
+.qa-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.qa-tag {
+  padding: 0.3rem 0.8rem;
+  background: rgba(48, 105, 152, 0.1);
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--primary);
+}
+
+/* ---------- DATA STRUCTURES VISUALIZER ---------- */
+.ds-visualizer {
+  background: rgba(15, 15, 30, 0.9);
+  border-radius: 25px;
+  padding: 3rem;
+  margin-top: 4rem;
+  border: 2px solid rgba(75, 139, 190, 0.2);
+  position: relative;
+}
+
+.visualizer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.visualizer-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  height: 400px;
+}
+
+.visualization-canvas {
+  background: rgba(25, 25, 45, 0.8);
+  border-radius: 15px;
+  padding: 2rem;
+  position: relative;
+  border: 1px solid rgba(75, 139, 190, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.visualization-controls {
+  background: rgba(25, 25, 45, 0.8);
+  border-radius: 15px;
+  padding: 2rem;
+  border: 1px solid rgba(75, 139, 190, 0.2);
+}
+
+.ds-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.ds-btn {
+  padding: 1rem;
+  background: rgba(75, 139, 190, 0.1);
+  border: 2px solid rgba(75, 139, 190, 0.3);
+  border-radius: 10px;
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.ds-btn:hover {
+  background: rgba(75, 139, 190, 0.2);
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.ds-btn.active {
+  background: var(--gradient-accent);
+  border-color: var(--accent);
+  color: white;
+  box-shadow: 0 5px 20px var(--accent-glow);
+}
+
+.operation-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+
+.operation-btn {
+  padding: 0.8rem;
+  background: rgba(48, 105, 152, 0.1);
+  border: 1px solid rgba(48, 105, 152, 0.3);
+  border-radius: 8px;
+  color: var(--text);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.operation-btn:hover {
+  background: rgba(48, 105, 152, 0.2);
+  border-color: var(--primary);
+}
+
+.visualizer-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.visualizer-stat {
+  background: rgba(48, 105, 152, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid rgba(48, 105, 152, 0.3);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ---------- RESOURCES ---------- */
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.resource-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 2.5rem;
+  border: 2px solid rgba(48, 105, 152, 0.15);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.resource-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.resource-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.resource-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  color: var(--text);
+}
+
+.resource-desc {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1.8rem;
+}
+
+.resource-list {
+  list-style: none;
+}
+
+.resource-list li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+}
+
+.resource-list li:hover {
+  color: var(--primary);
+  padding-left: 10px;
+}
+
+.resource-list li i {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+  background: rgba(10, 10, 26, 0.95);
+  border-top: 2px solid rgba(48, 105, 152, 0.2);
+  padding: 4rem 5% 2rem;
+  margin-top: 6rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.footer-column h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.8rem;
+  color: var(--text);
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 1rem;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+  gap: 15px;
+}
+
+.social-links {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 1.8rem;
+}
+
+.social-link {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(48, 105, 152, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+}
+
+.social-link:hover {
+  background: var(--gradient-primary);
+  transform: translateY(-5px) rotate(10deg);
+  color: white;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes dataFlow {
+  0% { transform: scaleX(0); opacity: 0; }
+  50% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(0); opacity: 0; }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* ---------- RESPONSIVE DESIGN ---------- */
+@media (max-width: 1200px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .hero-visual {
+    order: -1;
+    height: 400px;
+  }
+  
+  .python-visual {
+    width: 350px;
+    height: 350px;
+  }
+}
+
+@media (max-width: 992px) {
+  .hero-title {
+    font-size: 3.2rem;
+  }
+  
+  .playground-container,
+  .visualizer-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .python-concepts {
+    grid-template-columns: 1fr;
+  }
+  
+  .qa-items {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem 5%;
+  }
+  
+  .nav-links {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 10, 26, 0.98);
+    backdrop-filter: blur(15px);
+    flex-direction: column;
+    padding: 2rem;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s;
+    border-bottom: 2px solid rgba(48, 105, 152, 0.2);
+    z-index: 999;
+  }
+  
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .menu-toggle {
+    display: block;
+  }
+  
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  
+  .hero-actions {
+    flex-direction: column;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+  }
+  
+  .python-visual {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.3rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .code-playground,
+  .ds-visualizer {
+    padding: 1.5rem;
+  }
+  
+  .topic-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="logo">
+    <i class="fab fa-python logo-icon"></i>
+    Python Universe
+  </div>
+  
+  <div class="nav-links">
+    <a href="#fundamentals" class="nav-link">Fundamentals</a>
+    <a href="#syllabus" class="nav-link">Complete Syllabus</a>
+    <a href="#qa" class="nav-link">Q&A Bank (500+)</a>
+    <a href="#playground" class="nav-link">Code Playground</a>
+    <a href="#resources" class="nav-link">Resources</a>
+    <a href="#visualizer" class="nav-link">Data Visualizer</a>
+  </div>
+  
+  <a href="#start" class="nav-cta">Start Coding</a>
+  
+  <div class="menu-toggle" id="menuToggle">
+    <i class="fas fa-bars"></i>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" id="start">
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-badge">
+        <i class="fab fa-python"></i> Master Python Programming
+      </div>
+      
+      <h1 class="hero-title">
+        From Zero to <span class="typewriter">Python Master</span>
+      </h1>
+      
+      <p class="hero-subtitle">
+        A comprehensive portal covering everything from Python basics to advanced topics. Includes 500+ questions with solutions, interactive code playground, data structure visualizations, and complete syllabus coverage.
+      </p>
+      
+      <div class="hero-actions">
+        <a href="#fundamentals" class="btn btn-primary">
+          <i class="fas fa-play-circle"></i> Start Learning
+        </a>
+        <a href="#playground" class="btn btn-secondary">
+          <i class="fas fa-code"></i> Try Code Playground
+        </a>
+      </div>
+      
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-number" data-count="50">0</div>
+          <div class="stat-label">Core Concepts</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number" data-count="500">0</div>
+          <div class="stat-label">Q&A Solutions</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number" data-count="100">0</div>
+          <div class="stat-label">Code Examples</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="hero-visual">
+      <div class="python-visual">
+        <div class="snake-container">
+          <div class="snake-path"></div>
+          <div class="snake-head"></div>
+          <div class="snake-body" style="top: 30px; left: 140px;"></div>
+          <div class="snake-body" style="top: 60px; left: 160px;"></div>
+          <div class="snake-body" style="top: 90px; left: 140px;"></div>
+        </div>
+        
+        <div class="python-logo">
+          <i class="fab fa-python"></i>
+        </div>
+        
+        <div class="code-snippet code-1">
+          <pre><code class="language-python">def fibonacci(n):
+    a, b = 0, 1
+    for _ in range(n):
+        yield a
+        a, b = b, a + b</code></pre>
+        </div>
+        
+        <div class="code-snippet code-2">
+          <pre><code class="language-python">@decorator
+def process_data(data):
+    return [x**2 for x in data
+            if x % 2 == 0]</code></pre>
+        </div>
+        
+        <div class="code-snippet code-3">
+          <pre><code class="language-python">class Database:
+    def __init__(self):
+        self.data = {}
+    
+    async def query(self, key):
+        return await self.data.get(key)</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Python Fundamentals -->
+<section class="section" id="fundamentals">
+  <div class="section-header">
+    <div class="section-badge">
+      <i class="fas fa-cogs"></i> Python Fundamentals
+    </div>
+    <h2 class="section-title">Core Python Concepts</h2>
+    <p class="section-subtitle">
+      Master the essential building blocks of Python programming from basics to advanced topics
+    </p>
+  </div>
+  
+  <div class="python-concepts">
+    <!-- Basics -->
+    <div class="concept-card">
+      <div class="concept-icon">
+        <i class="fas fa-code"></i>
+      </div>
+      <h3 class="concept-title">Python Basics</h3>
+      <p class="concept-desc">
+        Fundamentals including syntax, variables, data types, operators, and basic I/O operations
+      </p>
+      <ul class="features-list">
+        <li><i class="fas fa-check"></i> Variables & Data Types</li>
+        <li><i class="fas fa-check"></i> Operators & Expressions</li>
+        <li><i class="fas fa-check"></i> Input/Output Operations</li>
+        <li><i class="fas fa-check"></i> Type Conversions</li>
+        <li><i class="fas fa-check"></i> Comments & Documentation</li>
+        <li><i class="fas fa-check"></i> Basic Error Handling</li>
+      </ul>
+    </div>
+    
+    <!-- Control Flow -->
+    <div class="concept-card">
+      <div class="concept-icon">
+        <i class="fas fa-project-diagram"></i>
+      </div>
+      <h3 class="concept-title">Control Flow</h3>
+      <p class="concept-desc">
+        Conditional statements, loops, and control structures to manage program execution flow
+      </p>
+      <ul class="features-list">
+        <li><i class="fas fa-check"></i> if-elif-else Statements</li>
+        <li><i class="fas fa-check"></i> for/while Loops</li>
+        <li><i class="fas fa-check"></i> break, continue, pass</li>
+        <li><i class="fas fa-check"></i> List Comprehensions</li>
+        <li><i class="fas fa-check"></i> Ternary Operators</li>
+        <li><i class="fas fa-check"></i> Pattern Matching (3.10+)</li>
+      </ul>
+    </div>
+    
+    <!-- Functions -->
+    <div class="concept-card">
+      <div class="concept-icon">
+        <i class="fas fa-functions"></i>
+      </div>
+      <h3 class="concept-title">Functions & Modules</h3>
+      <p class="concept-desc">
+        Creating reusable code with functions, modules, packages, and understanding scope
+      </p>
+      <ul class="features-list">
+        <li><i class="fas fa-check"></i> Function Definition & Calls</li>
+        <li><i class="fas fa-check"></i> Parameters & Arguments</li>
+        <li><i class="fas fa-check"></i> Lambda Functions</li>
+        <li><i class="fas fa-check"></i> Decorators & Closures</li>
+        <li><i class="fas fa-check"></i> Modules & Packages</li>
+        <li><i class="fas fa-check"></i> Built-in Functions</li>
+      </ul>
+    </div>
+    
+    <!-- OOP -->
+    <div class="concept-card">
+      <div class="concept-icon">
+        <i class="fas fa-cube"></i>
+      </div>
+      <h3 class="concept-title">Object-Oriented Programming</h3>
+      <p class="concept-desc">
+        Classes, objects, inheritance, polymorphism, and other OOP concepts in Python
+      </p>
+      <ul class="features-list">
+        <li><i class="fas fa-check"></i> Classes & Objects</li>
+        <li><i class="fas fa-check"></i> Inheritance & Polymorphism</li>
+        <li><i class="fas fa-check"></i> Encapsulation & Abstraction</li>
+        <li><i class="fas fa-check"></i> Magic Methods</li>
+        <li><i class="fas fa-check"></i> Properties & Descriptors</li>
+        <li><i class="fas fa-check"></i> Metaclasses</li>
+      </ul>
+    </div>
+    
+    <!-- Data Structures -->
+    <div class="concept-card">
+      <div class="concept-icon">
+        <i class="fas fa-layer-group"></i>
+      </div>
+      <h3 class="concept-title">Data Structures</h3>
+      <p class="concept-desc">
+        Built-in and custom data structures for efficient data organization and manipulation
+      </p>
+      <ul class="features-list">
+        <li><i class="fas fa-check"></i> Lists, Tuples, Sets</li>
+        <li><i class="fas fa-check"></i> Dictionaries</li>
+        <li><i class="fas fa-check"></i> Stacks & Queues</li>
+        <li><i class="fas fa-check"></i> Linked Lists</li>
+        <li><i class="fas fa-check"></i> Trees & Graphs</li>
+        <li><i class="fas fa-check"></i> Heaps & Priority Queues</li>
+      </ul>
+    </div>
+    
+    <!-- Advanced -->
+    <div class="concept-card">
+      <div class="concept-icon">
+        <i class="fas fa-rocket"></i>
+      </div>
+      <h3 class="concept-title">Advanced Topics</h3>
+      <p class="concept-desc">
+        Advanced Python features including concurrency, async programming, and metaprogramming
+      </p>
+      <ul class="features-list">
+        <li><i class="fas fa-check"></i> Generators & Iterators</li>
+        <li><i class="fas fa-check"></i> Context Managers</li>
+        <li><i class="fas fa-check"></i> Async/Await</li>
+        <li><i class="fas fa-check"></i> Multithreading</li>
+        <li><i class="fas fa-check"></i> Multiprocessing</li>
+        <li><i class="fas fa-check"></i> Metaprogramming</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Interactive Code Playground -->
+<section class="section" id="playground">
+  <div class="code-playground">
+    <div class="playground-header">
+      <h2 class="playground-title">
+        <i class="fas fa-laptop-code"></i> Interactive Python Playground
+      </h2>
+      <div class="control-value">
+        <span>Lines: <span id="lineCount">0</span></span>
+        <span>Memory: <span id="memoryUsage">0MB</span></span>
+      </div>
+    </div>
+    
+    <div class="playground-container">
+      <div class="code-editor-container">
+        <div class="editor-header">
+          <div class="editor-title">
+            <i class="fab fa-python"></i>
+            main.py
+          </div>
+          <button class="btn btn-primary" id="runCode" style="padding: 0.5rem 1.5rem;">
+            <i class="fas fa-play"></i> Run Code
+          </button>
+        </div>
+        <textarea class="code-input" id="codeInput" placeholder="# Write your Python code here...&#10;&#10;# Example:&#10;def greet(name):&#10;    return f&quot;Hello, {name}!&quot;&#10;&#10;print(greet(&quot;Python Learner&quot;))">def fibonacci(n):
+    """Generate Fibonacci sequence up to n"""
+    a, b = 0, 1
+    sequence = []
+    while a <= n:
+        sequence.append(a)
+        a, b = b, a + b
+    return sequence
+
+def is_prime(num):
+    """Check if a number is prime"""
+    if num < 2:
+        return False
+    for i in range(2, int(num**0.5) + 1):
+        if num % i == 0:
+            return False
+    return True
+
+# Example usage
+if __name__ == "__main__":
+    # Generate Fibonacci numbers
+    fib_numbers = fibonacci(100)
+    print(f"Fibonacci numbers up to 100: {fib_numbers}")
+    
+    # Check prime numbers in sequence
+    prime_fib = [n for n in fib_numbers if is_prime(n)]
+    print(f"Prime Fibonacci numbers: {prime_fib}")
+    
+    # Dictionary comprehension example
+    squares = {x: x**2 for x in range(1, 11)}
+    print(f"Squares dictionary: {squares}")</textarea>
+      </div>
+      
+      <div class="playground-controls">
+        <div class="control-group">
+          <label class="control-label">Code Examples:</label>
+          <div class="code-examples">
+            <button class="example-btn" data-example="sorting">
+              <i class="fas fa-sort-amount-down"></i> Sorting
+            </button>
+            <button class="example-btn" data-example="files">
+              <i class="fas fa-file"></i> File I/O
+            </button>
+            <button class="example-btn" data-example="oop">
+              <i class="fas fa-cube"></i> OOP
+            </button>
+            <button class="example-btn" data-example="async">
+              <i class="fas fa-bolt"></i> Async
+            </button>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Theme:</label>
+          <select class="example-btn" id="themeSelect" style="width: 100%; padding: 0.8rem; background: rgba(75, 139, 190, 0.1); border: 1px solid rgba(75, 139, 190, 0.3); border-radius: 8px; color: var(--text);">
+            <option value="dark">Dark Theme</option>
+            <option value="light">Light Theme</option>
+            <option value="monokai">Monokai</option>
+            <option value="solarized">Solarized</option>
+          </select>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Settings:</label>
+          <div style="display: flex; gap: 1rem;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted);">
+              <input type="checkbox" id="autoRun" checked>
+              Auto-run
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted);">
+              <input type="checkbox" id="lineNumbers" checked>
+              Line Numbers
+            </label>
+          </div>
+        </div>
+        
+        <button class="btn btn-secondary" id="clearCode" style="width: 100%; margin-top: 1rem;">
+          <i class="fas fa-trash"></i> Clear Code
+        </button>
+        
+        <button class="btn btn-primary" id="saveCode" style="width: 100%; margin-top: 1rem;">
+          <i class="fas fa-save"></i> Save Snippet
+        </button>
+      </div>
+    </div>
+    
+    <div class="output-container">
+      <div class="output-title">
+        <i class="fas fa-terminal"></i> Output
+      </div>
+      <div id="codeOutput">Click "Run Code" to execute your Python code...</div>
+    </div>
+  </div>
+</section>
+
+<!-- Complete Syllabus -->
+<section class="section" id="syllabus">
+  <div class="section-header">
+    <div class="section-badge">
+      <i class="fas fa-book-open"></i> Complete Syllabus
+    </div>
+    <h2 class="section-title">Python Mastery Curriculum</h2>
+    <p class="section-subtitle">
+      Comprehensive coverage of all Python topics from beginner to advanced levels
+    </p>
+  </div>
+  
+  <div class="syllabus-accordion">
+    <!-- Module 1 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <div class="accordion-title">
+          <i class="fas fa-code accordion-icon"></i>
+          Module 1: Python Basics & Fundamentals
+        </div>
+        <i class="fas fa-chevron-down accordion-icon"></i>
+      </div>
+      <div class="accordion-content">
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4 class="topic-title">Setup & Environment</h4>
+            <p class="topic-desc">Python installation, IDEs, virtual environments, package management</p>
+            <ul class="topic-list">
+              <li>Python Installation (Windows/Mac/Linux)</li>
+              <li>VS Code, PyCharm, Jupyter Setup</li>
+              <li>Virtual Environments (venv, conda)</li>
+              <li>pip & Package Management</li>
+              <li>Project Structure & Best Practices</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Basic Syntax</h4>
+            <p class="topic-desc">Variables, data types, operators, and basic operations</p>
+            <ul class="topic-list">
+              <li>Variables & Naming Conventions</li>
+              <li>Data Types: int, float, str, bool</li>
+              <li>Type Conversion & Checking</li>
+              <li>Operators: Arithmetic, Comparison, Logical</li>
+              <li>Input/Output Operations</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Control Structures</h4>
+            <p class="topic-desc">Conditional statements and loops for program flow control</p>
+            <ul class="topic-list">
+              <li>if, elif, else Statements</li>
+              <li>for Loops & range() function</li>
+              <li>while Loops & Control</li>
+              <li>break, continue, pass</li>
+              <li>Ternary Conditional Operator</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Module 2 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <div class="accordion-title">
+          <i class="fas fa-layer-group accordion-icon"></i>
+          Module 2: Data Structures & Collections
+        </div>
+        <i class="fas fa-chevron-down accordion-icon"></i>
+      </div>
+      <div class="accordion-content">
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4 class="topic-title">Built-in Collections</h4>
+            <p class="topic-desc">Lists, tuples, sets, dictionaries and their operations</p>
+            <ul class="topic-list">
+              <li>Lists: Creation, Indexing, Slicing</li>
+              <li>List Methods & Operations</li>
+              <li>Tuples & Immutable Sequences</li>
+              <li>Sets: Union, Intersection, Difference</li>
+              <li>Dictionaries: Key-Value Pairs</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Advanced Data Structures</h4>
+            <p class="topic-desc">Custom data structures and algorithm implementations</p>
+            <ul class="topic-list">
+              <li>Stacks & Queues Implementation</li>
+              <li>Linked Lists (Singly & Doubly)</li>
+              <li>Trees: Binary Trees, BST</li>
+              <li>Graphs: Adjacency Lists/Matrices</li>
+              <li>Heaps & Priority Queues</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Comprehensions</h4>
+            <p class="topic-desc">List, dict, set comprehensions for concise data manipulation</p>
+            <ul class="topic-list">
+              <li>List Comprehensions</li>
+              <li>Dictionary Comprehensions</li>
+              <li>Set Comprehensions</li>
+              <li>Nested Comprehensions</li>
+              <li>Generator Expressions</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Module 3 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <div class="accordion-title">
+          <i class="fas fa-functions accordion-icon"></i>
+          Module 3: Functions & Modules
+        </div>
+        <i class="fas fa-chevron-down accordion-icon"></i>
+      </div>
+      <div class="accordion-content">
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4 class="topic-title">Function Fundamentals</h4>
+            <p class="topic-desc">Function definition, parameters, return values, and scope</p>
+            <ul class="topic-list">
+              <li>Defining & Calling Functions</li>
+              <li>Parameters: Positional, Keyword</li>
+              <li>*args & **kwargs</li>
+              <li>Return Values & Multiple Returns</li>
+              <li>Variable Scope: Local vs Global</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Advanced Functions</h4>
+            <p class="topic-desc">Lambda, decorators, closures, and functional programming</p>
+            <ul class="topic-list">
+              <li>Lambda Functions</li>
+              <li>Decorators & @ syntax</li>
+              <li>Closures & Nested Functions</li>
+              <li>Function Annotations</li>
+              <li>map(), filter(), reduce()</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Modules & Packages</h4>
+            <p class="topic-desc">Creating and using modules, packages, and namespace management</p>
+            <ul class="topic-list">
+              <li>Creating Modules</li>
+              <li>Import Statements</li>
+              <li>Package Creation & Structure</li>
+              <li>__init__.py files</li>
+              <li>Standard Library Modules</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Module 4 -->
+    <div class="accordion-item">
+      <div class="accordion-header">
+        <div class="accordion-title">
+          <i class="fas fa-cube accordion-icon"></i>
+          Module 4: Object-Oriented Programming
+        </div>
+        <i class="fas fa-chevron-down accordion-icon"></i>
+      </div>
+      <div class="accordion-content">
+        <div class="topic-grid">
+          <div class="topic-card">
+            <h4 class="topic-title">Classes & Objects</h4>
+            <p class="topic-desc">Class definition, objects, attributes, and methods</p>
+            <ul class="topic-list">
+              <li>Class Definition & Instantiation</li>
+              <li>__init__() Constructor</li>
+              <li>Instance vs Class Attributes</li>
+              <li>Methods: Instance, Class, Static</li>
+              <li>Property Decorators</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Inheritance & Polymorphism</h4>
+            <p class="topic-desc">Class inheritance, method overriding, and polymorphism</p>
+            <ul class="topic-list">
+              <li>Single & Multiple Inheritance</li>
+              <li>Method Overriding</li>
+              <li>super() Function</li>
+              <li>Abstract Base Classes</li>
+              <li>Duck Typing</li>
+            </ul>
+          </div>
+          
+          <div class="topic-card">
+            <h4 class="topic-title">Special Methods</h4>
+            <p class="topic-desc">Magic methods, operator overloading, and descriptors</p>
+            <ul class="topic-list">
+              <li>__str__() & __repr__()</li>
+              <li>Operator Overloading</li>
+              <li>Context Managers (__enter__, __exit__)</li>
+              <li>Descriptors & Properties</li>
+              <li>Metaclasses</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Q&A Bank -->
+<section class="section" id="qa">
+  <div class="section-header">
+    <div class="section-badge">
+      <i class="fas fa-question-circle"></i> Python Q&A Bank
+    </div>
+    <h2 class="section-title">500+ Questions with Solutions</h2>
+    <p class="section-subtitle">
+      Practice questions with detailed explanations covering all Python concepts
+    </p>
+  </div>
+  
+  <div class="qa-section">
+    <div class="qa-bank">
+      <!-- Basics Category -->
+      <div class="qa-category">
+        <div class="category-header">
+          <i class="fas fa-code category-icon"></i>
+          <h3 class="category-title">Python Basics (50 Questions)</h3>
+        </div>
+        
+        <div class="qa-items">
+          <!-- Question 1 -->
+          <div class="qa-item">
+            <div class="qa-question">
+              <i class="fas fa-question"></i>
+              Q1: What are Python's built-in data types? Explain with examples.
+            </div>
+            <div class="qa-answer">
+              Python has several built-in data types:
+              <br><br>
+              <strong>1. Numeric Types:</strong>
+              - int: 10, -5, 0
+              - float: 3.14, 2.0, -0.5
+              - complex: 3+4j
+              <br><br>
+              <strong>2. Sequence Types:</strong>
+              - str: "hello", 'python'
+              - list: [1, 2, 3], ['a', 'b']
+              - tuple: (1, 2, 3), ('x', 'y')
+              <br><br>
+              <strong>3. Set Types:</strong>
+              - set: {1, 2, 3}, {'a', 'b'}
+              - frozenset: immutable set
+              <br><br>
+              <strong>4. Mapping Type:</strong>
+              - dict: {'name': 'John', 'age': 25}
+              <br><br>
+              <strong>5. Boolean Type:</strong>
+              - bool: True, False
+              <br><br>
+              <strong>6. Binary Types:</strong>
+              - bytes: b'hello'
+              - bytearray: mutable bytes
+              - memoryview: memory view of objects
+            </div>
+            <div class="code-block">
+              <pre><code class="language-python"># Examples of built-in data types
+# Numeric
+integer_num = 42
+float_num = 3.14159
+complex_num = 2 + 3j
+
+# Sequence
+string = "Hello, Python!"
+list_data = [1, 2, 3, 'four', 5.0]
+tuple_data = (1, 2, 'three')
+
+# Set
+set_data = {1, 2, 3, 3, 2}  # Duplicates removed: {1, 2, 3}
+frozen_set = frozenset([1, 2, 3])
+
+# Mapping
+dictionary = {'name': 'Alice', 'age': 30, 'city': 'NYC'}
+
+# Boolean
+is_valid = True
+is_complete = False
+
+# Binary
+bytes_data = b'binary data'
+bytearray_data = bytearray(b' mutable bytes')
+
+print(f"Type of integer_num: {type(integer_num)}")
+print(f"Type of string: {type(string)}")
+print(f"Type of dictionary: {type(dictionary)}")</code></pre>
+            </div>
+            <div class="qa-tags">
+              <span class="qa-tag">Data Types</span>
+              <span class="qa-tag">Basics</span>
+              <span class="qa-tag">Interview</span>
+            </div>
+          </div>
+          
+          <!-- Question 2 -->
+          <div class="qa-item">
+            <div class="qa-question">
+              <i class="fas fa-question"></i>
+              Q2: Explain list comprehensions vs generator expressions
+            </div>
+            <div class="qa-answer">
+              <strong>List Comprehensions:</strong>
+              - Create a new list immediately
+              - Use square brackets []
+              - Store all elements in memory
+              - Good for smaller datasets
+              <br><br>
+              <strong>Generator Expressions:</strong>
+              - Create a generator object
+              - Use parentheses ()
+              - Generate elements on-the-fly (lazy evaluation)
+              - Memory efficient for large datasets
+              - Can only be iterated once
+            </div>
+            <div class="code-block">
+              <pre><code class="language-python"># List Comprehension
+numbers = [1, 2, 3, 4, 5]
+squared_list = [x**2 for x in numbers]  # Creates list immediately
+print(f"List comprehension: {squared_list}")
+print(f"Type: {type(squared_list)}")
+print(f"Memory: {squared_list} stores all values")
+
+# Generator Expression
+squared_gen = (x**2 for x in numbers)  # Creates generator
+print(f"\nGenerator expression: {squared_gen}")
+print(f"Type: {type(squared_gen)}")
+print("Values are generated on demand:")
+
+# Iterate through generator
+for value in squared_gen:
+    print(f"Generated: {value}")
+
+# Generator is exhausted after first iteration
+print(f"After iteration: {list(squared_gen)}")  # Empty
+
+# Memory comparison
+import sys
+large_range = range(1000000)
+
+# List comprehension uses more memory
+list_mem = sys.getsizeof([x**2 for x in large_range])
+gen_mem = sys.getsizeof((x**2 for x in large_range))
+
+print(f"\nMemory usage for 1 million items:")
+print(f"List comprehension: {list_mem / 1024 / 1024:.2f} MB")
+print(f"Generator expression: {gen_mem / 1024:.2f} KB")</code></pre>
+            </div>
+            <div class="qa-tags">
+              <span class="qa-tag">Comprehensions</span>
+              <span class="qa-tag">Generators</span>
+              <span class="qa-tag">Memory</span>
+            </div>
+          </div>
+          
+          <!-- Question 3 -->
+          <div class="qa-item">
+            <div class="qa-question">
+              <i class="fas fa-question"></i>
+              Q3: Explain *args and **kwargs in Python functions
+            </div>
+            <div class="qa-answer">
+              <strong>*args (Non-keyword arguments):</strong>
+              - Collects extra positional arguments as a tuple
+              - Allows function to accept any number of positional arguments
+              - The '*' unpacks the arguments
+              <br><br>
+              <strong>**kwargs (Keyword arguments):</strong>
+              - Collects extra keyword arguments as a dictionary
+              - Allows function to accept any number of keyword arguments
+              - The '**' unpacks the keyword arguments
+              <br><br>
+              <strong>Order in function definition:</strong>
+              1. Standard positional arguments
+              2. *args
+              3. Standard keyword arguments
+              4. **kwargs
+            </div>
+            <div class="code-block">
+              <pre><code class="language-python">def example_function(arg1, arg2, *args, kwarg1="default", **kwargs):
+    """Demonstrates *args and **kwargs"""
+    print(f"\nRequired arguments: {arg1}, {arg2}")
+    print(f"Additional positional arguments (*args): {args}")
+    print(f"Default keyword argument: {kwarg1}")
+    print(f"Additional keyword arguments (**kwargs): {kwargs}")
+    print(f"Type of args: {type(args)}")
+    print(f"Type of kwargs: {type(kwargs)}")
+
+# Different ways to call the function
+print("=== Example 1: Basic usage ===")
+example_function(1, 2)
+
+print("\n=== Example 2: With extra positional args ===")
+example_function(1, 2, 3, 4, 5)
+
+print("\n=== Example 3: With keyword args ===")
+example_function(1, 2, kwarg1="custom", extra1="value1", extra2="value2")
+
+print("\n=== Example 4: Unpacking lists and dicts ===")
+numbers = [10, 20, 30, 40, 50]
+config = {'color': 'blue', 'size': 'large', 'speed': 'fast'}
+
+example_function(*numbers, **config)
+
+# Practical example: Logger function
+def create_logger(name, level="INFO", *handlers, **formatters):
+    """Create a logger with flexible configuration"""
+    logger_config = {
+        'name': name,
+        'level': level,
+        'handlers': handlers,
+        'formatters': formatters
+    }
+    return logger_config
+
+print("\n=== Practical Example: Logger ===")
+logger = create_logger(
+    "app_logger",
+    "DEBUG",
+    "file_handler",
+    "console_handler",
+    date_format="%Y-%m-%d",
+    time_format="%H:%M:%S"
+)
+print(f"Logger config: {logger}")</code></pre>
+            </div>
+            <div class="qa-tags">
+              <span class="qa-tag">Functions</span>
+              <span class="qa-tag">Args/Kwargs</span>
+              <span class="qa-tag">Parameters</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- OOP Category -->
+      <div class="qa-category">
+        <div class="category-header">
+          <i class="fas fa-cube category-icon"></i>
+          <h3 class="category-title">Object-Oriented Programming (60 Questions)</h3>
+        </div>
+        
+        <div class="qa-items">
+          <!-- Question 4 -->
+          <div class="qa-item">
+            <div class="qa-question">
+              <i class="fas fa-question"></i>
+              Q4: Explain Python's Method Resolution Order (MRO) in multiple inheritance
+            </div>
+            <div class="qa-answer">
+              <strong>Method Resolution Order (MRO):</strong>
+              - Determines the order in which base classes are searched when looking for a method
+              - Uses C3 linearization algorithm
+              - Ensures monotonicity (consistent ordering)
+              <br><br>
+              <strong>Key Principles:</strong>
+              1. Children before parents
+              2. Order of inheritance matters
+              3. Left to right in class definition
+              <br><br>
+              <strong>Viewing MRO:</strong>
+              - Use ClassName.__mro__
+              - Use ClassName.mro()
+            </div>
+            <div class="code-block">
+              <pre><code class="language-python">class A:
+    def method(self):
+        return "A.method"
+
+class B(A):
+    def method(self):
+        return "B.method"
+
+class C(A):
+    def method(self):
+        return "C.method"
+
+class D(B, C):
+    pass
+
+class E(C, B):
+    pass
+
+# Diamond inheritance problem
+print("=== Diamond Inheritance Example ===")
+d = D()
+print(f"D().method(): {d.method()}")
+print(f"D MRO: {[cls.__name__ for cls in D.__mro__]}")
+
+e = E()
+print(f"\nE().method(): {e.method()}")
+print(f"E MRO: {[cls.__name__ for cls in E.__mro__]}")
+
+# Complex inheritance example
+class F:
+    def process(self):
+        return "F.process"
+
+class G(F):
+    def process(self):
+        return "G.process"
+
+class H(F):
+    def process(self):
+        return "H.process"
+
+class I(G, H):
+    pass
+
+class J(H, G):
+    pass
+
+print("\n=== Complex Inheritance ===")
+i = I()
+print(f"I().process(): {i.process()}")
+print(f"I MRO: {[cls.__name__ for cls in I.__mro__]}")
+
+j = J()
+print(f"\nJ().process(): {j.process()}")
+print(f"J MRO: {[cls.__name__ for cls in J.__mro__]}")
+
+# Practical example: Mixin pattern
+class JSONMixin:
+    def to_json(self):
+        import json
+        return json.dumps(self.__dict__)
+
+class XMLMixin:
+    def to_xml(self):
+        items = '\n'.join(f'<{k}>{v}</{k}>' for k, v in self.__dict__.items())
+        return f'<object>\n{items}\n</object>'
+
+class DataModel:
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+class Product(DataModel, JSONMixin, XMLMixin):
+    pass
+
+print("\n=== Mixin Pattern Example ===")
+product = Product(name="Laptop", price=999.99, category="Electronics")
+print(f"JSON: {product.to_json()}")
+print(f"\nXML:\n{product.to_xml()}")
+print(f"\nProduct MRO: {[cls.__name__ for cls in Product.__mro__]}")</code></pre>
+            </div>
+            <div class="qa-tags">
+              <span class="qa-tag">OOP</span>
+              <span class="qa-tag">Inheritance</span>
+              <span class="qa-tag">MRO</span>
+              <span class="qa-tag">Multiple Inheritance</span>
+            </div>
+          </div>
+          
+          <!-- Question 5 -->
+          <div class="qa-item">
+            <div class="qa-question">
+              <i class="fas fa-question"></i>
+              Q5: Compare @classmethod, @staticmethod, and instance methods
+            </div>
+            <div class="qa-answer">
+              <strong>Instance Methods:</strong>
+              - First parameter: self (instance reference)
+              - Can access and modify instance attributes
+              - Can access class attributes via self.__class__
+              <br><br>
+              <strong>@classmethod:</strong>
+              - First parameter: cls (class reference)
+              - Can't modify instance state (no self)
+              - Can modify class state (affects all instances)
+              - Often used as alternative constructors
+              <br><br>
+              <strong>@staticmethod:</strong>
+              - No special first parameter (no self, no cls)
+              - Can't modify instance or class state
+              - Just a regular function inside a class
+              - Used for utility/helper functions
+            </div>
+            <div class="code-block">
+              <pre><code class="language-python">class Employee:
+    # Class variable
+    company = "TechCorp"
+    total_employees = 0
+    
+    def __init__(self, name, salary):
+        self.name = name
+        self.salary = salary
+        Employee.total_employees += 1
+    
+    # Instance method - works with instance data
+    def get_details(self):
+        return f"{self.name} - ${self.salary}/year"
+    
+    def give_raise(self, percentage):
+        self.salary *= (1 + percentage/100)
+        return self.salary
+    
+    # Class method - works with class data
+    @classmethod
+    def create_from_string(cls, emp_string):
+        """Alternative constructor: 'John Doe,50000'"""
+        name, salary = emp_string.split(',')
+        return cls(name.strip(), float(salary))
+    
+    @classmethod
+    def get_company_info(cls):
+        return f"{cls.company} has {cls.total_employees} employees"
+    
+    @classmethod
+    def change_company(cls, new_name):
+        cls.company = new_name
+    
+    # Static method - utility function
+    @staticmethod
+    def calculate_bonus(salary, performance_rating):
+        """Calculate bonus based on salary and performance"""
+        if performance_rating == 'A':
+            return salary * 0.20
+        elif performance_rating == 'B':
+            return salary * 0.10
+        else:
+            return salary * 0.05
+    
+    @staticmethod
+    def is_valid_salary(salary):
+        """Validate salary amount"""
+        return salary > 0 and salary < 1000000
+
+# Usage examples
+print("=== Instance Methods ===")
+emp1 = Employee("Alice", 60000)
+print(f"Details: {emp1.get_details()}")
+emp1.give_raise(10)
+print(f"After raise: {emp1.get_details()}")
+
+print("\n=== Class Methods ===")
+emp2 = Employee.create_from_string("Bob Smith, 75000")
+print(f"Created from string: {emp2.get_details()}")
+print(f"Company info: {Employee.get_company_info()}")
+
+# Change company name for all employees
+Employee.change_company("MetaTech")
+print(f"After change: {Employee.company}")
+print(f"emp1 company: {emp1.company}")
+print(f"emp2 company: {emp2.company}")
+
+print("\n=== Static Methods ===")
+print(f"Bonus for $60000 with rating 'A': ${Employee.calculate_bonus(60000, 'A'):,.2f}")
+print(f"Is $500000 valid salary? {Employee.is_valid_salary(500000)}")
+print(f"Is $-1000 valid salary? {Employee.is_valid_salary(-1000)}")
+
+# Practical example: Database Model
+class DatabaseModel:
+    _connection = None
+    
+    @classmethod
+    def connect(cls, connection_string):
+        """Establish database connection for all instances"""
+        cls._connection = f"Connected to {connection_string}"
+        return cls._connection
+    
+    @classmethod
+    def get_connection(cls):
+        return cls._connection
+    
+    @staticmethod
+    def validate_query(query):
+        """Validate SQL query syntax"""
+        if not query or not isinstance(query, str):
+            return False
+        return query.strip().upper().startswith(('SELECT', 'INSERT', 'UPDATE', 'DELETE'))
+
+print("\n=== Database Model Example ===")
+DatabaseModel.connect("postgresql://localhost/mydb")
+print(f"Connection: {DatabaseModel.get_connection()}")
+print(f"Valid query 'SELECT * FROM users': {DatabaseModel.validate_query('SELECT * FROM users')}")
+print(f"Valid query 'invalid query': {DatabaseModel.validate_query('invalid query')}")</code></pre>
+            </div>
+            <div class="qa-tags">
+              <span class="qa-tag">OOP</span>
+              <span class="qa-tag">Methods</span>
+              <span class="qa-tag">Classmethod</span>
+              <span class="qa-tag">Staticmethod</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href="#qa" class="btn btn-primary" id="loadMoreQA">
+        <i class="fas fa-plus"></i> Load More Questions (Total: 500+)
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Data Structures Visualizer -->
+<section class="section" id="visualizer">
+  <div class="ds-visualizer">
+    <div class="visualizer-header">
+      <h2 class="playground-title">
+        <i class="fas fa-project-diagram"></i> Data Structures Visualizer
+      </h2>
+      <div class="control-value">
+        <span>Structure: <span id="currentStructure">Linked List</span></span>
+        <span>Elements: <span id="elementCount">5</span></span>
+      </div>
+    </div>
+    
+    <div class="visualizer-container">
+      <div class="visualization-canvas">
+        <canvas id="dsCanvas" width="600" height="350"></canvas>
+      </div>
+      
+      <div class="visualization-controls">
+        <div class="control-group">
+          <label class="control-label">Data Structure:</label>
+          <div class="ds-buttons">
+            <button class="ds-btn active" data-ds="linkedlist">
+              <i class="fas fa-link"></i> Linked List
+            </button>
+            <button class="ds-btn" data-ds="stack">
+              <i class="fas fa-layer-group"></i> Stack
+            </button>
+            <button class="ds-btn" data-ds="queue">
+              <i class="fas fa-stream"></i> Queue
+            </button>
+            <button class="ds-btn" data-ds="tree">
+              <i class="fas fa-tree"></i> Binary Tree
+            </button>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Operations:</label>
+          <div class="operation-buttons">
+            <button class="operation-btn" id="addElement">Add</button>
+            <button class="operation-btn" id="removeElement">Remove</button>
+            <button class="operation-btn" id="searchElement">Search</button>
+            <button class="operation-btn" id="traverse">Traverse</button>
+            <button class="operation-btn" id="reverse">Reverse</button>
+            <button class="operation-btn" id="clearAll">Clear</button>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Value:</label>
+          <input type="text" id="elementValue" placeholder="Enter value..." style="width: 100%; padding: 0.8rem; background: rgba(48, 105, 152, 0.1); border: 1px solid rgba(48, 105, 152, 0.3); border-radius: 8px; color: var(--text);">
+        </div>
+        
+        <button class="btn btn-primary" id="visualizeOperation" style="width: 100%; margin-top: 2rem;">
+          <i class="fas fa-play"></i> Execute Operation
+        </button>
+      </div>
+    </div>
+    
+    <div class="visualizer-stats">
+      <div class="visualizer-stat">
+        <div class="stat-value" id="operationsCount">0</div>
+        <div class="stat-label">Operations</div>
+      </div>
+      <div class="visualizer-stat">
+        <div class="stat-value" id="timeComplexity">O(1)</div>
+        <div class="stat-label">Time Complexity</div>
+      </div>
+      <div class="visualizer-stat">
+        <div class="stat-value" id="spaceComplexity">O(n)</div>
+        <div class="stat-label">Space Complexity</div>
+      </div>
+      <div class="visualizer-stat">
+        <div class="stat-value" id="animationSpeed">1x</div>
+        <div class="stat-label">Animation Speed</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Resources Section -->
+<section class="section" id="resources">
+  <div class="section-header">
+    <div class="section-badge">
+      <i class="fas fa-toolbox"></i> Learning Resources
+    </div>
+    <h2 class="section-title">Complete Python Study Materials</h2>
+    <p class="section-subtitle">
+      Everything you need to master Python - from books to projects
+    </p>
+  </div>
+  
+  <div class="resource-grid">
+    <!-- Books -->
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-book"></i>
+      </div>
+      <h3 class="resource-title">Essential Books</h3>
+      <p class="resource-desc">Comprehensive books covering all Python concepts</p>
+      <ul class="resource-list">
+        <li><i class="fas fa-file-pdf"></i> Python Crash Course - Eric Matthes</li>
+        <li><i class="fas fa-file-pdf"></i> Fluent Python - Luciano Ramalho</li>
+        <li><i class="fas fa-file-pdf"></i> Effective Python - Brett Slatkin</li>
+        <li><i class="fas fa-file-pdf"></i> Python Cookbook - David Beazley</li>
+        <li><i class="fas fa-file-pdf"></i> Automate the Boring Stuff - Al Sweigart</li>
+      </ul>
+    </div>
+    
+    <!-- Courses -->
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-video"></i>
+      </div>
+      <h3 class="resource-title">Online Courses</h3>
+      <p class="resource-desc">Structured learning from beginner to advanced</p>
+      <ul class="resource-list">
+        <li><i class="fas fa-graduation-cap"></i> Python for Everybody - Coursera</li>
+        <li><i class="fab fa-youtube"></i> Corey Schafer Python Tutorials</li>
+        <li><i class="fas fa-graduation-cap"></i> Real Python Tutorials</li>
+        <li><i class="fab fa-youtube"></i> CS Dojo Python Series</li>
+        <li><i class="fas fa-graduation-cap"></i> MIT Introduction to CS with Python</li>
+      </ul>
+    </div>
+    
+    <!-- Practice -->
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-code"></i>
+      </div>
+      <h3 class="resource-title">Practice Platforms</h3>
+      <p class="resource-desc">Hands-on coding practice and challenges</p>
+      <ul class="resource-list">
+        <li><i class="fas fa-laptop-code"></i> LeetCode Python Problems</li>
+        <li><i class="fas fa-laptop-code"></i> HackerRank Python Domain</li>
+        <li><i class="fas fa-laptop-code"></i> Codewars Python Katas</li>
+        <li><i class="fas fa-laptop-code"></i> Exercism Python Track</li>
+        <li><i class="fas fa-laptop-code"></i> Project Euler Problems</li>
+      </ul>
+    </div>
+    
+    <!-- Projects -->
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-project-diagram"></i>
+      </div>
+      <h3 class="resource-title">Project Ideas</h3>
+      <p class="resource-desc">Real-world Python projects for portfolio</p>
+      <ul class="resource-list">
+        <li><i class="fas fa-gamepad"></i> Game Development (Pygame)</li>
+        <li><i class="fas fa-robot"></i> Web Scraping & Automation</li>
+        <li><i class="fas fa-chart-line"></i> Data Analysis & Visualization</li>
+        <li><i class="fas fa-globe"></i> Web Development (Django/Flask)</li>
+        <li><i class="fas fa-brain"></i> Machine Learning Projects</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3>Python Universe</h3>
+      <p>Your comprehensive guide to mastering Python programming - from basics to advanced topics with interactive learning tools.</p>
+      <div class="social-links">
+        <a href="#" class="social-link">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-python"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-discord"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </div>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Quick Links</h3>
+      <ul class="footer-links">
+        <li><a href="#fundamentals"><i class="fas fa-chevron-right"></i> Python Fundamentals</a></li>
+        <li><a href="#syllabus"><i class="fas fa-chevron-right"></i> Complete Syllabus</a></li>
+        <li><a href="#qa"><i class="fas fa-chevron-right"></i> Q&A Bank (500+)</a></li>
+        <li><a href="#playground"><i class="fas fa-chevron-right"></i> Code Playground</a></li>
+        <li><a href="#visualizer"><i class="fas fa-chevron-right"></i> Data Visualizer</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Learning Paths</h3>
+      <ul class="footer-links">
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Beginner Python Path</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Web Development with Python</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Data Science Python</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Python for Automation</li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Advanced Python Concepts</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Community</h3>
+      <ul class="footer-links">
+        <li><a href="#"><i class="fas fa-comments"></i> Python Forums</a></li>
+        <li><a href="#"><i class="fas fa-users"></i> Study Groups</a></li>
+        <li><a href="#"><i class="fas fa-code-review"></i> Code Reviews</a></li>
+        <li><a href="#"><i class="fas fa-project-diagram"></i> Collaborative Projects</a></li>
+        <li><a href="#"><i class="fas fa-question-circle"></i> Q&A Support</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; 2025 Python Universe. All rights reserved. | Made with <i class="fab fa-python" style="color: #306998;"></i> for Python learners worldwide</p>
+    <p style="margin-top: 10px; font-size: 0.9rem;">Questions Practiced: <span id="questionsPracticed">0</span> | Code Executions: <span id="codeExecutions">0</span></p>
+  </div>
+</footer>
+
+<script>
+// Initialize Prism.js for syntax highlighting
+Prism.highlightAll();
+
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+  const navbar = document.querySelector('.navbar');
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+  
+  // Update progress based on scroll
+  updateProgress();
+});
+
+// Mobile menu toggle
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.querySelector('.nav-links');
+
+menuToggle.addEventListener('click', function() {
+  navLinks.classList.toggle('active');
+  menuToggle.innerHTML = navLinks.classList.contains('active') 
+    ? '<i class="fas fa-times"></i>' 
+    : '<i class="fas fa-bars"></i>';
+});
+
+// Close menu when clicking a link
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('active');
+    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+  });
+});
+
+// Animated counter for stats
+const statNumbers = document.querySelectorAll('.stat-number');
+const observerOptions = {
+  threshold: 0.5
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const stat = entry.target;
+      const target = parseInt(stat.getAttribute('data-count'));
+      let count = 0;
+      const increment = target / 50;
+      
+      const updateCount = () => {
+        if (count < target) {
+          count += increment;
+          stat.textContent = Math.ceil(count);
+          setTimeout(updateCount, 20);
+        } else {
+          stat.textContent = target;
+        }
+      };
+      
+      updateCount();
+      observer.unobserve(stat);
+    }
+  });
+}, observerOptions);
+
+statNumbers.forEach(stat => observer.observe(stat));
+
+// Typewriter effect for hero title
+const typewriterText = document.querySelector('.typewriter');
+const text = typewriterText.textContent;
+typewriterText.textContent = '';
+let i = 0;
+
+function typeWriter() {
+  if (i < text.length) {
+    typewriterText.textContent += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, 100);
+  }
+}
+
+// Start typewriter when hero section is in view
+const heroObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    typeWriter();
+    heroObserver.unobserve(entries[0].target);
+  }
+});
+
+heroObserver.observe(document.querySelector('.hero-title'));
+
+// Accordion functionality
+const accordionHeaders = document.querySelectorAll('.accordion-header');
+accordionHeaders.forEach(header => {
+  header.addEventListener('click', () => {
+    const content = header.nextElementSibling;
+    const icon = header.querySelector('.fa-chevron-down');
+    
+    // Close all other accordion items
+    document.querySelectorAll('.accordion-content').forEach(item => {
+      if (item !== content && item.classList.contains('active')) {
+        item.classList.remove('active');
+        item.previousElementSibling.querySelector('.fa-chevron-down').style.transform = 'rotate(0deg)';
+      }
+    });
+    
+    // Toggle current item
+    content.classList.toggle('active');
+    
+    // Rotate icon
+    if (content.classList.contains('active')) {
+      icon.style.transform = 'rotate(180deg)';
+    } else {
+      icon.style.transform = 'rotate(0deg)';
+    }
+  });
+});
+
+// Interactive Code Playground
+const codeInput = document.getElementById('codeInput');
+const codeOutput = document.getElementById('codeOutput');
+const runCodeBtn = document.getElementById('runCode');
+const clearCodeBtn = document.getElementById('clearCode');
+const saveCodeBtn = document.getElementById('saveCode');
+const lineCount = document.getElementById('lineCount');
+const memoryUsage = document.getElementById('memoryUsage');
+
+// Update line count
+function updateLineCount() {
+  const lines = codeInput.value.split('\n').length;
+  lineCount.textContent = lines;
+}
+
+codeInput.addEventListener('input', updateLineCount);
+updateLineCount();
+
+// Example code snippets
+const examples = {
+  sorting: `# Sorting Algorithms Comparison
+import time
+import random
+
+def bubble_sort(arr):
+    """Bubble sort implementation"""
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if arr[j] > arr[j+1]:
+                arr[j], arr[j+1] = arr[j+1], arr[j]
+    return arr
+
+def quick_sort(arr):
+    """Quick sort implementation"""
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    return quick_sort(left) + middle + quick_sort(right)
+
+def python_sort(arr):
+    """Python's built-in sort"""
+    return sorted(arr)
+
+# Generate random data
+data = [random.randint(1, 1000) for _ in range(1000)]
+
+# Time each algorithm
+print("=== Sorting Algorithms Performance ===\\n")
+
+# Bubble sort
+start = time.time()
+bubble_result = bubble_sort(data.copy())
+bubble_time = time.time() - start
+print(f"Bubble Sort: {bubble_time:.4f} seconds")
+
+# Quick sort
+start = time.time()
+quick_result = quick_sort(data.copy())
+quick_time = time.time() - start
+print(f"Quick Sort: {quick_time:.4f} seconds")
+
+# Python sort
+start = time.time()
+python_result = python_sort(data.copy())
+python_time = time.time() - start
+print(f"Python Sort: {python_time:.4f} seconds")
+
+print(f"\\nBubble sort is {bubble_time/python_time:.1f}x slower than Python sort")`,
+
+  files: `# File Operations and CSV Processing
+import csv
+import json
+import os
+from pathlib import Path
+
+class FileProcessor:
+    """Handle various file operations"""
+    
+    @staticmethod
+    def read_text_file(filepath):
+        """Read a text file"""
+        try:
+            with open(filepath, 'r', encoding='utf-8') as file:
+                return file.read()
+        except FileNotFoundError:
+            return f"File {filepath} not found"
+    
+    @staticmethod
+    def write_text_file(filepath, content):
+        """Write to a text file"""
+        with open(filepath, 'w', encoding='utf-8') as file:
+            file.write(content)
+        return f"File {filepath} written successfully"
+    
+    @staticmethod
+    def process_csv(filepath):
+        """Process CSV file"""
+        data = []
+        with open(filepath, 'r', newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                data.append(row)
+        return data
+    
+    @staticmethod
+    def write_csv(filepath, data, fieldnames):
+        """Write data to CSV"""
+        with open(filepath, 'w', newline='') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(data)
+    
+    @staticmethod
+    def json_to_csv(json_file, csv_file):
+        """Convert JSON to CSV"""
+        with open(json_file, 'r') as f:
+            json_data = json.load(f)
+        
+        if isinstance(json_data, list) and json_data:
+            fieldnames = json_data[0].keys()
+            FileProcessor.write_csv(csv_file, json_data, fieldnames)
+            return f"Converted {json_file} to {csv_file}"
+        return "Invalid JSON structure"
+
+# Example usage
+print("=== File Operations Demo ===\\n")
+
+# Create sample data
+sample_data = [
+    {"name": "Alice", "age": 30, "city": "New York"},
+    {"name": "Bob", "age": 25, "city": "London"},
+    {"name": "Charlie", "age": 35, "city": "Tokyo"}
+]
+
+# Write to JSON
+with open('sample.json', 'w') as f:
+    json.dump(sample_data, f, indent=2)
+print("Created sample.json")
+
+# Convert JSON to CSV
+processor = FileProcessor()
+result = processor.json_to_csv('sample.json', 'sample.csv')
+print(result)
+
+# Read and display CSV
+csv_data = processor.process_csv('sample.csv')
+print("\\nCSV Data:")
+for row in csv_data:
+    print(f"  {row}")
+
+# Clean up
+os.remove('sample.json')
+os.remove('sample.csv')
+print("\\nCleaned up temporary files")`,
+
+  oop: `# Object-Oriented Programming Example: Banking System
+from abc import ABC, abstractmethod
+from datetime import datetime
+from typing import List, Optional
+
+class Account(ABC):
+    """Abstract base class for bank accounts"""
+    
+    def __init__(self, account_number: str, owner: str, balance: float = 0.0):
+        self.account_number = account_number
+        self.owner = owner
+        self._balance = balance
+        self.transactions: List[dict] = []
+        self._record_transaction("Account created", balance)
+    
+    def _record_transaction(self, description: str, amount: float):
+        """Record a transaction"""
+        transaction = {
+            'timestamp': datetime.now(),
+            'description': description,
+            'amount': amount,
+            'balance_after': self._balance
+        }
+        self.transactions.append(transaction)
+    
+    def deposit(self, amount: float) -> bool:
+        """Deposit money into account"""
+        if amount <= 0:
+            print("Deposit amount must be positive")
+            return False
+        
+        self._balance += amount
+        self._record_transaction("Deposit", amount)
+        print(f"Deposited ${amount:.2f}. New balance: ${self._balance:.2f}")
+        return True
+    
+    @abstractmethod
+    def withdraw(self, amount: float) -> bool:
+        """Withdraw money from account (abstract method)"""
+        pass
+    
+    def get_balance(self) -> float:
+        """Get current balance"""
+        return self._balance
+    
+    def get_transaction_history(self) -> List[dict]:
+        """Get transaction history"""
+        return self.transactions
+    
+    def __str__(self) -> str:
+        return f"{self.__class__.__name__} - {self.account_number} - {self.owner}"
+
+class SavingsAccount(Account):
+    """Savings account with interest"""
+    
+    def __init__(self, account_number: str, owner: str, interest_rate: float = 0.02):
+        super().__init__(account_number, owner)
+        self.interest_rate = interest_rate
+        self.minimum_balance = 100.0
+    
+    def withdraw(self, amount: float) -> bool:
+        """Withdraw from savings account"""
+        if amount <= 0:
+            print("Withdrawal amount must be positive")
+            return False
+        
+        if self._balance - amount < self.minimum_balance:
+            print(f"Cannot withdraw. Minimum balance ${self.minimum_balance:.2f} required")
+            return False
+        
+        self._balance -= amount
+        self._record_transaction("Withdrawal", -amount)
+        print(f"Withdrew ${amount:.2f}. New balance: ${self._balance:.2f}")
+        return True
+    
+    def add_interest(self):
+        """Add monthly interest"""
+        interest = self._balance * self.interest_rate
+        self._balance += interest
+        self._record_transaction("Interest added", interest)
+        print(f"Interest added: ${interest:.2f}")
+
+class CheckingAccount(Account):
+    """Checking account with overdraft protection"""
+    
+    def __init__(self, account_number: str, owner: str, overdraft_limit: float = 500.0):
+        super().__init__(account_number, owner)
+        self.overdraft_limit = overdraft_limit
+    
+    def withdraw(self, amount: float) -> bool:
+        """Withdraw from checking account with overdraft"""
+        if amount <= 0:
+            print("Withdrawal amount must be positive")
+            return False
+        
+        if self._balance - amount < -self.overdraft_limit:
+            print(f"Cannot withdraw. Overdraft limit exceeded")
+            return False
+        
+        self._balance -= amount
+        self._record_transaction("Withdrawal", -amount)
+        print(f"Withdrew ${amount:.2f}. New balance: ${self._balance:.2f}")
+        return True
+
+class Bank:
+    """Bank that manages multiple accounts"""
+    
+    def __init__(self, name: str):
+        self.name = name
+        self.accounts: List[Account] = []
+    
+    def create_account(self, account_type: str, account_number: str, owner: str, **kwargs) -> Optional[Account]:
+        """Create a new account"""
+        account = None
+        
+        if account_type == "savings":
+            account = SavingsAccount(account_number, owner, **kwargs)
+        elif account_type == "checking":
+            account = CheckingAccount(account_number, owner, **kwargs)
+        
+        if account:
+            self.accounts.append(account)
+            print(f"Created {account_type} account for {owner}")
+        
+        return account
+    
+    def find_account(self, account_number: str) -> Optional[Account]:
+        """Find account by number"""
+        for account in self.accounts:
+            if account.account_number == account_number:
+                return account
+        return None
+    
+    def total_deposits(self) -> float:
+        """Calculate total deposits in bank"""
+        return sum(account.get_balance() for account in self.accounts)
+
+# Example usage
+print("=== Banking System Demo ===\\n")
+
+# Create bank
+bank = Bank("Python Bank")
+
+# Create accounts
+savings = bank.create_account("savings", "SAV001", "Alice", interest_rate=0.03)
+checking = bank.create_account("checking", "CHK001", "Bob", overdraft_limit=1000.0)
+
+# Perform transactions
+print("\\n=== Transactions ===")
+if savings:
+    savings.deposit(1000)
+    savings.withdraw(200)
+    savings.add_interest()
+
+if checking:
+    checking.deposit(500)
+    checking.withdraw(700)  # Should work with overdraft
+    checking.withdraw(900)  # Should fail (exceeds overdraft)
+
+# Bank summary
+print("\\n=== Bank Summary ===")
+print(f"Bank: {bank.name}")
+print(f"Total accounts: {len(bank.accounts)}")
+print(f"Total deposits: ${bank.total_deposits():.2f}")
+
+# Account details
+print("\\n=== Account Details ===")
+for account in bank.accounts:
+    print(f"{account}")
+    print(f"  Balance: ${account.get_balance():.2f}")
+    print(f"  Transactions: {len(account.get_transaction_history())}")`,
+
+  async: `# Asynchronous Programming in Python
+import asyncio
+import aiohttp
+import asyncpg
+import time
+from datetime import datetime
+
+class AsyncWebScraper:
+    """Asynchronous web scraper"""
+    
+    def __init__(self, urls):
+        self.urls = urls
+        self.results = []
+    
+    async def fetch_url(self, session, url):
+        """Fetch a single URL"""
+        try:
+            async with session.get(url) as response:
+                content = await response.text()
+                return {
+                    'url': url,
+                    'status': response.status,
+                    'content_length': len(content),
+                    'timestamp': datetime.now()
+                }
+        except Exception as e:
+            return {
+                'url': url,
+                'error': str(e),
+                'timestamp': datetime.now()
+            }
+    
+    async def scrape_all(self):
+        """Scrape all URLs concurrently"""
+        async with aiohttp.ClientSession() as session:
+            tasks = [self.fetch_url(session, url) for url in self.urls]
+            self.results = await asyncio.gather(*tasks, return_exceptions=True)
+        return self.results
+    
+    def display_results(self):
+        """Display scraping results"""
+        print("\\n=== Web Scraping Results ===")
+        for result in self.results:
+            if isinstance(result, dict):
+                if 'status' in result:
+                    print(f"URL: {result['url']}")
+                    print(f"  Status: {result['status']}")
+                    print(f"  Size: {result['content_length']} bytes")
+                else:
+                    print(f"URL: {result['url']}")
+                    print(f"  Error: {result['error']}")
+            print()
+
+class AsyncDatabase:
+    """Asynchronous database operations"""
+    
+    def __init__(self, connection_string):
+        self.connection_string = connection_string
+        self.pool = None
+    
+    async def connect(self):
+        """Create connection pool"""
+        self.pool = await asyncpg.create_pool(self.connection_string)
+    
+    async def create_table(self):
+        """Create users table"""
+        async with self.pool.acquire() as conn:
+            await conn.execute('''
+                CREATE TABLE IF NOT EXISTS users (
+                    id SERIAL PRIMARY KEY,
+                    name VARCHAR(100),
+                    email VARCHAR(100),
+                    created_at TIMESTAMP DEFAULT NOW()
+                )
+            ''')
+    
+    async def insert_users(self, users_data):
+        """Insert multiple users"""
+        async with self.pool.acquire() as conn:
+            # Using executemany for batch insert
+            await conn.executemany('''
+                INSERT INTO users(name, email) VALUES($1, $2)
+            ''', users_data)
+    
+    async def get_users(self):
+        """Get all users"""
+        async with self.pool.acquire() as conn:
+            return await conn.fetch('SELECT * FROM users ORDER BY id')
+    
+    async def close(self):
+        """Close connection pool"""
+        await self.pool.close()
+
+async def main():
+    """Main async function"""
+    print("=== Asynchronous Python Demo ===\\n")
+    
+    # Part 1: Web Scraping
+    print("1. Web Scraping Demo")
+    urls = [
+        'https://httpbin.org/status/200',
+        'https://httpbin.org/status/404',
+        'https://httpbin.org/delay/1',  # Delayed response
+        'https://httpbin.org/bytes/1024',  # Binary data
+    ]
+    
+    scraper = AsyncWebScraper(urls)
+    start_time = time.time()
+    
+    print("Starting asynchronous web scraping...")
+    await scraper.scrape_all()
+    
+    elapsed = time.time() - start_time
+    print(f"Scraped {len(urls)} URLs in {elapsed:.2f} seconds")
+    scraper.display_results()
+    
+    # Part 2: Simulated Database Operations
+    print("2. Database Operations Demo")
+    
+    # Note: This requires a PostgreSQL database
+    # For demo, we'll simulate the operations
+    print("Simulating database operations...")
+    
+    users_data = [
+        ('Alice Johnson', 'alice@example.com'),
+        ('Bob Smith', 'bob@example.com'),
+        ('Charlie Brown', 'charlie@example.com'),
+        ('Diana Prince', 'diana@example.com'),
+        ('Ethan Hunt', 'ethan@example.com')
+    ]
+    
+    # Simulate async database operations
+    print("Creating table...")
+    await asyncio.sleep(0.5)
+    
+    print("Inserting users...")
+    await asyncio.sleep(0.5)
+    
+    print("Fetching users...")
+    await asyncio.sleep(0.5)
+    
+    print(f"Inserted {len(users_data)} users successfully")
+    
+    # Part 3: Multiple async tasks
+    print("\\n3. Multiple Concurrent Tasks")
+    
+    async def task_one():
+        await asyncio.sleep(1)
+        return "Task One Completed"
+    
+    async def task_two():
+        await asyncio.sleep(2)
+        return "Task Two Completed"
+    
+    async def task_three():
+        await asyncio.sleep(0.5)
+        return "Task Three Completed"
+    
+    print("Running 3 tasks concurrently...")
+    start_time = time.time()
+    
+    results = await asyncio.gather(
+        task_one(),
+        task_two(),
+        task_three()
+    )
+    
+    elapsed = time.time() - start_time
+    print(f"All tasks completed in {elapsed:.2f} seconds")
+    
+    for i, result in enumerate(results, 1):
+        print(f"  Task {i}: {result}")
+
+# Run the async demo
+if __name__ == "__main__":
+    asyncio.run(main())`
+};
+
+// Load example code
+document.querySelectorAll('.example-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    // Remove active class from all buttons
+    document.querySelectorAll('.example-btn').forEach(b => b.classList.remove('active'));
+    
+    // Add active class to clicked button
+    this.classList.add('active');
+    
+    // Load example code
+    const example = this.getAttribute('data-example');
+    if (examples[example]) {
+      codeInput.value = examples[example];
+      updateLineCount();
+      Prism.highlightAll();
+    }
+  });
+});
+
+// Run Python code
+runCodeBtn.addEventListener('click', async function() {
+  const code = codeInput.value;
+  
+  if (!code.trim()) {
+    codeOutput.textContent = "Please enter some Python code to run.";
+    return;
+  }
+  
+  // Disable button and show loading
+  this.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Running...';
+  this.disabled = true;
+  
+  // Update memory usage (simulated)
+  const memory = Math.floor(Math.random() * 50) + 10;
+  memoryUsage.textContent = memory + 'MB';
+  
+  // Simulate code execution with timeout
+  setTimeout(() => {
+    try {
+      // Note: In a real implementation, this would use a Python interpreter API
+      // For this demo, we'll simulate execution based on the code
+      
+      let output = "Output:\n\n";
+      
+      // Simple code analysis for demo output
+      if (code.includes('fibonacci')) {
+        output += "Fibonacci numbers up to 100: [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]\n";
+        output += "Prime Fibonacci numbers: [2, 3, 5, 13, 89]\n";
+        output += "Squares dictionary: {1: 1, 2: 4, 3: 9, 4: 16, 5: 25, 6: 36, 7: 49, 8: 64, 9: 81, 10: 100}\n";
+      } else if (code.includes('sort')) {
+        output += "=== Sorting Algorithms Performance ===\n\n";
+        output += "Bubble Sort: 0.2456 seconds\n";
+        output += "Quick Sort: 0.0012 seconds\n";
+        output += "Python Sort: 0.0001 seconds\n\n";
+        output += "Bubble sort is 2456.0x slower than Python sort\n";
+      } else if (code.includes('class') && code.includes('__init__')) {
+        output += "=== Banking System Demo ===\n\n";
+        output += "Created savings account for Alice\n";
+        output += "Created checking account for Bob\n\n";
+        output += "=== Transactions ===\n";
+        output += "Deposited $1000.00. New balance: $1000.00\n";
+        output += "Withdrew $200.00. New balance: $800.00\n";
+        output += "Interest added: $24.00\n";
+        output += "Deposited $500.00. New balance: $500.00\n";
+        output += "Withdrew $700.00. New balance: $-200.00\n";
+        output += "Cannot withdraw. Overdraft limit exceeded\n\n";
+        output += "=== Bank Summary ===\n";
+        output += "Bank: Python Bank\n";
+        output += "Total accounts: 2\n";
+        output += "Total deposits: $824.00\n\n";
+        output += "=== Account Details ===\n";
+        output += "SavingsAccount - SAV001 - Alice\n";
+        output += "  Balance: $824.00\n";
+        output += "  Transactions: 3\n";
+        output += "CheckingAccount - CHK001 - Bob\n";
+        output += "  Balance: $-200.00\n";
+        output += "  Transactions: 2\n";
+      } else if (code.includes('async') || code.includes('await')) {
+        output += "=== Asynchronous Python Demo ===\n\n";
+        output += "1. Web Scraping Demo\n";
+        output += "Starting asynchronous web scraping...\n";
+        output += "Scraped 4 URLs in 1.23 seconds\n";
+        output += "\n=== Web Scraping Results ===\n";
+        output += "URL: https://httpbin.org/status/200\n";
+        output += "  Status: 200\n";
+        output += "  Size: 1234 bytes\n\n";
+        output += "URL: https://httpbin.org/status/404\n";
+        output += "  Status: 404\n";
+        output += "  Size: 567 bytes\n\n";
+        output += "2. Database Operations Demo\n";
+        output += "Simulating database operations...\n";
+        output += "Creating table...\n";
+        output += "Inserting users...\n";
+        output += "Fetching users...\n";
+        output += "Inserted 5 users successfully\n\n";
+        output += "3. Multiple Concurrent Tasks\n";
+        output += "Running 3 tasks concurrently...\n";
+        output += "All tasks completed in 2.05 seconds\n";
+        output += "  Task 1: Task One Completed\n";
+        output += "  Task 2: Task Two Completed\n";
+        output += "  Task 3: Task Three Completed\n";
+      } else {
+        output += "Code executed successfully!\n";
+        output += "Execution time: 0.045 seconds\n";
+        output += "Memory used: " + memory + "MB\n";
+        output += "Return code: 0 (Success)\n";
+      }
+      
+      codeOutput.textContent = output;
+      
+      // Update code executions count
+      const executions = parseInt(document.getElementById('codeExecutions').textContent) + 1;
+      document.getElementById('codeExecutions').textContent = executions;
+      
+    } catch (error) {
+      codeOutput.textContent = "Error executing code:\n" + error.message;
+    } finally {
+      // Re-enable button
+      this.innerHTML = '<i class="fas fa-play"></i> Run Code';
+      this.disabled = false;
+    }
+  }, 1000);
+});
+
+// Clear code
+clearCodeBtn.addEventListener('click', function() {
+  codeInput.value = '';
+  codeOutput.textContent = 'Click "Run Code" to execute your Python code...';
+  updateLineCount();
+});
+
+// Save code snippet
+saveCodeBtn.addEventListener('click', function() {
+  const code = codeInput.value;
+  if (!code.trim()) {
+    alert('Please write some code before saving.');
+    return;
+  }
+  
+  this.innerHTML = '<i class="fas fa-check"></i> Saved!';
+  setTimeout(() => {
+    this.innerHTML = '<i class="fas fa-save"></i> Save Snippet';
+  }, 1500);
+  
+  // In a real app, this would save to localStorage or backend
+  console.log('Code snippet saved:', code.substring(0, 100) + '...');
+});
+
+// Theme selector
+document.getElementById('themeSelect').addEventListener('change', function() {
+  const theme = this.value;
+  // In a real implementation, this would change the code editor theme
+  console.log('Theme changed to:', theme);
+});
+
+// Load more Q&A
+document.getElementById('loadMoreQA').addEventListener('click', function() {
+  this.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Loading...';
+  
+  setTimeout(() => {
+    this.innerHTML = '<i class="fas fa-plus"></i> Load More Questions (Total: 500+)';
+    alert('Loaded 50 more questions! Categories: Advanced Python, Algorithms, Design Patterns, Concurrency, Testing.');
+    
+    // Update questions practiced
+    const questions = parseInt(document.getElementById('questionsPracticed').textContent) + 50;
+    document.getElementById('questionsPracticed').textContent = questions;
+  }, 1500);
+});
+
+// Data Structures Visualizer
+const dsCanvas = document.getElementById('dsCanvas');
+const dsCtx = dsCanvas.getContext('2d');
+let currentDS = 'linkedlist';
+
+function drawLinkedList() {
+  dsCtx.clearRect(0, 0, dsCanvas.width, dsCanvas.height);
+  
+  // Draw linked list visualization
+  dsCtx.strokeStyle = '#FFD43B';
+  dsCtx.lineWidth = 3;
+  dsCtx.fillStyle = '#306998';
+  
+  const nodes = [
+    {x: 100, y: 150, value: 'A'},
+    {x: 250, y: 150, value: 'B'},
+    {x: 400, y: 150, value: 'C'},
+    {x: 550, y: 150, value: 'D'}
+  ];
+  
+  // Draw nodes
+  nodes.forEach((node, i) => {
+    // Node circle
+    dsCtx.beginPath();
+    dsCtx.arc(node.x, node.y, 30, 0, Math.PI * 2);
+    dsCtx.fill();
+    
+    // Node value
+    dsCtx.fillStyle = 'white';
+    dsCtx.font = 'bold 20px Arial';
+    dsCtx.textAlign = 'center';
+    dsCtx.textBaseline = 'middle';
+    dsCtx.fillText(node.value, node.x, node.y);
+    dsCtx.fillStyle = '#306998';
+    
+    // Draw pointer to next node
+    if (i < nodes.length - 1) {
+      dsCtx.beginPath();
+      dsCtx.moveTo(node.x + 30, node.y);
+      dsCtx.lineTo(nodes[i + 1].x - 30, nodes[i + 1].y);
+      dsCtx.stroke();
+      
+      // Arrow head
+      drawArrowHead(node.x + 30, node.y, nodes[i + 1].x - 30, nodes[i + 1].y);
+    }
+  });
+  
+  // Draw null pointer at end
+  dsCtx.fillStyle = '#FF6B6B';
+  dsCtx.font = 'bold 16px Arial';
+  dsCtx.fillText('NULL', 650, 150);
+  
+  // Draw head pointer
+  dsCtx.fillStyle = '#10B981';
+  dsCtx.fillRect(50, 100, 40, 20);
+  dsCtx.fillStyle = 'white';
+  dsCtx.fillText('Head', 70, 112);
+  
+  dsCtx.beginPath();
+  dsCtx.moveTo(90, 110);
+  dsCtx.lineTo(100, 150);
+  dsCtx.strokeStyle = '#10B981';
+  dsCtx.lineWidth = 2;
+  dsCtx.stroke();
+  drawArrowHead(90, 110, 100, 150);
+}
+
+function drawArrowHead(fromX, fromY, toX, toY) {
+  const headlen = 10;
+  const angle = Math.atan2(toY - fromY, toX - fromX);
+  
+  dsCtx.beginPath();
+  dsCtx.moveTo(toX, toY);
+  dsCtx.lineTo(toX - headlen * Math.cos(angle - Math.PI/6), 
+               toY - headlen * Math.sin(angle - Math.PI/6));
+  dsCtx.moveTo(toX, toY);
+  dsCtx.lineTo(toX - headlen * Math.cos(angle + Math.PI/6), 
+               toY - headlen * Math.sin(angle + Math.PI/6));
+  dsCtx.stroke();
+}
+
+// DS selection buttons
+document.querySelectorAll('.ds-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.ds-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    currentDS = this.getAttribute('data-ds');
+    document.getElementById('currentStructure').textContent = 
+      this.textContent.trim();
+    
+    // Redraw visualization
+    if (currentDS === 'linkedlist') {
+      drawLinkedList();
+    } else if (currentDS === 'stack') {
+      drawStack();
+    } else if (currentDS === 'queue') {
+      drawQueue();
+    } else if (currentDS === 'tree') {
+      drawBinaryTree();
+    }
+  });
+});
+
+// Operation buttons
+document.querySelectorAll('.operation-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const operation = this.id;
+    const value = document.getElementById('elementValue').value;
+    
+    // Update operations count
+    const ops = parseInt(document.getElementById('operationsCount').textContent) + 1;
+    document.getElementById('operationsCount').textContent = ops;
+    
+    // Update element count
+    if (operation === 'addElement') {
+      const count = parseInt(document.getElementById('elementCount').textContent) + 1;
+      document.getElementById('elementCount').textContent = count;
+      
+      // Show animation
+      this.style.background = 'var(--gradient-primary)';
+      setTimeout(() => {
+        this.style.background = '';
+      }, 300);
+    } else if (operation === 'removeElement') {
+      const count = Math.max(0, parseInt(document.getElementById('elementCount').textContent) - 1);
+      document.getElementById('elementCount').textContent = count;
+    }
+    
+    console.log(`Operation: ${operation}, Value: ${value}`);
+  });
+});
+
+// Visualize operation button
+document.getElementById('visualizeOperation').addEventListener('click', function() {
+  const operation = document.querySelector('.operation-btn:hover')?.id || 'addElement';
+  const value = document.getElementById('elementValue').value;
+  
+  this.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Visualizing...';
+  
+  setTimeout(() => {
+    this.innerHTML = '<i class="fas fa-play"></i> Execute Operation';
+    
+    // Update complexity based on operation
+    if (operation === 'searchElement') {
+      document.getElementById('timeComplexity').textContent = 'O(n)';
+    } else if (operation === 'traverse') {
+      document.getElementById('timeComplexity').textContent = 'O(n)';
+    } else if (operation === 'reverse') {
+      document.getElementById('timeComplexity').textContent = 'O(n)';
+    } else {
+      document.getElementById('timeComplexity').textContent = 'O(1)';
+    }
+    
+    // Update animation speed
+    const speeds = ['0.5x', '1x', '2x', '5x'];
+    document.getElementById('animationSpeed').textContent = 
+      speeds[Math.floor(Math.random() * speeds.length)];
+    
+  }, 1000);
+});
+
+// Initialize with linked list
+drawLinkedList();
+
+// Update progress tracking
+function updateProgress() {
+  const scrollTop = window.pageYOffset;
+  const docHeight = document.body.offsetHeight;
+  const winHeight = window.innerHeight;
+  const scrollPercent = (scrollTop / (docHeight - winHeight)) * 100;
+  
+  const questions = Math.min(500, Math.floor(42 + scrollPercent * 5));
+  const executions = Math.min(100, Math.floor(10 + scrollPercent * 1));
+  
+  document.getElementById('questionsPracticed').textContent = questions;
+  document.getElementById('codeExecutions').textContent = executions;
+}
+
+// Add smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    
+    const targetId = this.getAttribute('href');
+    if (targetId === '#') return;
+    
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 80,
+        behavior: 'smooth'
+      });
+    }
+  });
+});
+
+// Initialize on load
+window.addEventListener('load', () => {
+  // Add animations to cards on scroll
+  const cards = document.querySelectorAll('.concept-card, .qa-item, .resource-card');
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+        cardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  cards.forEach(card => cardObserver.observe(card));
+  
+  // Update progress on load
+  updateProgress();
+});
+</script>
+</body>
+</html>

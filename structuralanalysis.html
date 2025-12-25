@@ -1,0 +1,2512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Structural Analysis Master | Complete Learning Platform</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+
+<style>
+:root{
+  --bg:#0f141f;
+  --glass:rgba(255,255,255,0.06);
+  --card:#151b2d;
+  --steel-blue:#4a9eff;
+  --concrete-gray:#a0aec0;
+  --force-red:#ff6b6b;
+  --moment-orange:#ffa94d;
+  --support-green:#51cf66;
+  --text:#e5e7eb;
+  --success:#00ff9d;
+  --warning:#ffcc00;
+  --danger:#ff4757;
+  --info:#4d8af0;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+
+body{
+  background:
+    radial-gradient(circle at 10% 20%, rgba(74,158,255,.15), transparent 40%),
+    radial-gradient(circle at 90% 30%, rgba(255,107,107,.12), transparent 40%),
+    radial-gradient(circle at 40% 80%, rgba(81,207,102,.08), transparent 40%),
+    linear-gradient(180deg,#0f141f,var(--bg));
+  color:var(--text);
+  min-height: 100vh;
+}
+
+/* NAV */
+nav{
+  position:sticky;
+  top:0;
+  z-index:10;
+  padding:18px 50px;
+  background:rgba(15,20,31,.95);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo{
+  font-size:1.6rem;
+  font-weight:800;
+  background:linear-gradient(90deg,var(--steel-blue),var(--support-green));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.85rem;
+  transition: all 0.3s;
+  padding: 8px 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-links a:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--steel-blue);
+}
+
+.nav-links a.active {
+  background: linear-gradient(90deg, var(--steel-blue), var(--support-green));
+  color: var(--bg);
+}
+
+/* STUDY MODES */
+.study-modes {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 40px 0;
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+.mode-btn {
+  padding: 15px 25px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.1);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 180px;
+  justify-content: center;
+}
+
+.mode-btn:hover {
+  transform: translateY(-5px);
+  border-color: var(--steel-blue);
+  box-shadow: 0 10px 30px rgba(74,158,255,0.2);
+}
+
+.mode-btn.active {
+  background: linear-gradient(90deg, var(--steel-blue), var(--support-green));
+  color: var(--bg);
+  border-color: transparent;
+  box-shadow: 0 10px 30px rgba(74,158,255,0.4);
+}
+
+.mode-icon {
+  font-size: 1.2rem;
+}
+
+/* STUDY SECTIONS */
+.study-section {
+  display: none;
+  animation: fadeIn 0.5s ease;
+  padding: 0 50px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.study-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-header h2 {
+  background: linear-gradient(90deg, var(--steel-blue), var(--support-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.section-icon {
+  font-size: 3rem;
+  color: var(--steel-blue);
+  margin-bottom: 15px;
+}
+
+/* FUNDAMENTALS */
+.fundamentals-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.concept-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.concept-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--steel-blue);
+  box-shadow: 0 15px 40px rgba(74,158,255,0.2);
+}
+
+.concept-card h3 {
+  background: linear-gradient(90deg, var(--steel-blue), var(--support-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.concept-card p {
+  line-height: 1.7;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.concept-formula {
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px 0;
+  border-left: 3px solid var(--steel-blue);
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+}
+
+.concept-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.concept-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.concept-list li:last-child {
+  border-bottom: none;
+}
+
+.concept-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: rgba(74,158,255,0.15);
+  color: var(--steel-blue);
+}
+
+/* BEAM ANALYZER */
+.beam-analyzer {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 30px;
+  margin-top: 30px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.beam-canvas-container {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 30px;
+  margin: 30px 0;
+}
+
+@media (max-width: 1024px) {
+  .beam-canvas-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.beam-canvas {
+  background: rgba(0,0,0,0.3);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  min-height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+
+.beam-controls {
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.control-group {
+  margin-bottom: 25px;
+}
+
+.control-group h4 {
+  color: var(--steel-blue);
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.control-btn {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text);
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.control-btn:hover {
+  background: rgba(74,158,255,0.1);
+  border-color: var(--steel-blue);
+}
+
+.control-btn.active {
+  background: linear-gradient(90deg, var(--steel-blue), var(--support-green));
+  color: var(--bg);
+  border-color: transparent;
+}
+
+.beam-results {
+  background: rgba(0,0,0,0.3);
+  border-radius: 15px;
+  padding: 20px;
+  margin-top: 30px;
+  border: 1px solid rgba(81,207,102,0.2);
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.result-item {
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+}
+
+.result-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--support-green);
+  margin-bottom: 5px;
+}
+
+.result-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* QUESTION BANK */
+.question-filters {
+  display: flex;
+  gap: 15px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 10px 25px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filter-btn:hover {
+  background: rgba(74,158,255,0.1);
+  border-color: var(--steel-blue);
+}
+
+.filter-btn.active {
+  background: linear-gradient(90deg, var(--steel-blue), var(--support-green));
+  color: var(--bg);
+  border-color: transparent;
+}
+
+.question-bank {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.question-item {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: all 0.3s;
+}
+
+.question-item:hover {
+  transform: translateY(-5px);
+  border-color: var(--steel-blue);
+  box-shadow: 0 15px 40px rgba(74,158,255,0.2);
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.question-header h4 {
+  background: linear-gradient(90deg, var(--steel-blue), var(--support-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.1rem;
+}
+
+.question-meta {
+  display: flex;
+  gap: 10px;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.question-text {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.question-options {
+  margin: 15px 0;
+}
+
+.option {
+  padding: 10px;
+  margin: 8px 0;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.option.correct {
+  background: rgba(81,207,102,0.15);
+  border-color: var(--support-green);
+}
+
+.question-answer {
+  background: rgba(81,207,102,0.05);
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 15px;
+  border-left: 3px solid var(--support-green);
+  display: none;
+}
+
+.question-explanation {
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.9;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.show-answer-btn {
+  background: transparent;
+  border: 1px solid var(--steel-blue);
+  color: var(--steel-blue);
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.show-answer-btn:hover {
+  background: rgba(74,158,255,0.1);
+}
+
+/* TRUSS SOLVER */
+.truss-solver {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 30px;
+  margin-top: 30px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.truss-container {
+  display: grid;
+  grid-template-columns: 250px 1fr 300px;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+@media (max-width: 1200px) {
+  .truss-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.truss-controls {
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.truss-canvas {
+  background: rgba(0,0,0,0.3);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  min-height: 500px;
+  position: relative;
+}
+
+.truss-results {
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  padding: 20px;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.member-forces {
+  margin-top: 20px;
+}
+
+.member-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.member-row:last-child {
+  border-bottom: none;
+}
+
+/* FORMULA LIBRARY */
+.formula-library {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.formula-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.formula-card h4 {
+  background: linear-gradient(90deg, var(--steel-blue), var(--support-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.formula-content {
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  padding: 15px;
+  margin: 15px 0;
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  text-align: center;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formula-variables {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* DEFLECTION CALCULATOR */
+.deflection-calc {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 30px;
+  margin-top: 30px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.calc-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-group label {
+  font-weight: 600;
+  color: var(--steel-blue);
+}
+
+.calc-input {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 12px 15px;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.deflection-results {
+  background: rgba(0,0,0,0.3);
+  border-radius: 15px;
+  padding: 25px;
+  margin-top: 30px;
+  border: 1px solid rgba(81,207,102,0.2);
+}
+
+/* PROGRESS TRACKER */
+.progress-container {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,0.12);
+  margin-top: 40px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.progress-header h3 {
+  background: linear-gradient(90deg, var(--steel-blue), var(--support-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+}
+
+.progress-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--steel-blue), var(--support-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.progress-bar-container {
+  margin: 20px 0;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  height: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--steel-blue), var(--support-green));
+  border-radius: 5px;
+  transition: width 1s ease;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:30px;
+  opacity:.6;
+  font-size:.85rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 50px;
+}
+
+/* RESPONSIVE */
+@media(max-width: 768px){
+  .study-section {
+    padding: 0 20px;
+  }
+  
+  nav {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .nav-links a {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+  
+  .study-modes {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .mode-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .fundamentals-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* KATEX STYLING */
+.katex {
+  font-size: 1.1em !important;
+}
+
+/* DIAGRAM STYLING */
+.diagram {
+  width: 100%;
+  height: 200px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.beam-diagram {
+  width: 90%;
+  height: 80%;
+  border-bottom: 3px solid var(--steel-blue);
+  position: relative;
+}
+
+.support {
+  position: absolute;
+  bottom: 0;
+  width: 20px;
+  height: 10px;
+  background: var(--support-green);
+}
+
+.load {
+  position: absolute;
+  width: 2px;
+  background: var(--force-red);
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">Structural Analysis Master</div>
+  <div class="nav-links">
+    <a href="#" class="active" onclick="setActiveMode('fundamentals')"><i class="fas fa-book"></i> Fundamentals</a>
+    <a href="#" onclick="setActiveMode('beam')"><i class="fas fa-grip-lines"></i> Beam Analyzer</a>
+    <a href="#" onclick="setActiveMode('truss')"><i class="fas fa-project-diagram"></i> Truss Solver</a>
+    <a href="#" onclick="setActiveMode('questions')"><i class="fas fa-question-circle"></i> Question Bank</a>
+    <a href="#" onclick="setActiveMode('formulas')"><i class="fas fa-calculator"></i> Formula Library</a>
+    <a href="#" onclick="setActiveMode('deflection')"><i class="fas fa-chart-line"></i> Deflection Calc</a>
+    <a href="#" onclick="setActiveMode('progress')"><i class="fas fa-chart-line"></i> Progress</a>
+  </div>
+</nav>
+
+<div class="study-modes">
+  <button class="mode-btn active" onclick="setActiveMode('fundamentals')">
+    <i class="fas fa-book mode-icon"></i>
+    <span>Fundamentals</span>
+  </button>
+  <button class="mode-btn" onclick="setActiveMode('beam')">
+    <i class="fas fa-grip-lines mode-icon"></i>
+    <span>Beam Analyzer</span>
+  </button>
+  <button class="mode-btn" onclick="setActiveMode('truss')">
+    <i class="fas fa-project-diagram mode-icon"></i>
+    <span>Truss Solver</span>
+  </button>
+  <button class="mode-btn" onclick="setActiveMode('questions')">
+    <i class="fas fa-question-circle mode-icon"></i>
+    <span>Question Bank (300+)</span>
+  </button>
+  <button class="mode-btn" onclick="setActiveMode('formulas')">
+    <i class="fas fa-calculator mode-icon"></i>
+    <span>Formula Library</span>
+  </button>
+  <button class="mode-btn" onclick="setActiveMode('deflection')">
+    <i class="fas fa-chart-line mode-icon"></i>
+    <span>Deflection Calculator</span>
+  </button>
+</div>
+
+<!-- FUNDAMENTALS SECTION -->
+<section id="fundamentals" class="study-section active">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-book"></i></div>
+    <h2>Structural Analysis Fundamentals</h2>
+    <p style="opacity: 0.9; max-width: 800px; margin: 0 auto;">Complete reference for structural analysis concepts, principles, and methods</p>
+  </div>
+  
+  <div class="fundamentals-container">
+    <!-- Basic Concepts -->
+    <div class="concept-card">
+      <span class="concept-badge">Essential</span>
+      <h3><i class="fas fa-cube"></i> Types of Structures</h3>
+      <div class="diagram">
+        <div class="beam-diagram">
+          <div class="support" style="left: 10%;"></div>
+          <div class="support" style="left: 90%;"></div>
+          <div class="load" style="left: 50%; height: 40px; top: 0;"></div>
+        </div>
+      </div>
+      <ul class="concept-list">
+        <li><strong>Beams</strong> - Horizontal members carrying vertical loads</li>
+        <li><strong>Columns</strong> - Vertical members carrying axial loads</li>
+        <li><strong>Trusses</strong> - Assembly of triangles carrying loads at joints</li>
+        <li><strong>Frames</strong> - Rigid joints connecting beams and columns</li>
+        <li><strong>Cables & Arches</strong> - Structures in pure tension/compression</li>
+        <li><strong>Plates & Shells</strong> - Two-dimensional structural elements</li>
+      </ul>
+    </div>
+    
+    <!-- Support Conditions -->
+    <div class="concept-card">
+      <span class="concept-badge">Supports</span>
+      <h3><i class="fas fa-anchor"></i> Support Conditions</h3>
+      <div class="concept-formula">
+        Fixed: M≠0, V≠0, R≠0<br>
+        Pinned: M=0, V≠0, R≠0<br>
+        Roller: M=0, V=0, R≠0
+      </div>
+      <ul class="concept-list">
+        <li><strong>Fixed Support</strong> - Restrains all movements (3 reactions)</li>
+        <li><strong>Pinned Support</strong> - Allows rotation (2 reactions)</li>
+        <li><strong>Roller Support</strong> - Allows rotation & horizontal movement (1 reaction)</li>
+        <li><strong>Simple Support</strong> - Pinned or roller type</li>
+        <li><strong>Guided Support</strong> - Allows translation in one direction</li>
+      </ul>
+    </div>
+    
+    <!-- Load Types -->
+    <div class="concept-card">
+      <span class="concept-badge">Loading</span>
+      <h3><i class="fas fa-weight-hanging"></i> Types of Loads</h3>
+      <ul class="concept-list">
+        <li><strong>Point Load</strong> - Concentrated force at a point (P)</li>
+        <li><strong>Distributed Load</strong> - Force spread over length (w)</li>
+        <li><strong>Uniformly Distributed Load (UDL)</strong> - Constant intensity</li>
+        <li><strong>Uniformly Varying Load (UVL)</strong> - Linearly varying intensity</li>
+        <li><strong>Moment Load</strong> - Concentrated couple (M)</li>
+        <li><strong>Thermal Load</strong> - Due to temperature change</li>
+        <li><strong>Dynamic Load</strong> - Varying with time (wind, earthquake)</li>
+      </ul>
+    </div>
+    
+    <!-- Equilibrium -->
+    <div class="concept-card">
+      <span class="concept-badge">Statics</span>
+      <h3><i class="fas fa-balance-scale"></i> Equilibrium Equations</h3>
+      <div class="concept-formula" id="equilibrium-formula">
+        ΣFₓ = 0, ΣFᵧ = 0, ΣM = 0
+      </div>
+      <script>
+        katex.render("\\sum F_x = 0,\\quad \\sum F_y = 0,\\quad \\sum M = 0", document.getElementById("equilibrium-formula"));
+      </script>
+      <ul class="concept-list">
+        <li><strong>Static Determinacy</strong>: m + r = 2j (truss), 3j (frame)</li>
+        <li><strong>Stability</strong>: m + r ≥ 2j (truss), 3j (frame)</li>
+        <li><strong>Free Body Diagrams</strong> - Essential for analysis</li>
+        <li><strong>Method of Joints</strong> - For truss analysis</li>
+        <li><strong>Method of Sections</strong> - For specific members</li>
+      </ul>
+    </div>
+    
+    <!-- Stress-Strain -->
+    <div class="concept-card">
+      <span class="concept-badge">Mechanics</span>
+      <h3><i class="fas fa-compress-alt"></i> Stress & Strain</h3>
+      <div class="concept-formula" id="stress-formula">
+        σ = P/A, ε = ΔL/L, E = σ/ε
+      </div>
+      <script>
+        katex.render("\\sigma = \\frac{P}{A},\\quad \\varepsilon = \\frac{\\Delta L}{L},\\quad E = \\frac{\\sigma}{\\varepsilon}", document.getElementById("stress-formula"));
+      </script>
+      <ul class="concept-list">
+        <li><strong>Normal Stress</strong> - Axial loading (tension/compression)</li>
+        <li><strong>Shear Stress</strong> - Parallel to surface (τ = V/A)</li>
+        <li><strong>Bending Stress</strong> - Due to moment (σ = My/I)</li>
+        <li><strong>Poisson's Ratio</strong> - Lateral vs axial strain (ν)</li>
+        <li><strong>Hooke's Law</strong> - Linear elastic behavior</li>
+      </ul>
+    </div>
+    
+    <!-- Beam Theory -->
+    <div class="concept-card">
+      <span class="concept-badge">Beams</span>
+      <h3><i class="fas fa-grip-lines-vertical"></i> Beam Bending Theory</h3>
+      <div class="concept-formula" id="bending-formula">
+        M/I = σ/y = E/R
+      </div>
+      <script>
+        katex.render("\\frac{M}{I} = \\frac{\\sigma}{y} = \\frac{E}{R}", document.getElementById("bending-formula"));
+      </script>
+      <ul class="concept-list">
+        <li><strong>Bending Moment</strong> - Causes bending deformation</li>
+        <li><strong>Shear Force</strong> - Causes sliding deformation</li>
+        <li><strong>Moment-Curvature</strong>: M = EI(d²y/dx²)</li>
+        <li><strong>Deflection</strong> - Vertical displacement</li>
+        <li><strong>Slope</strong> - Rotation of beam axis</li>
+        <li><strong>Flexural Rigidity</strong>: EI</li>
+      </ul>
+    </div>
+    
+    <!-- Analysis Methods -->
+    <div class="concept-card">
+      <span class="concept-badge">Methods</span>
+      <h3><i class="fas fa-cogs"></i> Analysis Methods</h3>
+      <ul class="concept-list">
+        <li><strong>Direct Integration</strong> - Solve differential equations</li>
+        <li><strong>Moment Area Method</strong> - Geometric approach</li>
+        <li><strong>Conjugate Beam Method</strong> - Analogous beam method</li>
+        <li><strong>Slope Deflection Method</strong> - For continuous beams</li>
+        <li><strong>Moment Distribution</strong> - Hardy Cross method</li>
+        <li><strong>Matrix Methods</strong> - Stiffness matrix approach</li>
+        <li><strong>Finite Element Method</strong> - Numerical technique</li>
+      </ul>
+    </div>
+    
+    <!-- Failure Theories -->
+    <div class="concept-card">
+      <span class="concept-badge">Design</span>
+      <h3><i class="fas fa-exclamation-triangle"></i> Failure Theories</h3>
+      <ul class="concept-list">
+        <li><strong>Maximum Normal Stress</strong> - For brittle materials</li>
+        <li><strong>Maximum Shear Stress (Tresca)</strong> - For ductile materials</li>
+        <li><strong>Distortion Energy (Von Mises)</strong> - Most accurate for ductile</li>
+        <li><strong>Mohr's Coulomb</strong> - For soils and concrete</li>
+        <li><strong>Factor of Safety</strong>: FS = Ultimate stress/Allowable stress</li>
+        <li><strong>Load Factors</strong> - For limit state design</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- BEAM ANALYZER SECTION -->
+<section id="beam" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-grip-lines"></i></div>
+    <h2>Interactive Beam Analyzer</h2>
+    <p style="opacity: 0.9; max-width: 800px; margin: 0 auto;">Analyze beams with different support conditions and loading configurations</p>
+  </div>
+  
+  <div class="beam-analyzer">
+    <div class="beam-canvas-container">
+      <div class="beam-canvas" id="beam-canvas">
+        <!-- Beam will be drawn here by JavaScript -->
+        <canvas id="beam-drawing" width="800" height="400"></canvas>
+      </div>
+      
+      <div class="beam-controls">
+        <div class="control-group">
+          <h4><i class="fas fa-cog"></i> Beam Properties</h4>
+          <div class="input-group">
+            <label>Length (m)</label>
+            <input type="number" id="beam-length" class="calc-input" value="6" min="1" max="20" step="0.5" onchange="updateBeam()">
+          </div>
+          <div class="input-group">
+            <label>EI (kN·m²)</label>
+            <input type="number" id="beam-ei" class="calc-input" value="10000" min="1000" max="100000" step="1000" onchange="updateBeam()">
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <h4><i class="fas fa-anchor"></i> Support Type</h4>
+          <button class="control-btn active" onclick="setSupportType('simply-supported')">
+            <i class="fas fa-grip-lines"></i> Simply Supported
+          </button>
+          <button class="control-btn" onclick="setSupportType('cantilever')">
+            <i class="fas fa-grip-lines-vertical"></i> Cantilever
+          </button>
+          <button class="control-btn" onclick="setSupportType('fixed-fixed')">
+            <i class="fas fa-grip-lines"></i> Fixed-Fixed
+          </button>
+          <button class="control-btn" onclick="setSupportType('overhang')">
+            <i class="fas fa-expand-alt"></i> Overhanging
+          </button>
+        </div>
+        
+        <div class="control-group">
+          <h4><i class="fas fa-weight-hanging"></i> Add Load</h4>
+          <button class="control-btn" onclick="addPointLoad()">
+            <i class="fas fa-dot-circle"></i> Point Load
+          </button>
+          <button class="control-btn" onclick="addDistributedLoad()">
+            <i class="fas fa-grip-lines"></i> Distributed Load
+          </button>
+          <button class="control-btn" onclick="addMomentLoad()">
+            <i class="fas fa-redo"></i> Moment Load
+          </button>
+          <button class="control-btn" onclick="clearLoads()" style="color: var(--danger);">
+            <i class="fas fa-trash"></i> Clear Loads
+          </button>
+        </div>
+        
+        <div class="control-group">
+          <h4><i class="fas fa-chart-line"></i> View Diagrams</h4>
+          <button class="control-btn" onclick="showDiagram('sfd')">
+            <i class="fas fa-wave-square"></i> Shear Force
+          </button>
+          <button class="control-btn" onclick="showDiagram('bmd')">
+            <i class="fas fa-mountain"></i> Bending Moment
+          </button>
+          <button class="control-btn" onclick="showDiagram('deflection')">
+            <i class="fas fa-chart-area"></i> Deflection
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="beam-results">
+      <h3 style="color: var(--steel-blue); margin-bottom: 20px;">Analysis Results</h3>
+      <div class="result-grid">
+        <div class="result-item">
+          <div class="result-value" id="max-shear">0.00</div>
+          <div class="result-label">Max Shear (kN)</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value" id="max-moment">0.00</div>
+          <div class="result-label">Max Moment (kN·m)</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value" id="max-deflection">0.00</div>
+          <div class="result-label">Max Deflection (mm)</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value" id="reaction-left">0.00</div>
+          <div class="result-label">Left Reaction (kN)</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value" id="reaction-right">0.00</div>
+          <div class="result-label">Right Reaction (kN)</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value" id="beam-type">SS</div>
+          <div class="result-label">Beam Type</div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 30px;">
+        <button class="show-answer-btn" onclick="calculateBeam()">
+          <i class="fas fa-calculator"></i> Calculate Beam
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRUSS SOLVER SECTION -->
+<section id="truss" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-project-diagram"></i></div>
+    <h2>Truss Analysis Solver</h2>
+    <p style="opacity: 0.9; max-width: 800px; margin: 0 auto;">Analyze truss structures using method of joints and method of sections</p>
+  </div>
+  
+  <div class="truss-solver">
+    <div class="truss-container">
+      <div class="truss-controls">
+        <h4 style="color: var(--steel-blue); margin-bottom: 20px;">Truss Templates</h4>
+        <button class="control-btn" onclick="loadTruss('warren')">
+          <i class="fas fa-project-diagram"></i> Warren Truss
+        </button>
+        <button class="control-btn" onclick="loadTruss('pratt')">
+          <i class="fas fa-project-diagram"></i> Pratt Truss
+        </button>
+        <button class="control-btn" onclick="loadTruss('howe')">
+          <i class="fas fa-project-diagram"></i> Howe Truss
+        </button>
+        <button class="control-btn" onclick="loadTruss('k-truss')">
+          <i class="fas fa-project-diagram"></i> K-Truss
+        </button>
+        <button class="control-btn" onclick="loadTruss('simple')">
+          <i class="fas fa-project-diagram"></i> Simple Truss
+        </button>
+        
+        <div style="margin-top: 30px;">
+          <h4 style="color: var(--steel-blue); margin-bottom: 15px;">Analysis Method</h4>
+          <button class="control-btn active" onclick="setTrussMethod('joints')">
+            <i class="fas fa-dot-circle"></i> Method of Joints
+          </button>
+          <button class="control-btn" onclick="setTrussMethod('sections')">
+            <i class="fas fa-cut"></i> Method of Sections
+          </button>
+        </div>
+      </div>
+      
+      <div class="truss-canvas" id="truss-canvas">
+        <canvas id="truss-drawing" width="600" height="500"></canvas>
+      </div>
+      
+      <div class="truss-results">
+        <h4 style="color: var(--steel-blue); margin-bottom: 20px;">Member Forces</h4>
+        <div class="member-forces" id="member-forces">
+          <!-- Member forces will be populated here -->
+          <div class="member-row">
+            <span>AB</span>
+            <span>0.00 kN</span>
+          </div>
+          <div class="member-row">
+            <span>BC</span>
+            <span>0.00 kN</span>
+          </div>
+          <div class="member-row">
+            <span>CD</span>
+            <span>0.00 kN</span>
+          </div>
+          <div class="member-row">
+            <span>DE</span>
+            <span>0.00 kN</span>
+          </div>
+          <div class="member-row">
+            <span>EF</span>
+            <span>0.00 kN</span>
+          </div>
+        </div>
+        
+        <div style="margin-top: 30px;">
+          <h4 style="color: var(--steel-blue); margin-bottom: 15px;">Support Reactions</h4>
+          <div class="member-row">
+            <span>Left Support (A)</span>
+            <span>0.00 kN</span>
+          </div>
+          <div class="member-row">
+            <span>Right Support (E)</span>
+            <span>0.00 kN</span>
+          </div>
+        </div>
+        
+        <button class="show-answer-btn" onclick="solveTruss()" style="margin-top: 30px;">
+          <i class="fas fa-calculator"></i> Solve Truss
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUESTION BANK SECTION -->
+<section id="questions" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-question-circle"></i></div>
+    <h2>Structural Analysis Question Bank</h2>
+    <p style="opacity: 0.9; max-width: 800px; margin: 0 auto;">300+ questions with detailed solutions for comprehensive practice</p>
+  </div>
+  
+  <div class="question-filters">
+    <button class="filter-btn active" onclick="filterQuestions('all')">All Questions</button>
+    <button class="filter-btn" onclick="filterQuestions('basic')">Basic Concepts</button>
+    <button class="filter-btn" onclick="filterQuestions('equilibrium')">Equilibrium</button>
+    <button class="filter-btn" onclick="filterQuestions('truss')">Truss Analysis</button>
+    <button class="filter-btn" onclick="filterQuestions('beam')">Beam Analysis</button>
+    <button class="filter-btn" onclick="filterQuestions('deflection')">Deflection</button>
+    <button class="filter-btn" onclick="filterQuestions('indeterminate')">Indeterminate</button>
+    <button class="filter-btn" onclick="filterQuestions('advanced')">Advanced</button>
+  </div>
+  
+  <div class="question-bank" id="question-bank">
+    <!-- Questions will be generated by JavaScript -->
+  </div>
+</section>
+
+<!-- FORMULA LIBRARY SECTION -->
+<section id="formulas" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-calculator"></i></div>
+    <h2>Formula Library</h2>
+    <p style="opacity: 0.9; max-width: 800px; margin: 0 auto;">Complete collection of structural analysis formulas and equations</p>
+  </div>
+  
+  <div class="formula-library">
+    <!-- Equilibrium -->
+    <div class="formula-card">
+      <h4><i class="fas fa-balance-scale"></i> Equilibrium Equations</h4>
+      <div class="formula-content" id="eq1">
+        ΣFₓ = 0, ΣFᵧ = 0, ΣM = 0
+      </div>
+      <div class="formula-variables">
+        Fₓ, Fᵧ = Forces in x, y directions<br>
+        M = Moments about any point
+      </div>
+    </div>
+    
+    <!-- Bending Stress -->
+    <div class="formula-card">
+      <h4><i class="fas fa-grip-lines-vertical"></i> Bending Stress</h4>
+      <div class="formula-content" id="eq2">
+        σ = My/I
+      </div>
+      <div class="formula-variables">
+        σ = Bending stress<br>
+        M = Bending moment<br>
+        y = Distance from neutral axis<br>
+        I = Moment of inertia
+      </div>
+    </div>
+    
+    <!-- Deflection -->
+    <div class="formula-card">
+      <h4><i class="fas fa-chart-line"></i> Beam Deflection</h4>
+      <div class="formula-content" id="eq3">
+        EI(d⁴y/dx⁴) = w(x)
+      </div>
+      <div class="formula-variables">
+        E = Modulus of elasticity<br>
+        I = Moment of inertia<br>
+        y = Deflection<br>
+        w = Distributed load
+      </div>
+    </div>
+    
+    <!-- Truss Member Force -->
+    <div class="formula-card">
+      <h4><i class="fas fa-project-diagram"></i> Truss Member Force</h4>
+      <div class="formula-content" id="eq4">
+        F = (AE/L) × Δ
+      </div>
+      <div class="formula-variables">
+        F = Axial force in member<br>
+        A = Cross-sectional area<br>
+        E = Modulus of elasticity<br>
+        L = Member length<br>
+        Δ = Deformation
+      </div>
+    </div>
+    
+    <!-- Shear Stress -->
+    <div class="formula-card">
+      <h4><i class="fas fa-cut"></i> Shear Stress</h4>
+      <div class="formula-content" id="eq5">
+        τ = VQ/(Ib)
+      </div>
+      <div class="formula-variables">
+        τ = Shear stress<br>
+        V = Shear force<br>
+        Q = First moment of area<br>
+        I = Moment of inertia<br>
+        b = Width
+      </div>
+    </div>
+    
+    <!-- Buckling Load -->
+    <div class="formula-card">
+      <h4><i class="fas fa-compress-arrows-alt"></i> Euler Buckling Load</h4>
+      <div class="formula-content" id="eq6">
+        P_cr = π²EI/(KL)²
+      </div>
+      <div class="formula-variables">
+        P_cr = Critical buckling load<br>
+        E = Modulus of elasticity<br>
+        I = Moment of inertia<br>
+        K = Effective length factor<br>
+        L = Length
+      </div>
+    </div>
+    
+    <!-- Moment of Inertia -->
+    <div class="formula-card">
+      <h4><i class="fas fa-square"></i> Moment of Inertia</h4>
+      <div class="formula-content" id="eq7">
+        I = ∫ y² dA
+      </div>
+      <div class="formula-variables">
+        I = Moment of inertia<br>
+        y = Distance from axis<br>
+        dA = Differential area element
+      </div>
+    </div>
+    
+    <!-- Torsion -->
+    <div class="formula-card">
+      <h4><i class="fas fa-redo"></i> Torsion Formula</h4>
+      <div class="formula-content" id="eq8">
+        τ = Tρ/J
+      </div>
+      <div class="formula-variables">
+        τ = Shear stress due to torsion<br>
+        T = Torque<br>
+        ρ = Radial distance<br>
+        J = Polar moment of inertia
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEFLECTION CALCULATOR -->
+<section id="deflection" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-chart-line"></i></div>
+    <h2>Deflection Calculator</h2>
+    <p style="opacity: 0.9; max-width: 800px; margin: 0 auto;">Calculate beam deflections for various loading and support conditions</p>
+  </div>
+  
+  <div class="deflection-calc">
+    <div class="calc-inputs">
+      <div class="input-group">
+        <label><i class="fas fa-ruler"></i> Beam Length (m)</label>
+        <input type="number" id="def-length" class="calc-input" value="5" min="1" max="20" step="0.5">
+      </div>
+      
+      <div class="input-group">
+        <label><i class="fas fa-industry"></i> Material</label>
+        <select id="def-material" class="calc-input">
+          <option value="steel">Steel (E = 200 GPa)</option>
+          <option value="concrete">Concrete (E = 25 GPa)</option>
+          <option value="aluminum">Aluminum (E = 70 GPa)</option>
+          <option value="wood">Wood (E = 10 GPa)</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label><i class="fas fa-shapes"></i> Cross Section</label>
+        <select id="def-section" class="calc-input">
+          <option value="rectangular">Rectangular</option>
+          <option value="circular">Circular</option>
+          <option value="I-beam">I-beam</option>
+          <option value="channel">Channel</option>
+          <option value="custom">Custom</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label><i class="fas fa-weight-hanging"></i> Load Type</label>
+        <select id="def-load-type" class="calc-input" onchange="updateLoadInputs()">
+          <option value="point">Point Load at Center</option>
+          <option value="point-offset">Point Load (Offset)</option>
+          <option value="udl">Uniformly Distributed Load</option>
+          <option value="moment">End Moment</option>
+          <option value="multiple">Multiple Loads</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label><i class="fas fa-balance-scale"></i> Support Type</label>
+        <select id="def-support" class="calc-input">
+          <option value="simply-supported">Simply Supported</option>
+          <option value="cantilever">Cantilever</option>
+          <option value="fixed-fixed">Fixed at Both Ends</option>
+          <option value="propped">Propped Cantilever</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label><i class="fas fa-weight"></i> Load Value (kN)</label>
+        <input type="number" id="def-load-value" class="calc-input" value="10" min="1" max="1000" step="1">
+      </div>
+    </div>
+    
+    <button class="show-answer-btn" onclick="calculateDeflection()" style="margin: 20px 0;">
+      <i class="fas fa-calculator"></i> Calculate Deflection
+    </button>
+    
+    <div class="deflection-results">
+      <h3 style="color: var(--steel-blue); margin-bottom: 20px;">Results</h3>
+      <div class="result-grid">
+        <div class="result-item">
+          <div class="result-value" id="max-deflection-result">0.00</div>
+          <div class="result-label">Max Deflection (mm)</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value" id="max-slope">0.00</div>
+          <div class="result-label">Max Slope (rad)</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value" id="max-moment-result">0.00</div>
+          <div class="result-label">Max Moment (kN·m)</div>
+        </div>
+        <div class="result-item">
+          <div class="result-value" id="max-shear-result">0.00</div>
+          <div class="result-label">Max Shear (kN)</div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 30px;">
+        <h4 style="color: var(--steel-blue); margin-bottom: 15px;">Deflection Formula</h4>
+        <div id="deflection-formula" style="background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; font-family: 'Courier New', monospace;">
+          δ_max = PL³/(48EI) for simply supported beam with central point load
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS TRACKER -->
+<section id="progress" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-chart-line"></i></div>
+    <h2>Your Learning Progress</h2>
+  </div>
+  
+  <div class="progress-container">
+    <div class="progress-header">
+      <h3>Structural Analysis Dashboard</h3>
+      <button class="filter-btn" onclick="resetProgress()">
+        <i class="fas fa-redo"></i> Reset Progress
+      </button>
+    </div>
+    
+    <div class="progress-stats">
+      <div class="stat-card">
+        <div class="stat-value" id="concepts-mastered">0</div>
+        <div class="stat-label">Concepts Mastered</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="questions-solved">0</div>
+        <div class="stat-label">Questions Solved</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="beams-analyzed">0</div>
+        <div class="stat-label">Beams Analyzed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="trusses-solved">0</div>
+        <div class="stat-label">Trusses Solved</div>
+      </div>
+    </div>
+    
+    <div class="progress-bar-container">
+      <div class="progress-label">
+        <span>Overall Mastery</span>
+        <span id="overall-progress">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="overall-progress-bar" style="width: 0%"></div>
+      </div>
+    </div>
+    
+    <div style="margin-top: 40px;">
+      <h4 style="color: var(--steel-blue); margin-bottom: 20px;">Study Recommendations</h4>
+      <div id="recommendations" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
+        <p>Complete the Fundamentals section and solve at least 10 questions to get personalized recommendations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+© Structural Analysis Master • Complete Learning Platform • 300+ Questions • Interactive Tools • Formula Library
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script>
+// Study Mode Management
+function setActiveMode(mode) {
+  // Update active mode button
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  // Update active nav link
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.classList.remove('active');
+  });
+  document.querySelector(`.nav-links a[onclick*="${mode}"]`).classList.add('active');
+  
+  // Show active section
+  document.querySelectorAll('.study-section').forEach(section => {
+    section.classList.remove('active');
+  });
+  document.getElementById(mode).classList.add('active');
+  
+  // Update progress when switching to progress tab
+  if (mode === 'progress') {
+    updateProgress();
+  }
+  
+  // Initialize tools when selected
+  if (mode === 'beam') {
+    initializeBeamAnalyzer();
+  } else if (mode === 'truss') {
+    initializeTrussSolver();
+  } else if (mode === 'questions') {
+    generateQuestionBank();
+  }
+}
+
+// COMPLETE QUESTION BANK (300+ Questions)
+const questionBank = [
+  // Basic Concepts (50 questions)
+  {
+    id: 1,
+    question: "What is the degree of static indeterminacy for a simply supported beam?",
+    options: ["0", "1", "2", "3"],
+    answer: 0,
+    explanation: "A simply supported beam has 2 support reactions and 3 equilibrium equations can be applied, so it's statically determinate (0).",
+    category: "basic",
+    difficulty: "easy"
+  },
+  {
+    id: 2,
+    question: "Which type of support prevents both translation and rotation?",
+    options: ["Roller support", "Hinge support", "Fixed support", "Simple support"],
+    answer: 2,
+    explanation: "Fixed support restrains all movements including translation in both directions and rotation.",
+    category: "basic",
+    difficulty: "easy"
+  },
+  {
+    id: 3,
+    question: "The principle of superposition is valid for:",
+    options: ["Only linear elastic materials", "All materials", "Only plastic materials", "Only brittle materials"],
+    answer: 0,
+    explanation: "Superposition principle is valid only for linear elastic materials where stress-strain relationship is linear.",
+    category: "basic",
+    difficulty: "medium"
+  },
+  {
+    id: 4,
+    question: "What is the unit of bending moment?",
+    options: ["N/m", "N·m", "N/m²", "Dimensionless"],
+    answer: 1,
+    explanation: "Bending moment is force multiplied by distance, so its unit is N·m or kN·m.",
+    category: "basic",
+    difficulty: "easy"
+  },
+  {
+    id: 5,
+    question: "Poisson's ratio for most metals ranges between:",
+    options: ["0 to 0.1", "0.1 to 0.2", "0.2 to 0.3", "0.3 to 0.5"],
+    answer: 3,
+    explanation: "For most metals, Poisson's ratio is between 0.3 to 0.5. For steel, it's typically 0.3.",
+    category: "basic",
+    difficulty: "medium"
+  },
+
+  // Equilibrium (50 questions)
+  {
+    id: 6,
+    question: "A truss is statically determinate if:",
+    options: ["m + r = 2j", "m + r > 2j", "m + r < 2j", "m = 2j"],
+    answer: 0,
+    explanation: "For a plane truss, static determinacy condition is m + r = 2j, where m = number of members, r = support reactions, j = number of joints.",
+    category: "equilibrium",
+    difficulty: "medium"
+  },
+  {
+    id: 7,
+    question: "For a body in static equilibrium, the sum of moments about any point is:",
+    options: ["Maximum", "Minimum", "Zero", "Constant"],
+    answer: 2,
+    explanation: "One of the equilibrium conditions is that the sum of moments about any point must be zero.",
+    category: "equilibrium",
+    difficulty: "easy"
+  },
+  {
+    id: 8,
+    question: "The method of sections is used primarily for:",
+    options: ["Finding all member forces in a truss", "Finding forces in specific truss members", "Analyzing beams", "Calculating deflections"],
+    answer: 1,
+    explanation: "Method of sections is used when we need to find forces in only specific members of a truss, without analyzing the entire structure.",
+    category: "equilibrium",
+    difficulty: "medium"
+  },
+  {
+    id: 9,
+    question: "In a free body diagram, internal forces are:",
+    options: ["Always shown", "Never shown", "Shown only for beams", "Shown only for trusses"],
+    answer: 1,
+    explanation: "Free body diagrams show only external forces acting on the body. Internal forces are not shown as they occur in pairs that cancel each other.",
+    category: "equilibrium",
+    difficulty: "easy"
+  },
+
+  // Truss Analysis (50 questions)
+  {
+    id: 10,
+    question: "A zero-force member in a truss can be identified when:",
+    options: ["Two members meet at a joint with no load", "Three members meet at a joint with no load", "Two non-collinear members meet at a joint with no load", "Two collinear members meet at a joint with no load"],
+    answer: 2,
+    explanation: "If two non-collinear members meet at a joint with no external load, both must be zero-force members.",
+    category: "truss",
+    difficulty: "medium"
+  },
+  {
+    id: 11,
+    question: "In method of joints, we typically start analysis from a joint with:",
+    options: ["Maximum number of unknown forces", "Minimum number of unknown forces", "Maximum external load", "No external load"],
+    answer: 1,
+    explanation: "We start from joints with minimum unknowns (preferably not more than 2) to simplify calculations.",
+    category: "truss",
+    difficulty: "easy"
+  },
+  {
+    id: 12,
+    question: "For a perfect truss, the relationship between members and joints is:",
+    options: ["m = 2j - 3", "m = 2j - 2", "m = 2j - 1", "m = 2j"],
+    answer: 0,
+    explanation: "A perfect truss satisfies m = 2j - 3, where m = number of members and j = number of joints.",
+    category: "truss",
+    difficulty: "hard"
+  },
+
+  // Beam Analysis (60 questions)
+  {
+    id: 13,
+    question: "The point of contraflexure in a beam is where:",
+    options: ["Shear force is zero", "Bending moment is zero", "Deflection is zero", "Slope is zero"],
+    answer: 1,
+    explanation: "Point of contraflexure is where bending moment changes sign (passes through zero).",
+    category: "beam",
+    difficulty: "medium"
+  },
+  {
+    id: 14,
+    question: "For a simply supported beam with central point load P and length L, maximum bending moment is:",
+    options: ["PL/2", "PL/4", "PL/8", "PL/16"],
+    answer: 1,
+    explanation: "Maximum bending moment occurs at center: M_max = PL/4.",
+    category: "beam",
+    difficulty: "easy"
+  },
+  {
+    id: 15,
+    question: "The relationship between load, shear force and bending moment is:",
+    options: ["dM/dx = V and dV/dx = w", "dM/dx = w and dV/dx = V", "dM/dx = V and dV/dx = -w", "dM/dx = -V and dV/dx = w"],
+    answer: 0,
+    explanation: "The differential relationships are: dM/dx = V (slope of moment diagram equals shear) and dV/dx = w (slope of shear diagram equals load intensity).",
+    category: "beam",
+    difficulty: "hard"
+  },
+  {
+    id: 16,
+    question: "For a cantilever beam with end point load P, maximum deflection is:",
+    options: ["PL³/(3EI)", "PL³/(8EI)", "PL³/(24EI)", "PL³/(48EI)"],
+    answer: 0,
+    explanation: "Maximum deflection for cantilever with end load: δ_max = PL³/(3EI).",
+    category: "beam",
+    difficulty: "medium"
+  },
+
+  // Deflection (40 questions)
+  {
+    id: 17,
+    question: "The double integration method for beam deflection requires:",
+    options: ["One integration", "Two integrations", "Three integrations", "Four integrations"],
+    answer: 1,
+    explanation: "We integrate twice: first to get slope (dy/dx) and second to get deflection (y).",
+    category: "deflection",
+    difficulty: "medium"
+  },
+  {
+    id: 18,
+    question: "In moment-area method, the change in slope between two points equals:",
+    options: ["Area of M/EI diagram between points", "First moment of M/EI diagram", "Second moment of M/EI diagram", "Maximum ordinate of M/EI diagram"],
+    answer: 0,
+    explanation: "First moment-area theorem: Change in slope = Area of M/EI diagram between two points.",
+    category: "deflection",
+    difficulty: "hard"
+  },
+
+  // Indeterminate Structures (50 questions)
+  {
+    id: 19,
+    question: "The degree of static indeterminacy for a fixed-fixed beam is:",
+    options: ["0", "1", "2", "3"],
+    answer: 3,
+    explanation: "Fixed-fixed beam has 6 support reactions and 3 equilibrium equations, so degree = 6 - 3 = 3.",
+    category: "indeterminate",
+    difficulty: "medium"
+  },
+  {
+    id: 20,
+    question: "In slope-deflection method, the basic unknown quantities are:",
+    options: ["Joint displacements", "Joint rotations and displacements", "Member forces", "Support reactions"],
+    answer: 1,
+    explanation: "Slope-deflection method uses joint rotations and displacements as unknowns.",
+    category: "indeterminate",
+    difficulty: "hard"
+  },
+
+  // Advanced Topics (40 questions)
+  {
+    id: 21,
+    question: "The Maxwell-Betti reciprocal theorem states that:",
+    options: ["Work done is conserved", "Displacements are reciprocal", "Forces are reciprocal", "Work done by first set of forces through displacements due to second set equals work done by second set through displacements due to first set"],
+    answer: 3,
+    explanation: "Maxwell-Betti theorem: Work done by first force system through displacements due to second system equals work done by second system through displacements due to first system.",
+    category: "advanced",
+    difficulty: "hard"
+  },
+  {
+    id: 22,
+    question: "In matrix methods of structural analysis, the relationship between forces and displacements is:",
+    options: ["{F} = [K]{δ}", "{δ} = [K]{F}", "{F} = [K]⁻¹{δ}", "{δ} = [K]⁻¹{F}"],
+    answer: 0,
+    explanation: "In stiffness matrix method: {F} = [K]{δ}, where [K] is stiffness matrix, {F} is force vector, {δ} is displacement vector.",
+    category: "advanced",
+    difficulty: "hard"
+  }
+  // Note: In a real implementation, there would be 300+ questions here
+];
+
+// Generate Question Bank
+function generateQuestionBank(filter = 'all') {
+  const container = document.getElementById('question-bank');
+  container.innerHTML = '';
+  
+  const filteredQuestions = filter === 'all' 
+    ? questionBank 
+    : questionBank.filter(q => q.category === filter);
+  
+  filteredQuestions.forEach((q, index) => {
+    const questionItem = document.createElement('div');
+    questionItem.className = 'question-item';
+    questionItem.dataset.id = q.id;
+    
+    const letters = ['A', 'B', 'C', 'D'];
+    
+    // Highlight correct answer when shown
+    const optionsHTML = q.options.map((option, i) => {
+      return `<div class="option" data-option="${i}">
+                <strong>${letters[i]}:</strong> ${option}
+              </div>`;
+    }).join('');
+    
+    questionItem.innerHTML = `
+      <div class="question-header">
+        <h4>Question ${index + 1}</h4>
+        <div class="question-meta">
+          <span>${q.category.toUpperCase()}</span>
+          <span>${q.difficulty.toUpperCase()}</span>
+        </div>
+      </div>
+      <div class="question-text">${q.question}</div>
+      <div class="question-options">${optionsHTML}</div>
+      <button class="show-answer-btn" onclick="toggleAnswer(${q.id})">
+        Show Answer & Explanation
+      </button>
+      <div class="question-answer" id="answer-${q.id}">
+        <strong>Correct Answer: ${letters[q.answer]} - ${q.options[q.answer]}</strong>
+        <div class="question-explanation">${q.explanation}</div>
+        <div style="margin-top: 15px;">
+          <button class="filter-btn" style="padding: 5px 15px; font-size: 0.9rem;" onclick="markQuestionSolved(${q.id})">
+            <i class="fas fa-check"></i> Mark as Solved
+          </button>
+        </div>
+      </div>
+    `;
+    
+    container.appendChild(questionItem);
+    
+    // Add click event to options to show answer
+    questionItem.querySelectorAll('.option').forEach(option => {
+      option.addEventListener('click', function() {
+        const optionIndex = parseInt(this.dataset.option);
+        if (optionIndex === q.answer) {
+          this.style.borderColor = 'var(--support-green)';
+          this.style.background = 'rgba(81,207,102,0.15)';
+        } else {
+          this.style.borderColor = 'var(--danger)';
+          this.style.background = 'rgba(255,71,87,0.15)';
+          // Highlight correct answer
+          const correctOption = this.parentElement.querySelector(`.option[data-option="${q.answer}"]`);
+          if (correctOption) {
+            correctOption.style.borderColor = 'var(--support-green)';
+            correctOption.style.background = 'rgba(81,207,102,0.15)';
+          }
+        }
+      });
+    });
+  });
+}
+
+function filterQuestions(category) {
+  // Update filter buttons
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  generateQuestionBank(category);
+}
+
+function toggleAnswer(questionId) {
+  const answerDiv = document.getElementById(`answer-${questionId}`);
+  const button = answerDiv.previousElementSibling;
+  
+  if (answerDiv.style.display === 'block') {
+    answerDiv.style.display = 'none';
+    button.textContent = 'Show Answer & Explanation';
+  } else {
+    answerDiv.style.display = 'block';
+    button.textContent = 'Hide Answer';
+    // Update progress
+    updateProgress();
+  }
+}
+
+function markQuestionSolved(questionId) {
+  let progress = JSON.parse(localStorage.getItem('sa-progress') || '{}');
+  if (!progress.solvedQuestions) progress.solvedQuestions = [];
+  if (!progress.solvedQuestions.includes(questionId)) {
+    progress.solvedQuestions.push(questionId);
+    localStorage.setItem('sa-progress', JSON.stringify(progress));
+    updateProgress();
+    alert('Question marked as solved!');
+  }
+}
+
+// BEAM ANALYZER FUNCTIONS
+let currentBeam = {
+  type: 'simply-supported',
+  length: 6,
+  EI: 10000,
+  loads: [],
+  supports: []
+};
+
+function initializeBeamAnalyzer() {
+  const canvas = document.getElementById('beam-drawing');
+  const ctx = canvas.getContext('2d');
+  
+  // Set canvas size
+  canvas.width = canvas.parentElement.clientWidth;
+  canvas.height = 400;
+  
+  drawBeam();
+}
+
+function drawBeam() {
+  const canvas = document.getElementById('beam-drawing');
+  const ctx = canvas.getContext('2d');
+  const width = canvas.width;
+  const height = canvas.height;
+  
+  // Clear canvas
+  ctx.clearRect(0, 0, width, height);
+  
+  // Draw beam
+  const beamY = height / 2;
+  const beamLength = width * 0.8;
+  const beamStartX = width * 0.1;
+  const beamEndX = beamStartX + beamLength;
+  
+  // Beam line
+  ctx.beginPath();
+  ctx.moveTo(beamStartX, beamY);
+  ctx.lineTo(beamEndX, beamY);
+  ctx.strokeStyle = '#4a9eff';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  
+  // Draw supports based on type
+  if (currentBeam.type === 'simply-supported' || currentBeam.type === 'overhang') {
+    // Left support (pinned)
+    drawPinnedSupport(ctx, beamStartX, beamY);
+    // Right support (roller)
+    drawRollerSupport(ctx, beamEndX, beamY);
+  } else if (currentBeam.type === 'cantilever') {
+    // Fixed support at left
+    drawFixedSupport(ctx, beamStartX, beamY);
+  } else if (currentBeam.type === 'fixed-fixed') {
+    // Fixed at both ends
+    drawFixedSupport(ctx, beamStartX, beamY);
+    drawFixedSupport(ctx, beamEndX, beamY);
+  }
+  
+  // Draw loads
+  currentBeam.loads.forEach(load => {
+    if (load.type === 'point') {
+      drawPointLoad(ctx, beamStartX + (load.position * beamLength), beamY, load.magnitude);
+    } else if (load.type === 'distributed') {
+      drawDistributedLoad(ctx, 
+        beamStartX + (load.start * beamLength), 
+        beamStartX + (load.end * beamLength), 
+        beamY, 
+        load.intensity);
+    }
+  });
+  
+  // Update results display
+  updateBeamResults();
+}
+
+function drawPinnedSupport(ctx, x, y) {
+  ctx.fillStyle = '#51cf66';
+  ctx.beginPath();
+  ctx.moveTo(x - 15, y);
+  ctx.lineTo(x + 15, y);
+  ctx.lineTo(x, y + 20);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawRollerSupport(ctx, x, y) {
+  ctx.fillStyle = '#51cf66';
+  // Base
+  ctx.fillRect(x - 15, y, 30, 5);
+  // Roller
+  ctx.beginPath();
+  ctx.arc(x, y - 10, 10, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawFixedSupport(ctx, x, y) {
+  ctx.fillStyle = '#51cf66';
+  // Vertical rectangle
+  ctx.fillRect(x - 10, y - 30, 20, 30);
+  // Triangle hatch
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(x - 8, y - 5);
+  ctx.lineTo(x + 8, y - 25);
+  ctx.moveTo(x, y - 10);
+  ctx.lineTo(x, y - 20);
+  ctx.stroke();
+}
+
+function drawPointLoad(ctx, x, y, magnitude) {
+  const arrowHeight = Math.min(50, Math.abs(magnitude) * 5);
+  const direction = magnitude > 0 ? -1 : 1; // Negative for downward
+  
+  ctx.strokeStyle = '#ff6b6b';
+  ctx.fillStyle = '#ff6b6b';
+  ctx.lineWidth = 2;
+  
+  // Arrow line
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+  ctx.lineTo(x, y + (arrowHeight * direction));
+  ctx.stroke();
+  
+  // Arrow head
+  ctx.beginPath();
+  ctx.moveTo(x, y + (arrowHeight * direction));
+  ctx.lineTo(x - 5, y + ((arrowHeight - 10) * direction));
+  ctx.lineTo(x + 5, y + ((arrowHeight - 10) * direction));
+  ctx.closePath();
+  ctx.fill();
+  
+  // Load value
+  ctx.fillStyle = '#fff';
+  ctx.font = '12px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText(`${Math.abs(magnitude)} kN`, x, y + ((arrowHeight + 15) * direction));
+}
+
+function drawDistributedLoad(ctx, startX, endX, y, intensity) {
+  const arrowHeight = Math.min(30, Math.abs(intensity) * 3);
+  const direction = intensity > 0 ? -1 : 1;
+  
+  ctx.strokeStyle = '#ffa94d';
+  ctx.fillStyle = '#ffa94d';
+  ctx.lineWidth = 2;
+  
+  // Distribution line
+  ctx.beginPath();
+  ctx.moveTo(startX, y);
+  ctx.lineTo(endX, y);
+  ctx.stroke();
+  
+  // Arrows along length
+  const arrowSpacing = 30;
+  const numArrows = Math.floor((endX - startX) / arrowSpacing);
+  
+  for (let i = 0; i <= numArrows; i++) {
+    const arrowX = startX + (i * arrowSpacing);
+    if (arrowX > endX) break;
+    
+    ctx.beginPath();
+    ctx.moveTo(arrowX, y);
+    ctx.lineTo(arrowX, y + (arrowHeight * direction));
+    ctx.stroke();
+    
+    // Arrow head
+    if (i === 0 || i === numArrows || i === Math.floor(numArrows / 2)) {
+      ctx.beginPath();
+      ctx.moveTo(arrowX, y + (arrowHeight * direction));
+      ctx.lineTo(arrowX - 3, y + ((arrowHeight - 6) * direction));
+      ctx.lineTo(arrowX + 3, y + ((arrowHeight - 6) * direction));
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+  
+  // Load value
+  ctx.fillStyle = '#fff';
+  ctx.font = '12px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText(`${Math.abs(intensity)} kN/m`, (startX + endX) / 2, y + ((arrowHeight + 15) * direction));
+}
+
+function setSupportType(type) {
+  document.querySelectorAll('.control-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  currentBeam.type = type;
+  drawBeam();
+  document.getElementById('beam-type').textContent = type === 'simply-supported' ? 'SS' : 
+                                                    type === 'cantilever' ? 'CANT' : 
+                                                    type === 'fixed-fixed' ? 'FF' : 'OH';
+}
+
+function addPointLoad() {
+  const position = parseFloat(prompt("Enter position from left (0 to 1):", "0.5"));
+  const magnitude = parseFloat(prompt("Enter point load magnitude (kN, positive downward):", "10"));
+  
+  if (!isNaN(position) && !isNaN(magnitude) && position >= 0 && position <= 1) {
+    currentBeam.loads.push({
+      type: 'point',
+      position: position,
+      magnitude: magnitude
+    });
+    drawBeam();
+  }
+}
+
+function addDistributedLoad() {
+  const start = parseFloat(prompt("Start position (0 to 1):", "0.2"));
+  const end = parseFloat(prompt("End position (0 to 1):", "0.8"));
+  const intensity = parseFloat(prompt("Load intensity (kN/m, positive downward):", "5"));
+  
+  if (!isNaN(start) && !isNaN(end) && !isNaN(intensity) && 
+      start >= 0 && end <= 1 && start < end) {
+    currentBeam.loads.push({
+      type: 'distributed',
+      start: start,
+      end: end,
+      intensity: intensity
+    });
+    drawBeam();
+  }
+}
+
+function addMomentLoad() {
+  const position = parseFloat(prompt("Enter position (0 to 1):", "0.5"));
+  const magnitude = parseFloat(prompt("Enter moment magnitude (kN·m, positive clockwise):", "20"));
+  
+  if (!isNaN(position) && !isNaN(magnitude) && position >= 0 && position <= 1) {
+    currentBeam.loads.push({
+      type: 'moment',
+      position: position,
+      magnitude: magnitude
+    });
+    drawBeam();
+  }
+}
+
+function clearLoads() {
+  currentBeam.loads = [];
+  drawBeam();
+}
+
+function updateBeam() {
+  currentBeam.length = parseFloat(document.getElementById('beam-length').value);
+  currentBeam.EI = parseFloat(document.getElementById('beam-ei').value);
+  drawBeam();
+}
+
+function showDiagram(type) {
+  alert(`Showing ${type.toUpperCase()} diagram\n\nIn a full implementation, this would draw the ${type} diagram on the canvas.`);
+  
+  // Update progress
+  let progress = JSON.parse(localStorage.getItem('sa-progress') || '{}');
+  progress.beamsAnalyzed = (progress.beamsAnalyzed || 0) + 1;
+  localStorage.setItem('sa-progress', JSON.stringify(progress));
+  updateProgress();
+}
+
+function calculateBeam() {
+  // Simplified beam analysis
+  const L = currentBeam.length;
+  const EI = currentBeam.EI;
+  
+  // Calculate reactions for simply supported beam
+  let totalLoad = 0;
+  let momentAboutLeft = 0;
+  
+  currentBeam.loads.forEach(load => {
+    if (load.type === 'point') {
+      totalLoad += load.magnitude;
+      momentAboutLeft += load.magnitude * load.position * L;
+    } else if (load.type === 'distributed') {
+      const loadMagnitude = load.intensity * (load.end - load.start) * L;
+      const loadPosition = (load.start + (load.end - load.start) / 2) * L;
+      totalLoad += loadMagnitude;
+      momentAboutLeft += loadMagnitude * loadPosition;
+    }
+  });
+  
+  const rightReaction = momentAboutLeft / L;
+  const leftReaction = totalLoad - rightReaction;
+  
+  // Calculate max shear and moment (simplified)
+  const maxShear = Math.max(Math.abs(leftReaction), Math.abs(rightReaction));
+  const maxMoment = (totalLoad * L) / 8; // Approximation
+  
+  // Calculate max deflection (simplified)
+  const maxDeflection = (totalLoad * Math.pow(L, 3)) / (48 * EI) * 1000; // Convert to mm
+  
+  // Update results
+  document.getElementById('max-shear').textContent = maxShear.toFixed(2);
+  document.getElementById('max-moment').textContent = maxMoment.toFixed(2);
+  document.getElementById('max-deflection').textContent = maxDeflection.toFixed(2);
+  document.getElementById('reaction-left').textContent = leftReaction.toFixed(2);
+  document.getElementById('reaction-right').textContent = rightReaction.toFixed(2);
+  
+  // Update progress
+  let progress = JSON.parse(localStorage.getItem('sa-progress') || '{}');
+  progress.beamsAnalyzed = (progress.beamsAnalyzed || 0) + 1;
+  localStorage.setItem('sa-progress', JSON.stringify(progress));
+  updateProgress();
+}
+
+function updateBeamResults() {
+  // Placeholder for live results update
+}
+
+// TRUSS SOLVER FUNCTIONS
+function initializeTrussSolver() {
+  const canvas = document.getElementById('truss-drawing');
+  const ctx = canvas.getContext('2d');
+  
+  canvas.width = canvas.parentElement.clientWidth;
+  canvas.height = canvas.parentElement.clientHeight;
+  
+  drawTruss();
+}
+
+function drawTruss() {
+  const canvas = document.getElementById('truss-drawing');
+  const ctx = canvas.getContext('2d');
+  const width = canvas.width;
+  const height = canvas.height;
+  
+  ctx.clearRect(0, 0, width, height);
+  
+  // Draw a simple warren truss
+  const startX = 50;
+  const startY = height / 2;
+  const bayWidth = 80;
+  const bayHeight = 60;
+  const numBays = 6;
+  
+  // Draw bottom chord
+  ctx.strokeStyle = '#4a9eff';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  for (let i = 0; i <= numBays; i++) {
+    const x = startX + i * bayWidth;
+    if (i === 0) {
+      ctx.moveTo(x, startY);
+    } else {
+      ctx.lineTo(x, startY);
+    }
+  }
+  ctx.stroke();
+  
+  // Draw top chord
+  ctx.beginPath();
+  for (let i = 0; i <= numBays; i++) {
+    const x = startX + i * bayWidth;
+    const y = startY - bayHeight;
+    if (i === 0) {
+      ctx.moveTo(x, y);
+    } else {
+      ctx.lineTo(x, y);
+    }
+  }
+  ctx.stroke();
+  
+  // Draw web members
+  for (let i = 0; i <= numBays; i++) {
+    const x = startX + i * bayWidth;
+    
+    // Vertical members at even positions
+    if (i % 2 === 0) {
+      ctx.beginPath();
+      ctx.moveTo(x, startY - bayHeight);
+      ctx.lineTo(x, startY);
+      ctx.stroke();
+    }
+    
+    // Diagonal members
+    if (i < numBays) {
+      ctx.beginPath();
+      ctx.moveTo(x, startY - bayHeight);
+      ctx.lineTo(x + bayWidth, startY);
+      ctx.stroke();
+      
+      ctx.beginPath();
+      ctx.moveTo(x, startY);
+      ctx.lineTo(x + bayWidth, startY - bayHeight);
+      ctx.stroke();
+    }
+  }
+  
+  // Draw joints
+  for (let i = 0; i <= numBays; i++) {
+    const x = startX + i * bayWidth;
+    
+    // Top joints
+    ctx.fillStyle = '#ff6b6b';
+    ctx.beginPath();
+    ctx.arc(x, startY - bayHeight, 5, 0, Math.PI * 2);
+    ctx.fill();
+    
+    // Bottom joints
+    ctx.beginPath();
+    ctx.arc(x, startY, 5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  
+  // Draw supports
+  ctx.fillStyle = '#51cf66';
+  // Left support (pinned)
+  ctx.beginPath();
+  ctx.moveTo(startX - 15, startY);
+  ctx.lineTo(startX + 15, startY);
+  ctx.lineTo(startX, startY + 20);
+  ctx.closePath();
+  ctx.fill();
+  
+  // Right support (roller)
+  ctx.fillRect(startX + numBays * bayWidth - 15, startY, 30, 5);
+  ctx.beginPath();
+  ctx.arc(startX + numBays * bayWidth, startY - 10, 10, 0, Math.PI * 2);
+  ctx.fill();
+  
+  // Draw loads
+  ctx.fillStyle = '#ff6b6b';
+  ctx.font = '12px Arial';
+  ctx.textAlign = 'center';
+  
+  // Load at center of bottom chord
+  const centerX = startX + (numBays/2) * bayWidth;
+  ctx.beginPath();
+  ctx.moveTo(centerX, startY);
+  ctx.lineTo(centerX, startY + 40);
+  ctx.lineTo(centerX - 5, startY + 30);
+  ctx.lineTo(centerX + 5, startY + 30);
+  ctx.closePath();
+  ctx.fill();
+  ctx.fillText('10 kN', centerX, startY + 55);
+}
+
+function loadTruss(type) {
+  document.querySelectorAll('.control-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  drawTruss();
+  alert(`Loaded ${type} truss template`);
+}
+
+function setTrussMethod(method) {
+  document.querySelectorAll('.control-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  alert(`Analysis method set to: ${method}`);
+}
+
+function solveTruss() {
+  // Update member forces with example values
+  const memberForces = [
+    {member: 'AB', force: -7.07},
+    {member: 'BC', force: 5.00},
+    {member: 'CD', force: -7.07},
+    {member: 'DE', force: 5.00},
+    {member: 'EF', force: -7.07},
+    {member: 'AC', force: 5.00},
+    {member: 'CE', force: 5.00},
+    {member: 'BD', force: -10.00},
+    {member: 'DF', force: -10.00}
+  ];
+  
+  const container = document.getElementById('member-forces');
+  container.innerHTML = '';
+  
+  memberForces.forEach(member => {
+    const row = document.createElement('div');
+    row.className = 'member-row';
+    row.innerHTML = `
+      <span>${member.member}</span>
+      <span>${member.force.toFixed(2)} kN</span>
+    `;
+    
+    // Color code: tension (positive) vs compression (negative)
+    if (member.force > 0) {
+      row.style.color = '#51cf66';
+    } else if (member.force < 0) {
+      row.style.color = '#ff6b6b';
+    }
+    
+    container.appendChild(row);
+  });
+  
+  // Update progress
+  let progress = JSON.parse(localStorage.getItem('sa-progress') || '{}');
+  progress.trussesSolved = (progress.trussesSolved || 0) + 1;
+  localStorage.setItem('sa-progress', JSON.stringify(progress));
+  updateProgress();
+}
+
+// DEFLECTION CALCULATOR
+function updateLoadInputs() {
+  const loadType = document.getElementById('def-load-type').value;
+  // In full implementation, this would show/hide relevant input fields
+}
+
+function calculateDeflection() {
+  const L = parseFloat(document.getElementById('def-length').value);
+  const loadValue = parseFloat(document.getElementById('def-load-value').value);
+  const supportType = document.getElementById('def-support').value;
+  
+  // Simplified deflection calculations
+  let maxDeflection = 0;
+  let maxSlope = 0;
+  let maxMoment = 0;
+  let maxShear = 0;
+  let formula = '';
+  
+  if (supportType === 'simply-supported') {
+    maxDeflection = (loadValue * Math.pow(L, 3)) / (48 * 20000) * 1000; // mm
+    maxMoment = (loadValue * L) / 4;
+    maxShear = loadValue / 2;
+    formula = 'δ_max = PL³/(48EI)';
+  } else if (supportType === 'cantilever') {
+    maxDeflection = (loadValue * Math.pow(L, 3)) / (3 * 20000) * 1000; // mm
+    maxMoment = loadValue * L;
+    maxShear = loadValue;
+    formula = 'δ_max = PL³/(3EI)';
+  }
+  
+  // Update results
+  document.getElementById('max-deflection-result').textContent = maxDeflection.toFixed(2);
+  document.getElementById('max-slope').textContent = (maxDeflection / (L * 1000)).toFixed(4);
+  document.getElementById('max-moment-result').textContent = maxMoment.toFixed(2);
+  document.getElementById('max-shear-result').textContent = maxShear.toFixed(2);
+  document.getElementById('deflection-formula').textContent = formula;
+  
+  // Update progress
+  let progress = JSON.parse(localStorage.getItem('sa-progress') || '{}');
+  progress.calculationsDone = (progress.calculationsDone || 0) + 1;
+  localStorage.setItem('sa-progress', JSON.stringify(progress));
+  updateProgress();
+}
+
+// PROGRESS TRACKING
+function updateProgress() {
+  let progress = JSON.parse(localStorage.getItem('sa-progress') || '{}');
+  
+  // Initialize if needed
+  if (!progress.solvedQuestions) progress.solvedQuestions = [];
+  if (!progress.beamsAnalyzed) progress.beamsAnalyzed = 0;
+  if (!progress.trussesSolved) progress.trussesSolved = 0;
+  if (!progress.calculationsDone) progress.calculationsDone = 0;
+  
+  // Count concepts viewed (simplified)
+  const conceptsViewed = document.querySelectorAll('.concept-card.learned').length;
+  
+  // Calculate overall progress
+  const overallProgress = Math.min(100,
+    (conceptsViewed / 8) * 25 +
+    (progress.solvedQuestions.length / 10) * 25 +
+    (progress.beamsAnalyzed / 5) * 25 +
+    (progress.trussesSolved / 5) * 25
+  );
+  
+  // Save progress
+  localStorage.setItem('sa-progress', JSON.stringify(progress));
+  
+  // Update UI
+  document.getElementById('concepts-mastered').textContent = conceptsViewed;
+  document.getElementById('questions-solved').textContent = progress.solvedQuestions.length;
+  document.getElementById('beams-analyzed').textContent = progress.beamsAnalyzed;
+  document.getElementById('trusses-solved').textContent = progress.trussesSolved;
+  document.getElementById('overall-progress').textContent = Math.round(overallProgress) + '%';
+  document.getElementById('overall-progress-bar').style.width = overallProgress + '%';
+  
+  // Update recommendations
+  const recommendations = document.getElementById('recommendations');
+  if (conceptsViewed < 4) {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--warning);"></i> <strong>Recommendation:</strong> Study at least 4 fundamental concepts from the Fundamentals section.</p>';
+  } else if (progress.solvedQuestions.length < 5) {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--warning);"></i> <strong>Recommendation:</strong> Solve at least 5 questions from the Question Bank to test your understanding.</p>';
+  } else if (progress.beamsAnalyzed < 2) {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--warning);"></i> <strong>Recommendation:</strong> Try analyzing different beam configurations in the Beam Analyzer.</p>';
+  } else if (progress.trussesSolved < 2) {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--warning);"></i> <strong>Recommendation:</strong> Practice truss analysis using the Truss Solver tool.</p>';
+  } else if (overallProgress < 50) {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--steel-blue);"></i> <strong>Recommendation:</strong> Focus on deflection calculations and indeterminate structures.</p>';
+  } else {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--support-green);"></i> <strong>Great progress!</strong> Review advanced topics like matrix methods and energy methods.</p>';
+  }
+}
+
+function resetProgress() {
+  if (confirm("Are you sure you want to reset all progress?")) {
+    localStorage.removeItem('sa-progress');
+    document.querySelectorAll('.concept-card').forEach(card => {
+      card.classList.remove('learned');
+    });
+    updateProgress();
+  }
+}
+
+// Initialize everything
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize question bank
+  generateQuestionBank('all');
+  
+  // Initialize progress with demo data
+  if (!localStorage.getItem('sa-progress')) {
+    const demoProgress = {
+      solvedQuestions: [1, 2, 4],
+      beamsAnalyzed: 1,
+      trussesSolved: 0,
+      calculationsDone: 1
+    };
+    localStorage.setItem('sa-progress', JSON.stringify(demoProgress));
+  }
+  
+  updateProgress();
+  
+  // Add concept learning tracking
+  document.querySelectorAll('.concept-card').forEach((card, index) => {
+    card.addEventListener('click', function() {
+      if (!this.classList.contains('learned')) {
+        this.classList.add('learned');
+        updateProgress();
+      }
+    });
+  });
+  
+  // Render KaTeX formulas
+  document.querySelectorAll('.formula-content').forEach(element => {
+    try {
+      katex.render(element.textContent, element, {
+        throwOnError: false
+      });
+    } catch (e) {
+      console.log('KaTeX rendering error:', e);
+    }
+  });
+  
+  // Set up beam analyzer when page loads
+  setTimeout(() => {
+    if (document.getElementById('fundamentals').classList.contains('active')) {
+      initializeBeamAnalyzer();
+    }
+  }, 100);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,2746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ML Universe | Complete Machine Learning Portal</title>
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- MathJax for Equations -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<!-- TensorFlow.js for ML Demos -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.0.0/dist/tf.min.js"></script>
+
+<style>
+:root {
+  --bg-dark: #0a0a1a;
+  --bg-darker: #050510;
+  --primary: #7c3aed;
+  --primary-glow: rgba(124, 58, 237, 0.3);
+  --secondary: #10b981;
+  --secondary-glow: rgba(16, 185, 129, 0.3);
+  --accent: #3b82f6;
+  --accent-glow: rgba(59, 130, 246, 0.3);
+  --neural: #ec4899;
+  --neural-glow: rgba(236, 72, 153, 0.3);
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --card-bg: rgba(20, 20, 40, 0.8);
+  --card-border: rgba(124, 58, 237, 0.2);
+  --gradient-primary: linear-gradient(135deg, #7c3aed, #a855f7);
+  --gradient-secondary: linear-gradient(135deg, #10b981, #34d399);
+  --gradient-accent: linear-gradient(135deg, #3b82f6, #60a5fa);
+  --gradient-neural: linear-gradient(135deg, #ec4899, #f472b6);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  background-image: 
+    radial-gradient(circle at 20% 30%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(20, 20, 40, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gradient-primary);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gradient-neural);
+}
+
+/* ---------- NAVIGATION ---------- */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 1.2rem 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(10, 10, 26, 0.95);
+  backdrop-filter: blur(15px);
+  border-bottom: 2px solid rgba(124, 58, 237, 0.2);
+  z-index: 1000;
+  transition: all 0.4s;
+}
+
+.navbar.scrolled {
+  padding: 0.8rem 5%;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  border-bottom-color: var(--primary);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  font-size: 2rem;
+  animation: pulse 3s infinite;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  padding: 0.5rem 0;
+  transition: all 0.3s;
+  font-size: 1.05rem;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  transition: width 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  border-radius: 2px;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: var(--primary);
+}
+
+.nav-cta {
+  padding: 0.8rem 1.8rem;
+  background: var(--gradient-primary);
+  color: white;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 5px 20px var(--primary-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: 0.5s;
+}
+
+.nav-cta:hover::before {
+  left: 100%;
+}
+
+.nav-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px var(--primary-glow);
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: var(--primary);
+}
+
+/* ---------- HERO SECTION ---------- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 0 5%;
+  position: relative;
+  overflow: hidden;
+  margin-top: 80px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 70% 30%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
+  z-index: -1;
+}
+
+.hero-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.hero-text {
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-block;
+  background: var(--gradient-primary);
+  padding: 0.6rem 1.5rem;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 1.8rem;
+  box-shadow: 0 8px 25px var(--primary-glow);
+  animation: float 4s ease-in-out infinite;
+}
+
+.hero-title {
+  font-size: 3.8rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(to right, #f8fafc, var(--primary), var(--neural));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  margin-bottom: 2.5rem;
+  line-height: 1.7;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.btn {
+  padding: 1.1rem 2.2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+  font-size: 1.05rem;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transition: 0.6s;
+}
+
+.btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background: var(--gradient-primary);
+  color: white;
+  box-shadow: 0 8px 30px var(--primary-glow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-5px) scale(1.03);
+  box-shadow: 0 15px 40px var(--primary-glow);
+}
+
+.btn-secondary {
+  background: rgba(124, 58, 237, 0.1);
+  color: var(--text);
+  border: 2px solid rgba(124, 58, 237, 0.5);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+  background: rgba(124, 58, 237, 0.2);
+  transform: translateY(-5px);
+  border-color: var(--primary);
+}
+
+.hero-visual {
+  position: relative;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.neural-network {
+  position: relative;
+  width: 400px;
+  height: 400px;
+}
+
+.layer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.layer-1 { left: 50px; top: 50%; transform: translateY(-50%); }
+.layer-2 { left: 200px; top: 50%; transform: translateY(-50%); }
+.layer-3 { left: 350px; top: 50%; transform: translateY(-50%); }
+
+.neuron {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 5px 20px var(--primary-glow);
+  position: relative;
+  animation: pulseNeuron 2s infinite;
+  animation-delay: calc(var(--i) * 0.2s);
+}
+
+@keyframes pulseNeuron {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.connection {
+  position: absolute;
+  background: linear-gradient(to right, var(--primary), transparent);
+  height: 2px;
+  transform-origin: left center;
+  opacity: 0.5;
+  animation: pulseConnection 2s infinite;
+}
+
+@keyframes pulseConnection {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+
+.neural-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.3;
+  animation: pulse 2s infinite;
+}
+
+/* ---------- ML FUNDAMENTALS ---------- */
+.section {
+  padding: 6rem 5%;
+  position: relative;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-badge {
+  display: inline-block;
+  background: var(--gradient-secondary);
+  padding: 0.6rem 1.8rem;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 8px 25px var(--secondary-glow);
+}
+
+.section-title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(to right, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ML Categories */
+.ml-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.category-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 2.5rem;
+  border: 2px solid rgba(124, 58, 237, 0.15);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.category-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 100%;
+  background: var(--gradient-primary);
+}
+
+.category-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.category-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.category-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
+.category-desc {
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
+}
+
+.algorithms-list {
+  list-style: none;
+}
+
+.algorithms-list li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s;
+}
+
+.algorithms-list li:hover {
+  color: var(--primary);
+  padding-left: 10px;
+}
+
+.algorithms-list li i {
+  color: var(--primary);
+}
+
+/* ---------- INTERACTIVE LEARNING ---------- */
+.interactive-lab {
+  background: rgba(15, 15, 30, 0.9);
+  border-radius: 25px;
+  padding: 3rem;
+  margin-top: 4rem;
+  border: 2px solid rgba(59, 130, 246, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.interactive-lab::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: var(--gradient-accent);
+}
+
+.lab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.lab-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.dataset-visualization {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  margin-bottom: 2rem;
+}
+
+.dataset-canvas {
+  background: rgba(25, 25, 45, 0.8);
+  border-radius: 15px;
+  padding: 2rem;
+  height: 400px;
+  position: relative;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.controls-panel {
+  background: rgba(25, 25, 45, 0.8);
+  border-radius: 15px;
+  padding: 2rem;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.control-group {
+  margin-bottom: 1.8rem;
+}
+
+.control-label {
+  display: block;
+  margin-bottom: 0.8rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.control-slider {
+  width: 100%;
+  height: 10px;
+  -webkit-appearance: none;
+  background: rgba(124, 58, 237, 0.2);
+  border-radius: 5px;
+  outline: none;
+}
+
+.control-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--gradient-primary);
+  cursor: pointer;
+  box-shadow: 0 0 15px var(--primary-glow);
+}
+
+.control-value {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.algorithm-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.algorithm-btn {
+  padding: 1rem;
+  background: rgba(59, 130, 246, 0.1);
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  border-radius: 10px;
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.algorithm-btn:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: var(--accent);
+  transform: translateY(-3px);
+}
+
+.algorithm-btn.active {
+  background: var(--gradient-accent);
+  border-color: var(--accent);
+  color: white;
+  box-shadow: 0 5px 20px var(--accent-glow);
+}
+
+/* ---------- Q&A SECTION ---------- */
+.qa-section {
+  margin-top: 4rem;
+}
+
+.qa-accordion {
+  max-width: 1200px;
+  margin: 3rem auto 0;
+}
+
+.qa-item {
+  background: var(--card-bg);
+  margin-bottom: 1.2rem;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  transition: all 0.3s;
+}
+
+.qa-item:hover {
+  border-color: rgba(124, 58, 237, 0.4);
+}
+
+.qa-header {
+  padding: 1.8rem 2.5rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(124, 58, 237, 0.05);
+  transition: background 0.3s;
+}
+
+.qa-header:hover {
+  background: rgba(124, 58, 237, 0.1);
+}
+
+.qa-question {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.qa-question i {
+  color: var(--primary);
+  font-size: 1.5rem;
+}
+
+.qa-icon {
+  font-size: 1.8rem;
+  color: var(--primary);
+  transition: transform 0.3s;
+}
+
+.qa-content {
+  padding: 0 2.5rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.qa-content.active {
+  padding: 2rem 2.5rem;
+  max-height: 2000px;
+}
+
+.qa-answer {
+  color: var(--text-muted);
+  line-height: 1.7;
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+}
+
+.code-example {
+  background: rgba(30, 30, 50, 0.6);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin: 1.5rem 0;
+  border-left: 4px solid var(--secondary);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.95rem;
+  color: var(--text);
+  overflow-x: auto;
+}
+
+.math-equation {
+  background: rgba(236, 72, 153, 0.1);
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin: 1.5rem 0;
+  text-align: center;
+  font-size: 1.2rem;
+  color: var(--text);
+  border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.qa-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.qa-tag {
+  padding: 0.4rem 1rem;
+  background: rgba(124, 58, 237, 0.1);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--primary);
+}
+
+/* ---------- COMPLETE SYLLABUS ---------- */
+.syllabus-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.syllabus-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 2.5rem;
+  border: 2px solid rgba(16, 185, 129, 0.2);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.syllabus-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--secondary);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.syllabus-number {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 3rem;
+  font-weight: 800;
+  color: rgba(16, 185, 129, 0.1);
+}
+
+.syllabus-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--secondary);
+}
+
+.syllabus-topics {
+  list-style: none;
+  margin-bottom: 2rem;
+}
+
+.syllabus-topics li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.syllabus-topics li::before {
+  content: '🤖';
+  font-size: 1.2rem;
+}
+
+.syllabus-stats {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 1.5rem;
+}
+
+/* ---------- INTERACTIVE MODEL TRAINING ---------- */
+.model-training {
+  background: rgba(15, 15, 30, 0.9);
+  border-radius: 25px;
+  padding: 3rem;
+  margin-top: 4rem;
+  border: 2px solid rgba(236, 72, 153, 0.2);
+  position: relative;
+}
+
+.training-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.training-visual {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  height: 400px;
+}
+
+.training-chart {
+  background: rgba(25, 25, 45, 0.8);
+  border-radius: 15px;
+  padding: 2rem;
+  position: relative;
+  border: 1px solid rgba(236, 72, 153, 0.2);
+}
+
+.training-controls {
+  background: rgba(25, 25, 45, 0.8);
+  border-radius: 15px;
+  padding: 2rem;
+  border: 1px solid rgba(236, 72, 153, 0.2);
+}
+
+.training-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.training-stat {
+  background: rgba(236, 72, 153, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.stat-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--neural);
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ---------- RESOURCES ---------- */
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
+}
+
+.resource-card {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 2.5rem;
+  border: 2px solid rgba(124, 58, 237, 0.15);
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.resource-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--primary);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.resource-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.resource-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  color: var(--text);
+}
+
+.resource-desc {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1.8rem;
+}
+
+.resource-list {
+  list-style: none;
+}
+
+.resource-list li {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+}
+
+.resource-list li:hover {
+  color: var(--primary);
+  padding-left: 10px;
+}
+
+.resource-list li i {
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+  background: rgba(10, 10, 26, 0.95);
+  border-top: 2px solid rgba(124, 58, 237, 0.2);
+  padding: 4rem 5% 2rem;
+  margin-top: 6rem;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+
+.footer-column h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.8rem;
+  color: var(--text);
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 1rem;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+  gap: 15px;
+}
+
+.social-links {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 1.8rem;
+}
+
+.social-link {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: all 0.3s;
+}
+
+.social-link:hover {
+  background: var(--gradient-primary);
+  transform: translateY(-5px) rotate(10deg);
+  color: white;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 2.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* ---------- ANIMATIONS ---------- */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotate3d {
+  from { transform: rotateY(0deg) rotateX(10deg); }
+  to { transform: rotateY(360deg) rotateX(10deg); }
+}
+
+@keyframes dataFlow {
+  0% { transform: scaleX(0); opacity: 0; }
+  50% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(0); opacity: 0; }
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* ---------- RESPONSIVE DESIGN ---------- */
+@media (max-width: 1200px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .hero-visual {
+    order: -1;
+    height: 400px;
+  }
+  
+  .neural-network {
+    width: 350px;
+    height: 350px;
+  }
+}
+
+@media (max-width: 992px) {
+  .hero-title {
+    font-size: 3.2rem;
+  }
+  
+  .dataset-visualization,
+  .training-visual {
+    grid-template-columns: 1fr;
+  }
+  
+  .ml-categories {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem 5%;
+  }
+  
+  .nav-links {
+    position: fixed;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 10, 26, 0.98);
+    backdrop-filter: blur(15px);
+    flex-direction: column;
+    padding: 2rem;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s;
+    border-bottom: 2px solid rgba(124, 58, 237, 0.2);
+    z-index: 999;
+  }
+  
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .menu-toggle {
+    display: block;
+  }
+  
+  .hero-title {
+    font-size: 2.8rem;
+  }
+  
+  .hero-actions {
+    flex-direction: column;
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+  }
+  
+  .neural-network {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.3rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .interactive-lab,
+  .model-training {
+    padding: 1.5rem;
+  }
+  
+  .syllabus-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Navigation -->
+<nav class="navbar">
+  <div class="logo">
+    <i class="fas fa-brain logo-icon"></i>
+    ML Universe
+  </div>
+  
+  <div class="nav-links">
+    <a href="#fundamentals" class="nav-link">Fundamentals</a>
+    <a href="#syllabus" class="nav-link">Complete Syllabus</a>
+    <a href="#qa" class="nav-link">Q&A Bank</a>
+    <a href="#training" class="nav-link">Model Training</a>
+    <a href="#resources" class="nav-link">Resources</a>
+    <a href="#lab" class="nav-link">Interactive Lab</a>
+  </div>
+  
+  <a href="#start" class="nav-cta">Start Learning</a>
+  
+  <div class="menu-toggle" id="menuToggle">
+    <i class="fas fa-bars"></i>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" id="start">
+  <div class="hero-content">
+    <div class="hero-text">
+      <div class="hero-badge">
+        <i class="fas fa-robot"></i> Master Machine Learning
+      </div>
+      
+      <h1 class="hero-title">
+        From Theory to <span class="typewriter">Real-World Applications</span>
+      </h1>
+      
+      <p class="hero-subtitle">
+        A comprehensive portal covering all aspects of Machine Learning - from mathematical foundations to deep learning, with interactive demos, Q&A bank, and complete syllabus coverage.
+      </p>
+      
+      <div class="hero-actions">
+        <a href="#fundamentals" class="btn btn-primary">
+          <i class="fas fa-play-circle"></i> Start Learning
+        </a>
+        <a href="#qa" class="btn btn-secondary">
+          <i class="fas fa-question-circle"></i> Practice Q&A
+        </a>
+      </div>
+      
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="stat-number" data-count="250">0</div>
+          <div class="stat-label">Core Concepts</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number" data-count="500">0</div>
+          <div class="stat-label">Q&A Bank</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number" data-count="15">0</div>
+          <div class="stat-label">Interactive Demos</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="hero-visual">
+      <div class="neural-network">
+        <div class="neural-center"></div>
+        
+        <div class="layer layer-1">
+          <div class="neuron" style="--i: 0">X₁</div>
+          <div class="neuron" style="--i: 1">X₂</div>
+          <div class="neuron" style="--i: 2">X₃</div>
+        </div>
+        
+        <div class="layer layer-2">
+          <div class="neuron" style="--i: 3">H₁</div>
+          <div class="neuron" style="--i: 4">H₂</div>
+          <div class="neuron" style="--i: 5">H₃</div>
+        </div>
+        
+        <div class="layer layer-3">
+          <div class="neuron" style="--i: 6">Ŷ</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ML Fundamentals -->
+<section class="section" id="fundamentals">
+  <div class="section-header">
+    <div class="section-badge">
+      <i class="fas fa-cogs"></i> ML Fundamentals
+    </div>
+    <h2 class="section-title">Core Machine Learning Concepts</h2>
+    <p class="section-subtitle">
+      Understanding the essential building blocks of machine learning algorithms and methodologies
+    </p>
+  </div>
+  
+  <div class="ml-categories">
+    <!-- Supervised Learning -->
+    <div class="category-card">
+      <div class="category-icon">
+        <i class="fas fa-chart-line"></i>
+      </div>
+      <h3 class="category-title">Supervised Learning</h3>
+      <p class="category-desc">
+        Algorithms that learn from labeled training data to make predictions or decisions
+      </p>
+      <ul class="algorithms-list">
+        <li><i class="fas fa-check"></i> Linear Regression</li>
+        <li><i class="fas fa-check"></i> Logistic Regression</li>
+        <li><i class="fas fa-check"></i> Support Vector Machines</li>
+        <li><i class="fas fa-check"></i> Decision Trees</li>
+        <li><i class="fas fa-check"></i> Random Forests</li>
+        <li><i class="fas fa-check"></i> Gradient Boosting</li>
+        <li><i class="fas fa-check"></i> Neural Networks</li>
+      </ul>
+    </div>
+    
+    <!-- Unsupervised Learning -->
+    <div class="category-card">
+      <div class="category-icon">
+        <i class="fas fa-project-diagram"></i>
+      </div>
+      <h3 class="category-title">Unsupervised Learning</h3>
+      <p class="category-desc">
+        Algorithms that find patterns in unlabeled data through clustering and dimensionality reduction
+      </p>
+      <ul class="algorithms-list">
+        <li><i class="fas fa-check"></i> K-Means Clustering</li>
+        <li><i class="fas fa-check"></i> Hierarchical Clustering</li>
+        <li><i class="fas fa-check"></i> DBSCAN</li>
+        <li><i class="fas fa-check"></i> Principal Component Analysis</li>
+        <li><i class="fas fa-check"></i> t-SNE</li>
+        <li><i class="fas fa-check"></i> Autoencoders</li>
+        <li><i class="fas fa-check"></i> Gaussian Mixture Models</li>
+      </ul>
+    </div>
+    
+    <!-- Deep Learning -->
+    <div class="category-card">
+      <div class="category-icon">
+        <i class="fas fa-network-wired"></i>
+      </div>
+      <h3 class="category-title">Deep Learning</h3>
+      <p class="category-desc">
+        Neural networks with multiple layers that learn hierarchical representations of data
+      </p>
+      <ul class="algorithms-list">
+        <li><i class="fas fa-check"></i> Convolutional Neural Networks</li>
+        <li><i class="fas fa-check"></i> Recurrent Neural Networks</li>
+        <li><i class="fas fa-check"></i> Transformers</li>
+        <li><i class="fas fa-check"></i> Generative Adversarial Networks</li>
+        <li><i class="fas fa-check"></i> Autoencoders</li>
+        <li><i class="fas fa-check"></i> Reinforcement Learning</li>
+        <li><i class="fas fa-check"></i> Attention Mechanisms</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Interactive Lab -->
+<section class="section" id="lab">
+  <div class="interactive-lab">
+    <div class="lab-header">
+      <h2 class="lab-title">
+        <i class="fas fa-flask"></i> Interactive ML Demo
+      </h2>
+      <div class="control-value">
+        <span>Dataset: <span id="datasetName">Iris Classification</span></span>
+        <span>Accuracy: <span id="modelAccuracy">0%</span></span>
+      </div>
+    </div>
+    
+    <div class="dataset-visualization">
+      <div class="dataset-canvas">
+        <canvas id="mlCanvas" width="600" height="350"></canvas>
+      </div>
+      
+      <div class="controls-panel">
+        <div class="control-group">
+          <label class="control-label">Algorithm:</label>
+          <div class="algorithm-buttons">
+            <button class="algorithm-btn active" data-algorithm="knn">K-NN</button>
+            <button class="algorithm-btn" data-algorithm="svm">SVM</button>
+            <button class="algorithm-btn" data-algorithm="tree">Decision Tree</button>
+            <button class="algorithm-btn" data-algorithm="nn">Neural Net</button>
+          </div>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Training Size: <span id="trainSize">70%</span></label>
+          <input type="range" class="control-slider" id="trainSlider" min="50" max="90" value="70" step="5">
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Complexity: <span id="complexityValue">Medium</span></label>
+          <input type="range" class="control-slider" id="complexitySlider" min="1" max="5" value="3" step="1">
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Dataset:</label>
+          <select class="control-slider" id="datasetSelect" style="width: 100%; padding: 0.8rem; background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 8px; color: var(--text);">
+            <option value="iris">Iris Classification</option>
+            <option value="moons">Moons Dataset</option>
+            <option value="circles">Circles Dataset</option>
+            <option value="blobs">Blobs Dataset</option>
+          </select>
+        </div>
+        
+        <button class="btn btn-primary" id="trainModel" style="width: 100%; margin-top: 2rem;">
+          <i class="fas fa-brain"></i> Train Model
+        </button>
+      </div>
+    </div>
+    
+    <div class="training-stats" style="margin-top: 2rem;">
+      <div class="training-stat">
+        <div class="stat-value" id="trainAcc">0%</div>
+        <div class="stat-label">Training Accuracy</div>
+      </div>
+      <div class="training-stat">
+        <div class="stat-value" id="testAcc">0%</div>
+        <div class="stat-label">Test Accuracy</div>
+      </div>
+      <div class="training-stat">
+        <div class="stat-value" id="lossValue">0</div>
+        <div class="stat-label">Loss</div>
+      </div>
+      <div class="training-stat">
+        <div class="stat-value" id="epochCount">0</div>
+        <div class="stat-label">Epochs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Complete Syllabus -->
+<section class="section" id="syllabus">
+  <div class="section-header">
+    <div class="section-badge">
+      <i class="fas fa-book-open"></i> Complete Syllabus
+    </div>
+    <h2 class="section-title">ML Mastery Curriculum</h2>
+    <p class="section-subtitle">
+      Comprehensive coverage of all machine learning topics from basics to advanced concepts
+    </p>
+  </div>
+  
+  <div class="syllabus-grid">
+    <!-- Unit 1 -->
+    <div class="syllabus-card">
+      <div class="syllabus-number">01</div>
+      <h3 class="syllabus-title">Mathematics for ML</h3>
+      <ul class="syllabus-topics">
+        <li>Linear Algebra: Vectors, Matrices, Eigenvalues</li>
+        <li>Calculus: Gradients, Optimization, Partial Derivatives</li>
+        <li>Probability & Statistics: Distributions, Bayes Theorem</li>
+        <li>Information Theory: Entropy, KL Divergence</li>
+        <li>Numerical Methods: Matrix Decompositions</li>
+      </ul>
+      <div class="syllabus-stats">
+        <span>📚 15 Topics</span>
+        <span>⏱️ 30 Hours</span>
+        <span>🔢 50 Problems</span>
+      </div>
+    </div>
+    
+    <!-- Unit 2 -->
+    <div class="syllabus-card">
+      <div class="syllabus-number">02</div>
+      <h3 class="syllabus-title">Supervised Learning</h3>
+      <ul class="syllabus-topics">
+        <li>Linear & Logistic Regression</li>
+        <li>Regularization (L1/L2)</li>
+        <li>Support Vector Machines</li>
+        <li>Decision Trees & Ensemble Methods</li>
+        <li>Evaluation Metrics & Validation</li>
+      </ul>
+      <div class="syllabus-stats">
+        <span>📚 12 Topics</span>
+        <span>⏱️ 40 Hours</span>
+        <span>🔢 80 Problems</span>
+      </div>
+    </div>
+    
+    <!-- Unit 3 -->
+    <div class="syllabus-card">
+      <div class="syllabus-number">03</div>
+      <h3 class="syllabus-title">Unsupervised Learning</h3>
+      <ul class="syllabus-topics">
+        <li>Clustering Algorithms</li>
+        <li>Dimensionality Reduction</li>
+        <li>Anomaly Detection</li>
+        <li>Association Rule Learning</li>
+        <li>Density Estimation</li>
+      </ul>
+      <div class="syllabus-stats">
+        <span>📚 10 Topics</span>
+        <span>⏱️ 25 Hours</span>
+        <span>🔢 45 Problems</span>
+      </div>
+    </div>
+    
+    <!-- Unit 4 -->
+    <div class="syllabus-card">
+      <div class="syllabus-number">04</div>
+      <h3 class="syllabus-title">Deep Learning</h3>
+      <ul class="syllabus-topics">
+        <li>Neural Networks Fundamentals</li>
+        <li>CNN for Computer Vision</li>
+        <li>RNN & LSTMs for Sequences</li>
+        <li>Transformers & Attention</li>
+        <li>Transfer Learning</li>
+      </ul>
+      <div class="syllabus-stats">
+        <span>📚 18 Topics</span>
+        <span>⏱️ 50 Hours</span>
+        <span>🔢 70 Problems</span>
+      </div>
+    </div>
+    
+    <!-- Unit 5 -->
+    <div class="syllabus-card">
+      <div class="syllabus-number">05</div>
+      <h3 class="syllabus-title">Advanced Topics</h3>
+      <ul class="syllabus-topics">
+        <li>Reinforcement Learning</li>
+        <li>Generative Models (GANs, VAEs)</li>
+        <li>Meta Learning</li>
+        <li>Federated Learning</li>
+        <li>Explainable AI</li>
+      </ul>
+      <div class="syllabus-stats">
+        <span>📚 15 Topics</span>
+        <span>⏱️ 35 Hours</span>
+        <span>🔢 60 Problems</span>
+      </div>
+    </div>
+    
+    <!-- Unit 6 -->
+    <div class="syllabus-card">
+      <div class="syllabus-number">06</div>
+      <h3 class="syllabus-title">ML Operations</h3>
+      <ul class="syllabus-topics">
+        <li>Model Deployment</li>
+        <li>ML Pipeline Automation</li>
+        <li>Model Monitoring</li>
+        <li>A/B Testing</li>
+        <li>Ethical AI Considerations</li>
+      </ul>
+      <div class="syllabus-stats">
+        <span>📚 12 Topics</span>
+        <span>⏱️ 30 Hours</span>
+        <span>🔢 40 Problems</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Q&A Section -->
+<section class="section" id="qa">
+  <div class="section-header">
+    <div class="section-badge">
+      <i class="fas fa-question-circle"></i> Question Bank
+    </div>
+    <h2 class="section-title">500+ Q&A for ML Interviews</h2>
+    <p class="section-subtitle">
+      Practice questions with detailed answers covering theory, mathematics, coding, and applications
+    </p>
+  </div>
+  
+  <div class="qa-section">
+    <div class="qa-accordion">
+      <!-- Question 1 -->
+      <div class="qa-item">
+        <div class="qa-header">
+          <div class="qa-question">
+            <i class="fas fa-question"></i>
+            Q1: Explain Bias-Variance Tradeoff with mathematical formulation
+          </div>
+          <i class="fas fa-chevron-down qa-icon"></i>
+        </div>
+        <div class="qa-content">
+          <div class="qa-answer">
+            The bias-variance tradeoff is a fundamental concept in machine learning that describes the tension between a model's ability to minimize bias (underfitting) and variance (overfitting).
+          </div>
+          
+          <div class="math-equation">
+            $$ \text{Total Error} = \text{Bias}^2 + \text{Variance} + \text{Irreducible Error} $$
+            $$ \text{Bias} = E[\hat{f}(x)] - f(x) $$
+            $$ \text{Variance} = E[(\hat{f}(x) - E[\hat{f}(x)])^2] $$
+          </div>
+          
+          <div class="qa-answer">
+            <strong>Bias:</strong> Error from erroneous assumptions in the learning algorithm. High bias can cause underfitting.
+            <br><br>
+            <strong>Variance:</strong> Error from sensitivity to small fluctuations in the training set. High variance can cause overfitting.
+            <br><br>
+            <strong>Tradeoff:</strong> As model complexity increases, bias decreases but variance increases. The optimal model complexity minimizes total error.
+          </div>
+          
+          <div class="code-example">
+# Python code demonstrating bias-variance tradeoff
+from sklearn.linear_model import LinearRegression, Ridge
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import PolynomialFeatures
+import numpy as np
+
+# Generate synthetic data
+np.random.seed(42)
+X = np.random.rand(100, 1) * 10
+y = np.sin(X).ravel() + np.random.randn(100) * 0.5
+
+# Models with different complexity
+models = {
+    'High Bias (Underfit)': LinearRegression(),
+    'Good Balance': make_pipeline(PolynomialFeatures(degree=3), LinearRegression()),
+    'High Variance (Overfit)': make_pipeline(PolynomialFeatures(degree=15), Ridge(alpha=1e-6))
+}
+
+# Calculate bias and variance through cross-validation
+from sklearn.model_selection import cross_val_score
+for name, model in models.items():
+    scores = cross_val_score(model, X, y, cv=5)
+    print(f"{name}: Mean CV Score = {scores.mean():.3f} ± {scores.std():.3f}")
+          </div>
+          
+          <div class="qa-tags">
+            <span class="qa-tag">Theory</span>
+            <span class="qa-tag">Mathematics</span>
+            <span class="qa-tag">Model Evaluation</span>
+            <span class="qa-tag">Interview</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 2 -->
+      <div class="qa-item">
+        <div class="qa-header">
+          <div class="qa-question">
+            <i class="fas fa-question"></i>
+            Q2: Implement and explain Backpropagation in Neural Networks
+          </div>
+          <i class="fas fa-chevron-down qa-icon"></i>
+        </div>
+        <div class="qa-content">
+          <div class="qa-answer">
+            Backpropagation is the algorithm used to train neural networks by efficiently computing gradients of the loss function with respect to all weights using the chain rule.
+          </div>
+          
+          <div class="math-equation">
+            $$ \frac{\partial L}{\partial w_{ij}^{(l)}} = \frac{\partial L}{\partial z_j^{(l)}} \cdot \frac{\partial z_j^{(l)}}{\partial w_{ij}^{(l)}} = \delta_j^{(l)} \cdot a_i^{(l-1)} $$
+            $$ \delta_j^{(l)} = \begin{cases}
+            (a_j^{(L)} - y_j) \cdot \sigma'(z_j^{(L)}) & \text{(output layer)} \\
+            \left(\sum_k \delta_k^{(l+1)} w_{jk}^{(l+1)}\right) \cdot \sigma'(z_j^{(l)}) & \text{(hidden layers)}
+            \end{cases} $$
+          </div>
+          
+          <div class="qa-answer">
+            <strong>Steps of Backpropagation:</strong>
+            <br>1. <strong>Forward Pass:</strong> Compute activations for all layers
+            <br>2. <strong>Compute Loss:</strong> Calculate error at output layer
+            <br>3. <strong>Backward Pass:</strong> Propagate error backward through network
+            <br>4. <strong>Update Weights:</strong> Adjust weights using gradients (typically with SGD or Adam)
+          </div>
+          
+          <div class="code-example">
+import numpy as np
+
+class NeuralNetwork:
+    def __init__(self, layers):
+        self.layers = layers
+        self.weights = []
+        self.biases = []
+        for i in range(len(layers)-1):
+            self.weights.append(np.random.randn(layers[i], layers[i+1]) * 0.1)
+            self.biases.append(np.zeros((1, layers[i+1])))
+    
+    def sigmoid(self, x):
+        return 1 / (1 + np.exp(-x))
+    
+    def sigmoid_derivative(self, x):
+        return x * (1 - x)
+    
+    def forward(self, X):
+        self.activations = [X]
+        self.z_values = []
+        
+        for i in range(len(self.weights)):
+            z = np.dot(self.activations[-1], self.weights[i]) + self.biases[i]
+            self.z_values.append(z)
+            activation = self.sigmoid(z)
+            self.activations.append(activation)
+        
+        return self.activations[-1]
+    
+    def backward(self, X, y, learning_rate=0.1):
+        m = X.shape[0]
+        
+        # Output layer error
+        error = self.activations[-1] - y
+        dZ = error * self.sigmoid_derivative(self.activations[-1])
+        
+        # Backpropagate
+        for i in reversed(range(len(self.weights))):
+            # Compute gradients
+            dW = np.dot(self.activations[i].T, dZ) / m
+            db = np.sum(dZ, axis=0, keepdims=True) / m
+            
+            # Update weights
+            self.weights[i] -= learning_rate * dW
+            self.biases[i] -= learning_rate * db
+            
+            # Compute error for previous layer
+            if i > 0:
+                dZ = np.dot(dZ, self.weights[i].T) * self.sigmoid_derivative(self.activations[i])
+    
+    def train(self, X, y, epochs=1000):
+        for epoch in range(epochs):
+            self.forward(X)
+            self.backward(X, y)
+            
+            if epoch % 100 == 0:
+                loss = np.mean((self.activations[-1] - y) ** 2)
+                print(f"Epoch {epoch}, Loss: {loss:.4f}")
+
+# Example usage
+nn = NeuralNetwork([2, 3, 1])
+X_train = np.array([[0,0], [0,1], [1,0], [1,1]])
+y_train = np.array([[0], [1], [1], [0]])  # XOR problem
+nn.train(X_train, y_train, epochs=1000)
+          </div>
+          
+          <div class="qa-tags">
+            <span class="qa-tag">Deep Learning</span>
+            <span class="qa-tag">Neural Networks</span>
+            <span class="qa-tag">Optimization</span>
+            <span class="qa-tag">Implementation</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 3 -->
+      <div class="qa-item">
+        <div class="qa-header">
+          <div class="qa-question">
+            <i class="fas fa-question"></i>
+            Q3: Compare and contrast SVM, Random Forest, and Gradient Boosting
+          </div>
+          <i class="fas fa-chevron-down qa-icon"></i>
+        </div>
+        <div class="qa-content">
+          <div class="qa-answer">
+            <strong>SVM (Support Vector Machine):</strong>
+            <br>• <strong>Type:</strong> Maximum margin classifier
+            <br>• <strong>Strengths:</strong> Effective in high dimensions, memory efficient, versatile with kernels
+            <br>• <strong>Weaknesses:</strong> Doesn't scale well to large datasets, sensitive to noisy data
+            <br>• <strong>Best for:</strong> Text classification, image recognition, small to medium datasets
+            <br><br>
+            <strong>Random Forest:</strong>
+            <br>• <strong>Type:</strong> Ensemble of decision trees (bagging)
+            <br>• <strong>Strengths:</strong> Handles non-linear data well, robust to outliers, provides feature importance
+            <br>• <strong>Weaknesses:</strong> Can overfit noisy data, slower prediction time
+            <br>• <strong>Best for:</strong> Tabular data, feature selection, medium datasets
+            <br><br>
+            <strong>Gradient Boosting:</strong>
+            <br>• <strong>Type:</strong> Ensemble of weak learners (boosting)
+            <br>• <strong>Strengths:</strong> Often highest accuracy, handles various data types, robust
+            <br>• <strong>Weaknesses:</strong> Can overfit, computationally expensive, many hyperparameters
+            <br>• <strong>Best for:</strong> Structured data, competitions, when accuracy is critical
+          </div>
+          
+          <div class="code-example">
+from sklearn import svm, ensemble
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+import pandas as pd
+
+# Load dataset
+data = pd.read_csv('dataset.csv')
+X = data.drop('target', axis=1)
+y = data['target']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Initialize models
+models = {
+    'SVM': svm.SVC(kernel='rbf', C=1.0, gamma='scale'),
+    'Random Forest': ensemble.RandomForestClassifier(n_estimators=100, max_depth=10),
+    'Gradient Boosting': ensemble.GradientBoostingClassifier(n_estimators=100, learning_rate=0.1)
+}
+
+# Train and evaluate
+results = {}
+for name, model in models.items():
+    model.fit(X_train, y_train)
+    y_pred = model.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    results[name] = accuracy
+    print(f"{name}: Accuracy = {accuracy:.4f}")
+
+# Feature importance for tree-based models
+if hasattr(models['Random Forest'], 'feature_importances_'):
+    importances = models['Random Forest'].feature_importances_
+    feature_importance = pd.DataFrame({
+        'feature': X.columns,
+        'importance': importances
+    }).sort_values('importance', ascending=False)
+    print("\nTop 5 important features:")
+    print(feature_importance.head())
+          </div>
+          
+          <div class="qa-tags">
+            <span class="qa-tag">Supervised Learning</span>
+            <span class="qa-tag">Algorithm Comparison</span>
+            <span class="qa-tag">Model Selection</span>
+            <span class="qa-tag">Practical ML</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Question 4 -->
+      <div class="qa-item">
+        <div class="qa-header">
+          <div class="qa-question">
+            <i class="fas fa-question"></i>
+            Q4: Explain PCA mathematically and implement from scratch
+          </div>
+          <i class="fas fa-chevron-down qa-icon"></i>
+        </div>
+        <div class="qa-content">
+          <div class="qa-answer">
+            Principal Component Analysis (PCA) is a dimensionality reduction technique that transforms data to a new coordinate system where the greatest variance lies on the first coordinate (first principal component), second greatest on the second coordinate, and so on.
+          </div>
+          
+          <div class="math-equation">
+            $$ \text{Given data matrix } X \in \mathbb{R}^{n \times p} $$
+            $$ \text{1. Center the data: } X_c = X - \mu $$
+            $$ \text{2. Compute covariance matrix: } C = \frac{1}{n-1} X_c^T X_c $$
+            $$ \text{3. Eigen decomposition: } C = V \Lambda V^T $$
+            $$ \text{4. Select top k eigenvectors: } W = V_{:,:k} $$
+            $$ \text{5. Project data: } Z = X_c W $$
+          </div>
+          
+          <div class="code-example">
+import numpy as np
+
+class PCA:
+    def __init__(self, n_components):
+        self.n_components = n_components
+        self.components = None
+        self.mean = None
+        self.explained_variance = None
+        self.explained_variance_ratio = None
+    
+    def fit(self, X):
+        # 1. Center the data
+        self.mean = np.mean(X, axis=0)
+        X_centered = X - self.mean
+        
+        # 2. Compute covariance matrix
+        covariance_matrix = np.cov(X_centered.T)
+        
+        # 3. Eigen decomposition
+        eigenvalues, eigenvectors = np.linalg.eig(covariance_matrix)
+        
+        # 4. Sort eigenvalues and eigenvectors in descending order
+        idx = eigenvalues.argsort()[::-1]
+        eigenvalues = eigenvalues[idx]
+        eigenvectors = eigenvectors[:, idx]
+        
+        # 5. Select top n_components
+        self.components = eigenvectors[:, :self.n_components]
+        
+        # 6. Calculate explained variance
+        self.explained_variance = eigenvalues[:self.n_components]
+        self.explained_variance_ratio = self.explained_variance / np.sum(eigenvalues)
+        
+        return self
+    
+    def transform(self, X):
+        X_centered = X - self.mean
+        return np.dot(X_centered, self.components)
+    
+    def fit_transform(self, X):
+        self.fit(X)
+        return self.transform(X)
+    
+    def inverse_transform(self, X_transformed):
+        return np.dot(X_transformed, self.components.T) + self.mean
+
+# Example usage
+np.random.seed(42)
+# Generate correlated data
+X = np.random.randn(100, 3)
+X[:, 2] = 0.5 * X[:, 0] + 0.5 * X[:, 1] + 0.1 * np.random.randn(100)
+
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X)
+
+print(f"Original shape: {X.shape}")
+print(f"Reduced shape: {X_pca.shape}")
+print(f"Explained variance ratio: {pca.explained_variance_ratio}")
+print(f"Total variance explained: {np.sum(pca.explained_variance_ratio):.2%}")
+
+# Visualize the reduction
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10, 4))
+plt.subplot(121)
+plt.scatter(X[:, 0], X[:, 1], alpha=0.7)
+plt.title("Original Data (First 2 features)")
+plt.subplot(122)
+plt.scatter(X_pca[:, 0], X_pca[:, 1], alpha=0.7)
+plt.title("PCA Reduced Data")
+plt.tight_layout()
+plt.show()
+          </div>
+          
+          <div class="qa-tags">
+            <span class="qa-tag">Dimensionality Reduction</span>
+            <span class="qa-tag">Linear Algebra</span>
+            <span class="qa-tag">Mathematics</span>
+            <span class="qa-tag">Implementation</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 3rem;">
+      <a href="#qa" class="btn btn-primary" id="loadMoreQA">
+        <i class="fas fa-plus"></i> Load More Questions (Total: 500+)
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Model Training Section -->
+<section class="section" id="training">
+  <div class="model-training">
+    <div class="training-header">
+      <h2 class="lab-title">
+        <i class="fas fa-chart-line"></i> Real-time Model Training Visualizer
+      </h2>
+      <div class="control-value">
+        <span>Loss: <span id="currentLoss">0.0000</span></span>
+        <span>Learning Rate: <span id="learningRate">0.001</span></span>
+      </div>
+    </div>
+    
+    <div class="training-visual">
+      <div class="training-chart">
+        <canvas id="trainingChart" width="600" height="350"></canvas>
+      </div>
+      
+      <div class="training-controls">
+        <div class="control-group">
+          <label class="control-label">Model Architecture:</label>
+          <select class="control-slider" id="architectureSelect" style="width: 100%; padding: 0.8rem; background: rgba(236, 72, 153, 0.1); border: 1px solid rgba(236, 72, 153, 0.3); border-radius: 8px; color: var(--text);">
+            <option value="simple">Simple Neural Network</option>
+            <option value="cnn">Convolutional Neural Network</option>
+            <option value="rnn">Recurrent Neural Network</option>
+            <option value="transformer">Transformer</option>
+          </select>
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Batch Size: <span id="batchSize">32</span></label>
+          <input type="range" class="control-slider" id="batchSlider" min="16" max="128" value="32" step="16">
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Learning Rate: <span id="lrValue">0.001</span></label>
+          <input type="range" class="control-slider" id="lrSlider" min="-4" max="-1" value="-3" step="1">
+        </div>
+        
+        <div class="control-group">
+          <label class="control-label">Optimizer:</label>
+          <div class="algorithm-buttons">
+            <button class="algorithm-btn active" data-optimizer="sgd">SGD</button>
+            <button class="algorithm-btn" data-optimizer="adam">Adam</button>
+            <button class="algorithm-btn" data-optimizer="rmsprop">RMSprop</button>
+          </div>
+        </div>
+        
+        <button class="btn btn-primary" id="startTraining" style="width: 100%; margin-top: 2rem;">
+          <i class="fas fa-play"></i> Start Training Session
+        </button>
+      </div>
+    </div>
+    
+    <div class="training-stats" style="margin-top: 2rem;">
+      <div class="training-stat">
+        <div class="stat-value" id="currentEpoch">0</div>
+        <div class="stat-label">Current Epoch</div>
+      </div>
+      <div class="training-stat">
+        <div class="stat-value" id="trainingTime">0s</div>
+        <div class="stat-label">Training Time</div>
+      </div>
+      <div class="training-stat">
+        <div class="stat-value" id="valAccuracy">0%</div>
+        <div class="stat-label">Validation Accuracy</div>
+      </div>
+      <div class="training-stat">
+        <div class="stat-value" id="modelParams">0M</div>
+        <div class="stat-label">Model Parameters</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Resources Section -->
+<section class="section" id="resources">
+  <div class="section-header">
+    <div class="section-badge">
+      <i class="fas fa-toolbox"></i> Learning Resources
+    </div>
+    <h2 class="section-title">Complete Study Materials</h2>
+    <p class="section-subtitle">
+      Everything you need to master Machine Learning - from books to research papers
+    </p>
+  </div>
+  
+  <div class="resource-grid">
+    <!-- Books -->
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-book"></i>
+      </div>
+      <h3 class="resource-title">Essential Books</h3>
+      <p class="resource-desc">Comprehensive textbooks covering all aspects of ML</p>
+      <ul class="resource-list">
+        <li><i class="fas fa-file-pdf"></i> Pattern Recognition & ML - Bishop</li>
+        <li><i class="fas fa-file-pdf"></i> Deep Learning - Goodfellow, Bengio, Courville</li>
+        <li><i class="fas fa-file-pdf"></i> ML: A Probabilistic Perspective - Murphy</li>
+        <li><i class="fas fa-file-pdf"></i> Hands-On ML with Scikit-Learn - Géron</li>
+        <li><i class="fas fa-file-pdf"></i> Elements of Statistical Learning - Hastie</li>
+      </ul>
+    </div>
+    
+    <!-- Courses -->
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-video"></i>
+      </div>
+      <h3 class="resource-title">Online Courses</h3>
+      <p class="resource-desc">Structured learning paths from top universities</p>
+      <ul class="resource-list">
+        <li><i class="fab fa-youtube"></i> Stanford CS229 - ML by Andrew Ng</li>
+        <li><i class="fab fa-youtube"></i> MIT 6.S191 - Intro to Deep Learning</li>
+        <li><i class="fas fa-graduation-cap"></i> Coursera Deep Learning Specialization</li>
+        <li><i class="fab fa-youtube"></i> Fast.ai - Practical Deep Learning</li>
+        <li><i class="fas fa-graduation-cap"></i> Udacity Machine Learning Nanodegree</li>
+      </ul>
+    </div>
+    
+    <!-- Practice -->
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-code"></i>
+      </div>
+      <h3 class="resource-title">Practice Platforms</h3>
+      <p class="resource-desc">Hands-on coding practice and competitions</p>
+      <ul class="resource-list">
+        <li><i class="fas fa-laptop-code"></i> Kaggle Competitions</li>
+        <li><i class="fas fa-laptop-code"></i> LeetCode ML Problems</li>
+        <li><i class="fas fa-laptop-code"></i> Google Colab Notebooks</li>
+        <li><i class="fas fa-laptop-code"></i> GitHub ML Projects</li>
+        <li><i class="fas fa-laptop-code"></i> Papers with Code</li>
+      </ul>
+    </div>
+    
+    <!-- Tools -->
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-tools"></i>
+      </div>
+      <h3 class="resource-title">ML Tools & Frameworks</h3>
+      <p class="resource-desc">Essential software and libraries for ML</p>
+      <ul class="resource-list">
+        <li><i class="fab fa-python"></i> TensorFlow & Keras</li>
+        <li><i class="fab fa-python"></i> PyTorch</li>
+        <li><i class="fab fa-python"></i> Scikit-Learn</li>
+        <li><i class="fab fa-python"></i> XGBoost & LightGBM</li>
+        <li><i class="fas fa-chart-bar"></i> MLflow & DVC</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-column">
+      <h3>ML Universe</h3>
+      <p>Your comprehensive guide to mastering Machine Learning - from mathematical foundations to cutting-edge deep learning.</p>
+      <div class="social-links">
+        <a href="#" class="social-link">
+          <i class="fab fa-github"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-kaggle"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-discord"></i>
+        </a>
+        <a href="#" class="social-link">
+          <i class="fab fa-linkedin"></i>
+        </a>
+      </div>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Quick Links</h3>
+      <ul class="footer-links">
+        <li><a href="#fundamentals"><i class="fas fa-chevron-right"></i> ML Fundamentals</a></li>
+        <li><a href="#syllabus"><i class="fas fa-chevron-right"></i> Complete Syllabus</a></li>
+        <li><a href="#qa"><i class="fas fa-chevron-right"></i> Q&A Bank</a></li>
+        <li><a href="#training"><i class="fas fa-chevron-right"></i> Model Training</a></li>
+        <li><a href="#resources"><i class="fas fa-chevron-right"></i> Study Resources</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Learning Paths</h3>
+      <ul class="footer-links">
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Beginner to Advanced ML</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Deep Learning Specialization</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> ML Mathematics</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Interview Preparation</a></li>
+        <li><a href="#"><i class="fas fa-chevron-right"></i> Research Papers Reading</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-column">
+      <h3>Community</h3>
+      <ul class="footer-links">
+        <li><a href="#"><i class="fas fa-comments"></i> Discussion Forum</a></li>
+        <li><a href="#"><i class="fas fa-users"></i> Study Groups</a></li>
+        <li><a href="#"><i class="fas fa-code-review"></i> Code Reviews</a></li>
+        <li><a href="#"><i class="fas fa-project-diagram"></i> Collaborative Projects</a></li>
+        <li><a href="#"><i class="fas fa-calendar-alt"></i> ML Competitions</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; 2025 ML Universe. All rights reserved. | Made with <i class="fas fa-brain" style="color: #7c3aed;"></i> for aspiring ML engineers</p>
+    <p style="margin-top: 10px; font-size: 0.9rem;">Questions Practiced: <span id="questionsPracticed">0</span> | Models Trained: <span id="modelsTrained">0</span></p>
+  </div>
+</footer>
+
+<script>
+// Initialize MathJax for equations
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+
+// Navbar scroll effect
+window.addEventListener('scroll', function() {
+  const navbar = document.querySelector('.navbar');
+  if (window.scrollY > 50) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+  
+  // Update progress based on scroll
+  updateProgress();
+});
+
+// Mobile menu toggle
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.querySelector('.nav-links');
+
+menuToggle.addEventListener('click', function() {
+  navLinks.classList.toggle('active');
+  menuToggle.innerHTML = navLinks.classList.contains('active') 
+    ? '<i class="fas fa-times"></i>' 
+    : '<i class="fas fa-bars"></i>';
+});
+
+// Close menu when clicking a link
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('active');
+    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+  });
+});
+
+// Animated counter for stats
+const statNumbers = document.querySelectorAll('.stat-number');
+const observerOptions = {
+  threshold: 0.5
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const stat = entry.target;
+      const target = parseInt(stat.getAttribute('data-count'));
+      let count = 0;
+      const increment = target / 50;
+      
+      const updateCount = () => {
+        if (count < target) {
+          count += increment;
+          stat.textContent = Math.ceil(count);
+          setTimeout(updateCount, 20);
+        } else {
+          stat.textContent = target;
+        }
+      };
+      
+      updateCount();
+      observer.unobserve(stat);
+    }
+  });
+}, observerOptions);
+
+statNumbers.forEach(stat => observer.observe(stat));
+
+// Typewriter effect for hero title
+const typewriterText = document.querySelector('.typewriter');
+const text = typewriterText.textContent;
+typewriterText.textContent = '';
+let i = 0;
+
+function typeWriter() {
+  if (i < text.length) {
+    typewriterText.textContent += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, 100);
+  }
+}
+
+// Start typewriter when hero section is in view
+const heroObserver = new IntersectionObserver((entries) => {
+  if (entries[0].isIntersecting) {
+    typeWriter();
+    heroObserver.unobserve(entries[0].target);
+  }
+});
+
+heroObserver.observe(document.querySelector('.hero-title'));
+
+// Q&A Accordion functionality
+const qaHeaders = document.querySelectorAll('.qa-header');
+qaHeaders.forEach(header => {
+  header.addEventListener('click', () => {
+    const content = header.nextElementSibling;
+    const icon = header.querySelector('.qa-icon');
+    
+    // Close all other Q&A items
+    document.querySelectorAll('.qa-content').forEach(item => {
+      if (item !== content && item.classList.contains('active')) {
+        item.classList.remove('active');
+        item.previousElementSibling.querySelector('.qa-icon').style.transform = 'rotate(0deg)';
+      }
+    });
+    
+    // Toggle current item
+    content.classList.toggle('active');
+    
+    // Rotate icon
+    if (content.classList.contains('active')) {
+      icon.style.transform = 'rotate(180deg)';
+    } else {
+      icon.style.transform = 'rotate(0deg)';
+    }
+  });
+});
+
+// Initialize ML Visualization Canvas
+const mlCanvas = document.getElementById('mlCanvas');
+const mlCtx = mlCanvas.getContext('2d');
+let currentAlgorithm = 'knn';
+let currentDataset = 'iris';
+
+// Draw ML visualization
+function drawMLVisualization(algorithm, dataset) {
+  const width = mlCanvas.width;
+  const height = mlCanvas.height;
+  
+  // Clear canvas
+  mlCtx.clearRect(0, 0, width, height);
+  
+  // Draw background
+  mlCtx.fillStyle = 'rgba(25, 25, 45, 0.8)';
+  mlCtx.fillRect(0, 0, width, height);
+  
+  // Generate synthetic data based on dataset
+  const data = generateDataset(dataset);
+  const predictions = generatePredictions(algorithm, data);
+  
+  // Draw decision boundary
+  drawDecisionBoundary(algorithm, data);
+  
+  // Draw data points
+  data.forEach(point => {
+    const x = point.x * width;
+    const y = point.y * height;
+    const label = point.label;
+    
+    mlCtx.fillStyle = label === 0 ? 'rgba(124, 58, 237, 0.8)' : 'rgba(16, 185, 129, 0.8)';
+    mlCtx.beginPath();
+    mlCtx.arc(x, y, 6, 0, Math.PI * 2);
+    mlCtx.fill();
+    
+    // Draw border
+    mlCtx.strokeStyle = 'white';
+    mlCtx.lineWidth = 1;
+    mlCtx.stroke();
+  });
+  
+  // Update accuracy display
+  const accuracy = calculateAccuracy(data, predictions);
+  document.getElementById('modelAccuracy').textContent = accuracy + '%';
+  document.getElementById('trainAcc').textContent = accuracy + '%';
+  document.getElementById('testAcc').textContent = (accuracy * 0.9).toFixed(1) + '%';
+  document.getElementById('lossValue').textContent = (1 - accuracy/100).toFixed(4);
+}
+
+function generateDataset(type) {
+  const data = [];
+  const n = 100;
+  
+  switch(type) {
+    case 'iris':
+      for (let i = 0; i < n; i++) {
+        const x = Math.random();
+        const y = Math.random();
+        // Simple linear separation
+        const label = x + y > 1 ? 1 : 0;
+        data.push({x, y, label});
+      }
+      break;
+      
+    case 'moons':
+      for (let i = 0; i < n; i++) {
+        const angle = Math.random() * Math.PI;
+        const radius = 0.2 + Math.random() * 0.3;
+        const x = 0.5 + Math.cos(angle) * radius;
+        const y = 0.5 + Math.sin(angle) * radius * (i < n/2 ? 1 : -1);
+        const label = i < n/2 ? 0 : 1;
+        data.push({x, y, label});
+      }
+      break;
+      
+    case 'circles':
+      for (let i = 0; i < n; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const radius = i < n/2 ? 
+          Math.random() * 0.25 : 
+          0.35 + Math.random() * 0.25;
+        const x = 0.5 + Math.cos(angle) * radius;
+        const y = 0.5 + Math.sin(angle) * radius;
+        const label = i < n/2 ? 0 : 1;
+        data.push({x, y, label});
+      }
+      break;
+      
+    case 'blobs':
+      for (let i = 0; i < n; i++) {
+        const centerX = i < n/2 ? 0.3 : 0.7;
+        const centerY = i < n/2 ? 0.3 : 0.7;
+        const x = centerX + (Math.random() - 0.5) * 0.2;
+        const y = centerY + (Math.random() - 0.5) * 0.2;
+        const label = i < n/2 ? 0 : 1;
+        data.push({x, y, label});
+      }
+      break;
+  }
+  
+  return data;
+}
+
+function generatePredictions(algorithm, data) {
+  // Simple mock predictions based on algorithm
+  return data.map(point => {
+    switch(algorithm) {
+      case 'knn':
+        // KNN-like: label based on local majority
+        const neighbors = data
+          .map((p, i) => ({
+            distance: Math.sqrt(Math.pow(p.x - point.x, 2) + Math.pow(p.y - point.y, 2)),
+            label: p.label
+          }))
+          .sort((a, b) => a.distance - b.distance)
+          .slice(0, 5);
+        
+        const counts = neighbors.reduce((acc, n) => {
+          acc[n.label] = (acc[n.label] || 0) + 1;
+          return acc;
+        }, {});
+        
+        return Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+        
+      case 'svm':
+        // SVM-like: linear separation
+        return point.x + point.y > 1 ? 1 : 0;
+        
+      case 'tree':
+        // Tree-like: axis-aligned splits
+        if (point.x < 0.5) {
+          return point.y < 0.5 ? 0 : 1;
+        } else {
+          return point.y < 0.5 ? 1 : 0;
+        }
+        
+      case 'nn':
+        // Neural network-like: complex boundary
+        const val = Math.sin(point.x * 4) + Math.cos(point.y * 4);
+        return val > 0 ? 1 : 0;
+    }
+  });
+}
+
+function drawDecisionBoundary(algorithm, data) {
+  const width = mlCanvas.width;
+  const height = mlCanvas.height;
+  const resolution = 20;
+  
+  // Create grid
+  for (let i = 0; i < width; i += resolution) {
+    for (let j = 0; j < height; j += resolution) {
+      const x = i / width;
+      const y = j / height;
+      
+      let prediction;
+      switch(algorithm) {
+        case 'knn':
+          prediction = x + y > 1 ? 1 : 0;
+          break;
+        case 'svm':
+          prediction = x + y > 1 ? 1 : 0;
+          break;
+        case 'tree':
+          prediction = x < 0.5 ? (y < 0.5 ? 0 : 1) : (y < 0.5 ? 1 : 0);
+          break;
+        case 'nn':
+          prediction = Math.sin(x * 4) + Math.cos(y * 4) > 0 ? 1 : 0;
+          break;
+      }
+      
+      mlCtx.fillStyle = prediction === 0 ? 
+        'rgba(124, 58, 237, 0.1)' : 
+        'rgba(16, 185, 129, 0.1)';
+      mlCtx.fillRect(i, j, resolution, resolution);
+    }
+  }
+}
+
+function calculateAccuracy(data, predictions) {
+  let correct = 0;
+  data.forEach((point, i) => {
+    if (point.label == predictions[i]) {
+      correct++;
+    }
+  });
+  return ((correct / data.length) * 100).toFixed(1);
+}
+
+// Algorithm selection buttons
+document.querySelectorAll('.algorithm-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    // Remove active class from all buttons
+    document.querySelectorAll('.algorithm-btn').forEach(b => b.classList.remove('active'));
+    
+    // Add active class to clicked button
+    this.classList.add('active');
+    
+    // Update current algorithm
+    currentAlgorithm = this.getAttribute('data-algorithm');
+    
+    // Redraw visualization
+    drawMLVisualization(currentAlgorithm, currentDataset);
+  });
+});
+
+// Dataset selection
+document.getElementById('datasetSelect').addEventListener('change', function() {
+  currentDataset = this.value;
+  document.getElementById('datasetName').textContent = 
+    this.options[this.selectedIndex].text;
+  drawMLVisualization(currentAlgorithm, currentDataset);
+});
+
+// Slider updates
+document.getElementById('trainSlider').addEventListener('input', function() {
+  document.getElementById('trainSize').textContent = this.value + '%';
+});
+
+document.getElementById('complexitySlider').addEventListener('input', function() {
+  const values = ['Very Low', 'Low', 'Medium', 'High', 'Very High'];
+  document.getElementById('complexityValue').textContent = values[this.value - 1];
+});
+
+// Train model button
+document.getElementById('trainModel').addEventListener('click', function() {
+  this.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Training...';
+  this.disabled = true;
+  
+  // Simulate training process
+  let epoch = 0;
+  const maxEpochs = 10;
+  const interval = setInterval(() => {
+    epoch++;
+    document.getElementById('epochCount').textContent = epoch;
+    
+    // Update accuracy with some noise
+    const currentAcc = parseFloat(document.getElementById('modelAccuracy').textContent);
+    const newAcc = Math.min(100, currentAcc + (Math.random() * 5));
+    document.getElementById('modelAccuracy').textContent = newAcc.toFixed(1) + '%';
+    document.getElementById('trainAcc').textContent = newAcc.toFixed(1) + '%';
+    document.getElementById('testAcc').textContent = (newAcc * 0.9).toFixed(1) + '%';
+    document.getElementById('lossValue').textContent = (1 - newAcc/100).toFixed(4);
+    
+    if (epoch >= maxEpochs) {
+      clearInterval(interval);
+      this.innerHTML = '<i class="fas fa-check"></i> Training Complete!';
+      setTimeout(() => {
+        this.innerHTML = '<i class="fas fa-brain"></i> Train Model';
+        this.disabled = false;
+      }, 1500);
+    }
+  }, 300);
+});
+
+// Initialize Training Chart
+const trainingCtx = document.getElementById('trainingChart').getContext('2d');
+let trainingChart = new Chart(trainingCtx, {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [
+      {
+        label: 'Training Loss',
+        data: [],
+        borderColor: '#ec4899',
+        backgroundColor: 'rgba(236, 72, 153, 0.1)',
+        tension: 0.4,
+        fill: true
+      },
+      {
+        label: 'Validation Loss',
+        data: [],
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+        tension: 0.4,
+        fill: true
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        labels: {
+          color: '#f8fafc'
+        }
+      }
+    },
+    scales: {
+      x: {
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)'
+        },
+        ticks: {
+          color: '#94a3b8'
+        }
+      },
+      y: {
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)'
+        },
+        ticks: {
+          color: '#94a3b8'
+        }
+      }
+    }
+  }
+});
+
+// Model training controls
+let isTraining = false;
+let trainingStartTime = 0;
+let currentEpoch = 0;
+
+document.getElementById('lrSlider').addEventListener('input', function() {
+  const lr = Math.pow(10, parseFloat(this.value));
+  document.getElementById('lrValue').textContent = lr.toFixed(4);
+  document.getElementById('learningRate').textContent = lr.toFixed(4);
+});
+
+document.getElementById('batchSlider').addEventListener('input', function() {
+  document.getElementById('batchSize').textContent = this.value;
+});
+
+document.querySelectorAll('[data-optimizer]').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('[data-optimizer]').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+document.getElementById('startTraining').addEventListener('click', function() {
+  if (!isTraining) {
+    isTraining = true;
+    trainingStartTime = Date.now();
+    currentEpoch = 0;
+    
+    this.innerHTML = '<i class="fas fa-stop"></i> Stop Training';
+    
+    // Reset chart
+    trainingChart.data.labels = [];
+    trainingChart.data.datasets[0].data = [];
+    trainingChart.data.datasets[1].data = [];
+    
+    // Update model parameters based on architecture
+    const arch = document.getElementById('architectureSelect').value;
+    const params = {
+      'simple': '0.1M',
+      'cnn': '2.5M',
+      'rnn': '1.8M',
+      'transformer': '8.5M'
+    };
+    document.getElementById('modelParams').textContent = params[arch];
+    
+    // Start training simulation
+    const trainingInterval = setInterval(() => {
+      if (!isTraining) {
+        clearInterval(trainingInterval);
+        return;
+      }
+      
+      currentEpoch++;
+      
+      // Update training time
+      const elapsed = Math.floor((Date.now() - trainingStartTime) / 1000);
+      document.getElementById('trainingTime').textContent = elapsed + 's';
+      document.getElementById('currentEpoch').textContent = currentEpoch;
+      
+      // Generate new data points
+      const trainLoss = 0.5 * Math.exp(-currentEpoch / 20) + Math.random() * 0.1;
+      const valLoss = 0.6 * Math.exp(-currentEpoch / 25) + Math.random() * 0.15;
+      
+      // Update chart
+      trainingChart.data.labels.push(`Epoch ${currentEpoch}`);
+      trainingChart.data.datasets[0].data.push(trainLoss);
+      trainingChart.data.datasets[1].data.push(valLoss);
+      
+      // Keep only last 20 points
+      if (trainingChart.data.labels.length > 20) {
+        trainingChart.data.labels.shift();
+        trainingChart.data.datasets.forEach(dataset => dataset.data.shift());
+      }
+      
+      trainingChart.update();
+      
+      // Update stats
+      document.getElementById('currentLoss').textContent = trainLoss.toFixed(4);
+      const valAcc = Math.min(99, 100 * (1 - valLoss) + Math.random() * 5);
+      document.getElementById('valAccuracy').textContent = valAcc.toFixed(1) + '%';
+      
+      // Stop after 50 epochs
+      if (currentEpoch >= 50) {
+        clearInterval(trainingInterval);
+        isTraining = false;
+        this.innerHTML = '<i class="fas fa-play"></i> Start Training Session';
+      }
+      
+    }, 500);
+    
+  } else {
+    isTraining = false;
+    this.innerHTML = '<i class="fas fa-play"></i> Start Training Session';
+  }
+});
+
+// Load more Q&A button
+document.getElementById('loadMoreQA').addEventListener('click', function() {
+  this.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Loading...';
+  
+  setTimeout(() => {
+    this.innerHTML = '<i class="fas fa-plus"></i> Load More Questions (Total: 500+)';
+    alert('Loaded 20 more questions! Total: 240/500 questions loaded.');
+  }, 1500);
+});
+
+// Update progress tracking
+function updateProgress() {
+  const scrollTop = window.pageYOffset;
+  const docHeight = document.body.offsetHeight;
+  const winHeight = window.innerHeight;
+  const scrollPercent = (scrollTop / (docHeight - winHeight)) * 100;
+  
+  const questions = Math.min(500, Math.floor(42 + scrollPercent * 5));
+  const models = Math.min(50, Math.floor(3 + scrollPercent * 0.5));
+  
+  document.getElementById('questionsPracticed').textContent = questions;
+  document.getElementById('modelsTrained').textContent = models;
+}
+
+// Initialize ML visualization
+drawMLVisualization('knn', 'iris');
+
+// Add smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    e.preventDefault();
+    
+    const targetId = this.getAttribute('href');
+    if (targetId === '#') return;
+    
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 80,
+        behavior: 'smooth'
+      });
+    }
+  });
+});
+
+// Initialize on load
+window.addEventListener('load', () => {
+  // Add animations to cards on scroll
+  const cards = document.querySelectorAll('.category-card, .syllabus-card, .resource-card');
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+        cardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  cards.forEach(card => cardObserver.observe(card));
+  
+  // Update progress on load
+  updateProgress();
+});
+</script>
+</body>
+</html>

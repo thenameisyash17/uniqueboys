@@ -1,0 +1,3562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StatsMaster | Advanced Statistics Learning Platform</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+
+<style>
+:root {
+  --stats-primary: #4361ee;
+  --stats-secondary: #3a0ca3;
+  --stats-accent: #f72585;
+  --stats-success: #4cc9f0;
+  --stats-warning: #f8961e;
+  --stats-danger: #e63946;
+  --stats-dark: #1a1a2e;
+  --stats-light: #f8f9fa;
+  --stats-gray: #6c757d;
+  --glass: rgba(255, 255, 255, 0.08);
+  --glass-dark: rgba(0, 0, 0, 0.3);
+  --text: #e9ecef;
+  --text-dim: #adb5bd;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(67, 97, 238, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 30%, rgba(247, 37, 133, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(76, 201, 240, 0.08) 0%, transparent 40%),
+    linear-gradient(180deg, #0d1321, var(--stats-dark));
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* NAVIGATION */
+.stats-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 18px 40px;
+  background: rgba(26, 26, 46, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 2px solid rgba(67, 97, 238, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--stats-primary), var(--stats-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo i {
+  font-size: 1.6rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  padding: 8px 16px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -100%;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--stats-primary), var(--stats-accent));
+  transition: left 0.3s;
+}
+
+.nav-link:hover::before {
+  left: 0;
+}
+
+.nav-link:hover {
+  background: rgba(67, 97, 238, 0.1);
+  color: var(--stats-primary);
+}
+
+.nav-link.active {
+  background: linear-gradient(135deg, rgba(67, 97, 238, 0.2), rgba(247, 37, 133, 0.2));
+  color: var(--stats-primary);
+  border: 1px solid rgba(67, 97, 238, 0.3);
+}
+
+/* HERO SECTION */
+.stats-hero {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  padding: 0 20px;
+  overflow: hidden;
+}
+
+.hero-content {
+  max-width: 1000px;
+  position: relative;
+  z-index: 2;
+}
+
+.stats-hero h1 {
+  font-size: 4rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--stats-primary), var(--stats-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+  text-shadow: 0 0 30px rgba(67, 97, 238, 0.3);
+}
+
+.hero-subtitle {
+  font-size: 1.8rem;
+  color: var(--stats-success);
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.distribution-visual {
+  width: 100%;
+  max-width: 800px;
+  height: 300px;
+  margin: 40px auto;
+  background: rgba(26, 26, 46, 0.5);
+  border-radius: 15px;
+  border: 2px solid rgba(67, 97, 238, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+#distribution-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-btns {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.stats-btn {
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s;
+  cursor: pointer;
+  border: none;
+  font-size: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.stats-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s;
+}
+
+.stats-btn:hover::before {
+  left: 100%;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--stats-primary), var(--stats-secondary));
+  color: var(--stats-light);
+  box-shadow: 0 0 30px rgba(67, 97, 238, 0.4);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--stats-accent);
+  border: 2px solid var(--stats-accent);
+}
+
+.btn-success {
+  background: linear-gradient(135deg, var(--stats-success), var(--stats-primary));
+  color: white;
+}
+
+.stats-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(67, 97, 238, 0.3);
+}
+
+/* STUDY MODES */
+.study-modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+  margin: 50px auto;
+  padding: 0 20px;
+  max-width: 1400px;
+}
+
+.mode-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+  border-radius: 16px;
+  padding: 25px;
+  text-align: center;
+  border: 1px solid rgba(67, 97, 238, 0.1);
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mode-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(67, 97, 238, 0.05) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.mode-card:hover::before {
+  transform: translateX(100%);
+}
+
+.mode-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--stats-primary);
+  box-shadow: 0 15px 40px rgba(67, 97, 238, 0.15);
+}
+
+.mode-card.active {
+  background: linear-gradient(145deg, rgba(67, 97, 238, 0.15), rgba(247, 37, 133, 0.15));
+  border-color: var(--stats-primary);
+  box-shadow: 0 15px 40px rgba(67, 97, 238, 0.2);
+}
+
+.mode-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, var(--stats-primary), var(--stats-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.mode-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--stats-primary);
+}
+
+.mode-desc {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+.mode-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: var(--stats-accent);
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+/* STUDY SECTIONS */
+.study-section {
+  display: none;
+  animation: fadeIn 0.5s ease;
+  padding: 60px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.study-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid rgba(67, 97, 238, 0.1);
+}
+
+.section-icon {
+  font-size: 2.2rem;
+  margin-right: 20px;
+  background: linear-gradient(90deg, var(--stats-primary), var(--stats-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--stats-primary), var(--stats-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-dim);
+  margin-top: 10px;
+  max-width: 800px;
+}
+
+/* THEORY MATERIALS */
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.topic-card {
+  background: linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+  border-radius: 15px;
+  padding: 25px;
+  border: 1px solid rgba(67, 97, 238, 0.1);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.topic-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--stats-success), var(--stats-primary));
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.topic-card:hover::after {
+  transform: translateX(0);
+}
+
+.topic-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--stats-primary);
+  box-shadow: 0 15px 40px rgba(67, 97, 238, 0.1);
+}
+
+.topic-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.topic-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--stats-primary);
+}
+
+.topic-chapters {
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  background: rgba(67, 97, 238, 0.15);
+  color: var(--stats-primary);
+}
+
+.topic-description {
+  color: var(--text-dim);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.topic-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.topic-feature {
+  background: rgba(67, 97, 238, 0.08);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--stats-primary);
+}
+
+/* FORMULAS & CALCULATORS */
+.calculators-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.calculator-card {
+  background: linear-gradient(145deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
+  border-radius: 15px;
+  padding: 25px;
+  border: 1px solid rgba(67, 97, 238, 0.1);
+  position: relative;
+}
+
+.calculator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.calculator-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--stats-accent);
+}
+
+.katex-formula {
+  background: rgba(247, 37, 133, 0.1);
+  border-left: 4px solid var(--stats-accent);
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.9rem;
+  overflow-x: auto;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.input-field {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(67, 97, 238, 0.3);
+  border-radius: 8px;
+  padding: 12px 15px;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.calculate-btn {
+  background: linear-gradient(90deg, var(--stats-primary), var(--stats-success));
+  color: var(--stats-light);
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.calculate-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(67, 97, 238, 0.3);
+}
+
+.result-container {
+  background: rgba(67, 97, 238, 0.05);
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 15px;
+  border-left: 3px solid var(--stats-success);
+  display: none;
+}
+
+/* DISTRIBUTION SIMULATOR */
+.simulator-container {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+  padding: 30px;
+  border: 1px solid rgba(67, 97, 238, 0.2);
+  margin-top: 30px;
+}
+
+.simulator-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.simulator-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--stats-primary);
+}
+
+.simulator-controls {
+  display: flex;
+  gap: 15px;
+}
+
+.simulator-canvas {
+  height: 400px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+#simulation-chart {
+  width: 100%;
+  height: 100%;
+}
+
+/* HYPOTHESIS TESTING */
+.testing-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.testing-controls {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 25px;
+}
+
+.testing-results {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 12px;
+  padding: 25px;
+}
+
+.test-step {
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.test-step-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--stats-primary);
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.decision-graph {
+  height: 300px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  margin-top: 20px;
+  position: relative;
+}
+
+/* REGRESSION ANALYSIS */
+.regression-container {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+  padding: 30px;
+  border: 1px solid rgba(67, 97, 238, 0.2);
+  margin-top: 30px;
+}
+
+.regression-plot {
+  height: 400px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  margin: 25px 0;
+  position: relative;
+}
+
+#regression-chart {
+  width: 100%;
+  height: 100%;
+}
+
+/* EXAM BANK */
+.exam-filters {
+  display: flex;
+  gap: 15px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 10px 25px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filter-btn:hover {
+  background: rgba(67, 97, 238, 0.1);
+  border-color: var(--stats-primary);
+}
+
+.filter-btn.active {
+  background: linear-gradient(90deg, var(--stats-primary), var(--stats-accent));
+  color: var(--stats-light);
+  border-color: transparent;
+}
+
+.exam-bank {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.exam-question {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01));
+  border-radius: 18px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s;
+}
+
+.exam-question:hover {
+  border-color: var(--stats-primary);
+  transform: translateY(-5px);
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.question-title {
+  background: linear-gradient(90deg, var(--stats-primary), var(--stats-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.difficulty {
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+.difficulty.easy {
+  background: rgba(76, 201, 240, 0.15);
+  color: var(--stats-success);
+}
+
+.difficulty.medium {
+  background: rgba(248, 150, 30, 0.15);
+  color: var(--stats-warning);
+}
+
+.difficulty.hard {
+  background: rgba(230, 57, 70, 0.15);
+  color: var(--stats-danger);
+}
+
+.question-text {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.question-options {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.option {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.option:hover {
+  background: rgba(67, 97, 238, 0.1);
+  border-color: var(--stats-primary);
+}
+
+.option.selected {
+  background: rgba(67, 97, 238, 0.2);
+  border-color: var(--stats-primary);
+}
+
+.option-letter {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--stats-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.show-answer-btn {
+  background: transparent;
+  border: 1px solid var(--stats-accent);
+  color: var(--stats-accent);
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.show-answer-btn:hover {
+  background: rgba(247, 37, 133, 0.1);
+}
+
+.answer {
+  margin-top: 15px;
+  padding: 15px;
+  background: rgba(67, 97, 238, 0.05);
+  border-radius: 10px;
+  border-left: 3px solid var(--stats-success);
+  display: none;
+}
+
+/* INTERACTIVE QUIZ */
+.quiz-container {
+  margin-top: 40px;
+  background: linear-gradient(145deg, rgba(67, 97, 238, 0.05), rgba(247, 37, 133, 0.05));
+  border-radius: 22px;
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.quiz-header h3 {
+  background: linear-gradient(90deg, var(--stats-primary), var(--stats-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+}
+
+.quiz-progress {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.quiz-question {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  line-height: 1.6;
+}
+
+.quiz-options {
+  display: grid;
+  gap: 15px;
+}
+
+.quiz-option {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 15px 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.quiz-option:hover {
+  background: rgba(67, 97, 238, 0.1);
+  border-color: var(--stats-primary);
+}
+
+.quiz-option.selected {
+  background: rgba(67, 97, 238, 0.2);
+  border-color: var(--stats-primary);
+}
+
+.quiz-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.quiz-btn {
+  padding: 12px 25px;
+  border-radius: 12px;
+  font-weight: 600;
+  background: transparent;
+  color: var(--stats-primary);
+  border: 2px solid var(--stats-primary);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.quiz-btn:hover {
+  background: rgba(67, 97, 238, 0.1);
+}
+
+.quiz-btn.primary {
+  background: linear-gradient(90deg, var(--stats-primary), var(--stats-accent));
+  color: var(--stats-light);
+}
+
+.quiz-result {
+  text-align: center;
+  padding: 30px;
+}
+
+.quiz-score {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--stats-primary), var(--stats-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 20px 0;
+}
+
+/* PROGRESS DASHBOARD */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.dashboard-card {
+  background: linear-gradient(145deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2));
+  border-radius: 15px;
+  padding: 25px;
+  border: 1px solid rgba(67, 97, 238, 0.1);
+}
+
+.dashboard-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--stats-primary);
+  margin-bottom: 20px;
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--stats-primary), var(--stats-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-top: 5px;
+}
+
+.progress-ring {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto;
+}
+
+.ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 8;
+}
+
+.ring-progress {
+  fill: none;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  transition: stroke-dashoffset 1s ease;
+}
+
+.ring-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--stats-primary);
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1200px) {
+  .testing-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-nav {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .nav-links {
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding-bottom: 10px;
+  }
+  
+  .stats-hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.3rem;
+  }
+  
+  .study-modes {
+    grid-template-columns: 1fr;
+  }
+  
+  .mode-card {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .topics-grid, .calculators-container, .exam-bank {
+    grid-template-columns: 1fr;
+  }
+  
+  .quiz-footer {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .quiz-btn {
+    width: 100%;
+  }
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--stats-primary), var(--stats-accent));
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--stats-success), var(--stats-primary));
+}
+
+/* KATEX STYLING */
+.katex {
+  font-size: 1.1em !important;
+}
+</style>
+</head>
+
+<body>
+<!-- NAVIGATION -->
+<nav class="stats-nav">
+  <div class="logo">
+    <i class="fas fa-chart-line"></i>
+    StatsMaster
+  </div>
+  <div class="nav-links">
+    <a href="#" class="nav-link active" onclick="setActiveMode('theory')">
+      <i class="fas fa-book"></i> Theory & Concepts
+    </a>
+    <a href="#" class="nav-link" onclick="setActiveMode('formulas')">
+      <i class="fas fa-calculator"></i> Formulas & Calculators
+    </a>
+    <a href="#" class="nav-link" onclick="setActiveMode('simulation')">
+      <i class="fas fa-chart-bar"></i> Distribution Simulator
+    </a>
+    <a href="#" class="nav-link" onclick="setActiveMode('hypothesis')">
+      <i class="fas fa-balance-scale"></i> Hypothesis Testing
+    </a>
+    <a href="#" class="nav-link" onclick="setActiveMode('regression')">
+      <i class="fas fa-project-diagram"></i> Regression Analysis
+    </a>
+    <a href="#" class="nav-link" onclick="setActiveMode('exam')">
+      <i class="fas fa-file-alt"></i> Exam Bank (1000+ Qs)
+    </a>
+    <a href="#" class="nav-link" onclick="setActiveMode('quiz')">
+      <i class="fas fa-brain"></i> Interactive Quiz
+    </a>
+    <a href="#" class="nav-link" onclick="setActiveMode('progress')">
+      <i class="fas fa-chart-line"></i> Progress Dashboard
+    </a>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="stats-hero">
+  <div class="hero-content">
+    <h1>STATISTICS MASTER</h1>
+    <div class="hero-subtitle">Probability • Inference • Regression • Machine Learning • Data Science</div>
+    
+    <div class="distribution-visual">
+      <canvas id="distribution-canvas"></canvas>
+    </div>
+    
+    <div class="hero-btns">
+      <button class="stats-btn btn-primary" onclick="setActiveMode('theory')">
+        <i class="fas fa-graduation-cap"></i> Start Learning
+      </button>
+      <button class="stats-btn btn-secondary" onclick="setActiveMode('exam')">
+        <i class="fas fa-file-alt"></i> Practice Exams
+      </button>
+      <button class="stats-btn btn-success" onclick="setActiveMode('simulation')">
+        <i class="fas fa-chart-bar"></i> Interactive Simulations
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- STUDY MODES -->
+<div class="study-modes">
+  <div class="mode-card active" onclick="setActiveMode('theory')">
+    <div class="mode-icon"><i class="fas fa-book"></i></div>
+    <div class="mode-title">Theory & Concepts</div>
+    <div class="mode-desc">Complete statistics theory with proofs, derivations, and applications</div>
+    <div class="mode-badge">15 Modules</div>
+  </div>
+  
+  <div class="mode-card" onclick="setActiveMode('formulas')">
+    <div class="mode-icon"><i class="fas fa-calculator"></i></div>
+    <div class="mode-title">Formulas & Calculators</div>
+    <div class="mode-desc">Interactive calculations for all statistical formulas and distributions</div>
+    <div class="mode-badge">50+ Tools</div>
+  </div>
+  
+  <div class="mode-card" onclick="setActiveMode('simulation')">
+    <div class="mode-icon"><i class="fas fa-chart-bar"></i></div>
+    <div class="mode-title">Distribution Simulator</div>
+    <div class="mode-desc">Visualize and interact with probability distributions</div>
+  </div>
+  
+  <div class="mode-card" onclick="setActiveMode('hypothesis')">
+    <div class="mode-icon"><i class="fas fa-balance-scale"></i></div>
+    <div class="mode-title">Hypothesis Testing</div>
+    <div class="mode-desc">Step-by-step hypothesis testing with decision visualization</div>
+    <div class="mode-badge">PRO</div>
+  </div>
+  
+  <div class="mode-card" onclick="setActiveMode('regression')">
+    <div class="mode-icon"><i class="fas fa-project-diagram"></i></div>
+    <div class="mode-title">Regression Analysis</div>
+    <div class="mode-desc">Linear, multiple, logistic regression with diagnostics</div>
+  </div>
+  
+  <div class="mode-card" onclick="setActiveMode('exam')">
+    <div class="mode-icon"><i class="fas fa-file-alt"></i></div>
+    <div class="mode-title">Exam Bank</div>
+    <div class="mode-desc">1000+ questions with detailed solutions and explanations</div>
+    <div class="mode-badge">1000+</div>
+  </div>
+</div>
+
+<!-- THEORY & CONCEPTS SECTION -->
+<section id="theory" class="study-section active">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-book"></i></div>
+    <div>
+      <h2 class="section-title">Statistics Theory & Concepts</h2>
+      <p class="section-subtitle">Comprehensive coverage of descriptive statistics, probability theory, inferential statistics, and advanced topics.</p>
+    </div>
+  </div>
+  
+  <div class="topics-grid" id="topics-container">
+    <!-- Topics will be generated by JavaScript -->
+  </div>
+</section>
+
+<!-- FORMULAS & CALCULATORS SECTION -->
+<section id="formulas" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-calculator"></i></div>
+    <div>
+      <h2 class="section-title">Statistical Formulas & Calculators</h2>
+      <p class="section-subtitle">Interactive calculations for all essential statistical formulas with step-by-step solutions.</p>
+    </div>
+  </div>
+  
+  <div class="calculators-container" id="calculators-container">
+    <!-- Calculators will be generated by JavaScript -->
+  </div>
+</section>
+
+<!-- DISTRIBUTION SIMULATOR SECTION -->
+<section id="simulation" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-chart-bar"></i></div>
+    <div>
+      <h2 class="section-title">Probability Distribution Simulator</h2>
+      <p class="section-subtitle">Visualize and interact with probability distributions. Adjust parameters and see real-time changes.</p>
+    </div>
+  </div>
+  
+  <div class="simulator-container">
+    <div class="simulator-header">
+      <h3 class="simulator-title">Distribution Explorer</h3>
+      <div class="simulator-controls">
+        <select id="distribution-type" class="input-field" style="width: 200px;" onchange="updateDistribution()">
+          <option value="normal">Normal Distribution</option>
+          <option value="binomial">Binomial Distribution</option>
+          <option value="poisson">Poisson Distribution</option>
+          <option value="exponential">Exponential Distribution</option>
+          <option value="uniform">Uniform Distribution</option>
+          <option value="t">t-Distribution</option>
+          <option value="chi2">Chi-Square Distribution</option>
+          <option value="f">F-Distribution</option>
+        </select>
+        <button class="stats-btn btn-primary" onclick="simulateRandomSamples()">
+          <i class="fas fa-dice"></i> Simulate Samples
+        </button>
+      </div>
+    </div>
+    
+    <div class="simulator-canvas">
+      <canvas id="simulation-chart"></canvas>
+    </div>
+    
+    <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+      <div style="background: rgba(67, 97, 238, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--stats-primary);">
+        <div style="font-size: 0.9rem; color: var(--text-dim);">Mean (μ)</div>
+        <div id="distribution-mean" style="font-size: 1.5rem; font-weight: 600; color: var(--stats-primary);">0.0</div>
+        <input type="range" id="mean-slider" min="-5" max="5" step="0.1" value="0" style="width: 100%; margin-top: 10px;" oninput="updateDistribution()">
+      </div>
+      <div style="background: rgba(247, 37, 133, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--stats-accent);">
+        <div style="font-size: 0.9rem; color: var(--text-dim);">Standard Deviation (σ)</div>
+        <div id="distribution-std" style="font-size: 1.5rem; font-weight: 600; color: var(--stats-accent);">1.0</div>
+        <input type="range" id="std-slider" min="0.1" max="5" step="0.1" value="1" style="width: 100%; margin-top: 10px;" oninput="updateDistribution()">
+      </div>
+      <div style="background: rgba(76, 201, 240, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--stats-success);">
+        <div style="font-size: 0.9rem; color: var(--text-dim);">Sample Size (n)</div>
+        <div id="sample-size" style="font-size: 1.5rem; font-weight: 600; color: var(--stats-success);">1000</div>
+        <input type="range" id="sample-slider" min="10" max="10000" step="10" value="1000" style="width: 100%; margin-top: 10px;" oninput="updateDistribution()">
+      </div>
+      <div style="background: rgba(248, 150, 30, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--stats-warning);">
+        <div style="font-size: 0.9rem; color: var(--text-dim);">Probability</div>
+        <div id="probability-value" style="font-size: 1.5rem; font-weight: 600; color: var(--stats-warning);">0.0</div>
+        <input type="range" id="prob-slider" min="0" max="1" step="0.01" value="0.5" style="width: 100%; margin-top: 10px;" oninput="updateDistribution()">
+      </div>
+    </div>
+    
+    <div style="margin-top: 30px; display: flex; gap: 15px; flex-wrap: wrap;">
+      <button class="stats-btn btn-primary" onclick="calculateProbability()">
+        <i class="fas fa-calculator"></i> Calculate P(X ≤ x)
+      </button>
+      <button class="stats-btn btn-secondary" onclick="calculateQuantile()">
+        <i class="fas fa-search"></i> Find Quantile
+      </button>
+      <button class="stats-btn btn-success" onclick="runCentralLimitTheorem()">
+        <i class="fas fa-infinity"></i> Central Limit Theorem Demo
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- HYPOTHESIS TESTING SECTION -->
+<section id="hypothesis" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-balance-scale"></i></div>
+    <div>
+      <h2 class="section-title">Hypothesis Testing Laboratory</h2>
+      <p class="section-subtitle">Step-by-step hypothesis testing with visualization of critical regions and decision making.</p>
+    </div>
+  </div>
+  
+  <div class="testing-container">
+    <div class="testing-controls">
+      <div class="test-step">
+        <div class="test-step-title"><i class="fas fa-1"></i> Define Hypotheses</div>
+        <div class="input-group">
+          <label class="input-label">Test Type</label>
+          <select id="test-type" class="input-field" onchange="updateHypothesisTest()">
+            <option value="z_mean">Z-test for Mean</option>
+            <option value="t_mean">t-test for Mean</option>
+            <option value="z_prop">Z-test for Proportion</option>
+            <option value="two_sample">Two-Sample t-test</option>
+            <option value="chi2">Chi-Square Test</option>
+            <option value="anova">ANOVA</option>
+          </select>
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">Null Hypothesis (H₀)</label>
+          <input type="text" id="null-hypothesis" class="input-field" value="μ = 50" readonly>
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">Alternative Hypothesis (H₁)</label>
+          <select id="alternative" class="input-field" onchange="updateHypothesisTest()">
+            <option value="two_tailed">Two-tailed (μ ≠ 50)</option>
+            <option value="right_tailed">Right-tailed (μ > 50)</option>
+            <option value="left_tailed">Left-tailed (μ < 50)</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="test-step">
+        <div class="test-step-title"><i class="fas fa-2"></i> Set Parameters</div>
+        <div class="input-group">
+          <label class="input-label">Significance Level (α)</label>
+          <select id="alpha-level" class="input-field" onchange="updateHypothesisTest()">
+            <option value="0.01">0.01 (99% confidence)</option>
+            <option value="0.05" selected>0.05 (95% confidence)</option>
+            <option value="0.10">0.10 (90% confidence)</option>
+          </select>
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">Sample Mean (x̄)</label>
+          <input type="number" id="sample-mean" class="input-field" value="52" step="0.1" oninput="updateHypothesisTest()">
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">Sample Size (n)</label>
+          <input type="number" id="test-sample-size" class="input-field" value="30" min="2" oninput="updateHypothesisTest()">
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">Standard Deviation (σ or s)</label>
+          <input type="number" id="test-std" class="input-field" value="5" step="0.1" oninput="updateHypothesisTest()">
+        </div>
+      </div>
+      
+      <button class="calculate-btn" onclick="runHypothesisTest()">
+        <i class="fas fa-play"></i> Run Hypothesis Test
+      </button>
+    </div>
+    
+    <div class="testing-results">
+      <h3 style="color: var(--stats-primary); margin-bottom: 25px;">Test Results</h3>
+      
+      <div id="test-results" style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px; min-height: 300px;">
+        <p style="text-align: center; color: var(--text-dim); padding: 40px;">
+          Configure the test parameters and click "Run Hypothesis Test"
+        </p>
+      </div>
+      
+      <div class="decision-graph" id="decision-graph">
+        <!-- Decision graph will be generated by JavaScript -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGRESSION ANALYSIS SECTION -->
+<section id="regression" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-project-diagram"></i></div>
+    <div>
+      <h2 class="section-title">Regression Analysis Studio</h2>
+      <p class="section-subtitle">Interactive regression analysis with diagnostics, residuals, and model validation.</p>
+    </div>
+  </div>
+  
+  <div class="regression-container">
+    <div class="simulator-header">
+      <h3 class="simulator-title">Linear Regression Simulator</h3>
+      <div class="simulator-controls">
+        <select id="dataset-type" class="input-field" onchange="generateRegressionData()">
+          <option value="linear">Linear Relationship</option>
+          <option value="quadratic">Quadratic Relationship</option>
+          <option value="exponential">Exponential Relationship</option>
+          <option value="noisy">Noisy Linear</option>
+          <option value="outliers">With Outliers</option>
+        </select>
+        <button class="stats-btn btn-primary" onclick="runRegression()">
+          <i class="fas fa-calculator"></i> Fit Regression Model
+        </button>
+        <button class="stats-btn btn-secondary" onclick="addDataPoint()">
+          <i class="fas fa-plus"></i> Add Data Point
+        </button>
+      </div>
+    </div>
+    
+    <div class="regression-plot">
+      <canvas id="regression-chart"></canvas>
+    </div>
+    
+    <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+      <div style="background: rgba(67, 97, 238, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--stats-primary);">
+        <div style="font-size: 0.9rem; color: var(--text-dim);">Regression Equation</div>
+        <div id="regression-equation" style="font-size: 1.1rem; font-weight: 600; color: var(--stats-primary);">y = a + bx</div>
+      </div>
+      <div style="background: rgba(247, 37, 133, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--stats-accent);">
+        <div style="font-size: 0.9rem; color: var(--text-dim);">R² (Coefficient of Determination)</div>
+        <div id="r-squared" style="font-size: 1.5rem; font-weight: 600; color: var(--stats-accent);">0.00</div>
+      </div>
+      <div style="background: rgba(76, 201, 240, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--stats-success);">
+        <div style="font-size: 0.9rem; color: var(--text-dim);">Correlation (r)</div>
+        <div id="correlation" style="font-size: 1.5rem; font-weight: 600; color: var(--stats-success);">0.00</div>
+      </div>
+      <div style="background: rgba(248, 150, 30, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--stats-warning);">
+        <div style="font-size: 0.9rem; color: var(--text-dim);">Standard Error</div>
+        <div id="standard-error" style="font-size: 1.5rem; font-weight: 600; color: var(--stats-warning);">0.00</div>
+      </div>
+    </div>
+    
+    <div style="margin-top: 40px;">
+      <h3 style="color: var(--stats-primary); margin-bottom: 20px;">Regression Diagnostics</h3>
+      <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+        <button class="filter-btn" onclick="showResiduals()">Residuals Plot</button>
+        <button class="filter-btn" onclick="showQQPlot()">Q-Q Plot</button>
+        <button class="filter-btn" onclick="showLeverage()">Leverage Plot</button>
+        <button class="filter-btn" onclick="showCookDistance()">Cook's Distance</button>
+        <button class="filter-btn" onclick="showVIF()">VIF (Multicollinearity)</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXAM BANK SECTION -->
+<section id="exam" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-file-alt"></i></div>
+    <div>
+      <h2 class="section-title">Statistics Exam Bank</h2>
+      <p class="section-subtitle">1000+ exam questions with detailed solutions. Filter by topic, difficulty, and exam type.</p>
+    </div>
+  </div>
+  
+  <div class="exam-filters">
+    <button class="filter-btn active" onclick="filterQuestions('all')">All Questions</button>
+    <button class="filter-btn" onclick="filterQuestions('probability')">Probability Theory</button>
+    <button class="filter-btn" onclick="filterQuestions('distributions')">Probability Distributions</button>
+    <button class="filter-btn" onclick="filterQuestions('sampling')">Sampling Theory</button>
+    <button class="filter-btn" onclick="filterQuestions('estimation')">Estimation Theory</button>
+    <button class="filter-btn" onclick="filterQuestions('testing')">Hypothesis Testing</button>
+    <button class="filter-btn" onclick="filterQuestions('regression')">Regression Analysis</button>
+    <button class="filter-btn" onclick="filterQuestions('anova')">ANOVA</button>
+    <button class="filter-btn" onclick="filterQuestions('nonparametric')">Non-Parametric Tests</button>
+    <button class="filter-btn" onclick="filterQuestions('time_series')">Time Series</button>
+  </div>
+  
+  <div class="exam-bank" id="exam-bank">
+    <!-- Exam questions will be generated by JavaScript -->
+  </div>
+</section>
+
+<!-- INTERACTIVE QUIZ SECTION -->
+<section id="quiz" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-brain"></i></div>
+    <div>
+      <h2 class="section-title">Interactive Statistics Quiz</h2>
+      <p class="section-subtitle">Test your knowledge with adaptive quizzes. Immediate feedback and detailed explanations.</p>
+    </div>
+  </div>
+
+  <div class="quiz-container">
+    <div class="quiz-header">
+      <h3>Statistics Challenge</h3>
+      <div class="quiz-progress">Question <span id="current-question">1</span> of <span id="total-questions">15</span></div>
+    </div>
+    
+    <div id="quiz-content">
+      <div class="quiz-question" id="question-text">
+        If X follows a normal distribution with mean 50 and standard deviation 10, what is P(40 ≤ X ≤ 60)?
+      </div>
+      
+      <div class="quiz-options" id="options-container">
+        <div class="quiz-option" onclick="selectQuizOption(0)">
+          <div class="option-letter">A</div>
+          <div>0.3413</div>
+        </div>
+        <div class="quiz-option" onclick="selectQuizOption(1)">
+          <div class="option-letter">B</div>
+          <div>0.6826</div>
+        </div>
+        <div class="quiz-option" onclick="selectQuizOption(2)">
+          <div class="option-letter">C</div>
+          <div>0.9544</div>
+        </div>
+        <div class="quiz-option" onclick="selectQuizOption(3)">
+          <div class="option-letter">D</div>
+          <div>0.9972</div>
+        </div>
+      </div>
+      
+      <div class="quiz-footer">
+        <div id="quiz-feedback" style="color: var(--stats-primary); font-weight: 600;"></div>
+        <div>
+          <button class="quiz-btn" onclick="previousQuizQuestion()" id="prev-btn" disabled>
+            <i class="fas fa-arrow-left"></i> Previous
+          </button>
+          <button class="quiz-btn primary" onclick="nextQuizQuestion()" id="next-btn">
+            Next <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div id="quiz-result" class="quiz-result" style="display: none;">
+      <h3>Quiz Completed!</h3>
+      <div class="quiz-score" id="final-score">0/15</div>
+      <p id="result-message">Your statistics knowledge is developing!</p>
+      <button class="quiz-btn primary" onclick="resetQuiz()" style="margin-top: 20px;">
+        <i class="fas fa-redo"></i> Restart Quiz
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS DASHBOARD -->
+<section id="progress" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-chart-line"></i></div>
+    <div>
+      <h2 class="section-title">Learning Progress Dashboard</h2>
+      <p class="section-subtitle">Track your progress through statistics topics and exam preparation.</p>
+    </div>
+  </div>
+  
+  <div class="dashboard-grid">
+    <div class="dashboard-card">
+      <h3 class="dashboard-card-title">Topics Mastered</h3>
+      <div class="progress-ring">
+        <svg width="120" height="120">
+          <circle class="ring-bg" cx="60" cy="60" r="50"></circle>
+          <circle class="ring-progress" id="topics-ring" cx="60" cy="60" r="50" stroke="url(#gradient1)"></circle>
+          <defs>
+            <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="var(--stats-primary)" />
+              <stop offset="100%" stop-color="var(--stats-accent)" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="ring-text" id="topics-percent">0%</div>
+      </div>
+      <div style="text-align: center; margin-top: 15px;">
+        <div class="stat-number" id="topics-count">0/15</div>
+        <div class="stat-label">Statistics Topics</div>
+      </div>
+    </div>
+    
+    <div class="dashboard-card">
+      <h3 class="dashboard-card-title">Exam Performance</h3>
+      <div class="stat-number" id="exam-score">0%</div>
+      <div class="stat-label">average score on practice exams</div>
+      <div style="margin-top: 20px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+          <span style="font-size: 0.9rem;">Probability</span>
+          <span style="font-size: 0.9rem;" id="probability-score">0%</span>
+        </div>
+        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+          <div id="probability-bar" style="height: 100%; width: 0%; background: var(--stats-primary); border-radius: 4px;"></div>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; margin: 15px 0 5px;">
+          <span style="font-size: 0.9rem;">Inference</span>
+          <span style="font-size: 0.9rem;" id="inference-score">0%</span>
+        </div>
+        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+          <div id="inference-bar" style="height: 100%; width: 0%; background: var(--stats-accent); border-radius: 4px;"></div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="dashboard-card">
+      <h3 class="dashboard-card-title">Questions Solved</h3>
+      <div class="stat-number" id="questions-solved">0</div>
+      <div class="stat-label">out of 1000+ exam questions</div>
+      <div style="margin-top: 20px;">
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <div style="width: 12px; height: 12px; border-radius: 50%; background: var(--stats-primary);"></div>
+          <span style="font-size: 0.9rem;">Easy</span>
+          <span style="margin-left: auto; font-weight: 600;" id="easy-questions">0</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+          <div style="width: 12px; height: 12px; border-radius: 50%; background: var(--stats-accent);"></div>
+          <span style="font-size: 0.9rem;">Medium</span>
+          <span style="margin-left: auto; font-weight: 600;" id="medium-questions">0</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div style="width: 12px; height: 12px; border-radius: 50%; background: var(--stats-danger);"></div>
+          <span style="font-size: 0.9rem;">Hard</span>
+          <span style="margin-left: auto; font-weight: 600;" id="hard-questions">0</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="dashboard-card">
+      <h3 class="dashboard-card-title">Certification Progress</h3>
+      <div style="margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span style="font-size: 0.9rem;">AP Statistics</span>
+          <span style="font-size: 0.9rem;" id="ap-progress">0%</span>
+        </div>
+        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+          <div id="ap-bar" style="height: 100%; width: 0%; background: var(--stats-accent); border-radius: 4px;"></div>
+        </div>
+      </div>
+      
+      <div style="margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span style="font-size: 0.9rem;">GRE Quantitative</span>
+          <span style="font-size: 0.9rem;" id="gre-progress">0%</span>
+        </div>
+        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+          <div id="gre-bar" style="height: 100%; width: 0%; background: var(--stats-primary); border-radius: 4px;"></div>
+        </div>
+      </div>
+      
+      <div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+          <span style="font-size: 0.9rem;">Data Science Cert.</span>
+          <span style="font-size: 0.9rem;" id="ds-progress">0%</span>
+        </div>
+        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px;">
+          <div id="ds-bar" style="height: 100%; width: 0%; background: var(--stats-success); border-radius: 4px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div style="margin-top: 40px; background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px;">
+    <h3 style="color: var(--stats-primary); margin-bottom: 20px;">Recommended Study Path</h3>
+    <div id="recommendations" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+      <!-- Recommendations will be generated by JavaScript -->
+    </div>
+  </div>
+</section>
+
+<footer style="text-align: center; padding: 30px; opacity: 0.6; font-size: 0.9rem; border-top: 2px solid rgba(67, 97, 238, 0.2); margin-top: 50px;">
+  <div>© 2024 StatsMaster | Advanced Statistics Learning Platform</div>
+  <div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-dim);">
+    Based on Statistical Inference, Probability Theory, and Modern Data Science Practices
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+<script>
+// ==================== MAIN STATE MANAGEMENT ====================
+let currentMode = 'theory';
+let userProgress = JSON.parse(localStorage.getItem('stats-progress')) || {
+  topicsStudied: [],
+  questionsSolved: 0,
+  easyQuestions: 0,
+  mediumQuestions: 0,
+  hardQuestions: 0,
+  examScores: [],
+  probabilityScore: 0,
+  inferenceScore: 0,
+  regressionScore: 0,
+  simulationsCompleted: [],
+  hypothesisTests: []
+};
+
+// Chart instances
+let distributionChart = null;
+let simulationChart = null;
+let regressionChart = null;
+
+// ==================== MODE MANAGEMENT ====================
+function setActiveMode(mode) {
+  currentMode = mode;
+  
+  // Update active nav links
+  document.querySelectorAll('.nav-link').forEach(link => {
+    link.classList.remove('active');
+  });
+  document.querySelectorAll('.mode-card').forEach(card => {
+    card.classList.remove('active');
+  });
+  
+  // Update active mode card
+  document.querySelectorAll('.mode-card').forEach(card => {
+    if (card.querySelector('.mode-title').textContent.toLowerCase().includes(mode) ||
+        (mode === 'theory' && card.querySelector('.mode-title').textContent.includes('Theory'))) {
+      card.classList.add('active');
+    }
+  });
+  
+  // Show active section
+  document.querySelectorAll('.study-section').forEach(section => {
+    section.classList.remove('active');
+  });
+  document.getElementById(mode).classList.add('active');
+  
+  // Initialize specific mode
+  if (mode === 'theory') generateTopics();
+  if (mode === 'formulas') generateCalculators();
+  if (mode === 'exam') generateExamQuestions('all');
+  if (mode === 'simulation') initializeDistribution();
+  if (mode === 'hypothesis') initializeHypothesisTesting();
+  if (mode === 'regression') initializeRegression();
+  if (mode === 'quiz') initializeQuiz();
+  if (mode === 'progress') updateDashboard();
+  
+  // Render KaTeX formulas
+  setTimeout(() => renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true}
+    ]
+  }), 100);
+}
+
+// ==================== THEORY TOPICS ====================
+const topicsData = [
+  {
+    id: 1,
+    title: "Descriptive Statistics",
+    chapters: 6,
+    description: "Measures of central tendency, dispersion, skewness, kurtosis, and data visualization techniques.",
+    features: ["Mean/Median/Mode", "Variance/SD", "Skewness/Kurtosis", "Visualization"],
+    icon: "fas fa-chart-pie",
+    subtopics: [
+      "Measures of Central Tendency",
+      "Measures of Dispersion",
+      "Moments: Skewness & Kurtosis",
+      "Frequency Distributions",
+      "Graphical Representations",
+      "Box Plots & Outliers"
+    ]
+  },
+  {
+    id: 2,
+    title: "Probability Theory",
+    chapters: 8,
+    description: "Axioms of probability, conditional probability, Bayes' theorem, random variables, and expectation.",
+    features: ["Probability Axioms", "Conditional Probability", "Bayes' Theorem", "Random Variables"],
+    icon: "fas fa-dice",
+    subtopics: [
+      "Basic Probability Concepts",
+      "Conditional Probability",
+      "Bayes' Theorem",
+      "Random Variables",
+      "Expectation & Variance",
+      "Moment Generating Functions",
+      "Chebyshev's Inequality",
+      "Law of Large Numbers"
+    ]
+  },
+  {
+    id: 3,
+    title: "Probability Distributions",
+    chapters: 10,
+    description: "Discrete and continuous distributions: Binomial, Poisson, Normal, Exponential, Gamma, etc.",
+    features: ["Discrete Distributions", "Continuous Distributions", "PDF/PMF", "CDF"],
+    icon: "fas fa-chart-line",
+    subtopics: [
+      "Discrete Uniform",
+      "Binomial Distribution",
+      "Poisson Distribution",
+      "Normal Distribution",
+      "Exponential Distribution",
+      "Gamma Distribution",
+      "Beta Distribution",
+      "Chi-Square Distribution",
+      "t-Distribution",
+      "F-Distribution"
+    ]
+  },
+  {
+    id: 4,
+    title: "Sampling Theory",
+    chapters: 6,
+    description: "Sampling methods, sampling distributions, Central Limit Theorem, and standard error.",
+    features: ["Sampling Methods", "Sampling Distributions", "Central Limit Theorem", "Standard Error"],
+    icon: "fas fa-random",
+    subtopics: [
+      "Simple Random Sampling",
+      "Stratified Sampling",
+      "Cluster Sampling",
+      "Sampling Distributions",
+      "Central Limit Theorem",
+      "Standard Error"
+    ]
+  },
+  {
+    id: 5,
+    title: "Estimation Theory",
+    chapters: 7,
+    description: "Point estimation, interval estimation, properties of estimators, and confidence intervals.",
+    features: ["Point Estimation", "Interval Estimation", "MLE", "Confidence Intervals"],
+    icon: "fas fa-search",
+    subtopics: [
+      "Point Estimation",
+      "Properties of Estimators",
+      "Method of Moments",
+      "Maximum Likelihood Estimation",
+      "Interval Estimation",
+      "Confidence Intervals",
+      "Sample Size Determination"
+    ]
+  },
+  {
+    id: 6,
+    title: "Hypothesis Testing",
+    chapters: 8,
+    description: "Null and alternative hypotheses, test statistics, p-values, type I/II errors, and power.",
+    features: ["Null/Alternative", "Test Statistics", "p-values", "Type I/II Errors"],
+    icon: "fas fa-balance-scale",
+    subtopics: [
+      "Basic Concepts",
+      "Test Statistics",
+      "p-values",
+      "Type I & II Errors",
+      "Power of Test",
+      "Z-tests",
+      "t-tests",
+      "Chi-Square Tests"
+    ]
+  },
+  {
+    id: 7,
+    title: "Regression Analysis",
+    chapters: 9,
+    description: "Simple linear regression, multiple regression, model diagnostics, and validation.",
+    features: ["Linear Regression", "Multiple Regression", "Model Diagnostics", "ANOVA"],
+    icon: "fas fa-project-diagram",
+    subtopics: [
+      "Simple Linear Regression",
+      "Multiple Linear Regression",
+      "Least Squares Estimation",
+      "Model Assumptions",
+      "Residual Analysis",
+      "Model Selection",
+      "ANOVA in Regression",
+      "Multicollinearity",
+      "Model Validation"
+    ]
+  },
+  {
+    id: 8,
+    title: "Analysis of Variance",
+    chapters: 6,
+    description: "One-way ANOVA, two-way ANOVA, fixed and random effects models, and post-hoc tests.",
+    features: ["One-way ANOVA", "Two-way ANOVA", "Fixed/Random Effects", "Post-hoc Tests"],
+    icon: "fas fa-th",
+    subtopics: [
+      "One-way ANOVA",
+      "Two-way ANOVA",
+      "Fixed Effects Model",
+      "Random Effects Model",
+      "Assumptions Checking",
+      "Post-hoc Comparisons"
+    ]
+  },
+  {
+    id: 9,
+    title: "Non-Parametric Tests",
+    chapters: 7,
+    description: "Tests that don't assume specific distributions: Wilcoxon, Mann-Whitney, Kruskal-Wallis, etc.",
+    features: ["Wilcoxon Test", "Mann-Whitney", "Kruskal-Wallis", "Spearman Correlation"],
+    icon: "fas fa-sort-amount-up",
+    subtopics: [
+      "Sign Test",
+      "Wilcoxon Signed-Rank",
+      "Mann-Whitney U",
+      "Kruskal-Wallis",
+      "Friedman Test",
+      "Spearman Correlation",
+      "Kendall's Tau"
+    ]
+  },
+  {
+    id: 10,
+    title: "Time Series Analysis",
+    chapters: 8,
+    description: "Stationarity, autocorrelation, ARIMA models, forecasting, and seasonality.",
+    features: ["Stationarity", "Autocorrelation", "ARIMA Models", "Forecasting"],
+    icon: "fas fa-clock",
+    subtopics: [
+      "Time Series Components",
+      "Stationarity",
+      "Autocorrelation",
+      "AR Models",
+      "MA Models",
+      "ARIMA Models",
+      "Seasonal Models",
+      "Forecasting"
+    ]
+  },
+  {
+    id: 11,
+    title: "Multivariate Analysis",
+    chapters: 6,
+    description: "Multivariate distributions, principal components, factor analysis, and cluster analysis.",
+    features: ["Multivariate Normal", "PCA", "Factor Analysis", "Cluster Analysis"],
+    icon: "fas fa-sitemap",
+    subtopics: [
+      "Multivariate Distributions",
+      "Principal Component Analysis",
+      "Factor Analysis",
+      "Discriminant Analysis",
+      "Cluster Analysis",
+      "Multidimensional Scaling"
+    ]
+  },
+  {
+    id: 12,
+    title: "Bayesian Statistics",
+    chapters: 7,
+    description: "Bayesian inference, prior/posterior distributions, credible intervals, and MCMC methods.",
+    features: ["Bayesian Inference", "Prior/Posterior", "Credible Intervals", "MCMC"],
+    icon: "fas fa-brain",
+    subtopics: [
+      "Bayesian vs Frequentist",
+      "Prior Distributions",
+      "Posterior Distributions",
+      "Bayesian Estimation",
+      "Credible Intervals",
+      "Bayesian Hypothesis Testing",
+      "MCMC Methods"
+    ]
+  }
+];
+
+function generateTopics() {
+  const container = document.getElementById('topics-container');
+  container.innerHTML = '';
+  
+  topicsData.forEach(topic => {
+    const isStudied = userProgress.topicsStudied.includes(topic.id);
+    
+    const topicCard = document.createElement('div');
+    topicCard.className = 'topic-card';
+    topicCard.dataset.id = topic.id;
+    
+    topicCard.innerHTML = `
+      <div class="topic-header">
+        <h3 class="topic-title"><i class="${topic.icon}"></i> ${topic.title}</h3>
+        <span class="topic-chapters">${topic.chapters} Chapters</span>
+      </div>
+      <p class="topic-description">${topic.description}</p>
+      <div class="topic-features">
+        ${topic.features.map(feature => `<span class="topic-feature">${feature}</span>`).join('')}
+      </div>
+      <div class="lab-actions">
+        <button class="stats-btn btn-primary" onclick="studyTopic(${topic.id})" style="flex: 1;">
+          <i class="fas fa-play"></i> ${isStudied ? 'Review Topic' : 'Start Learning'}
+        </button>
+        ${isStudied ? `<span style="margin-left: 10px; color: var(--stats-success);"><i class="fas fa-check-circle"></i> Studied</span>` : ''}
+      </div>
+    `;
+    
+    container.appendChild(topicCard);
+  });
+}
+
+function studyTopic(topicId) {
+  const topic = topicsData.find(t => t.id === topicId);
+  alert(`Starting Topic: ${topic.title}\n\nSubtopic Areas:\n${topic.subtopics.join('\n• ')}`);
+  
+  // Mark as studied if not already
+  if (!userProgress.topicsStudied.includes(topicId)) {
+    userProgress.topicsStudied.push(topicId);
+    saveProgress();
+    updateDashboard();
+    generateTopics(); // Refresh to show updated status
+  }
+}
+
+// ==================== FORMULAS & CALCULATORS ====================
+const calculatorsData = [
+  {
+    id: 1,
+    title: "Mean & Standard Deviation",
+    formula: "\\bar{x} = \\frac{\\sum x_i}{n} \\quad s = \\sqrt{\\frac{\\sum (x_i - \\bar{x})^2}{n-1}}",
+    inputs: [
+      { id: 'data-values', label: 'Data Values (comma separated)', defaultValue: '10, 12, 15, 18, 20' }
+    ],
+    calculate: function(inputs) {
+      const dataStr = inputs['data-values'];
+      const numbers = dataStr.split(',').map(x => parseFloat(x.trim())).filter(x => !isNaN(x));
+      
+      if (numbers.length === 0) throw new Error('No valid numbers');
+      
+      const n = numbers.length;
+      const mean = numbers.reduce((a, b) => a + b, 0) / n;
+      const variance = numbers.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / (n - 1);
+      const std = Math.sqrt(variance);
+      
+      return { mean, std, n };
+    },
+    resultText: function(result) {
+      return `n = ${result.n}<br>Mean (x̄) = ${result.mean.toFixed(4)}<br>Standard Deviation (s) = ${result.std.toFixed(4)}<br>Variance (s²) = ${Math.pow(result.std, 2).toFixed(4)}`;
+    }
+  },
+  {
+    id: 2,
+    title: "Normal Distribution Probability",
+    formula: "P(X \\le x) = \\Phi\\left(\\frac{x - \\mu}{\\sigma}\\right)",
+    inputs: [
+      { id: 'normal-mean', label: 'Mean (μ)', defaultValue: '0' },
+      { id: 'normal-std', label: 'Standard Deviation (σ)', defaultValue: '1' },
+      { id: 'normal-x', label: 'x value', defaultValue: '1.96' }
+    ],
+    calculate: function(inputs) {
+      const μ = parseFloat(inputs['normal-mean']);
+      const σ = parseFloat(inputs['normal-std']);
+      const x = parseFloat(inputs['normal-x']);
+      
+      const z = (x - μ) / σ;
+      // Approximation of standard normal CDF
+      const p = 0.5 * (1 + erf(z / Math.sqrt(2)));
+      
+      return { z, p, complement: 1 - p };
+    },
+    resultText: function(result) {
+      return `Z-score = ${result.z.toFixed(4)}<br>P(X ≤ x) = ${result.p.toFixed(6)}<br>P(X > x) = ${result.complement.toFixed(6)}<br>P(-|z| ≤ Z ≤ |z|) = ${(2*result.p - 1).toFixed(6)}`;
+    }
+  },
+  {
+    id: 3,
+    title: "Confidence Interval for Mean",
+    formula: "\\bar{x} \\pm t_{\\alpha/2, n-1} \\cdot \\frac{s}{\\sqrt{n}}",
+    inputs: [
+      { id: 'ci-mean', label: 'Sample Mean (x̄)', defaultValue: '50' },
+      { id: 'ci-std', label: 'Sample Std Dev (s)', defaultValue: '5' },
+      { id: 'ci-n', label: 'Sample Size (n)', defaultValue: '30' },
+      { id: 'ci-confidence', label: 'Confidence Level (%)', defaultValue: '95' }
+    ],
+    calculate: function(inputs) {
+      const x̄ = parseFloat(inputs['ci-mean']);
+      const s = parseFloat(inputs['ci-std']);
+      const n = parseFloat(inputs['ci-n']);
+      const confidence = parseFloat(inputs['ci-confidence']) / 100;
+      
+      const α = 1 - confidence;
+      // For large n, use z instead of t
+      const t = 1.96; // Approximation for 95% CI, n>30
+      
+      const margin = t * (s / Math.sqrt(n));
+      
+      return { lower: x̄ - margin, upper: x̄ + margin, margin, confidence };
+    },
+    resultText: function(result) {
+      return `${(result.confidence*100).toFixed(1)}% Confidence Interval:<br>${result.lower.toFixed(4)} ≤ μ ≤ ${result.upper.toFixed(4)}<br>Margin of Error = ±${result.margin.toFixed(4)}`;
+    }
+  },
+  {
+    id: 4,
+    title: "Linear Regression Parameters",
+    formula: "b = \\frac{\\sum (x_i - \\bar{x})(y_i - \\bar{y})}{\\sum (x_i - \\bar{x})^2} \\quad a = \\bar{y} - b\\bar{x}",
+    inputs: [
+      { id: 'reg-x', label: 'X values (comma separated)', defaultValue: '1, 2, 3, 4, 5' },
+      { id: 'reg-y', label: 'Y values (comma separated)', defaultValue: '2, 4, 5, 4, 6' }
+    ],
+    calculate: function(inputs) {
+      const xStr = inputs['reg-x'];
+      const yStr = inputs['reg-y'];
+      
+      const x = xStr.split(',').map(v => parseFloat(v.trim()));
+      const y = yStr.split(',').map(v => parseFloat(v.trim()));
+      
+      if (x.length !== y.length) throw new Error('X and Y must have same length');
+      
+      const n = x.length;
+      const x̄ = x.reduce((a, b) => a + b, 0) / n;
+      const ȳ = y.reduce((a, b) => a + b, 0) / n;
+      
+      const numerator = x.reduce((sum, xi, i) => sum + (xi - x̄) * (y[i] - ȳ), 0);
+      const denominator = x.reduce((sum, xi) => sum + Math.pow(xi - x̄, 2), 0);
+      
+      const b = numerator / denominator;
+      const a = ȳ - b * x̄;
+      
+      // Calculate R²
+      const yPred = x.map(xi => a + b * xi);
+      const ssRes = y.reduce((sum, yi, i) => sum + Math.pow(yi - yPred[i], 2), 0);
+      const ssTot = y.reduce((sum, yi) => sum + Math.pow(yi - ȳ, 2), 0);
+      const r2 = 1 - (ssRes / ssTot);
+      
+      return { a, b, r2, equation: `y = ${a.toFixed(4)} + ${b.toFixed(4)}x` };
+    },
+    resultText: function(result) {
+      return `Regression Equation: ${result.equation}<br>Slope (b) = ${result.b.toFixed(4)}<br>Intercept (a) = ${result.a.toFixed(4)}<br>R² = ${result.r2.toFixed(4)}`;
+    }
+  }
+];
+
+// Error function approximation
+function erf(x) {
+  // Abramowitz and Stegun approximation
+  const sign = x < 0 ? -1 : 1;
+  x = Math.abs(x);
+  
+  const a1 = 0.254829592;
+  const a2 = -0.284496736;
+  const a3 = 1.421413741;
+  const a4 = -1.453152027;
+  const a5 = 1.061405429;
+  const p = 0.3275911;
+  
+  const t = 1.0 / (1.0 + p * x);
+  const y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+  
+  return sign * y;
+}
+
+function generateCalculators() {
+  const container = document.getElementById('calculators-container');
+  container.innerHTML = '';
+  
+  calculatorsData.forEach(calc => {
+    const calcCard = document.createElement('div');
+    calcCard.className = 'calculator-card';
+    calcCard.dataset.id = calc.id;
+    
+    calcCard.innerHTML = `
+      <div class="calculator-header">
+        <h3 class="calculator-title">${calc.title}</h3>
+      </div>
+      <div class="katex-formula">${calc.formula}</div>
+      <div class="calculator-inputs">
+        ${calc.inputs.map(input => `
+          <div class="input-group">
+            <label class="input-label">${input.label}</label>
+            <input type="text" id="${input.id}" class="input-field" value="${input.defaultValue}">
+          </div>
+        `).join('')}
+      </div>
+      <button class="calculate-btn" onclick="calculateResult(${calc.id})">
+        <i class="fas fa-calculator"></i> Calculate
+      </button>
+      <div class="result-container" id="result-${calc.id}"></div>
+    `;
+    
+    container.appendChild(calcCard);
+  });
+  
+  // Render KaTeX formulas
+  setTimeout(() => renderMathInElement(container, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true}
+    ]
+  }), 100);
+}
+
+function calculateResult(calculatorId) {
+  const calculator = calculatorsData.find(c => c.id === calculatorId);
+  const inputs = {};
+  
+  calculator.inputs.forEach(input => {
+    inputs[input.id] = document.getElementById(input.id).value;
+  });
+  
+  try {
+    const result = calculator.calculate(inputs);
+    const resultContainer = document.getElementById(`result-${calculatorId}`);
+    resultContainer.innerHTML = calculator.resultText(result);
+    resultContainer.style.display = 'block';
+    
+    // Update progress
+    if (!userProgress.simulationsCompleted.includes(`calc_${calculatorId}`)) {
+      userProgress.simulationsCompleted.push(`calc_${calculatorId}`);
+      saveProgress();
+      updateDashboard();
+    }
+  } catch (error) {
+    alert('Error in calculation: ' + error.message);
+  }
+}
+
+// ==================== DISTRIBUTION SIMULATOR ====================
+function initializeDistribution() {
+  // Initialize hero distribution chart
+  const heroCanvas = document.getElementById('distribution-canvas');
+  const heroCtx = heroCanvas.getContext('2d');
+  
+  // Draw a normal distribution curve
+  heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+  
+  // Set canvas size
+  heroCanvas.width = heroCanvas.offsetWidth;
+  heroCanvas.height = heroCanvas.offsetHeight;
+  
+  // Draw normal distribution
+  const μ = 0;
+  const σ = 1;
+  const scale = 50;
+  const offsetX = heroCanvas.width / 2;
+  const offsetY = heroCanvas.height / 2;
+  
+  heroCtx.strokeStyle = '#4361ee';
+  heroCtx.lineWidth = 3;
+  heroCtx.beginPath();
+  
+  for (let x = -4; x <= 4; x += 0.1) {
+    const y = normalPDF(x, μ, σ);
+    const plotX = offsetX + x * scale;
+    const plotY = offsetY - y * scale * 100;
+    
+    if (x === -4) {
+      heroCtx.moveTo(plotX, plotY);
+    } else {
+      heroCtx.lineTo(plotX, plotY);
+    }
+  }
+  
+  heroCtx.stroke();
+  
+  // Draw mean line
+  heroCtx.strokeStyle = '#f72585';
+  heroCtx.lineWidth = 2;
+  heroCtx.beginPath();
+  heroCtx.moveTo(offsetX, offsetY - 20);
+  heroCtx.lineTo(offsetX, offsetY + 20);
+  heroCtx.stroke();
+  
+  // Draw ±1σ, ±2σ, ±3σ lines
+  const sigmaColors = ['#4cc9f0', '#f8961e', '#e63946'];
+  for (let i = 1; i <= 3; i++) {
+    heroCtx.strokeStyle = sigmaColors[i-1];
+    heroCtx.lineWidth = 1;
+    heroCtx.setLineDash([5, 5]);
+    heroCtx.beginPath();
+    heroCtx.moveTo(offsetX + i * σ * scale, offsetY - 15);
+    heroCtx.lineTo(offsetX + i * σ * scale, offsetY + 15);
+    heroCtx.moveTo(offsetX - i * σ * scale, offsetY - 15);
+    heroCtx.lineTo(offsetX - i * σ * scale, offsetY + 15);
+    heroCtx.stroke();
+  }
+  heroCtx.setLineDash([]);
+  
+  // Initialize simulation chart
+  const simCanvas = document.getElementById('simulation-chart');
+  if (simulationChart) {
+    simulationChart.destroy();
+  }
+  
+  simulationChart = new Chart(simCanvas.getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [{
+        label: 'Probability Density Function',
+        data: [],
+        borderColor: 'rgba(67, 97, 238, 1)',
+        backgroundColor: 'rgba(67, 97, 238, 0.1)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'x',
+            color: 'rgba(233, 236, 239, 0.8)'
+          },
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: 'rgba(233, 236, 239, 0.8)'
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'f(x)',
+            color: 'rgba(233, 236, 239, 0.8)'
+          },
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: 'rgba(233, 236, 239, 0.8)'
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: 'rgba(233, 236, 239, 0.8)'
+          }
+        }
+      }
+    }
+  });
+  
+  updateDistribution();
+}
+
+function normalPDF(x, μ, σ) {
+  return (1 / (σ * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * Math.pow((x - μ) / σ, 2));
+}
+
+function updateDistribution() {
+  const type = document.getElementById('distribution-type').value;
+  const μ = parseFloat(document.getElementById('mean-slider').value);
+  const σ = parseFloat(document.getElementById('std-slider').value);
+  const n = parseInt(document.getElementById('sample-slider').value);
+  const p = parseFloat(document.getElementById('prob-slider').value);
+  
+  document.getElementById('distribution-mean').textContent = μ.toFixed(1);
+  document.getElementById('distribution-std').textContent = σ.toFixed(1);
+  document.getElementById('sample-size').textContent = n;
+  document.getElementById('probability-value').textContent = p.toFixed(2);
+  
+  const labels = [];
+  const data = [];
+  
+  switch(type) {
+    case 'normal':
+      for (let x = μ - 4*σ; x <= μ + 4*σ; x += σ/10) {
+        labels.push(x.toFixed(2));
+        data.push(normalPDF(x, μ, σ));
+      }
+      break;
+      
+    case 'binomial':
+      // For binomial, show PMF
+      const n_trials = 20;
+      for (let k = 0; k <= n_trials; k++) {
+        labels.push(k.toString());
+        // PMF of Binomial
+        const comb = factorial(n_trials) / (factorial(k) * factorial(n_trials - k));
+        const prob = comb * Math.pow(p, k) * Math.pow(1-p, n_trials - k);
+        data.push(prob);
+      }
+      break;
+      
+    case 'poisson':
+      // λ = μ for Poisson
+      const λ = μ > 0 ? μ : 1;
+      for (let k = 0; k <= Math.min(20, 3*λ); k++) {
+        labels.push(k.toString());
+        // PMF of Poisson
+        const prob = (Math.pow(λ, k) * Math.exp(-λ)) / factorial(k);
+        data.push(prob);
+      }
+      break;
+  }
+  
+  simulationChart.data.labels = labels;
+  simulationChart.data.datasets[0].data = data;
+  simulationChart.data.datasets[0].label = getDistributionName(type) + ' PDF/PMF';
+  simulationChart.update();
+}
+
+function factorial(n) {
+  if (n === 0 || n === 1) return 1;
+  let result = 1;
+  for (let i = 2; i <= n; i++) result *= i;
+  return result;
+}
+
+function getDistributionName(type) {
+  const names = {
+    normal: 'Normal',
+    binomial: 'Binomial',
+    poisson: 'Poisson',
+    exponential: 'Exponential',
+    uniform: 'Uniform',
+    t: 't-Distribution',
+    chi2: 'Chi-Square',
+    f: 'F-Distribution'
+  };
+  return names[type] || 'Distribution';
+}
+
+function simulateRandomSamples() {
+  const n = parseInt(document.getElementById('sample-slider').value);
+  const type = document.getElementById('distribution-type').value;
+  const μ = parseFloat(document.getElementById('mean-slider').value);
+  const σ = parseFloat(document.getElementById('std-slider').value);
+  
+  // Generate random samples
+  const samples = [];
+  for (let i = 0; i < n; i++) {
+    let sample;
+    switch(type) {
+      case 'normal':
+        // Box-Muller transform
+        const u1 = Math.random();
+        const u2 = Math.random();
+        const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+        sample = μ + σ * z;
+        break;
+      case 'uniform':
+        sample = μ + σ * (Math.random() - 0.5) * 2;
+        break;
+      default:
+        sample = μ + σ * (Math.random() - 0.5) * 2;
+    }
+    samples.push(sample);
+  }
+  
+  // Create histogram
+  const hist = createHistogram(samples, 20);
+  
+  simulationChart.data.labels = hist.bins.map(b => b.toFixed(2));
+  simulationChart.data.datasets[0].data = hist.frequencies;
+  simulationChart.data.datasets[0].label = 'Histogram of Random Samples';
+  simulationChart.update();
+  
+  // Update progress
+  if (!userProgress.simulationsCompleted.includes('random_samples')) {
+    userProgress.simulationsCompleted.push('random_samples');
+    saveProgress();
+    updateDashboard();
+  }
+}
+
+function createHistogram(data, bins) {
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const binWidth = (max - min) / bins;
+  
+  const histogram = {
+    bins: [],
+    frequencies: []
+  };
+  
+  for (let i = 0; i < bins; i++) {
+    const binStart = min + i * binWidth;
+    const binEnd = binStart + binWidth;
+    histogram.bins.push(binStart + binWidth/2); // Use bin centers
+    
+    const count = data.filter(x => x >= binStart && x < binEnd).length;
+    histogram.frequencies.push(count / data.length); // Normalized frequency
+  }
+  
+  return histogram;
+}
+
+function calculateProbability() {
+  const type = document.getElementById('distribution-type').value;
+  const μ = parseFloat(document.getElementById('mean-slider').value);
+  const σ = parseFloat(document.getElementById('std-slider').value);
+  const x = μ; // Use mean as default
+  
+  let probability = 0.6826; // Default for normal within 1σ
+  
+  alert(`P(X ≤ ${x.toFixed(2)}) ≈ ${probability.toFixed(4)}\nFor ${getDistributionName(type)} distribution with μ=${μ.toFixed(2)}, σ=${σ.toFixed(2)}`);
+}
+
+function calculateQuantile() {
+  const p = parseFloat(document.getElementById('prob-slider').value);
+  const type = document.getElementById('distribution-type').value;
+  
+  let quantile = 0;
+  switch(type) {
+    case 'normal':
+      // Approximation for normal quantile
+      quantile = Math.sqrt(2) * erfInverse(2*p - 1);
+      break;
+    default:
+      quantile = p;
+  }
+  
+  alert(`For ${getDistributionName(type)} distribution:\nQuantile for P=${p.toFixed(3)} ≈ ${quantile.toFixed(4)}`);
+}
+
+function erfInverse(x) {
+  // Simple approximation
+  const a = 0.140012;
+  const sign = x < 0 ? -1 : 1;
+  x = Math.abs(x);
+  
+  const t = Math.sqrt(-Math.log((1-x)*(1+x)));
+  const z = sign * (t - (2.515517 + 0.802853*t + 0.010328*t*t) / 
+                    (1 + 1.432788*t + 0.189269*t*t + 0.001308*t*t*t));
+  
+  return z;
+}
+
+function runCentralLimitTheorem() {
+  alert('Central Limit Theorem Demonstration:\n\n1. Take samples from any distribution (even non-normal)\n2. Calculate sample means\n3. Distribution of sample means approaches normal as n → ∞\n\nTry increasing sample size in the simulator to see the effect!');
+  
+  // Update progress
+  if (!userProgress.simulationsCompleted.includes('clt')) {
+    userProgress.simulationsCompleted.push('clt');
+    saveProgress();
+    updateDashboard();
+  }
+}
+
+// ==================== HYPOTHESIS TESTING ====================
+function initializeHypothesisTesting() {
+  updateHypothesisTest();
+}
+
+function updateHypothesisTest() {
+  const testType = document.getElementById('test-type').value;
+  const alternative = document.getElementById('alternative').value;
+  const α = parseFloat(document.getElementById('alpha-level').value);
+  const x̄ = parseFloat(document.getElementById('sample-mean').value);
+  
+  // Update null hypothesis based on test type
+  let nullHypothesis = 'μ = 50';
+  switch(testType) {
+    case 'z_prop':
+      nullHypothesis = 'p = 0.5';
+      break;
+    case 'chi2':
+      nullHypothesis = 'σ² = 25';
+      break;
+  }
+  
+  document.getElementById('null-hypothesis').value = nullHypothesis;
+  
+  // Update alternative hypothesis
+  let altText = 'μ ≠ 50';
+  switch(alternative) {
+    case 'right_tailed':
+      altText = testType === 'z_prop' ? 'p > 0.5' : 'μ > 50';
+      break;
+    case 'left_tailed':
+      altText = testType === 'z_prop' ? 'p < 0.5' : 'μ < 50';
+      break;
+  }
+  
+  // Update results preview
+  const resultsDiv = document.getElementById('test-results');
+  resultsDiv.innerHTML = `
+    <div style="margin-bottom: 15px;">
+      <strong>Test Configuration:</strong>
+      <div style="margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 5px;">
+        <div>H₀: ${nullHypothesis}</div>
+        <div>H₁: ${altText}</div>
+        <div>α = ${α} (${(1-α)*100}% confidence)</div>
+        <div>Sample Mean = ${x̄}</div>
+      </div>
+    </div>
+    <p style="color: var(--text-dim);">Click "Run Hypothesis Test" to calculate test statistic and make decision.</p>
+  `;
+}
+
+function runHypothesisTest() {
+  const testType = document.getElementById('test-type').value;
+  const alternative = document.getElementById('alternative').value;
+  const α = parseFloat(document.getElementById('alpha-level').value);
+  const x̄ = parseFloat(document.getElementById('sample-mean').value);
+  const n = parseFloat(document.getElementById('test-sample-size').value);
+  const s = parseFloat(document.getElementById('test-std').value);
+  const μ0 = 50; // Null hypothesis mean
+  
+  // Calculate test statistic
+  let testStat, pValue, criticalValue, decision;
+  
+  switch(testType) {
+    case 'z_mean':
+      testStat = (x̄ - μ0) / (s / Math.sqrt(n));
+      break;
+    case 't_mean':
+      testStat = (x̄ - μ0) / (s / Math.sqrt(n));
+      break;
+    default:
+      testStat = (x̄ - μ0) / (s / Math.sqrt(n));
+  }
+  
+  // Calculate p-value based on alternative
+  const z = Math.abs(testStat);
+  const pTwoTailed = 2 * (1 - normalCDF(z));
+  
+  switch(alternative) {
+    case 'two_tailed':
+      pValue = pTwoTailed;
+      criticalValue = normalQuantile(1 - α/2);
+      decision = Math.abs(testStat) > criticalValue ? 'Reject H₀' : 'Fail to reject H₀';
+      break;
+    case 'right_tailed':
+      pValue = 1 - normalCDF(testStat);
+      criticalValue = normalQuantile(1 - α);
+      decision = testStat > criticalValue ? 'Reject H₀' : 'Fail to reject H₀';
+      break;
+    case 'left_tailed':
+      pValue = normalCDF(testStat);
+      criticalValue = normalQuantile(α);
+      decision = testStat < criticalValue ? 'Reject H₀' : 'Fail to reject H₀';
+      break;
+  }
+  
+  // Update results
+  const resultsDiv = document.getElementById('test-results');
+  resultsDiv.innerHTML = `
+    <div style="margin-bottom: 15px;">
+      <strong>Hypothesis Test Results:</strong>
+      <div style="margin-top: 10px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 5px;">
+        <div><strong>Test Statistic:</strong> ${testStat.toFixed(4)}</div>
+        <div><strong>p-value:</strong> ${pValue.toFixed(6)}</div>
+        <div><strong>Critical Value:</strong> ±${criticalValue.toFixed(4)}</div>
+        <div><strong>Significance Level:</strong> α = ${α}</div>
+        <div style="margin-top: 10px; padding: 10px; background: ${decision.includes('Reject') ? 'rgba(230, 57, 70, 0.2)' : 'rgba(76, 201, 240, 0.2)'}; border-radius: 5px;">
+          <strong>Decision:</strong> ${decision}
+        </div>
+        <div style="margin-top: 10px; font-size: 0.9em; color: var(--text-dim);">
+          ${getTestInterpretation(testStat, pValue, α, decision)}
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // Draw decision graph
+  drawDecisionGraph(testStat, criticalValue, alternative);
+  
+  // Update progress
+  if (!userProgress.hypothesisTests.includes(testType)) {
+    userProgress.hypothesisTests.push(testType);
+    saveProgress();
+    updateDashboard();
+  }
+}
+
+function normalCDF(x) {
+  return 0.5 * (1 + erf(x / Math.sqrt(2)));
+}
+
+function normalQuantile(p) {
+  // Approximation for standard normal quantile
+  if (p < 0.5) return -normalQuantile(1 - p);
+  
+  const t = Math.sqrt(-2 * Math.log(1 - p));
+  const c0 = 2.515517;
+  const c1 = 0.802853;
+  const c2 = 0.010328;
+  const d1 = 1.432788;
+  const d2 = 0.189269;
+  const d3 = 0.001308;
+  
+  return t - (c0 + c1*t + c2*t*t) / (1 + d1*t + d2*t*t + d3*t*t*t);
+}
+
+function getTestInterpretation(testStat, pValue, α, decision) {
+  if (decision.includes('Reject')) {
+    return `Since p-value (${pValue.toFixed(4)}) < α (${α}), we reject the null hypothesis. There is sufficient evidence to support the alternative hypothesis at ${(1-α)*100}% confidence level.`;
+  } else {
+    return `Since p-value (${pValue.toFixed(4)}) > α (${α}), we fail to reject the null hypothesis. There is insufficient evidence to support the alternative hypothesis at ${(1-α)*100}% confidence level.`;
+  }
+}
+
+function drawDecisionGraph(testStat, criticalValue, alternative) {
+  const graphDiv = document.getElementById('decision-graph');
+  graphDiv.innerHTML = '<canvas id="decision-canvas" width="400" height="300"></canvas>';
+  
+  setTimeout(() => {
+    const canvas = document.getElementById('decision-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas size
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    
+    const width = canvas.width;
+    const height = canvas.height;
+    const centerX = width / 2;
+    const scale = 30;
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, width, height);
+    
+    // Draw normal curve
+    ctx.strokeStyle = '#4361ee';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    
+    for (let x = -4; x <= 4; x += 0.1) {
+      const y = normalPDF(x, 0, 1);
+      const plotX = centerX + x * scale;
+      const plotY = height/2 - y * scale * 100;
+      
+      if (x === -4) {
+        ctx.moveTo(plotX, plotY);
+      } else {
+        ctx.lineTo(plotX, plotY);
+      }
+    }
+    ctx.stroke();
+    
+    // Draw critical regions
+    ctx.fillStyle = 'rgba(230, 57, 70, 0.3)';
+    
+    if (alternative === 'two_tailed') {
+      // Left tail
+      ctx.beginPath();
+      for (let x = -4; x <= -criticalValue; x += 0.1) {
+        const y = normalPDF(x, 0, 1);
+        const plotX = centerX + x * scale;
+        const plotY = height/2 - y * scale * 100;
+        
+        if (x === -4) {
+          ctx.moveTo(plotX, plotY);
+        } else {
+          ctx.lineTo(plotX, plotY);
+        }
+      }
+      ctx.lineTo(centerX - criticalValue * scale, height/2);
+      ctx.lineTo(centerX - 4 * scale, height/2);
+      ctx.closePath();
+      ctx.fill();
+      
+      // Right tail
+      ctx.beginPath();
+      for (let x = criticalValue; x <= 4; x += 0.1) {
+        const y = normalPDF(x, 0, 1);
+        const plotX = centerX + x * scale;
+        const plotY = height/2 - y * scale * 100;
+        
+        if (x === criticalValue) {
+          ctx.moveTo(plotX, plotY);
+        } else {
+          ctx.lineTo(plotX, plotY);
+        }
+      }
+      ctx.lineTo(centerX + 4 * scale, height/2);
+      ctx.lineTo(centerX + criticalValue * scale, height/2);
+      ctx.closePath();
+      ctx.fill();
+      
+    } else if (alternative === 'right_tailed') {
+      ctx.beginPath();
+      for (let x = criticalValue; x <= 4; x += 0.1) {
+        const y = normalPDF(x, 0, 1);
+        const plotX = centerX + x * scale;
+        const plotY = height/2 - y * scale * 100;
+        
+        if (x === criticalValue) {
+          ctx.moveTo(plotX, plotY);
+        } else {
+          ctx.lineTo(plotX, plotY);
+        }
+      }
+      ctx.lineTo(centerX + 4 * scale, height/2);
+      ctx.lineTo(centerX + criticalValue * scale, height/2);
+      ctx.closePath();
+      ctx.fill();
+      
+    } else if (alternative === 'left_tailed') {
+      ctx.beginPath();
+      for (let x = -4; x <= -criticalValue; x += 0.1) {
+        const y = normalPDF(x, 0, 1);
+        const plotX = centerX + x * scale;
+        const plotY = height/2 - y * scale * 100;
+        
+        if (x === -4) {
+          ctx.moveTo(plotX, plotY);
+        } else {
+          ctx.lineTo(plotX, plotY);
+        }
+      }
+      ctx.lineTo(centerX - criticalValue * scale, height/2);
+      ctx.lineTo(centerX - 4 * scale, height/2);
+      ctx.closePath();
+      ctx.fill();
+    }
+    
+    // Draw test statistic line
+    ctx.strokeStyle = '#f72585';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    const statX = centerX + testStat * scale;
+    ctx.moveTo(statX, height/2 - 50);
+    ctx.lineTo(statX, height/2 + 50);
+    ctx.stroke();
+    
+    // Draw labels
+    ctx.fillStyle = 'white';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    
+    // Critical value labels
+    if (alternative === 'two_tailed') {
+      ctx.fillText(`-${criticalValue.toFixed(2)}`, centerX - criticalValue * scale, height/2 + 20);
+      ctx.fillText(`${criticalValue.toFixed(2)}`, centerX + criticalValue * scale, height/2 + 20);
+    } else if (alternative === 'right_tailed') {
+      ctx.fillText(`${criticalValue.toFixed(2)}`, centerX + criticalValue * scale, height/2 + 20);
+    } else if (alternative === 'left_tailed') {
+      ctx.fillText(`-${criticalValue.toFixed(2)}`, centerX - criticalValue * scale, height/2 + 20);
+    }
+    
+    // Test statistic label
+    ctx.fillStyle = '#f72585';
+    ctx.fillText(`Test Stat: ${testStat.toFixed(2)}`, statX, height/2 - 60);
+    
+    // Region labels
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.font = '10px Arial';
+    
+    if (alternative === 'two_tailed') {
+      ctx.fillText('Rejection Region', centerX - 2.5 * scale, height/2 - 30);
+      ctx.fillText('Rejection Region', centerX + 2.5 * scale, height/2 - 30);
+      ctx.fillText('Fail to Reject Region', centerX, height/2 - 30);
+    }
+  }, 100);
+}
+
+// ==================== REGRESSION ANALYSIS ====================
+function initializeRegression() {
+  const canvas = document.getElementById('regression-chart');
+  if (regressionChart) {
+    regressionChart.destroy();
+  }
+  
+  regressionChart = new Chart(canvas.getContext('2d'), {
+    type: 'scatter',
+    data: {
+      datasets: [{
+        label: 'Data Points',
+        data: [],
+        backgroundColor: 'rgba(67, 97, 238, 0.8)',
+        borderColor: 'rgba(67, 97, 238, 1)',
+        borderWidth: 2,
+        pointRadius: 6
+      }, {
+        label: 'Regression Line',
+        data: [],
+        type: 'line',
+        borderColor: 'rgba(247, 37, 133, 1)',
+        borderWidth: 3,
+        fill: false,
+        pointRadius: 0,
+        tension: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'X',
+            color: 'rgba(233, 236, 239, 0.8)'
+          },
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: 'rgba(233, 236, 239, 0.8)'
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Y',
+            color: 'rgba(233, 236, 239, 0.8)'
+          },
+          grid: {
+            color: 'rgba(255, 255, 255, 0.1)'
+          },
+          ticks: {
+            color: 'rgba(233, 236, 239, 0.8)'
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          labels: {
+            color: 'rgba(233, 236, 239, 0.8)'
+          }
+        }
+      }
+    }
+  });
+  
+  generateRegressionData();
+}
+
+function generateRegressionData() {
+  const type = document.getElementById('dataset-type').value;
+  let data = [];
+  
+  switch(type) {
+    case 'linear':
+      // Linear relationship: y = 2x + 3 + noise
+      for (let x = 1; x <= 10; x++) {
+        const y = 2*x + 3 + (Math.random() - 0.5) * 2;
+        data.push({x, y});
+      }
+      break;
+      
+    case 'quadratic':
+      // Quadratic relationship: y = 0.5x² + noise
+      for (let x = 1; x <= 10; x++) {
+        const y = 0.5*x*x + (Math.random() - 0.5) * 5;
+        data.push({x, y});
+      }
+      break;
+      
+    case 'exponential':
+      // Exponential relationship: y = 2 * exp(0.3x) + noise
+      for (let x = 1; x <= 10; x++) {
+        const y = 2 * Math.exp(0.3*x) + (Math.random() - 0.5) * 5;
+        data.push({x, y});
+      }
+      break;
+      
+    case 'noisy':
+      // Very noisy linear relationship
+      for (let x = 1; x <= 10; x++) {
+        const y = 2*x + 3 + (Math.random() - 0.5) * 10;
+        data.push({x, y});
+      }
+      break;
+      
+    case 'outliers':
+      // Linear relationship with outliers
+      for (let x = 1; x <= 10; x++) {
+        let y = 2*x + 3 + (Math.random() - 0.5) * 2;
+        if (x === 3 || x === 8) {
+          y += 15; // Add outliers
+        }
+        data.push({x, y});
+      }
+      break;
+  }
+  
+  regressionChart.data.datasets[0].data = data;
+  regressionChart.update();
+}
+
+function runRegression() {
+  const data = regressionChart.data.datasets[0].data;
+  
+  if (data.length < 2) {
+    alert('Need at least 2 data points for regression');
+    return;
+  }
+  
+  // Calculate regression parameters
+  const n = data.length;
+  const xSum = data.reduce((sum, point) => sum + point.x, 0);
+  const ySum = data.reduce((sum, point) => sum + point.y, 0);
+  const xMean = xSum / n;
+  const yMean = ySum / n;
+  
+  const numerator = data.reduce((sum, point) => sum + (point.x - xMean) * (point.y - yMean), 0);
+  const denominator = data.reduce((sum, point) => sum + Math.pow(point.x - xMean, 2), 0);
+  
+  const b = numerator / denominator;
+  const a = yMean - b * xMean;
+  
+  // Calculate R²
+  const yPred = data.map(point => a + b * point.x);
+  const ssRes = data.reduce((sum, point, i) => sum + Math.pow(point.y - yPred[i], 2), 0);
+  const ssTot = data.reduce((sum, point) => sum + Math.pow(point.y - yMean, 2), 0);
+  const r2 = 1 - (ssRes / ssTot);
+  
+  // Calculate correlation
+  const xStd = Math.sqrt(data.reduce((sum, point) => sum + Math.pow(point.x - xMean, 2), 0) / (n - 1));
+  const yStd = Math.sqrt(ssTot / (n - 1));
+  const correlation = b * (xStd / yStd);
+  
+  // Calculate standard error
+  const se = Math.sqrt(ssRes / (n - 2));
+  
+  // Update display
+  document.getElementById('regression-equation').textContent = `y = ${a.toFixed(4)} + ${b.toFixed(4)}x`;
+  document.getElementById('r-squared').textContent = r2.toFixed(4);
+  document.getElementById('correlation').textContent = correlation.toFixed(4);
+  document.getElementById('standard-error').textContent = se.toFixed(4);
+  
+  // Update regression line
+  const lineData = [];
+  const xMin = Math.min(...data.map(p => p.x));
+  const xMax = Math.max(...data.map(p => p.x));
+  
+  lineData.push({x: xMin, y: a + b * xMin});
+  lineData.push({x: xMax, y: a + b * xMax});
+  
+  regressionChart.data.datasets[1].data = lineData;
+  regressionChart.update();
+  
+  // Update progress
+  if (!userProgress.simulationsCompleted.includes('regression')) {
+    userProgress.simulationsCompleted.push('regression');
+    saveProgress();
+    updateDashboard();
+  }
+}
+
+function addDataPoint() {
+  const x = Math.floor(Math.random() * 10) + 1;
+  const y = 2*x + 3 + (Math.random() - 0.5) * 5;
+  
+  regressionChart.data.datasets[0].data.push({x, y});
+  regressionChart.update();
+}
+
+function showResiduals() {
+  alert('Residuals Plot:\n\nShows the difference between observed and predicted values.\nPatterns in residuals indicate model misspecification.');
+}
+
+function showQQPlot() {
+  alert('Q-Q Plot:\n\nCompares quantiles of residuals to quantiles of normal distribution.\nUsed to check normality assumption of errors.');
+}
+
+function showLeverage() {
+  alert('Leverage Plot:\n\nIdentifies influential points that have high leverage on regression line.\nPoints far from the mean of X have high leverage.');
+}
+
+function showCookDistance() {
+  alert("Cook's Distance:\n\nMeasures influence of each observation on the regression coefficients.\nObservations with Cook's D > 4/n may be influential.");
+}
+
+function showVIF() {
+  alert('Variance Inflation Factor (VIF):\n\nMeasures multicollinearity in multiple regression.\nVIF > 5-10 indicates problematic multicollinearity.');
+}
+
+// ==================== EXAM BANK ====================
+const examQuestions = [
+  {
+    id: 1,
+    question: "If X follows a normal distribution with mean 50 and standard deviation 10, what is P(40 ≤ X ≤ 60)?",
+    options: [
+      "0.3413",
+      "0.6826", 
+      "0.9544",
+      "0.9972"
+    ],
+    answer: 1,
+    explanation: "For normal distribution, P(μ - σ ≤ X ≤ μ + σ) ≈ 0.6826. Here μ = 50, σ = 10, so 40 = μ - σ, 60 = μ + σ.",
+    category: "probability",
+    difficulty: "easy"
+  },
+  {
+    id: 2,
+    question: "Which of the following is NOT a property of maximum likelihood estimators?",
+    options: [
+      "Consistency",
+      "Unbiasedness",
+      "Invariance",
+      "Asymptotic normality"
+    ],
+    answer: 1,
+    explanation: "Maximum likelihood estimators are not necessarily unbiased, though they are consistent, invariant, and asymptotically normal.",
+    category: "estimation",
+    difficulty: "medium"
+  },
+  {
+    id: 3,
+    question: "In hypothesis testing, if we reject H₀ when it is actually true, we commit:",
+    options: [
+      "Type I error",
+      "Type II error",
+      "Type III error",
+      "No error"
+    ],
+    answer: 0,
+    explanation: "Type I error: Rejecting H₀ when it is true (false positive). Type II error: Failing to reject H₀ when it is false (false negative).",
+    category: "testing",
+    difficulty: "easy"
+  },
+  {
+    id: 4,
+    question: "The Central Limit Theorem states that:",
+    options: [
+      "Sample mean equals population mean",
+      "Sample variance equals population variance",
+      "Distribution of sample means approaches normal as n → ∞",
+      "All samples are normally distributed"
+    ],
+    answer: 2,
+    explanation: "CLT: For large n, the sampling distribution of the sample mean approaches normal distribution, regardless of population distribution.",
+    category: "sampling",
+    difficulty: "medium"
+  },
+  {
+    id: 5,
+    question: "In multiple linear regression, multicollinearity refers to:",
+    options: [
+      "High correlation between independent variables",
+      "High correlation between dependent and independent variables",
+      "Non-normal distribution of residuals",
+      "Heteroscedasticity"
+    ],
+    answer: 0,
+    explanation: "Multicollinearity occurs when independent variables are highly correlated, causing instability in coefficient estimates.",
+    category: "regression",
+    difficulty: "medium"
+  },
+  {
+    id: 6,
+    question: "For a χ² goodness-of-fit test with k categories, the degrees of freedom are:",
+    options: [
+      "k",
+      "k - 1",
+      "k - 2",
+      "k - p - 1 where p is parameters estimated"
+    ],
+    answer: 1,
+    explanation: "For χ² goodness-of-fit test with k categories, degrees of freedom = k - 1.",
+    category: "testing",
+    difficulty: "medium"
+  },
+  {
+    id: 7,
+    question: "The method of moments estimator is obtained by:",
+    options: [
+      "Minimizing sum of squared errors",
+      "Maximizing likelihood function",
+      "Equating sample moments to population moments",
+      "Using Bayesian prior distributions"
+    ],
+    answer: 2,
+    explanation: "Method of moments: Equate sample moments to theoretical moments and solve for parameters.",
+    category: "estimation",
+    difficulty: "hard"
+  },
+  {
+    id: 8,
+    question: "Which test is appropriate for comparing means of three or more groups?",
+    options: [
+      "t-test",
+      "Z-test",
+      "ANOVA",
+      "Chi-square test"
+    ],
+    answer: 2,
+    explanation: "ANOVA (Analysis of Variance) is used to compare means of three or more groups.",
+    category: "anova",
+    difficulty: "easy"
+  }
+];
+
+function generateExamQuestions(filter = 'all') {
+  const container = document.getElementById('exam-bank');
+  container.innerHTML = '';
+  
+  const filteredQuestions = filter === 'all' 
+    ? examQuestions 
+    : examQuestions.filter(q => q.category === filter);
+  
+  filteredQuestions.forEach((q, index) => {
+    const isSolved = userProgress.questionsSolved >= q.id; // Simplified logic
+    
+    const questionEl = document.createElement('div');
+    questionEl.className = 'exam-question';
+    questionEl.dataset.id = q.id;
+    
+    questionEl.innerHTML = `
+      <div class="question-header">
+        <div class="question-title">
+          Question ${index + 1}
+          <span class="difficulty ${q.difficulty}">${q.difficulty.toUpperCase()}</span>
+        </div>
+        ${isSolved ? '<span style="color: var(--stats-success); font-size: 0.8rem;"><i class="fas fa-check-circle"></i> Solved</span>' : ''}
+      </div>
+      <div class="question-text">${q.question}</div>
+      <div class="question-options">
+        ${q.options.map((option, i) => `
+          <div class="option ${isSolved && i === q.answer ? 'selected' : ''}" onclick="selectAnswer(${q.id}, ${i})">
+            <div class="option-letter">${String.fromCharCode(65 + i)}</div>
+            <div>${option}</div>
+          </div>
+        `).join('')}
+      </div>
+      <button class="show-answer-btn" onclick="showAnswer(${q.id})">
+        Show Solution & Explanation
+      </button>
+      <div class="answer" id="answer-${q.id}">
+        <strong>Correct Answer: ${String.fromCharCode(65 + q.answer)} - ${q.options[q.answer]}</strong>
+        <div style="margin-top: 10px; color: var(--text-dim);">${q.explanation}</div>
+      </div>
+    `;
+    
+    container.appendChild(questionEl);
+  });
+}
+
+function filterQuestions(category) {
+  // Update filter buttons
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  generateExamQuestions(category);
+}
+
+function selectAnswer(questionId, optionIndex) {
+  const question = examQuestions.find(q => q.id === questionId);
+  const options = document.querySelectorAll(`[data-id="${questionId}"] .option`);
+  
+  // Remove selected class from all options
+  options.forEach(opt => opt.classList.remove('selected'));
+  
+  // Add selected class to clicked option
+  options[optionIndex].classList.add('selected');
+  
+  // Update progress
+  if (optionIndex === question.answer) {
+    if (!userProgress.questionsSolved) userProgress.questionsSolved = 0;
+    userProgress.questionsSolved++;
+    
+    // Update difficulty counts
+    if (question.difficulty === 'easy') userProgress.easyQuestions++;
+    if (question.difficulty === 'medium') userProgress.mediumQuestions++;
+    if (question.difficulty === 'hard') userProgress.hardQuestions++;
+    
+    // Update category scores
+    if (question.category === 'probability') userProgress.probabilityScore++;
+    if (question.category === 'testing') userProgress.inferenceScore++;
+    if (question.category === 'regression') userProgress.regressionScore++;
+    
+    saveProgress();
+    updateDashboard();
+    
+    // Show correct feedback
+    const button = document.querySelector(`[data-id="${questionId}"] .show-answer-btn`);
+    button.innerHTML = '<i class="fas fa-check"></i> Correct! View Explanation';
+    button.style.background = 'var(--stats-success)';
+    button.style.color = 'var(--stats-dark)';
+  }
+}
+
+function showAnswer(questionId) {
+  const answerDiv = document.getElementById(`answer-${questionId}`);
+  const button = answerDiv.previousElementSibling;
+  
+  if (answerDiv.style.display === 'block') {
+    answerDiv.style.display = 'none';
+    button.textContent = 'Show Solution & Explanation';
+  } else {
+    answerDiv.style.display = 'block';
+    button.textContent = 'Hide Solution';
+  }
+}
+
+// ==================== INTERACTIVE QUIZ ====================
+const quizQuestions = [
+  {
+    question: "If X follows a normal distribution with mean 50 and standard deviation 10, what is P(40 ≤ X ≤ 60)?",
+    options: [
+      "0.3413",
+      "0.6826", 
+      "0.9544",
+      "0.9972"
+    ],
+    correct: 1,
+    explanation: "For normal distribution, P(μ - σ ≤ X ≤ μ + σ) ≈ 0.6826."
+  },
+  {
+    question: "In hypothesis testing, rejecting H₀ when it is true is:",
+    options: [
+      "Type I error",
+      "Type II error",
+      "Type III error",
+      "No error"
+    ],
+    correct: 0,
+    explanation: "Type I error: Rejecting H₀ when it is true (false positive)."
+  },
+  {
+    question: "The Central Limit Theorem applies to:",
+    options: [
+      "Sample mean",
+      "Sample median",
+      "Sample variance",
+      "All of the above"
+    ],
+    correct: 0,
+    explanation: "CLT specifically concerns the sampling distribution of the sample mean."
+  },
+  {
+    question: "R² in regression measures:",
+    options: [
+      "Correlation coefficient",
+      "Proportion of variance explained",
+      "Standard error",
+      "Slope of regression line"
+    ],
+    correct: 1,
+    explanation: "R² = Proportion of variance in Y explained by X."
+  },
+  {
+    question: "For large samples, t-distribution approaches:",
+    options: [
+      "Normal distribution",
+      "Chi-square distribution",
+      "F-distribution",
+      "Exponential distribution"
+    ],
+    correct: 0,
+    explanation: "As degrees of freedom increase, t-distribution approaches normal distribution."
+  }
+];
+
+let currentQuizQuestion = 0;
+let quizAnswers = new Array(quizQuestions.length).fill(null);
+let quizScore = 0;
+
+function initializeQuiz() {
+  document.getElementById('total-questions').textContent = quizQuestions.length;
+  loadQuizQuestion(currentQuizQuestion);
+}
+
+function loadQuizQuestion(index) {
+  const question = quizQuestions[index];
+  document.getElementById('question-text').textContent = question.question;
+  document.getElementById('current-question').textContent = index + 1;
+  
+  const optionsContainer = document.getElementById('options-container');
+  optionsContainer.innerHTML = '';
+  
+  question.options.forEach((option, i) => {
+    const optionElement = document.createElement('div');
+    optionElement.className = 'quiz-option';
+    if (quizAnswers[index] === i) {
+      optionElement.classList.add('selected');
+    }
+    optionElement.onclick = () => selectQuizOption(i);
+    
+    optionElement.innerHTML = `
+      <div class="option-letter">${String.fromCharCode(65 + i)}</div>
+      <div>${option}</div>
+    `;
+    
+    optionsContainer.appendChild(optionElement);
+  });
+  
+  // Update buttons
+  document.getElementById('prev-btn').disabled = index === 0;
+  document.getElementById('next-btn').textContent = index === quizQuestions.length - 1 ? 'Submit Quiz' : 'Next';
+  
+  // Clear feedback
+  document.getElementById('quiz-feedback').textContent = '';
+}
+
+function selectQuizOption(optionIndex) {
+  quizAnswers[currentQuizQuestion] = optionIndex;
+  loadQuizQuestion(currentQuizQuestion);
+  
+  // Check if correct
+  if (optionIndex === quizQuestions[currentQuizQuestion].correct) {
+    document.getElementById('quiz-feedback').textContent = 'Correct!';
+    document.getElementById('quiz-feedback').style.color = 'var(--stats-success)';
+  } else {
+    document.getElementById('quiz-feedback').textContent = 'Incorrect. The correct answer will be shown after submission.';
+    document.getElementById('quiz-feedback').style.color = 'var(--stats-danger)';
+  }
+}
+
+function nextQuizQuestion() {
+  if (currentQuizQuestion < quizQuestions.length - 1) {
+    currentQuizQuestion++;
+    loadQuizQuestion(currentQuizQuestion);
+  } else {
+    // Calculate score
+    quizScore = 0;
+    for (let i = 0; i < quizQuestions.length; i++) {
+      if (quizAnswers[i] === quizQuestions[i].correct) {
+        quizScore++;
+      }
+    }
+    
+    // Show result
+    document.getElementById('quiz-content').style.display = 'none';
+    document.getElementById('quiz-result').style.display = 'block';
+    
+    document.getElementById('final-score').textContent = `${quizScore}/${quizQuestions.length}`;
+    
+    // Set result message
+    if (quizScore === quizQuestions.length) {
+      document.getElementById('result-message').textContent = 'Excellent! You have mastered statistical concepts!';
+    } else if (quizScore >= quizQuestions.length * 0.7) {
+      document.getElementById('result-message').textContent = 'Very good! Solid understanding of key concepts!';
+    } else if (quizScore >= quizQuestions.length * 0.5) {
+      document.getElementById('result-message').textContent = 'Good effort! Review the topics and try again!';
+    } else {
+      document.getElementById('result-message').textContent = 'Keep studying! Focus on the basic principles!';
+    }
+    
+    // Update progress
+    userProgress.examScores.push(quizScore / quizQuestions.length * 100);
+    saveProgress();
+    updateDashboard();
+  }
+}
+
+function previousQuizQuestion() {
+  if (currentQuizQuestion > 0) {
+    currentQuizQuestion--;
+    loadQuizQuestion(currentQuizQuestion);
+  }
+}
+
+function resetQuiz() {
+  currentQuizQuestion = 0;
+  quizAnswers = new Array(quizQuestions.length).fill(null);
+  quizScore = 0;
+  
+  document.getElementById('quiz-content').style.display = 'block';
+  document.getElementById('quiz-result').style.display = 'none';
+  
+  loadQuizQuestion(currentQuizQuestion);
+}
+
+// ==================== PROGRESS DASHBOARD ====================
+function updateDashboard() {
+  // Update topics progress
+  const topicsPercent = Math.min(100, (userProgress.topicsStudied.length / topicsData.length) * 100);
+  document.getElementById('topics-percent').textContent = Math.round(topicsPercent) + '%';
+  document.getElementById('topics-count').textContent = `${userProgress.topicsStudied.length}/${topicsData.length}`;
+  
+  // Update topics ring
+  const topicsRing = document.getElementById('topics-ring');
+  const circumference = 2 * Math.PI * 50;
+  const offset = circumference - (topicsPercent / 100) * circumference;
+  topicsRing.style.strokeDasharray = `${circumference} ${circumference}`;
+  topicsRing.style.strokeDashoffset = offset;
+  
+  // Update exam performance
+  const avgScore = userProgress.examScores.length > 0 
+    ? userProgress.examScores.reduce((a, b) => a + b, 0) / userProgress.examScores.length 
+    : 0;
+  document.getElementById('exam-score').textContent = Math.round(avgScore) + '%';
+  
+  // Update category scores
+  const probabilityPercent = Math.min(100, (userProgress.probabilityScore / 3) * 100);
+  const inferencePercent = Math.min(100, (userProgress.inferenceScore / 2) * 100);
+  
+  document.getElementById('probability-score').textContent = Math.round(probabilityPercent) + '%';
+  document.getElementById('inference-score').textContent = Math.round(inferencePercent) + '%';
+  
+  document.getElementById('probability-bar').style.width = probabilityPercent + '%';
+  document.getElementById('inference-bar').style.width = inferencePercent + '%';
+  
+  // Update questions solved
+  document.getElementById('questions-solved').textContent = userProgress.questionsSolved || 0;
+  document.getElementById('easy-questions').textContent = userProgress.easyQuestions || 0;
+  document.getElementById('medium-questions').textContent = userProgress.mediumQuestions || 0;
+  document.getElementById('hard-questions').textContent = userProgress.hardQuestions || 0;
+  
+  // Update certification progress
+  const apProgress = Math.min(100, (userProgress.questionsSolved / 50) * 100);
+  const greProgress = Math.min(100, (userProgress.topicsStudied.length / topicsData.length * 100));
+  const dsProgress = Math.min(100, ((userProgress.simulationsCompleted.length + userProgress.hypothesisTests.length) / 10) * 100);
+  
+  document.getElementById('ap-progress').textContent = Math.round(apProgress) + '%';
+  document.getElementById('gre-progress').textContent = Math.round(greProgress) + '%';
+  document.getElementById('ds-progress').textContent = Math.round(dsProgress) + '%';
+  
+  document.getElementById('ap-bar').style.width = apProgress + '%';
+  document.getElementById('gre-bar').style.width = greProgress + '%';
+  document.getElementById('ds-bar').style.width = dsProgress + '%';
+  
+  // Update recommendations
+  const recommendations = document.getElementById('recommendations');
+  recommendations.innerHTML = '';
+  
+  const recs = [];
+  
+  if (userProgress.topicsStudied.length < 3) {
+    recs.push({
+      title: "Start with Descriptive Statistics",
+      description: "Complete the Descriptive Statistics module to build a strong foundation.",
+      icon: "fas fa-chart-pie",
+      color: "var(--stats-primary)"
+    });
+  }
+  
+  if (userProgress.questionsSolved < 10) {
+    recs.push({
+      title: "Practice Probability Questions",
+      description: "Solve at least 10 probability questions to strengthen your understanding.",
+      icon: "fas fa-dice",
+      color: "var(--stats-accent)"
+    });
+  }
+  
+  if (!userProgress.simulationsCompleted.includes('clt')) {
+    recs.push({
+      title: "Explore Central Limit Theorem",
+      description: "Run the CLT simulation to understand this fundamental concept.",
+      icon: "fas fa-infinity",
+      color: "var(--stats-success)"
+    });
+  }
+  
+  if (apProgress < 50) {
+    recs.push({
+      title: "Prepare for AP Statistics",
+      description: `You're ${Math.round(apProgress)}% prepared. Focus on inference and regression topics.`,
+      icon: "fas fa-graduation-cap",
+      color: "var(--stats-warning)"
+    });
+  }
+  
+  recs.forEach(rec => {
+    const recEl = document.createElement('div');
+    recEl.style.background = 'rgba(255,255,255,0.05)';
+    recEl.style.padding = '20px';
+    recEl.style.borderRadius = '10px';
+    recEl.style.borderLeft = `4px solid ${rec.color}`;
+    recEl.innerHTML = `
+      <div style="display: flex; align-items: flex-start; gap: 15px;">
+        <i class="${rec.icon}" style="font-size: 1.5rem; color: ${rec.color};"></i>
+        <div>
+          <h4 style="color: var(--text); margin-bottom: 8px;">${rec.title}</h4>
+          <p style="color: var(--text-dim); font-size: 0.9rem;">${rec.description}</p>
+        </div>
+      </div>
+    `;
+    recommendations.appendChild(recEl);
+  });
+}
+
+// ==================== UTILITY FUNCTIONS ====================
+function saveProgress() {
+  localStorage.setItem('stats-progress', JSON.stringify(userProgress));
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', function() {
+  // Set up initial state
+  if (!localStorage.getItem('stats-progress')) {
+    // Add some initial progress for demo
+    userProgress = {
+      topicsStudied: [1, 2, 3],
+      questionsSolved: 5,
+      easyQuestions: 3,
+      mediumQuestions: 2,
+      hardQuestions: 0,
+      examScores: [70, 80],
+      probabilityScore: 2,
+      inferenceScore: 1,
+      regressionScore: 0,
+      simulationsCompleted: ['clt', 'random_samples'],
+      hypothesisTests: ['z_mean']
+    };
+    saveProgress();
+  }
+  
+  // Initialize all components
+  generateTopics();
+  generateCalculators();
+  generateExamQuestions('all');
+  initializeDistribution();
+  initializeHypothesisTesting();
+  initializeRegression();
+  initializeQuiz();
+  updateDashboard();
+  
+  // Initialize KaTeX
+  renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$', right: '$', display: false},
+      {left: '\\(', right: '\\)', display: false},
+      {left: '\\[', right: '\\]', display: true}
+    ],
+    throwOnError: false
+  });
+});
+</script>
+</body>
+</html>

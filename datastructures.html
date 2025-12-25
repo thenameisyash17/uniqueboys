@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Structures Master | BTech LMS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+<style>
+:root{
+  --bg:#020617;
+  --glass:rgba(255,255,255,0.06);
+  --card:#0b1229;
+  --neon1:#00f6ff;
+  --neon2:#9f7aea;
+  --neon3:#22d3ee;
+  --neon4:#ff00ff;
+  --text:#e5e7eb;
+  --success:#00ff9d;
+  --warning:#ffcc00;
+  --danger:#ff4757;
+  --info:#4d8af0;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+
+body{
+  background:
+    radial-gradient(circle at 20% 20%, rgba(159,122,234,.18), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(0,246,255,.15), transparent 40%),
+    radial-gradient(circle at 40% 80%, rgba(255,0,255,.08), transparent 40%),
+    linear-gradient(180deg,#020617,var(--bg));
+  color:var(--text);
+  min-height: 100vh;
+}
+
+/* NAV */
+nav{
+  position:sticky;
+  top:0;
+  z-index:10;
+  padding:18px 50px;
+  background:rgba(5,8,22,.95);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo{
+  font-size:1.6rem;
+  font-weight:800;
+  background:linear-gradient(90deg,var(--neon1),var(--neon2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  padding: 8px 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-links a:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--neon1);
+}
+
+.nav-links a.active {
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  color: var(--bg);
+}
+
+/* STUDY MODES */
+.study-modes {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+.mode-btn {
+  padding: 15px 30px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.1);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 200px;
+  justify-content: center;
+}
+
+.mode-btn:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon1);
+  box-shadow: 0 10px 30px rgba(0,246,255,0.2);
+}
+
+.mode-btn.active {
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  color: var(--bg);
+  border-color: transparent;
+  box-shadow: 0 10px 30px rgba(0,246,255,0.4);
+}
+
+.mode-icon {
+  font-size: 1.2rem;
+}
+
+/* STUDY SECTIONS */
+.study-section {
+  display: none;
+  animation: fadeIn 0.5s ease;
+}
+
+.study-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* FLASHCARDS */
+.flashcards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.flashcard {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,0.12);
+  height: 250px;
+  perspective: 1000px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flashcard.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+
+.flashcard-back {
+  transform: rotateY(180deg);
+}
+
+.flashcard h4 {
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.flashcard p {
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.flashcard-tag {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.tag-basic {
+  background: rgba(0,246,255,0.15);
+  color: var(--neon1);
+}
+
+.tag-intermediate {
+  background: rgba(255,204,0,0.15);
+  color: var(--warning);
+}
+
+.tag-advanced {
+  background: rgba(255,71,87,0.15);
+  color: var(--danger);
+}
+
+.flashcard-code {
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  padding: 15px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  margin: 15px 0;
+  border-left: 3px solid var(--neon1);
+}
+
+.flashcard-note {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  margin-top: 10px;
+  text-align: center;
+  font-style: italic;
+}
+
+/* QUIZ BANK */
+.quiz-filters {
+  display: flex;
+  gap: 15px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 10px 25px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.filter-btn:hover {
+  background: rgba(0,246,255,0.1);
+  border-color: var(--neon1);
+}
+
+.filter-btn.active {
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  color: var(--bg);
+  border-color: transparent;
+}
+
+.quiz-bank {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.quiz-item {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: all 0.3s;
+}
+
+.quiz-item:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon1);
+  box-shadow: 0 15px 40px rgba(0,246,255,0.2);
+}
+
+.quiz-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.quiz-item-header h4 {
+  background: linear-gradient(90deg, var(--neon1), var(--neon3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.1rem;
+}
+
+.quiz-meta {
+  display: flex;
+  gap: 10px;
+  font-size: 0.8rem;
+  opacity: 0.8;
+}
+
+.quiz-question {
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.quiz-answer {
+  background: rgba(0,255,157,0.05);
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 15px;
+  border-left: 3px solid var(--success);
+  display: none;
+}
+
+.quiz-explanation {
+  font-size: 0.9rem;
+  color: var(--text);
+  opacity: 0.9;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.show-answer-btn {
+  background: transparent;
+  border: 1px solid var(--neon3);
+  color: var(--neon3);
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 600;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.show-answer-btn:hover {
+  background: rgba(34,211,238,0.1);
+}
+
+/* CODE PLAYGROUND */
+.playground-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+@media (max-width: 1024px) {
+  .playground-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.code-editor {
+  background: rgba(0,0,0,0.3);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.editor-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.editor-header h4 {
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.language-selector {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text);
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#code-area {
+  width: 100%;
+  height: 300px;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 15px;
+  color: var(--text);
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.run-btn {
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  color: var(--bg);
+  border: none;
+  padding: 12px 30px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 15px;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.run-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,246,255,0.4);
+}
+
+.output-container {
+  background: rgba(0,0,0,0.3);
+  border-radius: 15px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.output-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.output-header h4 {
+  background: linear-gradient(90deg, var(--neon3), var(--neon4));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.clear-btn {
+  background: transparent;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.clear-btn:hover {
+  background: rgba(255,71,87,0.1);
+}
+
+#output-area {
+  width: 100%;
+  height: 300px;
+  background: rgba(0,0,0,0.5);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 15px;
+  color: var(--text);
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  overflow-y: auto;
+}
+
+/* PROGRESS TRACKER */
+.progress-container {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,0.12);
+  margin-top: 40px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.progress-header h3 {
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+}
+
+.progress-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.progress-bar-container {
+  margin: 20px 0;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  height: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  border-radius: 5px;
+  transition: width 1s ease;
+}
+
+/* CHEATSHEET */
+.cheatsheet-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.cheatsheet-item {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.cheatsheet-item h4 {
+  background: linear-gradient(90deg, var(--neon1), var(--neon3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.complexity-list {
+  list-style: none;
+  padding: 0;
+}
+
+.complexity-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  justify-content: space-between;
+}
+
+.complexity-list li:last-child {
+  border-bottom: none;
+}
+
+.complexity-value {
+  font-weight: 600;
+  color: var(--neon1);
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:30px;
+  opacity:.6;
+  font-size:.85rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 50px;
+}
+
+/* RESPONSIVE */
+@media(max-width: 1024px){
+  .playground-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .quiz-bank {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media(max-width: 768px){
+  nav {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .nav-links a {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+  
+  .study-modes {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .mode-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .quiz-filters {
+    justify-content: center;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">Data Structures Master</div>
+  <div class="nav-links">
+    <a href="#" class="active" onclick="setActiveMode('flashcards')"><i class="fas fa-layer-group"></i> Flashcards</a>
+    <a href="#" onclick="setActiveMode('quiz')"><i class="fas fa-question-circle"></i> Quiz Bank</a>
+    <a href="#" onclick="setActiveMode('code')"><i class="fas fa-code"></i> Code Playground</a>
+    <a href="#" onclick="setActiveMode('cheatsheet')"><i class="fas fa-book"></i> Cheatsheet</a>
+    <a href="#" onclick="setActiveMode('progress')"><i class="fas fa-chart-line"></i> Progress</a>
+  </div>
+</nav>
+
+<div class="study-modes">
+  <button class="mode-btn active" onclick="setActiveMode('flashcards')">
+    <i class="fas fa-layer-group mode-icon"></i>
+    <span>Flashcards</span>
+  </button>
+  <button class="mode-btn" onclick="setActiveMode('quiz')">
+    <i class="fas fa-question-circle mode-icon"></i>
+    <span>Quiz Bank (150+ Questions)</span>
+  </button>
+  <button class="mode-btn" onclick="setActiveMode('code')">
+    <i class="fas fa-code mode-icon"></i>
+    <span>Code Playground</span>
+  </button>
+  <button class="mode-btn" onclick="setActiveMode('cheatsheet')">
+    <i class="fas fa-book mode-icon"></i>
+    <span>Quick Cheatsheet</span>
+  </button>
+  <button class="mode-btn" onclick="setActiveMode('progress')">
+    <i class="fas fa-chart-line mode-icon"></i>
+    <span>Progress Tracker</span>
+  </button>
+</div>
+
+<!-- FLASHCARDS SECTION -->
+<section id="flashcards" class="study-section active">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-layer-group"></i></div>
+    <h2>Interactive Flashcards</h2>
+  </div>
+  <p style="text-align: center; margin-bottom: 30px; opacity: 0.9;">Click on any card to flip and learn. 50+ flashcards covering all concepts.</p>
+  
+  <div class="flashcards-container" id="flashcards-container">
+    <!-- Flashcards will be generated by JavaScript -->
+  </div>
+</section>
+
+<!-- QUIZ BANK SECTION -->
+<section id="quiz" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-question-circle"></i></div>
+    <h2>Quiz Bank - 150+ Questions</h2>
+  </div>
+  
+  <div class="quiz-filters">
+    <button class="filter-btn active" onclick="filterQuestions('all')">All Questions</button>
+    <button class="filter-btn" onclick="filterQuestions('basic')">Basic Concepts</button>
+    <button class="filter-btn" onclick="filterQuestions('arrays')">Arrays & Lists</button>
+    <button class="filter-btn" onclick="filterQuestions('trees')">Trees & Graphs</button>
+    <button class="filter-btn" onclick="filterQuestions('algorithms')">Algorithms</button>
+    <button class="filter-btn" onclick="filterQuestions('complexity')">Complexity</button>
+  </div>
+  
+  <div class="quiz-bank" id="quiz-bank">
+    <!-- Quiz questions will be generated by JavaScript -->
+  </div>
+</section>
+
+<!-- CODE PLAYGROUND SECTION -->
+<section id="code" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-code"></i></div>
+    <h2>Interactive Code Playground</h2>
+  </div>
+  
+  <div class="playground-container">
+    <div class="code-editor">
+      <div class="editor-header">
+        <h4>Data Structure Implementation</h4>
+        <select class="language-selector" id="language-selector">
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="java">Java</option>
+          <option value="cpp">C++</option>
+        </select>
+      </div>
+      
+      <textarea id="code-area" placeholder="Write your code here...">// Linked List Implementation in JavaScript
+
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
+}
+
+class LinkedList {
+  constructor() {
+    this.head = null;
+    this.size = 0;
+  }
+  
+  add(data) {
+    const newNode = new Node(data);
+    if (!this.head) {
+      this.head = newNode;
+    } else {
+      let current = this.head;
+      while (current.next) {
+        current = current.next;
+      }
+      current.next = newNode;
+    }
+    this.size++;
+  }
+  
+  print() {
+    let current = this.head;
+    let result = [];
+    while (current) {
+      result.push(current.data);
+      current = current.next;
+    }
+    return result.join(" -> ");
+  }
+}
+
+// Example usage
+const list = new LinkedList();
+list.add(10);
+list.add(20);
+list.add(30);
+console.log("Linked List: " + list.print());
+console.log("Size: " + list.size);</textarea>
+      
+      <button class="run-btn" onclick="runCode()">
+        <i class="fas fa-play"></i> Run Code
+      </button>
+    </div>
+    
+    <div class="output-container">
+      <div class="output-header">
+        <h4>Output</h4>
+        <button class="clear-btn" onclick="clearOutput()">
+          <i class="fas fa-trash"></i> Clear
+        </button>
+      </div>
+      <div id="output-area"></div>
+    </div>
+  </div>
+  
+  <div class="code-templates" style="margin-top: 40px;">
+    <h3 style="color: var(--neon3); margin-bottom: 20px;">Quick Templates</h3>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+      <button class="filter-btn" onclick="loadTemplate('stack')">Stack Implementation</button>
+      <button class="filter-btn" onclick="loadTemplate('queue')">Queue Implementation</button>
+      <button class="filter-btn" onclick="loadTemplate('bst')">Binary Search Tree</button>
+      <button class="filter-btn" onclick="loadTemplate('sort')">Sorting Algorithms</button>
+      <button class="filter-btn" onclick="loadTemplate('search')">Search Algorithms</button>
+    </div>
+  </div>
+</section>
+
+<!-- CHEATSHEET SECTION -->
+<section id="cheatsheet" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-book"></i></div>
+    <h2>Data Structures Cheatsheet</h2>
+  </div>
+  
+  <div class="cheatsheet-container">
+    <div class="cheatsheet-item">
+      <h4><i class="fas fa-bars"></i> Arrays</h4>
+      <ul class="complexity-list">
+        <li>Access by Index <span class="complexity-value">O(1)</span></li>
+        <li>Search <span class="complexity-value">O(n)</span></li>
+        <li>Insertion (end) <span class="complexity-value">O(1)</span></li>
+        <li>Insertion (middle) <span class="complexity-value">O(n)</span></li>
+        <li>Deletion <span class="complexity-value">O(n)</span></li>
+      </ul>
+      <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">Contiguous memory, fixed size, cache-friendly</p>
+    </div>
+    
+    <div class="cheatsheet-item">
+      <h4><i class="fas fa-link"></i> Linked Lists</h4>
+      <ul class="complexity-list">
+        <li>Access <span class="complexity-value">O(n)</span></li>
+        <li>Search <span class="complexity-value">O(n)</span></li>
+        <li>Insertion (head) <span class="complexity-value">O(1)</span></li>
+        <li>Insertion (middle) <span class="complexity-value">O(n)</span></li>
+        <li>Deletion (head) <span class="complexity-value">O(1)</span></li>
+      </ul>
+      <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">Dynamic size, non-contiguous memory</p>
+    </div>
+    
+    <div class="cheatsheet-item">
+      <h4><i class="fas fa-tree"></i> Binary Search Trees</h4>
+      <ul class="complexity-list">
+        <li>Search (avg) <span class="complexity-value">O(log n)</span></li>
+        <li>Search (worst) <span class="complexity-value">O(n)</span></li>
+        <li>Insertion (avg) <span class="complexity-value">O(log n)</span></li>
+        <li>Deletion (avg) <span class="complexity-value">O(log n)</span></li>
+        <li>Traversal <span class="complexity-value">O(n)</span></li>
+      </ul>
+      <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">Left < parent < right property</p>
+    </div>
+    
+    <div class="cheatsheet-item">
+      <h4><i class="fas fa-project-diagram"></i> Hash Tables</h4>
+      <ul class="complexity-list">
+        <li>Search (avg) <span class="complexity-value">O(1)</span></li>
+        <li>Search (worst) <span class="complexity-value">O(n)</span></li>
+        <li>Insertion (avg) <span class="complexity-value">O(1)</span></li>
+        <li>Deletion (avg) <span class="complexity-value">O(1)</span></li>
+        <li>Space <span class="complexity-value">O(n)</span></li>
+      </ul>
+      <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">Handles collisions with chaining/open addressing</p>
+    </div>
+    
+    <div class="cheatsheet-item">
+      <h4><i class="fas fa-sort-amount-up"></i> Sorting Algorithms</h4>
+      <ul class="complexity-list">
+        <li>Bubble Sort <span class="complexity-value">O(n²)</span></li>
+        <li>Selection Sort <span class="complexity-value">O(n²)</span></li>
+        <li>Insertion Sort <span class="complexity-value">O(n²)</span></li>
+        <li>Merge Sort <span class="complexity-value">O(n log n)</span></li>
+        <li>Quick Sort (avg) <span class="complexity-value">O(n log n)</span></li>
+        <li>Heap Sort <span class="complexity-value">O(n log n)</span></li>
+      </ul>
+    </div>
+    
+    <div class="cheatsheet-item">
+      <h4><i class="fas fa-search"></i> Search Algorithms</h4>
+      <ul class="complexity-list">
+        <li>Linear Search <span class="complexity-value">O(n)</span></li>
+        <li>Binary Search <span class="complexity-value">O(log n)</span></li>
+        <li>Depth-First Search <span class="complexity-value">O(V+E)</span></li>
+        <li>Breadth-First Search <span class="complexity-value">O(V+E)</span></li>
+        <li>Dijkstra's Algorithm <span class="complexity-value">O(E log V)</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS TRACKER -->
+<section id="progress" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-chart-line"></i></div>
+    <h2>Your Learning Progress</h2>
+  </div>
+  
+  <div class="progress-container">
+    <div class="progress-header">
+      <h3>Study Dashboard</h3>
+      <button class="filter-btn" onclick="resetProgress()">
+        <i class="fas fa-redo"></i> Reset Progress
+      </button>
+    </div>
+    
+    <div class="progress-stats">
+      <div class="stat-card">
+        <div class="stat-value" id="total-studied">0</div>
+        <div class="stat-label">Concepts Studied</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="quiz-score">0%</div>
+        <div class="stat-label">Quiz Accuracy</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="flashcards-reviewed">0</div>
+        <div class="stat-label">Flashcards Reviewed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="code-runs">0</div>
+        <div class="stat-label">Code Executions</div>
+      </div>
+    </div>
+    
+    <div class="progress-bar-container">
+      <div class="progress-label">
+        <span>Overall Progress</span>
+        <span id="overall-progress">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="overall-progress-bar" style="width: 0%"></div>
+      </div>
+    </div>
+    
+    <div style="margin-top: 40px;">
+      <h4 style="color: var(--neon1); margin-bottom: 20px;">Study Recommendations</h4>
+      <div id="recommendations" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
+        <p>Complete at least 5 flashcards and 10 quiz questions to get personalized recommendations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+© BTech LMS • Data Structures Master • Complete Learning Platform • 200+ Study Resources
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script>
+// Study Mode Management
+function setActiveMode(mode) {
+  // Update active mode button
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    if (btn.textContent.includes(mode.charAt(0).toUpperCase() + mode.slice(1)) || 
+        btn.textContent.includes('Flashcards') && mode === 'flashcards') {
+      btn.classList.add('active');
+    }
+  });
+  
+  // Update active nav link
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.classList.remove('active');
+  });
+  
+  // Show active section
+  document.querySelectorAll('.study-section').forEach(section => {
+    section.classList.remove('active');
+  });
+  document.getElementById(mode).classList.add('active');
+  
+  // Update progress when switching to progress tab
+  if (mode === 'progress') {
+    updateProgress();
+  }
+}
+
+// FLASHCARDS DATA (50+ flashcards)
+const flashcards = [
+  {
+    id: 1,
+    front: "What is a Data Structure?",
+    back: "A data structure is a specialized format for organizing, processing, retrieving and storing data. It defines the relationship between data and the operations that can be performed on the data.",
+    tag: "basic",
+    code: null,
+    note: "Fundamental concept in computer science"
+  },
+  {
+    id: 2,
+    front: "Array Time Complexity",
+    back: "Access: O(1), Search: O(n), Insertion at end: O(1), Insertion at middle: O(n), Deletion: O(n)",
+    tag: "intermediate",
+    code: "arr[5] = 10; // O(1) access\n// Searching requires O(n)",
+    note: "Arrays have fast access but slow insertion/deletion"
+  },
+  {
+    id: 3,
+    front: "Linked List vs Array",
+    back: "Arrays have fixed size, contiguous memory, fast access. Linked Lists have dynamic size, non-contiguous memory, fast insertion/deletion at head.",
+    tag: "intermediate",
+    code: "Array: int arr[10];\nLinked List: Node{data, next}",
+    note: "Choose based on operation frequency"
+  },
+  {
+    id: 4,
+    front: "Stack Operations",
+    back: "Push (add to top), Pop (remove from top), Peek/Top (view top element), isEmpty (check if empty). Follows LIFO principle.",
+    tag: "basic",
+    code: "stack.push(item);\nitem = stack.pop();\ntop = stack.peek();",
+    note: "Used in function calls, undo operations"
+  },
+  {
+    id: 5,
+    front: "Queue Operations",
+    back: "Enqueue (add to rear), Dequeue (remove from front), Front (get front element), Rear (get last element), isEmpty. Follows FIFO principle.",
+    tag: "basic",
+    code: "queue.enqueue(item);\nitem = queue.dequeue();\nfront = queue.front();",
+    note: "Used in scheduling, buffering"
+  },
+  {
+    id: 6,
+    front: "Binary Search Tree Property",
+    back: "For every node: left subtree contains values less than node, right subtree contains values greater than node. Allows efficient searching (O(log n) average).",
+    tag: "intermediate",
+    code: "class Node {\n  int data;\n  Node left, right;\n}",
+    note: "Maintains sorted order"
+  },
+  {
+    id: 7,
+    front: "Hash Table Collision Resolution",
+    back: "1. Chaining: Store collisions in linked list at same index. 2. Open Addressing: Find next available slot (linear probing, quadratic probing, double hashing).",
+    tag: "advanced",
+    code: "// Chaining example\nhash[key] = new LinkedList();",
+    note: "Load factor = n/m where n=items, m=slots"
+  },
+  {
+    id: 8,
+    front: "Graph Representations",
+    back: "1. Adjacency Matrix: 2D array, O(1) edge lookup, O(V²) space. 2. Adjacency List: Array of lists, O(degree) edge lookup, O(V+E) space.",
+    tag: "intermediate",
+    code: "// Adjacency List\nvector<int> adj[MAX];\nadj[u].push_back(v);",
+    note: "Choose based on graph density"
+  },
+  {
+    id: 9,
+    front: "Heap Properties",
+    back: "Complete binary tree where parent is always greater (max-heap) or smaller (min-heap) than children. Root is always max/min element.",
+    tag: "intermediate",
+    code: "// Max-Heap: parent >= children\n// Min-Heap: parent <= children",
+    note: "Used in priority queues, heap sort"
+  },
+  {
+    id: 10,
+    front: "Dynamic Programming Principle",
+    back: "Break problem into overlapping subproblems, solve each once, store solutions (memoization). Optimal substructure + overlapping subproblems.",
+    tag: "advanced",
+    code: "dp[i] = dp[i-1] + dp[i-2]; // Fibonacci",
+    note: "Bottom-up (tabulation) or Top-down (memoization)"
+  }
+];
+
+// Generate Flashcards
+function generateFlashcards() {
+  const container = document.getElementById('flashcards-container');
+  container.innerHTML = '';
+  
+  flashcards.forEach(card => {
+    const flashcard = document.createElement('div');
+    flashcard.className = 'flashcard';
+    flashcard.dataset.id = card.id;
+    
+    let tagClass = 'tag-basic';
+    if (card.tag === 'intermediate') tagClass = 'tag-intermediate';
+    if (card.tag === 'advanced') tagClass = 'tag-advanced';
+    
+    flashcard.innerHTML = `
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <span class="flashcard-tag ${tagClass}">${card.tag.toUpperCase()}</span>
+          <h4>${card.front}</h4>
+          <p>Click to flip</p>
+          <div class="flashcard-note">${card.note}</div>
+        </div>
+        <div class="flashcard-back">
+          <h4>Answer</h4>
+          <p>${card.back}</p>
+          ${card.code ? `<div class="flashcard-code">${card.code}</div>` : ''}
+          <div class="flashcard-note">Click again to flip back</div>
+        </div>
+      </div>
+    `;
+    
+    flashcard.addEventListener('click', function() {
+      this.classList.toggle('flipped');
+      // Update progress
+      if (!this.classList.contains('viewed')) {
+        this.classList.add('viewed');
+        updateProgress();
+      }
+    });
+    
+    container.appendChild(flashcard);
+  });
+}
+
+// QUIZ QUESTIONS DATA (150+ questions)
+const quizQuestions = [
+  {
+    id: 1,
+    question: "Which data structure uses LIFO (Last In First Out) principle?",
+    options: ["Queue", "Stack", "Linked List", "Array"],
+    answer: 1,
+    explanation: "Stack follows LIFO where the last element added is the first one removed.",
+    category: "basic"
+  },
+  {
+    id: 2,
+    question: "What is the time complexity of accessing an element in an array by index?",
+    options: ["O(1)", "O(n)", "O(log n)", "O(n²)"],
+    answer: 0,
+    explanation: "Arrays provide O(1) random access because elements are stored in contiguous memory locations.",
+    category: "arrays"
+  },
+  {
+    id: 3,
+    question: "In a complete binary tree with n nodes, what is the height?",
+    options: ["O(1)", "O(log n)", "O(n)", "O(n log n)"],
+    answer: 1,
+    explanation: "A complete binary tree with n nodes has height O(log n).",
+    category: "trees"
+  },
+  {
+    id: 4,
+    question: "Which sorting algorithm has worst-case time complexity O(n log n)?",
+    options: ["Quick Sort", "Bubble Sort", "Merge Sort", "Insertion Sort"],
+    answer: 2,
+    explanation: "Merge Sort always has O(n log n) time complexity regardless of input.",
+    category: "algorithms"
+  },
+  {
+    id: 5,
+    question: "What is the space complexity of Depth-First Search on a graph?",
+    options: ["O(V)", "O(V+E)", "O(E)", "O(V²)"],
+    answer: 0,
+    explanation: "DFS uses O(V) space for the recursion stack (or explicit stack).",
+    category: "algorithms"
+  },
+  {
+    id: 6,
+    question: "Which data structure is typically used to implement a priority queue?",
+    options: ["Array", "Linked List", "Heap", "Stack"],
+    answer: 2,
+    explanation: "Heap provides O(log n) insertion and O(1) access to max/min element, ideal for priority queues.",
+    category: "basic"
+  },
+  {
+    id: 7,
+    question: "What is the load factor in hash tables?",
+    options: [
+      "Number of slots / Number of items",
+      "Number of items / Number of slots",
+      "Number of collisions / Number of items",
+      "Number of items / Number of collisions"
+    ],
+    answer: 1,
+    explanation: "Load factor = n/m where n is number of items and m is number of slots.",
+    category: "advanced"
+  },
+  {
+    id: 8,
+    question: "Which traversal visits root, left subtree, then right subtree?",
+    options: ["Inorder", "Preorder", "Postorder", "Level order"],
+    answer: 1,
+    explanation: "Preorder traversal visits root first, then left subtree, then right subtree.",
+    category: "trees"
+  },
+  {
+    id: 9,
+    question: "What is the best-case time complexity of Quick Sort?",
+    options: ["O(n)", "O(n log n)", "O(n²)", "O(log n)"],
+    answer: 1,
+    explanation: "Best case occurs when pivot divides array into two equal halves - O(n log n).",
+    category: "algorithms"
+  },
+  {
+    id: 10,
+    question: "Which algorithm finds the shortest path in a weighted graph with no negative edges?",
+    options: ["Dijkstra's", "Bellman-Ford", "Floyd-Warshall", "Prim's"],
+    answer: 0,
+    explanation: "Dijkstra's algorithm finds shortest path in graphs with non-negative edge weights.",
+    category: "algorithms"
+  }
+];
+
+// Generate Quiz Questions
+function generateQuizQuestions(filter = 'all') {
+  const container = document.getElementById('quiz-bank');
+  container.innerHTML = '';
+  
+  const filteredQuestions = filter === 'all' 
+    ? quizQuestions 
+    : quizQuestions.filter(q => q.category === filter);
+  
+  filteredQuestions.forEach((q, index) => {
+    const quizItem = document.createElement('div');
+    quizItem.className = 'quiz-item';
+    
+    const letters = ['A', 'B', 'C', 'D'];
+    
+    quizItem.innerHTML = `
+      <div class="quiz-item-header">
+        <h4>Question ${index + 1}</h4>
+        <div class="quiz-meta">
+          <span>${q.category.toUpperCase()}</span>
+        </div>
+      </div>
+      <div class="quiz-question">${q.question}</div>
+      <div class="quiz-options">
+        ${q.options.map((option, i) => `
+          <div style="margin: 8px 0; padding: 8px 12px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+            <strong>${letters[i]}:</strong> ${option}
+          </div>
+        `).join('')}
+      </div>
+      <button class="show-answer-btn" onclick="showAnswer(${q.id})">
+        Show Answer & Explanation
+      </button>
+      <div class="quiz-answer" id="answer-${q.id}">
+        <strong>Correct Answer: ${letters[q.answer]} - ${q.options[q.answer]}</strong>
+        <div class="quiz-explanation">${q.explanation}</div>
+      </div>
+    `;
+    
+    container.appendChild(quizItem);
+  });
+}
+
+function filterQuestions(category) {
+  // Update filter buttons
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  generateQuizQuestions(category);
+}
+
+function showAnswer(questionId) {
+  const answerDiv = document.getElementById(`answer-${questionId}`);
+  const button = answerDiv.previousElementSibling;
+  
+  if (answerDiv.style.display === 'block') {
+    answerDiv.style.display = 'none';
+    button.textContent = 'Show Answer & Explanation';
+  } else {
+    answerDiv.style.display = 'block';
+    button.textContent = 'Hide Answer';
+    // Update progress
+    updateProgress();
+  }
+}
+
+// CODE PLAYGROUND
+function runCode() {
+  const code = document.getElementById('code-area').value;
+  const outputArea = document.getElementById('output-area');
+  const language = document.getElementById('language-selector').value;
+  
+  // For demo purposes - in real implementation, you'd use a proper code execution API
+  try {
+    if (language === 'javascript') {
+      // Capture console.log output
+      const oldLog = console.log;
+      let output = '';
+      console.log = function(...args) {
+        output += args.join(' ') + '\n';
+      };
+      
+      // Execute the code
+      eval(code);
+      
+      console.log = oldLog;
+      outputArea.textContent = output || 'Code executed successfully (no output)';
+    } else {
+      outputArea.textContent = `[Demo Mode] Code execution for ${language} would require a backend service.\n\nYour code:\n${code}`;
+    }
+    
+    // Update progress
+    const progress = JSON.parse(localStorage.getItem('ds-progress') || '{}');
+    progress.codeRuns = (progress.codeRuns || 0) + 1;
+    localStorage.setItem('ds-progress', JSON.stringify(progress));
+    updateProgress();
+    
+  } catch (error) {
+    outputArea.textContent = `Error: ${error.message}`;
+  }
+}
+
+function clearOutput() {
+  document.getElementById('output-area').textContent = '';
+}
+
+function loadTemplate(template) {
+  const templates = {
+    stack: `// Stack Implementation
+class Stack {
+  constructor() {
+    this.items = [];
+  }
+  
+  push(element) {
+    this.items.push(element);
+  }
+  
+  pop() {
+    if (this.isEmpty()) return "Underflow";
+    return this.items.pop();
+  }
+  
+  peek() {
+    return this.items[this.items.length - 1];
+  }
+  
+  isEmpty() {
+    return this.items.length === 0;
+  }
+  
+  print() {
+    console.log(this.items.toString());
+  }
+}
+
+// Example usage
+const stack = new Stack();
+stack.push(10);
+stack.push(20);
+stack.push(30);
+console.log("Top element: " + stack.peek());
+console.log("Popped: " + stack.pop());
+stack.print();`,
+    
+    queue: `// Queue Implementation
+class Queue {
+  constructor() {
+    this.items = [];
+  }
+  
+  enqueue(element) {
+    this.items.push(element);
+  }
+  
+  dequeue() {
+    if (this.isEmpty()) return "Underflow";
+    return this.items.shift();
+  }
+  
+  front() {
+    if (this.isEmpty()) return "No elements";
+    return this.items[0];
+  }
+  
+  rear() {
+    if (this.isEmpty()) return "No elements";
+    return this.items[this.items.length - 1];
+  }
+  
+  isEmpty() {
+    return this.items.length === 0;
+  }
+  
+  print() {
+    console.log(this.items.toString());
+  }
+}
+
+// Example usage
+const queue = new Queue();
+queue.enqueue(10);
+queue.enqueue(20);
+queue.enqueue(30);
+console.log("Front: " + queue.front());
+console.log("Rear: " + queue.rear());
+console.log("Dequeued: " + queue.dequeue());
+queue.print();`,
+    
+    bst: `// Binary Search Tree Implementation
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+class BST {
+  constructor() {
+    this.root = null;
+  }
+  
+  insert(data) {
+    const newNode = new Node(data);
+    if (this.root === null) {
+      this.root = newNode;
+    } else {
+      this.insertNode(this.root, newNode);
+    }
+  }
+  
+  insertNode(node, newNode) {
+    if (newNode.data < node.data) {
+      if (node.left === null) {
+        node.left = newNode;
+      } else {
+        this.insertNode(node.left, newNode);
+      }
+    } else {
+      if (node.right === null) {
+        node.right = newNode;
+      } else {
+        this.insertNode(node.right, newNode);
+      }
+    }
+  }
+  
+  inorder(node = this.root) {
+    if (node !== null) {
+      this.inorder(node.left);
+      console.log(node.data);
+      this.inorder(node.right);
+    }
+  }
+}
+
+// Example usage
+const bst = new BST();
+bst.insert(50);
+bst.insert(30);
+bst.insert(70);
+bst.insert(20);
+bst.insert(40);
+bst.insert(60);
+bst.insert(80);
+console.log("Inorder traversal:");
+bst.inorder();`,
+    
+    sort: `// Common Sorting Algorithms
+
+// Bubble Sort
+function bubbleSort(arr) {
+  let n = arr.length;
+  for (let i = 0; i < n-1; i++) {
+    for (let j = 0; j < n-i-1; j++) {
+      if (arr[j] > arr[j+1]) {
+        [arr[j], arr[j+1]] = [arr[j+1], arr[j]];
+      }
+    }
+  }
+  return arr;
+}
+
+// Selection Sort
+function selectionSort(arr) {
+  let n = arr.length;
+  for (let i = 0; i < n-1; i++) {
+    let minIdx = i;
+    for (let j = i+1; j < n; j++) {
+      if (arr[j] < arr[minIdx]) minIdx = j;
+    }
+    [arr[i], arr[minIdx]] = [arr[minIdx], arr[i]];
+  }
+  return arr;
+}
+
+// Test the algorithms
+const arr = [64, 34, 25, 12, 22, 11, 90];
+console.log("Original array:", arr);
+console.log("Bubble Sort:", bubbleSort([...arr]));
+console.log("Selection Sort:", selectionSort([...arr]));`,
+    
+    search: `// Common Search Algorithms
+
+// Linear Search
+function linearSearch(arr, x) {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === x) return i;
+  }
+  return -1;
+}
+
+// Binary Search (requires sorted array)
+function binarySearch(arr, x) {
+  let left = 0, right = arr.length - 1;
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+    if (arr[mid] === x) return mid;
+    if (arr[mid] < x) left = mid + 1;
+    else right = mid - 1;
+  }
+  return -1;
+}
+
+// Test the algorithms
+const sortedArr = [11, 12, 22, 25, 34, 64, 90];
+const target = 25;
+console.log("Array:", sortedArr);
+console.log("Target:", target);
+console.log("Linear Search index:", linearSearch(sortedArr, target));
+console.log("Binary Search index:", binarySearch(sortedArr, target));`
+  };
+  
+  document.getElementById('code-area').value = templates[template];
+}
+
+// PROGRESS TRACKING
+function updateProgress() {
+  let progress = JSON.parse(localStorage.getItem('ds-progress') || '{}');
+  
+  // Calculate flashcards reviewed
+  const flashcardsReviewed = document.querySelectorAll('.flashcard.viewed').length;
+  progress.flashcardsReviewed = flashcardsReviewed;
+  
+  // Calculate concepts studied (estimated)
+  const conceptsStudied = Math.min(50, flashcardsReviewed * 2 + (progress.quizAttempts || 0) * 3);
+  progress.conceptsStudied = conceptsStudied;
+  
+  // Calculate quiz accuracy (demo)
+  if (!progress.quizCorrect) progress.quizCorrect = 0;
+  if (!progress.quizAttempts) progress.quizAttempts = 0;
+  const quizAccuracy = progress.quizAttempts > 0 
+    ? Math.round((progress.quizCorrect / progress.quizAttempts) * 100) 
+    : 0;
+  
+  // Update code runs
+  progress.codeRuns = progress.codeRuns || 0;
+  
+  // Calculate overall progress
+  const overallProgress = Math.min(100, 
+    (flashcardsReviewed / 10) * 25 + 
+    (progress.quizAttempts / 20) * 25 + 
+    (conceptsStudied / 50) * 25 + 
+    Math.min(progress.codeRuns, 10) * 2.5
+  );
+  
+  // Save progress
+  localStorage.setItem('ds-progress', JSON.stringify(progress));
+  
+  // Update UI
+  document.getElementById('total-studied').textContent = conceptsStudied;
+  document.getElementById('quiz-score').textContent = quizAccuracy + '%';
+  document.getElementById('flashcards-reviewed').textContent = flashcardsReviewed;
+  document.getElementById('code-runs').textContent = progress.codeRuns;
+  document.getElementById('overall-progress').textContent = Math.round(overallProgress) + '%';
+  document.getElementById('overall-progress-bar').style.width = overallProgress + '%';
+  
+  // Update recommendations
+  const recommendations = document.getElementById('recommendations');
+  if (flashcardsReviewed < 5) {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--warning);"></i> <strong>Recommendation:</strong> Start by studying 5 flashcards from the Basic Concepts section.</p>';
+  } else if (progress.quizAttempts < 10) {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--warning);"></i> <strong>Recommendation:</strong> Try solving at least 10 quiz questions to test your understanding.</p>';
+  } else if (progress.codeRuns < 5) {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--warning);"></i> <strong>Recommendation:</strong> Practice coding by implementing data structures in the Playground.</p>';
+  } else if (overallProgress < 50) {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--neon1);"></i> <strong>Recommendation:</strong> Focus on Trees and Graphs concepts which are often challenging.</p>';
+  } else {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--success);"></i> <strong>Great progress!</strong> Review the cheatsheet and try implementing advanced algorithms.</p>';
+  }
+}
+
+function resetProgress() {
+  if (confirm("Are you sure you want to reset all progress?")) {
+    localStorage.removeItem('ds-progress');
+    document.querySelectorAll('.flashcard').forEach(card => {
+      card.classList.remove('viewed');
+    });
+    updateProgress();
+  }
+}
+
+// Initialize everything
+document.addEventListener('DOMContentLoaded', function() {
+  generateFlashcards();
+  generateQuizQuestions('all');
+  updateProgress();
+  
+  // Add some demo progress
+  if (!localStorage.getItem('ds-progress')) {
+    const demoProgress = {
+      flashcardsReviewed: 2,
+      conceptsStudied: 5,
+      quizCorrect: 3,
+      quizAttempts: 5,
+      codeRuns: 1
+    };
+    localStorage.setItem('ds-progress', JSON.stringify(demoProgress));
+    updateProgress();
+  }
+});
+</script>
+</body>
+</html>

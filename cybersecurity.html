@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberSec Master | Advanced Cybersecurity Learning Platform</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* ================= ROOT ================= */
+:root {
+  --bg:#050811;
+  --card:#0b1229;
+  --blue:#00f5ff;
+  --green:#00ff9d;
+  --red:#ff2a6d;
+  --purple:#9d4edd;
+  --yellow:#ffd166;
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+}
+
+/* ================= BASE ================= */
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+body{
+  background:radial-gradient(circle at top,#0a0f2c,var(--bg));
+  color:var(--text);
+  overflow-x:hidden;
+}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer}
+
+/* ================= NAV ================= */
+.cyber-nav{
+  position:sticky;top:0;z-index:999;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:15px 30px;
+  background:rgba(5,8,22,.95);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(0,245,255,.15);
+}
+.logo{
+  font-size:1.6rem;
+  font-weight:800;
+  background:linear-gradient(90deg,var(--blue),var(--purple));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.nav-links{display:flex;gap:12px;flex-wrap:wrap}
+.nav-link{
+  padding:8px 14px;
+  border-radius:8px;
+  font-size:.9rem;
+  transition:.3s;
+}
+.nav-link:hover,
+.nav-link.active{
+  background:rgba(0,245,255,.15);
+  color:var(--blue);
+}
+
+/* ================= HERO ================= */
+.cyber-hero{
+  min-height:85vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:40px 20px;
+}
+.cyber-hero h1{
+  font-size:3.5rem;
+  font-weight:800;
+  background:linear-gradient(90deg,var(--blue),var(--green));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.hero-subtitle{
+  color:var(--yellow);
+  font-size:1.4rem;
+  margin:20px 0;
+}
+
+/* Terminal */
+.terminal{
+  background:rgba(0,0,0,.6);
+  border:1px solid rgba(0,245,255,.25);
+  border-radius:12px;
+  padding:20px;
+  max-width:800px;
+  margin:30px auto;
+  font-family:monospace;
+  text-align:left;
+}
+.prompt{color:var(--green)}
+.command{color:var(--blue)}
+
+/* Buttons */
+.hero-btns{display:flex;gap:15px;justify-content:center;flex-wrap:wrap}
+.btn{
+  padding:12px 26px;
+  border-radius:8px;
+  border:none;
+  font-weight:600;
+  transition:.3s;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  color:#000;
+}
+.btn-secondary{
+  border:2px solid var(--green);
+  color:var(--green);
+  background:transparent;
+}
+.btn-danger{
+  background:linear-gradient(135deg,var(--red),#ff7b00);
+  color:#fff;
+}
+.btn:hover{transform:translateY(-3px)}
+
+/* ================= MODES ================= */
+.study-modes{
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  flex-wrap:wrap;
+  padding:40px 20px;
+}
+.mode-card{
+  width:220px;
+  background:rgba(255,255,255,.05);
+  border-radius:16px;
+  padding:20px;
+  text-align:center;
+  border:1px solid rgba(0,245,255,.15);
+  transition:.3s;
+}
+.mode-card:hover,
+.mode-card.active{
+  transform:translateY(-8px);
+  border-color:var(--blue);
+}
+.mode-icon{
+  font-size:2.2rem;
+  background:linear-gradient(90deg,var(--blue),var(--purple));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+/* ================= SECTIONS ================= */
+.study-section{
+  display:none;
+  padding:60px 30px;
+  max-width:1400px;
+  margin:auto;
+}
+.study-section.active{display:block}
+.section-title{
+  font-size:2.3rem;
+  margin-bottom:10px;
+  background:linear-gradient(90deg,var(--blue),var(--purple));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.section-sub{color:var(--muted);margin-bottom:30px}
+
+/* ================= LABS ================= */
+.labs-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:25px;
+}
+.lab-card{
+  background:rgba(0,0,0,.45);
+  border-radius:15px;
+  padding:22px;
+  border:1px solid rgba(0,245,255,.15);
+}
+.lab-card h3{color:var(--blue)}
+.lab-btn{
+  margin-top:15px;
+  width:100%;
+}
+
+/* ================= FOOTER ================= */
+footer{
+  text-align:center;
+  padding:30px;
+  border-top:1px solid rgba(0,245,255,.15);
+  color:var(--muted);
+}
+
+/* ================= RESPONSIVE ================= */
+@media(max-width:768px){
+  .cyber-hero h1{font-size:2.4rem}
+}
+</style>
+</head>
+
+<body>
+
+<nav class="cyber-nav">
+  <div class="logo"><i class="fas fa-shield-alt"></i> CyberSec Master</div>
+  <div class="nav-links">
+    <a class="nav-link active" onclick="setMode('labs')">Labs</a>
+    <a class="nav-link" onclick="setMode('ctf')">CTF</a>
+    <a class="nav-link" onclick="setMode('scanner')">Scanner</a>
+    <a class="nav-link" onclick="setMode('network')">Network</a>
+    <a class="nav-link" onclick="setMode('incident')">Incident</a>
+    <a class="nav-link" onclick="setMode('dashboard')">Dashboard</a>
+  </div>
+</nav>
+
+<section class="cyber-hero">
+  <div>
+    <h1>CYBERSECURITY MASTER</h1>
+    <div class="hero-subtitle">Hack. Defend. Secure. Repeat.</div>
+
+    <div class="terminal">
+      <div><span class="prompt">root@lab:</span> <span class="command">whoami</span></div>
+      <div>ethical_hacker</div>
+      <div><span class="prompt">root@lab:</span> <span class="command">start_training</span></div>
+    </div>
+
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="setMode('labs')">Start Labs</button>
+      <button class="btn btn-secondary" onclick="setMode('ctf')">Join CTF</button>
+      <button class="btn btn-danger" onclick="setMode('incident')">Incident Drill</button>
+    </div>
+  </div>
+</section>
+
+<section id="labs" class="study-section active">
+  <h2 class="section-title">Interactive Labs</h2>
+  <p class="section-sub">Hands-on ethical hacking labs</p>
+
+  <div class="labs-grid">
+    <div class="lab-card">
+      <h3>SQL Injection</h3>
+      <p>Exploit vulnerable login forms</p>
+      <button class="btn btn-primary lab-btn">Start Lab</button>
+    </div>
+    <div class="lab-card">
+      <h3>XSS Attacks</h3>
+      <p>Steal cookies using scripts</p>
+      <button class="btn btn-primary lab-btn">Start Lab</button>
+    </div>
+    <div class="lab-card">
+      <h3>Privilege Escalation</h3>
+      <p>Linux misconfiguration exploitation</p>
+      <button class="btn btn-primary lab-btn">Start Lab</button>
+    </div>
+  </div>
+</section>
+
+<section id="ctf" class="study-section">
+  <h2 class="section-title">CTF Challenges</h2>
+  <p class="section-sub">Solve real-world security puzzles</p>
+</section>
+
+<section id="scanner" class="study-section">
+  <h2 class="section-title">Vulnerability Scanner</h2>
+  <p class="section-sub">Simulated pentesting scanner</p>
+</section>
+
+<section id="network" class="study-section">
+  <h2 class="section-title">Network Simulation</h2>
+  <p class="section-sub">Visualize attacks and defenses</p>
+</section>
+
+<section id="incident" class="study-section">
+  <h2 class="section-title">Incident Response</h2>
+  <p class="section-sub">SOC-style incident handling</p>
+</section>
+
+<section id="dashboard" class="study-section">
+  <h2 class="section-title">Learning Dashboard</h2>
+  <p class="section-sub">Track your cybersecurity growth</p>
+</section>
+
+<footer>
+  © 2024 CyberSec Master — Educational Simulation Only
+</footer>
+
+<script>
+function setMode(id){
+  document.querySelectorAll('.study-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(n=>n.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>

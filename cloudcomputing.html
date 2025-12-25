@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cloud Computing Master | Advanced Learning Platform</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+
+<style>
+:root{
+  --bg:#0c0f25;
+  --glass:rgba(255,255,255,0.06);
+  --card:#111633;
+  --cloud-blue:#00b4ff;
+  --cloud-green:#00ff9d;
+  --cloud-purple:#9f7aea;
+  --cloud-orange:#ff8c00;
+  --cloud-pink:#ff4d8d;
+  --text:#e5e7eb;
+  --success:#00ff9d;
+  --warning:#ffcc00;
+  --danger:#ff4757;
+  --info:#4d8af0;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+
+body{
+  background:
+    radial-gradient(circle at 10% 20%, rgba(0,180,255,.18), transparent 40%),
+    radial-gradient(circle at 90% 30%, rgba(0,255,157,.15), transparent 40%),
+    radial-gradient(circle at 40% 80%, rgba(159,122,234,.08), transparent 40%),
+    linear-gradient(180deg,#0c0f25,var(--bg));
+  color:var(--text);
+  min-height: 100vh;
+}
+
+/* NAV */
+nav{
+  position:sticky;
+  top:0;
+  z-index:10;
+  padding:18px 50px;
+  background:rgba(10,13,35,.95);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo{
+  font-size:1.6rem;
+  font-weight:800;
+  background:linear-gradient(90deg,var(--cloud-blue),var(--cloud-green));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+  padding: 8px 15px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-links a:hover {
+  background: rgba(255,255,255,0.08);
+  color: var(--cloud-blue);
+}
+
+.nav-links a.active {
+  background: linear-gradient(90deg, var(--cloud-blue), var(--cloud-green));
+  color: var(--bg);
+}
+
+/* STUDY MODES */
+.study-modes {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 40px 0;
+  flex-wrap: wrap;
+}
+
+.mode-btn {
+  padding: 15px 30px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.1);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 200px;
+  justify-content: center;
+}
+
+.mode-btn:hover {
+  transform: translateY(-5px);
+  border-color: var(--cloud-blue);
+  box-shadow: 0 10px 30px rgba(0,180,255,0.2);
+}
+
+.mode-btn.active {
+  background: linear-gradient(90deg, var(--cloud-blue), var(--cloud-green));
+  color: var(--bg);
+  border-color: transparent;
+  box-shadow: 0 10px 30px rgba(0,180,255,0.4);
+}
+
+.mode-icon {
+  font-size: 1.2rem;
+}
+
+/* STUDY SECTIONS */
+.study-section {
+  display: none;
+  animation: fadeIn 0.5s ease;
+  padding: 0 50px;
+}
+
+.study-section.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.section-header h2 {
+  background: linear-gradient(90deg, var(--cloud-blue), var(--cloud-green));
+  -webkit-background-clip: text;
+  -webkit-text-flill-color: transparent;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.section-icon {
+  font-size: 3rem;
+  color: var(--cloud-blue);
+  margin-bottom: 15px;
+}
+
+/* CLOUD FUNDAMENTALS */
+.cloud-fundamentals {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.cloud-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.cloud-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--cloud-blue);
+  box-shadow: 0 15px 40px rgba(0,180,255,0.2);
+}
+
+.cloud-card h3 {
+  background: linear-gradient(90deg, var(--cloud-blue), var(--cloud-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+}
+
+.cloud-card p {
+  line-height: 1.7;
+  margin-bottom: 20px;
+  opacity: 0.9;
+}
+
+.cloud-features {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.cloud-features li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cloud-features li:last-child {
+  border-bottom: none;
+}
+
+.cloud-badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: rgba(0,180,255,0.15);
+  color: var(--cloud-blue);
+}
+
+/* SERVICE COMPARISON */
+.comparison-table {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 30px;
+  margin-top: 30px;
+  border: 1px solid rgba(255,255,255,0.12);
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: rgba(0,180,255,0.1);
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid var(--cloud-blue);
+}
+
+td {
+  padding: 15px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+tr:hover {
+  background: rgba(0,180,255,0.05);
+}
+
+/* ARCHITECTURE BUILDER */
+.architecture-container {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+@media (max-width: 1024px) {
+  .architecture-container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.components-palette {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.component-item {
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 15px;
+  cursor: move;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.3s;
+}
+
+.component-item:hover {
+  background: rgba(0,180,255,0.1);
+  border-color: var(--cloud-blue);
+}
+
+.architecture-canvas {
+  background: rgba(0,0,0,0.3);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,0.12);
+  min-height: 500px;
+  position: relative;
+}
+
+.canvas-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  border-radius: 20px;
+}
+
+/* COST CALCULATOR */
+.calculator-container {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 30px;
+  margin-top: 30px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.calc-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.calc-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.calc-input-group label {
+  font-weight: 600;
+  color: var(--cloud-blue);
+}
+
+.calc-input {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 12px 15px;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.calc-results {
+  background: rgba(0,0,0,0.3);
+  border-radius: 15px;
+  padding: 25px;
+  margin-top: 30px;
+  border: 1px solid rgba(0,255,157,0.2);
+}
+
+.cost-breakdown {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.cost-item {
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+}
+
+.cost-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--cloud-green);
+  margin-bottom: 5px;
+}
+
+.cost-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* DEPLOYMENT LABS */
+.labs-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.lab-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,0.12);
+  transition: all 0.3s;
+  position: relative;
+}
+
+.lab-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--cloud-blue);
+  box-shadow: 0 15px 40px rgba(0,180,255,0.2);
+}
+
+.lab-difficulty {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.difficulty-beginner {
+  background: rgba(0,255,157,0.15);
+  color: var(--cloud-green);
+}
+
+.difficulty-intermediate {
+  background: rgba(255,204,0,0.15);
+  color: var(--warning);
+}
+
+.difficulty-advanced {
+  background: rgba(255,71,87,0.15);
+  color: var(--danger);
+}
+
+.lab-steps {
+  margin: 20px 0;
+}
+
+.lab-step {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lab-step:last-child {
+  border-bottom: none;
+}
+
+/* CLOUD SECURITY */
+.security-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.security-card {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+.security-card h4 {
+  background: linear-gradient(90deg, var(--cloud-blue), var(--cloud-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.security-checklist {
+  list-style: none;
+  padding: 0;
+}
+
+.security-checklist li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.security-checklist li:last-child {
+  border-bottom: none;
+}
+
+/* PROGRESS TRACKER */
+.progress-container {
+  background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,0.12);
+  margin-top: 40px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.progress-header h3 {
+  background: linear-gradient(90deg, var(--cloud-blue), var(--cloud-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+}
+
+.progress-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--cloud-blue), var(--cloud-green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.progress-bar-container {
+  margin: 20px 0;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  height: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cloud-blue), var(--cloud-green));
+  border-radius: 5px;
+  transition: width 1s ease;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:30px;
+  opacity:.6;
+  font-size:.85rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 50px;
+}
+
+/* RESPONSIVE */
+@media(max-width: 768px){
+  .study-section {
+    padding: 0 20px;
+  }
+  
+  nav {
+    padding: 15px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .nav-links a {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+  
+  .study-modes {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .mode-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">Cloud Computing Master</div>
+  <div class="nav-links">
+    <a href="#" class="active" onclick="setActiveMode('fundamentals')"><i class="fas fa-cloud"></i> Fundamentals</a>
+    <a href="#" onclick="setActiveMode('services')"><i class="fas fa-server"></i> Cloud Services</a>
+    <a href="#" onclick="setActiveMode('architecture')"><i class="fas fa-project-diagram"></i> Architecture Builder</a>
+    <a href="#" onclick="setActiveMode('cost')"><i class="fas fa-calculator"></i> Cost Calculator</a>
+    <a href="#" onclick="setActiveMode('labs')"><i class="fas fa-flask"></i> Hands-on Labs</a>
+    <a href="#" onclick="setActiveMode('security')"><i class="fas fa-shield-alt"></i> Cloud Security</a>
+    <a href="#" onclick="setActiveMode('progress')"><i class="fas fa-chart-line"></i> Progress</a>
+  </div>
+</nav>
+
+<div class="study-modes">
+  <button class="mode-btn active" onclick="setActiveMode('fundamentals')">
+    <i class="fas fa-cloud mode-icon"></i>
+    <span>Cloud Fundamentals</span>
+  </button>
+  <button class="mode-btn" onclick="setActiveMode('services')">
+    <i class="fas fa-server mode-icon"></i>
+    <span>Service Comparison</span>
+  </button>
+  <button class="mode-btn" onclick="setActiveMode('architecture')">
+    <i class="fas fa-project-diagram mode-icon"></i>
+    <span>Architecture Builder</span>
+  </button>
+  <button class="mode-btn" onclick="setActiveMode('cost')">
+    <i class="fas fa-calculator mode-icon"></i>
+    <span>Cost Calculator</span>
+  </button>
+  <button class="mode-btn" onclick="setActiveMode('labs')">
+    <i class="fas fa-flask mode-icon"></i>
+    <span>Hands-on Labs</span>
+  </button>
+  <button class="mode-btn" onclick="setActiveMode('security')">
+    <i class="fas fa-shield-alt mode-icon"></i>
+    <span>Cloud Security</span>
+  </button>
+</div>
+
+<!-- CLOUD FUNDAMENTALS SECTION -->
+<section id="fundamentals" class="study-section active">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-cloud"></i></div>
+    <h2>Cloud Computing Fundamentals</h2>
+    <p style="opacity: 0.9; max-width: 800px; margin: 0 auto;">Master the core concepts, service models, and deployment strategies of cloud computing</p>
+  </div>
+  
+  <div class="cloud-fundamentals">
+    <div class="cloud-card">
+      <span class="cloud-badge">Essential</span>
+      <h3><i class="fas fa-cubes"></i> What is Cloud Computing?</h3>
+      <p>Delivery of computing services—servers, storage, databases, networking, software, analytics, intelligence—over the Internet ("the cloud") to offer faster innovation, flexible resources, and economies of scale.</p>
+      <ul class="cloud-features">
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> On-demand self-service</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Broad network access</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Resource pooling</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Rapid elasticity</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Measured service</li>
+      </ul>
+    </div>
+    
+    <div class="cloud-card">
+      <span class="cloud-badge">Service Models</span>
+      <h3><i class="fas fa-layer-group"></i> IaaS, PaaS, SaaS</h3>
+      <p>Understanding the three primary service models in cloud computing and when to use each.</p>
+      <ul class="cloud-features">
+        <li><strong>IaaS</strong> - Infrastructure as a Service (AWS EC2, Azure VMs)</li>
+        <li><strong>PaaS</strong> - Platform as a Service (Heroku, Google App Engine)</li>
+        <li><strong>SaaS</strong> - Software as a Service (Gmail, Salesforce, Office 365)</li>
+        <li><strong>FaaS</strong> - Function as a Service (AWS Lambda, Azure Functions)</li>
+        <li><strong>CaaS</strong> - Container as a Service (AWS ECS, Google Kubernetes)</li>
+      </ul>
+    </div>
+    
+    <div class="cloud-card">
+      <span class="cloud-badge">Deployment Models</span>
+      <h3><i class="fas fa-network-wired"></i> Public, Private, Hybrid</h3>
+      <p>Different cloud deployment strategies for various business needs and compliance requirements.</p>
+      <ul class="cloud-features">
+        <li><strong>Public Cloud</strong> - Services offered over public internet (AWS, Azure, GCP)</li>
+        <li><strong>Private Cloud</strong> - Dedicated infrastructure for single organization</li>
+        <li><strong>Hybrid Cloud</strong> - Combination of public and private clouds</li>
+        <li><strong>Multi-cloud</strong> - Using multiple cloud providers</li>
+        <li><strong>Community Cloud</strong> - Shared by several organizations</li>
+      </ul>
+    </div>
+    
+    <div class="cloud-card">
+      <span class="cloud-badge">Key Benefits</span>
+      <h3><i class="fas fa-chart-line"></i> Why Move to Cloud?</h3>
+      <p>The strategic advantages organizations gain by adopting cloud computing solutions.</p>
+      <ul class="cloud-features">
+        <li><i class="fas fa-money-bill-wave" style="color: var(--cloud-green);"></i> <strong>Cost Efficiency</strong> - Pay-as-you-go model</li>
+        <li><i class="fas fa-rocket" style="color: var(--cloud-blue);"></i> <strong>Scalability</strong> - Instant resource scaling</li>
+        <li><i class="fas fa-shield-alt" style="color: var(--cloud-purple);"></i> <strong>Reliability</strong> - High availability & disaster recovery</li>
+        <li><i class="fas fa-globe" style="color: var(--cloud-orange);"></i> <strong>Global Reach</strong> - Deploy anywhere in minutes</li>
+        <li><i class="fas fa-bolt" style="color: var(--cloud-pink);"></i> <strong>Performance</strong> - Latest hardware and optimization</li>
+      </ul>
+    </div>
+    
+    <div class="cloud-card">
+      <span class="cloud-badge">Migration Strategy</span>
+      <h3><i class="fas fa-truck-moving"></i> Cloud Migration</h3>
+      <p>Proven strategies and best practices for migrating applications and data to the cloud.</p>
+      <ul class="cloud-features">
+        <li><strong>Rehost</strong> - "Lift and shift" applications</li>
+        <li><strong>Refactor</strong> - Optimize for cloud capabilities</li>
+        <li><strong>Revise</strong> - Modify and extend functionality</li>
+        <li><strong>Rebuild</strong> - Re-architect from scratch</li>
+        <li><strong>Replace</strong> - Switch to SaaS alternatives</li>
+      </ul>
+    </div>
+    
+    <div class="cloud-card">
+      <span class="cloud-badge">Trends</span>
+      <h3><i class="fas fa-eye"></i> Future of Cloud</h3>
+      <p>Emerging technologies and trends shaping the future of cloud computing.</p>
+      <ul class="cloud-features">
+        <li><i class="fas fa-robot" style="color: var(--cloud-blue);"></i> AI/ML Integration</li>
+        <li><i class="fas fa-microchip" style="color: var(--cloud-green);"></i> Edge Computing</li>
+        <li><i class="fas fa-server" style="color: var(--cloud-purple);"></i> Serverless Architecture</li>
+        <li><i class="fas fa-database" style="color: var(--cloud-orange);"></i> Quantum Computing</li>
+        <li><i class="fas fa-satellite" style="color: var(--cloud-pink);"></i> Sustainable Cloud</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CLOUD SERVICES COMPARISON -->
+<section id="services" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-server"></i></div>
+    <h2>Cloud Service Providers Comparison</h2>
+    <p style="opacity: 0.9; max-width: 800px; margin: 0 auto;">Compare leading cloud platforms: AWS, Azure, Google Cloud, IBM Cloud, and Oracle Cloud</p>
+  </div>
+  
+  <div class="comparison-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Service Category</th>
+          <th>AWS</th>
+          <th>Azure</th>
+          <th>Google Cloud</th>
+          <th>IBM Cloud</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Compute</strong></td>
+          <td>EC2, Lambda</td>
+          <td>Virtual Machines, Functions</td>
+          <td>Compute Engine, Cloud Functions</td>
+          <td>Virtual Servers, Cloud Functions</td>
+        </tr>
+        <tr>
+          <td><strong>Storage</strong></td>
+          <td>S3, EBS</td>
+          <td>Blob Storage, Disk Storage</td>
+          <td>Cloud Storage, Persistent Disk</td>
+          <td>Cloud Object Storage, Block Storage</td>
+        </tr>
+        <tr>
+          <td><strong>Databases</strong></td>
+          <td>RDS, DynamoDB</td>
+          <td>SQL Database, Cosmos DB</td>
+          <td>Cloud SQL, Firestore</td>
+          <td>Db2, Cloudant</td>
+        </tr>
+        <tr>
+          <td><strong>Networking</strong></td>
+          <td>VPC, Route 53</td>
+          <td>Virtual Network, DNS</td>
+          <td>VPC, Cloud DNS</td>
+          <td>VPC, DNS Services</td>
+        </tr>
+        <tr>
+          <td><strong>AI/ML</strong></td>
+          <td>SageMaker, Rekognition</td>
+          <td>Machine Learning, Cognitive Services</td>
+          <td>AI Platform, Vision AI</td>
+          <td>Watson, ML</td>
+        </tr>
+        <tr>
+          <td><strong>Container Services</strong></td>
+          <td>ECS, EKS</td>
+          <td>AKS, Container Instances</td>
+          <td>GKE, Cloud Run</td>
+          <td>Kubernetes Service, Code Engine</td>
+        </tr>
+        <tr>
+          <td><strong>Market Share</strong></td>
+          <td>32%</td>
+          <td>20%</td>
+          <td>9%</td>
+          <td>3%</td>
+        </tr>
+        <tr>
+          <td><strong>Free Tier</strong></td>
+          <td>12 months free</td>
+          <td>$200 credit for 30 days</td>
+          <td>$300 credit for 90 days</td>
+          <td>Always Free tier</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div style="margin-top: 40px;">
+    <h3 style="color: var(--cloud-blue); margin-bottom: 20px;">Choosing the Right Provider</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
+      <div class="cloud-card">
+        <h4><i class="fab fa-aws"></i> Choose AWS If:</h4>
+        <ul class="cloud-features">
+          <li>Need broadest service offering</li>
+          <li>Enterprise-level requirements</li>
+          <li>Global presence needed</li>
+          <li>Largest ecosystem & community</li>
+        </ul>
+      </div>
+      <div class="cloud-card">
+        <h4><i class="fab fa-microsoft"></i> Choose Azure If:</h4>
+        <ul class="cloud-features">
+          <li>Already using Microsoft products</li>
+          <li>Hybrid cloud strategy</li>
+          <li>Strong enterprise integration</li>
+          <li>.NET development focus</li>
+        </ul>
+      </div>
+      <div class="cloud-card">
+        <h4><i class="fab fa-google"></i> Choose GCP If:</h4>
+        <ul class="cloud-features">
+          <li>Big Data & Analytics focus</li>
+          <li>AI/ML intensive workloads</li>
+          <li>Open source/Kubernetes focus</li>
+          <li>Cost optimization needed</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE BUILDER -->
+<section id="architecture" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-project-diagram"></i></div>
+    <h2>Cloud Architecture Builder</h2>
+    <p style="opacity: 0.9; max-width: 800px; margin: 0 auto;">Drag and drop components to design cloud architectures. Visualize and plan your cloud solutions.</p>
+  </div>
+  
+  <div class="architecture-container">
+    <div class="components-palette">
+      <h4 style="color: var(--cloud-blue); margin-bottom: 20px;">Cloud Components</h4>
+      <div class="component-item" draggable="true" data-type="loadbalancer">
+        <i class="fas fa-balance-scale"></i> Load Balancer
+      </div>
+      <div class="component-item" draggable="true" data-type="webserver">
+        <i class="fas fa-server"></i> Web Server
+      </div>
+      <div class="component-item" draggable="true" data-type="database">
+        <i class="fas fa-database"></i> Database
+      </div>
+      <div class="component-item" draggable="true" data-type="cache">
+        <i class="fas fa-bolt"></i> Cache
+      </div>
+      <div class="component-item" draggable="true" data-type="cdn">
+        <i class="fas fa-globe"></i> CDN
+      </div>
+      <div class="component-item" draggable="true" data-type="lambda">
+        <i class="fas fa-bolt"></i> Serverless Function
+      </div>
+      <div class="component-item" draggable="true" data-type="storage">
+        <i class="fas fa-hdd"></i> Object Storage
+      </div>
+      <div class="component-item" draggable="true" data-type="queue">
+        <i class="fas fa-stream"></i> Message Queue
+      </div>
+      
+      <div style="margin-top: 30px;">
+        <button class="filter-btn" onclick="clearCanvas()" style="width: 100%;">
+          <i class="fas fa-trash"></i> Clear Canvas
+        </button>
+        <button class="filter-btn" onclick="saveArchitecture()" style="width: 100%; margin-top: 10px; background: var(--cloud-green); color: var(--bg);">
+          <i class="fas fa-save"></i> Save Architecture
+        </button>
+      </div>
+    </div>
+    
+    <div class="architecture-canvas" id="architecture-canvas" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <div class="canvas-grid"></div>
+      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.5; text-align: center;">
+        <i class="fas fa-cloud-upload-alt" style="font-size: 3rem; color: var(--cloud-blue);"></i>
+        <p>Drag components here to build your architecture</p>
+      </div>
+    </div>
+  </div>
+  
+  <div style="margin-top: 40px;">
+    <h3 style="color: var(--cloud-blue); margin-bottom: 20px;">Sample Architectures</h3>
+    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+      <button class="filter-btn" onclick="loadSample('webapp')">
+        <i class="fas fa-shopping-cart"></i> E-commerce Web App
+      </button>
+      <button class="filter-btn" onclick="loadSample('microservices')">
+        <i class="fas fa-cubes"></i> Microservices Architecture
+      </button>
+      <button class="filter-btn" onclick="loadSample('bigdata')">
+        <i class="fas fa-chart-bar"></i> Big Data Pipeline
+      </button>
+      <button class="filter-btn" onclick="loadSample('iot')">
+        <i class="fas fa-wifi"></i> IoT Platform
+      </button>
+      <button class="filter-btn" onclick="loadSample('serverless')">
+        <i class="fas fa-bolt"></i> Serverless API
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- COST CALCULATOR -->
+<section id="cost" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-calculator"></i></div>
+    <h2>Cloud Cost Calculator</h2>
+    <p style="opacity: 0.9; max-width: 800px; margin: 0 auto;">Estimate monthly costs for different cloud services and configurations</p>
+  </div>
+  
+  <div class="calculator-container">
+    <div class="calc-inputs">
+      <div class="calc-input-group">
+        <label><i class="fas fa-server"></i> Compute Instances</label>
+        <input type="number" id="compute-instances" class="calc-input" value="2" min="0" max="100" onchange="calculateCost()">
+        <span style="font-size: 0.9rem; opacity: 0.8;">Number of virtual machines</span>
+      </div>
+      
+      <div class="calc-input-group">
+        <label><i class="fas fa-memory"></i> Instance Size</label>
+        <select id="instance-size" class="calc-input" onchange="calculateCost()">
+          <option value="small">Small (2 vCPU, 4GB RAM) - $0.05/hr</option>
+          <option value="medium" selected>Medium (4 vCPU, 8GB RAM) - $0.10/hr</option>
+          <option value="large">Large (8 vCPU, 16GB RAM) - $0.20/hr</option>
+          <option value="xlarge">XLarge (16 vCPU, 32GB RAM) - $0.40/hr</option>
+        </select>
+      </div>
+      
+      <div class="calc-input-group">
+        <label><i class="fas fa-hdd"></i> Storage (GB)</label>
+        <input type="number" id="storage-gb" class="calc-input" value="100" min="0" max="10000" onchange="calculateCost()">
+        <span style="font-size: 0.9rem; opacity: 0.8;">Persistent storage in gigabytes</span>
+      </div>
+      
+      <div class="calc-input-group">
+        <label><i class="fas fa-database"></i> Database Type</label>
+        <select id="database-type" class="calc-input" onchange="calculateCost()">
+          <option value="none">No Database</option>
+          <option value="sql">Managed SQL - $0.10/GB/month</option>
+          <option value="nosql" selected>NoSQL Database - $0.08/GB/month</option>
+          <option value="datawarehouse">Data Warehouse - $0.15/GB/month</option>
+        </select>
+      </div>
+      
+      <div class="calc-input-group">
+        <label><i class="fas fa-arrow-up"></i> Data Transfer Out (GB)</label>
+        <input type="number" id="data-transfer" class="calc-input" value="100" min="0" max="10000" onchange="calculateCost()">
+        <span style="font-size: 0.9rem; opacity: 0.8;">Monthly outbound data transfer</span>
+      </div>
+      
+      <div class="calc-input-group">
+        <label><i class="fas fa-cogs"></i> Additional Services</label>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 5px;">
+          <label><input type="checkbox" id="cdn-checkbox" onchange="calculateCost()"> CDN ($0.08/GB)</label>
+          <label><input type="checkbox" id="loadbalancer-checkbox" onchange="calculateCost()"> Load Balancer ($20/month)</label>
+          <label><input type="checkbox" id="monitoring-checkbox" onchange="calculateCost()"> Monitoring ($15/month)</label>
+          <label><input type="checkbox" id="backup-checkbox" checked onchange="calculateCost()"> Backup ($0.05/GB)</label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="calc-results">
+      <h3 style="color: var(--cloud-green); margin-bottom: 20px;">Monthly Cost Estimate</h3>
+      <div style="text-align: center; margin-bottom: 20px;">
+        <div style="font-size: 3rem; font-weight: 800; color: var(--cloud-green);" id="total-cost">$156.50</div>
+        <div style="opacity: 0.8;">Estimated Monthly Cost</div>
+      </div>
+      
+      <div class="cost-breakdown">
+        <div class="cost-item">
+          <div class="cost-value" id="compute-cost">$144.00</div>
+          <div class="cost-label">Compute</div>
+        </div>
+        <div class="cost-item">
+          <div class="cost-value" id="storage-cost">$5.00</div>
+          <div class="cost-label">Storage</div>
+        </div>
+        <div class="cost-item">
+          <div class="cost-value" id="database-cost">$8.00</div>
+          <div class="cost-label">Database</div>
+        </div>
+        <div class="cost-item">
+          <div class="cost-value" id="network-cost">$9.00</div>
+          <div class="cost-label">Network</div>
+        </div>
+        <div class="cost-item">
+          <div class="cost-value" id="services-cost">$25.50</div>
+          <div class="cost-label">Services</div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 30px; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 10px;">
+        <h4 style="color: var(--cloud-blue); margin-bottom: 10px;"><i class="fas fa-lightbulb"></i> Cost Optimization Tips</h4>
+        <p id="cost-tips">Consider reserved instances for 40% savings, implement auto-scaling, and use object lifecycle policies for infrequently accessed data.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HANDS-ON LABS -->
+<section id="labs" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-flask"></i></div>
+    <h2>Hands-on Cloud Labs</h2>
+    <p style="opacity: 0.9; max-width: 800px; margin: 0 auto;">Practice with real cloud scenarios. Deploy applications and configure services.</p>
+  </div>
+  
+  <div class="labs-container">
+    <div class="lab-card">
+      <span class="lab-difficulty difficulty-beginner">Beginner</span>
+      <h3><i class="fab fa-aws"></i> Deploy Static Website on S3</h3>
+      <p>Learn to host a static website on AWS S3 with custom domain and CDN configuration.</p>
+      
+      <div class="lab-steps">
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--cloud-green); font-size: 0.6rem;"></i>
+          <span>Create S3 bucket and enable static hosting</span>
+        </div>
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--cloud-green); font-size: 0.6rem;"></i>
+          <span>Upload HTML, CSS, JavaScript files</span>
+        </div>
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--cloud-green); font-size: 0.6rem;"></i>
+          <span>Configure bucket policy for public access</span>
+        </div>
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--cloud-green); font-size: 0.6rem;"></i>
+          <span>Set up CloudFront CDN distribution</span>
+        </div>
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--cloud-green); font-size: 0.6rem;"></i>
+          <span>Map custom domain with Route 53</span>
+        </div>
+      </div>
+      
+      <button class="filter-btn" onclick="startLab('s3-website')" style="width: 100%; margin-top: 20px;">
+        <i class="fas fa-play"></i> Start Lab
+      </button>
+    </div>
+    
+    <div class="lab-card">
+      <span class="lab-difficulty difficulty-intermediate">Intermediate</span>
+      <h3><i class="fab fa-microsoft"></i> Deploy Docker Container on Azure</h3>
+      <p>Containerize an application and deploy it to Azure Container Instances with auto-scaling.</p>
+      
+      <div class="lab-steps">
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--warning); font-size: 0.6rem;"></i>
+          <span>Create Dockerfile for Node.js application</span>
+        </div>
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--warning); font-size: 0.6rem;"></i>
+          <span>Build and test container locally</span>
+        </div>
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--warning); font-size: 0.6rem;"></i>
+          <span>Push to Azure Container Registry</span>
+        </div>
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--warning); font-size: 0.6rem;"></i>
+          <span>Deploy to Azure Container Instances</span>
+        </div>
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--warning); font-size: 0.6rem;"></i>
+          <span>Configure auto-scaling rules</span>
+        </div>
+      </div>
+      
+      <button class="filter-btn" onclick="startLab('azure-docker')" style="width: 100%; margin-top: 20px;">
+        <i class="fas fa-play"></i> Start Lab
+      </button>
+    </div>
+    
+    <div class="lab-card">
+      <span class="lab-difficulty difficulty-advanced">Advanced</span>
+      <h3><i class="fab fa-google"></i> Build Data Pipeline on GCP</h3>
+      <p>Create a real-time data pipeline using Pub/Sub, Dataflow, and BigQuery for analytics.</p>
+      
+      <div class="lab-steps">
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--danger); font-size: 0.6rem;"></i>
+          <span>Set up Pub/Sub topic for data ingestion</span>
+        </div>
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--danger); font-size: 0.6rem;"></i>
+          <span>Create Dataflow pipeline for processing</span>
+        </div>
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--danger); font-size: 0.6rem;"></i>
+          <span>Load processed data to BigQuery</span>
+        </div>
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--danger); font-size: 0.6rem;"></i>
+          <span>Create Data Studio dashboard</span>
+        </div>
+        <div class="lab-step">
+          <i class="fas fa-circle" style="color: var(--danger); font-size: 0.6rem;"></i>
+          <span>Set up alerts and monitoring</span>
+        </div>
+      </div>
+      
+      <button class="filter-btn" onclick="startLab('gcp-pipeline')" style="width: 100%; margin-top: 20px;">
+        <i class="fas fa-play"></i> Start Lab
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- CLOUD SECURITY -->
+<section id="security" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-shield-alt"></i></div>
+    <h2>Cloud Security Best Practices</h2>
+    <p style="opacity: 0.9; max-width: 800px; margin: 0 auto;">Protect your cloud infrastructure with industry-standard security practices</p>
+  </div>
+  
+  <div class="security-container">
+    <div class="security-card">
+      <h4><i class="fas fa-user-shield"></i> Identity & Access Management</h4>
+      <ul class="security-checklist">
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Implement principle of least privilege</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Enable Multi-Factor Authentication</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Use role-based access control</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Regular permission audits</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Implement SSO where possible</li>
+      </ul>
+    </div>
+    
+    <div class="security-card">
+      <h4><i class="fas fa-network-wired"></i> Network Security</h4>
+      <ul class="security-checklist">
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Use VPC and security groups</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Implement Web Application Firewall</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Enable DDoS protection</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Use VPN for private access</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Encrypt data in transit (TLS/SSL)</li>
+      </ul>
+    </div>
+    
+    <div class="security-card">
+      <h4><i class="fas fa-database"></i> Data Protection</h4>
+      <ul class="security-checklist">
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Encrypt data at rest</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Regular backup and recovery testing</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Implement data classification</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Use key management services</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Enable versioning for critical data</li>
+      </ul>
+    </div>
+    
+    <div class="security-card">
+      <h4><i class="fas fa-eye"></i> Monitoring & Compliance</h4>
+      <ul class="security-checklist">
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Enable CloudTrail/Azure Logs</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Set up security alerts</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Regular vulnerability scanning</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Compliance certifications (SOC2, ISO27001)</li>
+        <li><i class="fas fa-check-circle" style="color: var(--cloud-green);"></i> Incident response planning</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div style="margin-top: 40px; background: linear-gradient(145deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02)); border-radius: 20px; padding: 30px;">
+    <h3 style="color: var(--cloud-blue); margin-bottom: 20px;">Security Assessment Quiz</h3>
+    <p style="margin-bottom: 20px; opacity: 0.9;">Test your cloud security knowledge with this quick assessment:</p>
+    
+    <div id="security-quiz">
+      <div style="margin-bottom: 20px;">
+        <p><strong>1. What is the recommended approach for managing cloud credentials?</strong></p>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin: 15px 0;">
+          <label><input type="radio" name="q1" value="a"> Store in source code for easy access</label>
+          <label><input type="radio" name="q1" value="b"> Use environment variables in production</label>
+          <label><input type="radio" name="q1" value="c"> Use IAM roles and secrets manager</label>
+          <label><input type="radio" name="q1" value="d"> Share with team via encrypted email</label>
+        </div>
+      </div>
+      
+      <button class="filter-btn" onclick="checkSecurityAnswers()" style="background: var(--cloud-green); color: var(--bg);">
+        <i class="fas fa-check-circle"></i> Check Answers
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS TRACKER -->
+<section id="progress" class="study-section">
+  <div class="section-header">
+    <div class="section-icon"><i class="fas fa-chart-line"></i></div>
+    <h2>Your Cloud Learning Progress</h2>
+  </div>
+  
+  <div class="progress-container">
+    <div class="progress-header">
+      <h3>Cloud Learning Dashboard</h3>
+      <button class="filter-btn" onclick="resetCloudProgress()">
+        <i class="fas fa-redo"></i> Reset Progress
+      </button>
+    </div>
+    
+    <div class="progress-stats">
+      <div class="stat-card">
+        <div class="stat-value" id="concepts-learned">0</div>
+        <div class="stat-label">Concepts Learned</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="labs-completed">0</div>
+        <div class="stat-label">Labs Completed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="architectures-built">0</div>
+        <div class="stat-label">Architectures Built</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="cost-analyses">0</div>
+        <div class="stat-label">Cost Analyses</div>
+      </div>
+    </div>
+    
+    <div class="progress-bar-container">
+      <div class="progress-label">
+        <span>Overall Cloud Proficiency</span>
+        <span id="cloud-progress">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="cloud-progress-bar" style="width: 0%"></div>
+      </div>
+    </div>
+    
+    <div style="margin-top: 40px;">
+      <h4 style="color: var(--cloud-blue); margin-bottom: 20px;">Learning Recommendations</h4>
+      <div id="cloud-recommendations" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px;">
+        <p>Complete the Cloud Fundamentals section and try at least one hands-on lab to get personalized recommendations.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+© Cloud Computing Master • Advanced Learning Platform • AWS • Azure • Google Cloud • IBM Cloud • Oracle Cloud
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script>
+// Study Mode Management
+function setActiveMode(mode) {
+  // Update active mode button
+  document.querySelectorAll('.mode-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  
+  // Update active nav link
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.classList.remove('active');
+  });
+  
+  // Show active section
+  document.querySelectorAll('.study-section').forEach(section => {
+    section.classList.remove('active');
+  });
+  document.getElementById(mode).classList.add('active');
+  
+  // Update progress when switching to progress tab
+  if (mode === 'progress') {
+    updateCloudProgress();
+  }
+}
+
+// ARCHITECTURE BUILDER FUNCTIONS
+function allowDrop(event) {
+  event.preventDefault();
+}
+
+function drag(event) {
+  event.dataTransfer.setData("text", event.target.dataset.type);
+}
+
+function drop(event) {
+  event.preventDefault();
+  const componentType = event.dataTransfer.getData("text");
+  addComponentToCanvas(componentType, event.clientX, event.clientY);
+}
+
+function addComponentToCanvas(type, x, y) {
+  const canvas = document.getElementById('architecture-canvas');
+  const rect = canvas.getBoundingClientRect();
+  
+  const component = document.createElement('div');
+  component.className = 'component-item';
+  component.style.position = 'absolute';
+  component.style.left = (x - rect.left - 60) + 'px';
+  component.style.top = (y - rect.top - 20) + 'px';
+  component.style.zIndex = '10';
+  component.draggable = true;
+  component.ondragstart = drag;
+  
+  // Set icon and text based on type
+  let icon = 'fa-server';
+  let text = 'Component';
+  
+  switch(type) {
+    case 'loadbalancer':
+      icon = 'fa-balance-scale';
+      text = 'Load Balancer';
+      component.style.borderColor = 'var(--cloud-blue)';
+      break;
+    case 'webserver':
+      icon = 'fa-server';
+      text = 'Web Server';
+      component.style.borderColor = 'var(--cloud-green)';
+      break;
+    case 'database':
+      icon = 'fa-database';
+      text = 'Database';
+      component.style.borderColor = 'var(--cloud-purple)';
+      break;
+    case 'cache':
+      icon = 'fa-bolt';
+      text = 'Cache';
+      component.style.borderColor = 'var(--cloud-orange)';
+      break;
+    case 'cdn':
+      icon = 'fa-globe';
+      text = 'CDN';
+      component.style.borderColor = 'var(--cloud-pink)';
+      break;
+  }
+  
+  component.innerHTML = `<i class="fas ${icon}"></i> ${text}`;
+  canvas.appendChild(component);
+  
+  // Update progress
+  updateCloudProgress();
+}
+
+function clearCanvas() {
+  const canvas = document.getElementById('architecture-canvas');
+  const components = canvas.querySelectorAll('.component-item');
+  components.forEach(comp => comp.remove());
+}
+
+function saveArchitecture() {
+  alert('Architecture saved! (In a real implementation, this would save to your account)');
+}
+
+function loadSample(sampleType) {
+  clearCanvas();
+  const canvas = document.getElementById('architecture-canvas');
+  
+  // Sample positions for different architectures
+  const samples = {
+    webapp: [
+      {type: 'cdn', x: 100, y: 100},
+      {type: 'loadbalancer', x: 300, y: 150},
+      {type: 'webserver', x: 200, y: 250},
+      {type: 'webserver', x: 400, y: 250},
+      {type: 'database', x: 300, y: 350},
+      {type: 'cache', x: 300, y: 450}
+    ],
+    microservices: [
+      {type: 'loadbalancer', x: 300, y: 100},
+      {type: 'webserver', x: 150, y: 200},
+      {type: 'webserver', x: 300, y: 200},
+      {type: 'webserver', x: 450, y: 200},
+      {type: 'database', x: 150, y: 350},
+      {type: 'database', x: 450, y: 350},
+      {type: 'queue', x: 300, y: 350}
+    ]
+  };
+  
+  if (samples[sampleType]) {
+    samples[sampleType].forEach(comp => {
+      setTimeout(() => {
+        addComponentToCanvas(comp.type, canvas.offsetLeft + comp.x, canvas.offsetTop + comp.y);
+      }, 100);
+    });
+  }
+}
+
+// COST CALCULATOR FUNCTIONS
+function calculateCost() {
+  // Get input values
+  const instances = parseInt(document.getElementById('compute-instances').value) || 0;
+  const instanceSize = document.getElementById('instance-size').value;
+  const storageGB = parseInt(document.getElementById('storage-gb').value) || 0;
+  const dbType = document.getElementById('database-type').value;
+  const dataTransferGB = parseInt(document.getElementById('data-transfer').value) || 0;
+  
+  // Price definitions
+  const instancePrices = {
+    small: 0.05,
+    medium: 0.10,
+    large: 0.20,
+    xlarge: 0.40
+  };
+  
+  const dbPrices = {
+    none: 0,
+    sql: 0.10,
+    nosql: 0.08,
+    datawarehouse: 0.15
+  };
+  
+  // Calculate costs
+  const computeCost = instances * instancePrices[instanceSize] * 24 * 30; // 24hrs * 30days
+  const storageCost = storageGB * 0.03; // $0.03 per GB/month
+  const databaseCost = dbType === 'none' ? 0 : storageGB * dbPrices[dbType];
+  const networkCost = dataTransferGB * 0.09; // $0.09 per GB
+  
+  // Additional services
+  let servicesCost = 0;
+  if (document.getElementById('cdn-checkbox').checked) {
+    servicesCost += dataTransferGB * 0.08;
+  }
+  if (document.getElementById('loadbalancer-checkbox').checked) {
+    servicesCost += 20;
+  }
+  if (document.getElementById('monitoring-checkbox').checked) {
+    servicesCost += 15;
+  }
+  if (document.getElementById('backup-checkbox').checked) {
+    servicesCost += storageGB * 0.05;
+  }
+  
+  const totalCost = computeCost + storageCost + databaseCost + networkCost + servicesCost;
+  
+  // Update display
+  document.getElementById('compute-cost').textContent = '$' + computeCost.toFixed(2);
+  document.getElementById('storage-cost').textContent = '$' + storageCost.toFixed(2);
+  document.getElementById('database-cost').textContent = '$' + databaseCost.toFixed(2);
+  document.getElementById('network-cost').textContent = '$' + networkCost.toFixed(2);
+  document.getElementById('services-cost').textContent = '$' + servicesCost.toFixed(2);
+  document.getElementById('total-cost').textContent = '$' + totalCost.toFixed(2);
+  
+  // Update tips
+  const tips = [
+    "Consider reserved instances for 40% savings on compute costs",
+    "Implement auto-scaling to reduce costs during low traffic periods",
+    "Use object lifecycle policies to move infrequently accessed data to cheaper storage tiers",
+    "Compress data before transfer to reduce network costs",
+    "Use serverless options for sporadic workloads"
+  ];
+  
+  document.getElementById('cost-tips').textContent = tips[Math.floor(Math.random() * tips.length)];
+  
+  // Update progress
+  updateCloudProgress();
+}
+
+// LAB FUNCTIONS
+function startLab(labId) {
+  alert(`Starting lab: ${labId}\n\nIn a real implementation, this would launch a cloud sandbox environment with step-by-step instructions.`);
+  
+  // Update progress
+  let progress = JSON.parse(localStorage.getItem('cloud-progress') || '{}');
+  progress.labsCompleted = (progress.labsCompleted || 0) + 1;
+  localStorage.setItem('cloud-progress', JSON.stringify(progress));
+  updateCloudProgress();
+}
+
+// SECURITY FUNCTIONS
+function checkSecurityAnswers() {
+  const q1Answer = document.querySelector('input[name="q1"]:checked');
+  
+  if (!q1Answer) {
+    alert('Please select an answer for question 1');
+    return;
+  }
+  
+  if (q1Answer.value === 'c') {
+    alert('✅ Correct! IAM roles and secrets manager provide the most secure approach for managing cloud credentials.');
+  } else {
+    alert('❌ Incorrect. The most secure approach is using IAM roles and secrets manager. Storing credentials in source code or environment variables is not recommended for production.');
+  }
+}
+
+// PROGRESS TRACKING
+function updateCloudProgress() {
+  let progress = JSON.parse(localStorage.getItem('cloud-progress') || '{}');
+  
+  // Initialize progress if needed
+  if (!progress.conceptsLearned) progress.conceptsLearned = 0;
+  if (!progress.labsCompleted) progress.labsCompleted = 0;
+  if (!progress.architecturesBuilt) progress.architecturesBuilt = 0;
+  if (!progress.costAnalyses) progress.costAnalyses = 0;
+  
+  // Calculate overall progress
+  const overallProgress = Math.min(100,
+    progress.conceptsLearned * 2 +
+    progress.labsCompleted * 10 +
+    progress.architecturesBuilt * 5 +
+    progress.costAnalyses * 3
+  );
+  
+  // Save progress
+  localStorage.setItem('cloud-progress', JSON.stringify(progress));
+  
+  // Update UI
+  document.getElementById('concepts-learned').textContent = progress.conceptsLearned;
+  document.getElementById('labs-completed').textContent = progress.labsCompleted;
+  document.getElementById('architectures-built').textContent = progress.architecturesBuilt;
+  document.getElementById('cost-analyses').textContent = progress.costAnalyses;
+  document.getElementById('cloud-progress').textContent = overallProgress + '%';
+  document.getElementById('cloud-progress-bar').style.width = overallProgress + '%';
+  
+  // Update recommendations
+  const recommendations = document.getElementById('cloud-recommendations');
+  if (progress.labsCompleted < 1) {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--warning);"></i> <strong>Recommendation:</strong> Start with the "Deploy Static Website on S3" lab to get hands-on experience.</p>';
+  } else if (progress.costAnalyses < 2) {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--warning);"></i> <strong>Recommendation:</strong> Use the Cost Calculator to analyze different deployment scenarios.</p>';
+  } else if (progress.architecturesBuilt < 1) {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--warning);"></i> <strong>Recommendation:</strong> Try building a microservices architecture in the Architecture Builder.</p>';
+  } else if (overallProgress < 50) {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--cloud-blue);"></i> <strong>Recommendation:</strong> Review Cloud Security best practices and take the assessment quiz.</p>';
+  } else {
+    recommendations.innerHTML = '<p><i class="fas fa-lightbulb" style="color: var(--success);"></i> <strong>Great progress!</strong> Consider pursuing cloud certifications like AWS Solutions Architect or Azure Administrator.</p>';
+  }
+}
+
+function resetCloudProgress() {
+  if (confirm("Are you sure you want to reset all progress?")) {
+    localStorage.removeItem('cloud-progress');
+    updateCloudProgress();
+  }
+}
+
+// Initialize everything
+document.addEventListener('DOMContentLoaded', function() {
+  // Make components draggable
+  document.querySelectorAll('.component-item').forEach(item => {
+    item.addEventListener('dragstart', drag);
+  });
+  
+  // Initialize cost calculator
+  calculateCost();
+  
+  // Initialize progress with demo data
+  if (!localStorage.getItem('cloud-progress')) {
+    const demoProgress = {
+      conceptsLearned: 5,
+      labsCompleted: 0,
+      architecturesBuilt: 0,
+      costAnalyses: 1
+    };
+    localStorage.setItem('cloud-progress', JSON.stringify(demoProgress));
+  }
+  
+  updateCloudProgress();
+  
+  // Add event listeners for concept learning
+  document.querySelectorAll('.cloud-card').forEach((card, index) => {
+    card.addEventListener('click', function() {
+      if (!this.classList.contains('learned')) {
+        this.classList.add('learned');
+        let progress = JSON.parse(localStorage.getItem('cloud-progress') || '{}');
+        progress.conceptsLearned = (progress.conceptsLearned || 0) + 1;
+        localStorage.setItem('cloud-progress', JSON.stringify(progress));
+        updateCloudProgress();
+      }
+    });
+  });
+});
+</script>
+</body>
+</html>

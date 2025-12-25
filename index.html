@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BTech LMS – Smart Learning Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+  --bg: #03050f;
+  --glass: rgba(255,255,255,0.06);
+  --card: #0b1229;
+  --neon1: #00f6ff;
+  --neon2: #9f7aea;
+  --neon3: #22d3ee;
+  --neon4: #f472b6;
+  --text: #e5e7eb;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: 
+    radial-gradient(circle at 20% 20%, rgba(159,122,234,.18), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(0,246,255,.18), transparent 40%),
+    radial-gradient(circle at 40% 80%, rgba(245,114,182,.1), transparent 40%),
+    linear-gradient(180deg, #020617, var(--bg));
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Navigation */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 50px;
+  background: rgba(5,8,22,.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  font-size: 1.8rem;
+  color: var(--neon1);
+}
+
+.logo-text {
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+}
+
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--neon1), var(--neon2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.notification-icon {
+  position: relative;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: var(--danger);
+  color: white;
+  font-size: 0.7rem;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dashboard */
+.dashboard {
+  padding: 40px 50px 20px;
+}
+
+.dashboard h1 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  background: linear-gradient(90deg, var(--neon1), var(--neon3));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.dashboard-subtitle {
+  opacity: 0.8;
+  margin-bottom: 30px;
+}
+
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  padding: 22px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 246, 255, 0.15);
+}
+
+.stat-title {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.stat-change {
+  font-size: 0.85rem;
+}
+
+.stat-change.positive {
+  color: var(--success);
+}
+
+.stat-change.negative {
+  color: var(--danger);
+}
+
+/* AI Assistant */
+.ai-assistant {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 90;
+}
+
+.ai-toggle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--neon2), var(--neon4));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(159, 122, 234, 0.4);
+  transition: transform 0.3s;
+}
+
+.ai-toggle:hover {
+  transform: scale(1.1);
+}
+
+.ai-chatbox {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  width: 350px;
+  height: 450px;
+  background: rgba(11, 18, 41, 0.95);
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255,255,255,0.15);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.ai-chatbox.active {
+  display: flex;
+}
+
+.chat-header {
+  padding: 18px;
+  background: rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.chat-header h3 {
+  font-size: 1.1rem;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.chat-message {
+  max-width: 80%;
+  padding: 12px 16px;
+  border-radius: 18px;
+  font-size: 0.9rem;
+}
+
+.chat-message.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, var(--neon1), var(--neon3));
+  color: white;
+}
+
+.chat-message.ai {
+  align-self: flex-start;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.chat-input {
+  padding: 15px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  font-size: 0.9rem;
+}
+
+.chat-input button {
+  background: linear-gradient(135deg, var(--neon1), var(--neon3));
+  color: white;
+  border: none;
+  border-radius: 12px;
+  width: 45px;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+/* Sections */
+section {
+  padding: 60px 8%;
+}
+
+section h2 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 2rem;
+  color: var(--neon3);
+  text-shadow: 0 0 25px rgba(34,211,238,.6);
+}
+
+/* Search */
+.search-box {
+  max-width: 500px;
+  margin: 0 auto 40px;
+  position: relative;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 16px 20px 16px 50px;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+  background: rgba(255,255,255,.08);
+  color: white;
+  font-size: 1rem;
+  box-shadow: 0 0 25px rgba(0,246,255,.2);
+}
+
+.search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--neon1);
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* Card */
+.card {
+  position: relative;
+  padding: 28px 24px;
+  background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  border-radius: 22px;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,.15);
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+  transition: .6s cubic-bezier(.22,1,.36,1);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 22px;
+  background: linear-gradient(120deg, transparent, var(--neon1), transparent);
+  opacity: 0;
+  transition: .5s;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover {
+  transform: translateY(-14px) scale(1.03);
+  box-shadow: 0 30px 70px rgba(0,0,0,.6), 0 0 40px rgba(0,246,255,.45);
+}
+
+.card h3 {
+  font-size: 1.3rem;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.card p {
+  margin-top: 10px;
+  font-size: .9rem;
+  opacity: .75;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  font-size: 0.85rem;
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.progress-bar {
+  width: 80px;
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon1), var(--neon3));
+  border-radius: 3px;
+}
+
+/* Favorites */
+.favorite {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  font-size: 1.2rem;
+  color: #ffd700;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.favorite.active {
+  opacity: 1;
+  text-shadow: 0 0 15px #ffd700;
+}
+
+.favorite:hover {
+  transform: scale(1.2);
+}
+
+/* Hidden */
+.hidden {
+  display: none;
+}
+
+/* Animation */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+  100% { transform: translateY(0); }
+}
+
+/* Progress Section */
+.progress-section {
+  margin-top: 40px;
+}
+
+.progress-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.progress-card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.progress-title {
+  font-weight: 600;
+}
+
+.progress-percent {
+  font-weight: 700;
+  color: var(--neon1);
+}
+
+.progress-details {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-top: 10px;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  nav {
+    padding: 16px 20px;
+  }
+  
+  .dashboard {
+    padding: 30px 20px;
+  }
+  
+  .dashboard h1 {
+    font-size: 1.8rem;
+  }
+  
+  .ai-chatbox {
+    width: 300px;
+    height: 400px;
+    right: -20px;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  
+  section {
+    padding: 40px 5%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo-container">
+    <div class="logo-icon"><i class="fas fa-graduation-cap"></i></div>
+    <div class="logo-text">BTech LMS</div>
+  </div>
+  <div class="nav-right">
+    <div class="user-info">
+      <div class="user-avatar">Y</div>
+      <div>YASH</div>
+    </div>
+    <div class="notification-icon">
+      <i class="fas fa-bell"></i>
+      <div class="notification-badge">3</div>
+    </div>
+  </div>
+</nav>
+
+<div class="dashboard">
+  <h1>Welcome Back, YASH!</h1>
+  <p class="dashboard-subtitle">Continue your learning journey with personalized recommendations</p>
+  
+  <div class="stats-container">
+    <div class="stat-card">
+      <div class="stat-title">Courses Enrolled</div>
+      <div class="stat-value">12</div>
+      <div class="stat-change positive">+2 this month</div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-title">Learning Hours</div>
+      <div class="stat-value">48.5</div>
+      <div class="stat-change positive">+12% from last week</div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-title">Assignments Due</div>
+      <div class="stat-value">3</div>
+      <div class="stat-change negative">Due in 2 days</div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="stat-title">Average Score</div>
+      <div class="stat-value">87%</div>
+      <div class="stat-change positive">+5% improvement</div>
+    </div>
+  </div>
+</div>
+
+<section id="branches">
+  <h2>Explore BTech Branches</h2>
+  <div class="search-box">
+    <i class="fas fa-search search-icon"></i>
+    <input type="text" id="branchSearch" placeholder="Search for a branch...">
+  </div>
+  <div class="grid" id="branchGrid"></div>
+</section>
+
+<section id="subjects" class="hidden">
+  <h2 id="subjectTitle"></h2>
+  
+  <div class="search-box">
+    <i class="fas fa-search search-icon"></i>
+    <input type="text" id="subjectSearch" placeholder="Search subject...">
+  </div>
+  
+  <div class="grid" id="subjectGrid"></div>
+  
+  <button id="backToBranches" class="back-btn" style="display: block; margin: 40px auto 0; padding: 12px 30px; background: linear-gradient(135deg, var(--neon1), var(--neon3)); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: 1rem;">
+    <i class="fas fa-arrow-left"></i> Back to Branches
+  </button>
+</section>
+
+<section id="progress" class="progress-section">
+  <h2>Your Learning Progress</h2>
+  <div class="progress-grid" id="progressGrid"></div>
+</section>
+
+<!-- AI Assistant -->
+<div class="ai-assistant">
+  <div class="ai-chatbox" id="aiChatbox">
+    <div class="chat-header">
+      <i class="fas fa-robot" style="color: var(--neon1);"></i>
+      <h3>LMS AI Assistant</h3>
+    </div>
+    <div class="chat-body" id="chatBody">
+      <div class="chat-message ai">
+        Hello! I'm your AI learning assistant. How can I help you today?
+      </div>
+      <div class="chat-message ai">
+        You can ask me about courses, study tips, deadlines, or anything related to your learning journey.
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Ask me anything...">
+      <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+  <div class="ai-toggle" id="aiToggle">
+    <i class="fas fa-robot"></i>
+  </div>
+</div>
+
+<script>
+// Enhanced data with progress tracking
+const data = {
+  "CSE": {
+    subjects: ["Data Structures", "Algorithms", "DBMS", "Operating Systems", "Computer Networks", "Software Engineering"],
+    progress: [85, 70, 90, 65, 80, 75]
+  },
+  "IT": {
+    subjects: ["Web Development", "Database Systems", "Cloud Computing", "Cyber Security"],
+    progress: [90, 85, 70, 60]
+  },
+  "ECE": {
+    subjects: ["Digital Electronics", "Signals & Systems", "VLSI", "Communication Systems"],
+    progress: [80, 75, 65, 70]
+  },
+  "EE": {
+    subjects: ["Electrical Machines", "Power Systems", "Control Systems"],
+    progress: [75, 80, 85]
+  },
+  "ME": {
+    subjects: ["Thermodynamics", "Fluid Mechanics", "Machine Design"],
+    progress: [70, 65, 80]
+  },
+  "Civil": {
+    subjects: ["Structural Analysis", "Geotechnical Engineering", "Transportation Engineering"],
+    progress: [85, 75, 70]
+  },
+  "AI/ML": {
+    subjects: ["Machine Learning", "Deep Learning", "NLP", "Computer Vision"],
+    progress: [90, 85, 70, 65]
+  },
+  "Data Science": {
+    subjects: ["Statistics", "Python", "Big Data", "Data Visualization"],
+    progress: [95, 90, 75, 80]
+  }
+};
+
+// User favorites
+let favorites = JSON.parse(localStorage.getItem('lms_favorites')) || {
+  "CSE": ["Data Structures", "Algorithms"],
+  "AI/ML": ["Machine Learning"]
+};
+
+// User progress data
+let userProgress = JSON.parse(localStorage.getItem('lms_progress')) || {
+  "Data Structures": 85,
+  "Algorithms": 70,
+  "DBMS": 90,
+  "Machine Learning": 90,
+  "Web Development": 90
+};
+
+// DOM Elements
+const branchGrid = document.getElementById('branchGrid');
+const subjectGrid = document.getElementById('subjectGrid');
+const subjectSection = document.getElementById('subjects');
+const subjectTitle = document.getElementById('subjectTitle');
+const branchSearch = document.getElementById('branchSearch');
+const subjectSearch = document.getElementById('subjectSearch');
+const backToBranches = document.getElementById('backToBranches');
+const progressGrid = document.getElementById('progressGrid');
+const aiToggle = document.getElementById('aiToggle');
+const aiChatbox = document.getElementById('aiChatbox');
+const chatBody = document.getElementById('chatBody');
+const chatInput = document.getElementById('chatInput');
+const sendMessage = document.getElementById('sendMessage');
+
+let currentBranch = '';
+let currentSubjects = [];
+
+// Initialize branches
+function initBranches() {
+  branchGrid.innerHTML = '';
+  Object.keys(data).forEach(branch => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <h3>${branch}</h3>
+      <p>${data[branch].subjects.length} subjects available</p>
+      <div class="card-footer">
+        <div class="progress-container">
+          <span>Avg. Progress</span>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${calculateBranchProgress(branch)}%"></div>
+          </div>
+        </div>
+        <span><i class="fas fa-chevron-right"></i></span>
+      </div>
+    `;
+    card.onclick = () => showSubjects(branch);
+    branchGrid.appendChild(card);
+  });
+}
+
+// Calculate average progress for a branch
+function calculateBranchProgress(branch) {
+  const branchData = data[branch];
+  if (!branchData || !branchData.progress) return 0;
+  
+  const sum = branchData.progress.reduce((a, b) => a + b, 0);
+  return Math.round(sum / branchData.progress.length);
+}
+
+// Show subjects for a branch
+function showSubjects(branch) {
+  subjectGrid.innerHTML = '';
+  subjectTitle.innerText = `${branch} Subjects`;
+  subjectSection.classList.remove('hidden');
+  document.getElementById('branches').classList.add('hidden');
+  document.getElementById('progress').classList.add('hidden');
+  
+  currentBranch = branch;
+  currentSubjects = data[branch].subjects;
+  
+  renderSubjects(currentSubjects, branch);
+  subjectSection.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Render subjects
+function renderSubjects(list, branch) {
+  subjectGrid.innerHTML = '';
+  
+  list.forEach((subject, index) => {
+    const progress = userProgress[subject] || data[branch].progress[index] || 0;
+    const isFavorite = favorites[branch] && favorites[branch].includes(subject);
+    
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="favorite ${isFavorite ? 'active' : ''}" data-subject="${subject}" data-branch="${branch}">
+        <i class="fas fa-star"></i>
+      </div>
+      <h3>${subject}</h3>
+      <p>Interactive notes, videos, quizzes, and assignments</p>
+      <div class="card-footer">
+        <div class="progress-container">
+          <span>Progress</span>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${progress}%"></div>
+          </div>
+          <span>${progress}%</span>
+        </div>
+        <span><i class="fas fa-external-link-alt"></i></span>
+      </div>
+    `;
+    
+    // Favorite toggle
+    const favIcon = card.querySelector('.favorite');
+    favIcon.onclick = (e) => {
+      e.stopPropagation();
+      toggleFavorite(subject, branch, favIcon);
+    };
+    
+    // Open subject page
+    card.onclick = () => {
+      const file = subject.toLowerCase().replace(/[^a-z0-9]/g, '') + '.html';
+      window.open(file, '_blank');
+      // Simulate progress increase
+      simulateProgressIncrease(subject);
+    };
+    
+    subjectGrid.appendChild(card);
+  });
+}
+
+// Toggle favorite
+function toggleFavorite(subject, branch, element) {
+  if (!favorites[branch]) {
+    favorites[branch] = [];
+  }
+  
+  const index = favorites[branch].indexOf(subject);
+  if (index === -1) {
+    favorites[branch].push(subject);
+    element.classList.add('active');
+  } else {
+    favorites[branch].splice(index, 1);
+    element.classList.remove('active');
+  }
+  
+  localStorage.setItem('lms_favorites', JSON.stringify(favorites));
+}
+
+// Simulate progress increase
+function simulateProgressIncrease(subject) {
+  if (!userProgress[subject]) {
+    userProgress[subject] = 10;
+  } else if (userProgress[subject] < 100) {
+    userProgress[subject] = Math.min(userProgress[subject] + 5, 100);
+  }
+  
+  localStorage.setItem('lms_progress', JSON.stringify(userProgress));
+  
+  // Update progress display
+  if (currentSubjects.includes(subject)) {
+    renderSubjects(currentSubjects, currentBranch);
+  }
+  updateProgressSection();
+}
+
+// Update progress section
+function updateProgressSection() {
+  progressGrid.innerHTML = '';
+  
+  // Get top 6 subjects by progress
+  const topSubjects = Object.entries(userProgress)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6);
+  
+  topSubjects.forEach(([subject, progress]) => {
+    const card = document.createElement('div');
+    card.className = 'progress-card';
+    card.innerHTML = `
+      <div class="progress-header">
+        <div class="progress-title">${subject}</div>
+        <div class="progress-percent">${progress}%</div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: ${progress}%"></div>
+      </div>
+      <div class="progress-details">
+        ${progress < 30 ? 'Just Started' : 
+          progress < 60 ? 'In Progress' : 
+          progress < 90 ? 'Almost Done' : 
+          'Completed'}
+      </div>
+    `;
+    progressGrid.appendChild(card);
+  });
+}
+
+// AI Chat functionality
+aiToggle.onclick = () => {
+  aiChatbox.classList.toggle('active');
+};
+
+sendMessage.onclick = sendChatMessage;
+
+chatInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    sendChatMessage();
+  }
+});
+
+function sendChatMessage() {
+  const message = chatInput.value.trim();
+  if (!message) return;
+  
+  // Add user message
+  addChatMessage(message, 'user');
+  chatInput.value = '';
+  
+  // Simulate AI response after delay
+  setTimeout(() => {
+    const response = generateAIResponse(message);
+    addChatMessage(response, 'ai');
+  }, 1000);
+}
+
+function addChatMessage(text, sender) {
+  const messageDiv = document.createElement('div');
+  messageDiv.className = `chat-message ${sender}`;
+  messageDiv.textContent = text;
+  chatBody.appendChild(messageDiv);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function generateAIResponse(message) {
+  const lowerMsg = message.toLowerCase();
+  
+  if (lowerMsg.includes('hi') || lowerMsg.includes('hello')) {
+    return "Hello! I'm your LMS AI assistant. How can I help with your studies today?";
+  } else if (lowerMsg.includes('deadline') || lowerMsg.includes('due')) {
+    return "You have 3 assignments due in the next 2 days: Data Structures (tomorrow), Algorithms (2 days), DBMS (3 days).";
+  } else if (lowerMsg.includes('progress') || lowerMsg.includes('score')) {
+    return `Your overall progress is 78%. Top subjects: Data Structures (85%), Machine Learning (90%). Keep going!`;
+  } else if (lowerMsg.includes('recommend') || lowerMsg.includes('suggest')) {
+    return "Based on your progress, I recommend focusing on Algorithms next. Also check out the new AI/ML courses!";
+  } else if (lowerMsg.includes('thank')) {
+    return "You're welcome! Let me know if you need any more help with your studies.";
+  } else {
+    return "I understand you're asking about: '" + message + "'. As an AI assistant, I can help with course recommendations, deadline reminders, study tips, and progress tracking. Could you be more specific?";
+  }
+}
+
+// Search functionality
+branchSearch.addEventListener('input', (e) => {
+  const val = e.target.value.toLowerCase();
+  const filtered = Object.keys(data).filter(branch => 
+    branch.toLowerCase().includes(val)
+  );
+  
+  branchGrid.innerHTML = '';
+  filtered.forEach(branch => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <h3>${branch}</h3>
+      <p>${data[branch].subjects.length} subjects available</p>
+      <div class="card-footer">
+        <div class="progress-container">
+          <span>Avg. Progress</span>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${calculateBranchProgress(branch)}%"></div>
+          </div>
+        </div>
+        <span><i class="fas fa-chevron-right"></i></span>
+      </div>
+    `;
+    card.onclick = () => showSubjects(branch);
+    branchGrid.appendChild(card);
+  });
+});
+
+subjectSearch.addEventListener('input', (e) => {
+  const val = e.target.value.toLowerCase();
+  const filtered = currentSubjects.filter(subject => 
+    subject.toLowerCase().includes(val)
+  );
+  renderSubjects(filtered, currentBranch);
+});
+
+// Back to branches
+backToBranches.onclick = () => {
+  subjectSection.classList.add('hidden');
+  document.getElementById('branches').classList.remove('hidden');
+  document.getElementById('progress').classList.remove('hidden');
+  branchSearch.value = '';
+  subjectSearch.value = '';
+};
+
+// Initialize the app
+function initApp() {
+  initBranches();
+  updateProgressSection();
+  
+  // Show welcome notification
+  setTimeout(() => {
+    addChatMessage("Welcome to BTech LMS! I see you've been making good progress in Data Structures (85%). Would you like some study tips for Algorithms?", 'ai');
+  }, 2000);
+}
+
+// Initialize on load
+window.onload = initApp;
+</script>
+
+</body>
+</html>

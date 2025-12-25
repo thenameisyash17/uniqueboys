@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VLSI | Complete Learning Platform</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+  --bg: #020617;
+  --card: #0b1229;
+  --neon1: #00f6ff;
+  --neon2: #9f7aea;
+  --neon3: #f472b6;
+  --text: #e5e7eb;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: radial-gradient(circle at 20% 20%, rgba(159, 122, 234, .18), transparent 40%),
+              radial-gradient(circle at 80% 30%, rgba(0, 246, 255, .15), transparent 40%),
+              linear-gradient(180deg, #020617, var(--bg));
+  color: var(--text);
+  min-height: 100vh;
+}
+
+nav {
+  padding: 18px 50px;
+  background: rgba(5, 8, 22, .8);
+  backdrop-filter: blur(14px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid rgba(0, 246, 255, 0.1);
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s;
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+.nav-links a:hover, .nav-links a.active {
+  background: rgba(0, 246, 255, 0.1);
+  color: var(--neon1);
+}
+
+.hero {
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  padding: 0 20px;
+}
+
+.hero h1 {
+  font-size: 3.5rem;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  max-width: 800px;
+  margin-bottom: 30px;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.progress-container {
+  width: 80%;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 30px;
+  height: 12px;
+  margin-top: 30px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  border-radius: 30px;
+  width: 45%;
+  transition: width 0.5s;
+}
+
+section {
+  padding: 70px 8%;
+}
+
+.section-title {
+  font-size: 2rem;
+  margin-bottom: 40px;
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .02));
+  border-radius: 22px;
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  transition: .5s;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 0 40px rgba(0, 246, 255, .4);
+}
+
+.card h3 {
+  background: linear-gradient(90deg, var(--neon1), var(--neon2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.card ul {
+  list-style-type: none;
+  flex-grow: 1;
+}
+
+.card li {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+}
+
+.card li:before {
+  content: "▶";
+  margin-right: 10px;
+  color: var(--neon1);
+  font-size: 0.8rem;
+}
+
+.card li.completed {
+  color: var(--success);
+}
+
+.card li.completed:before {
+  content: "✓";
+  color: var(--success);
+}
+
+.btn-group {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 30px;
+  border: 1px solid rgba(0, 246, 255, .4);
+  background: none;
+  color: var(--neon1);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn:hover {
+  background: var(--neon1);
+  color: black;
+  box-shadow: 0 0 20px var(--neon1);
+}
+
+.btn-success {
+  border-color: rgba(16, 185, 129, .4);
+  color: var(--success);
+}
+
+.btn-success:hover {
+  background: var(--success);
+  color: black;
+  box-shadow: 0 0 20px var(--success);
+}
+
+.btn-warning {
+  border-color: rgba(245, 158, 11, .4);
+  color: var(--warning);
+}
+
+.btn-warning:hover {
+  background: var(--warning);
+  color: black;
+  box-shadow: 0 0 20px var(--warning);
+}
+
+.btn-danger {
+  border-color: rgba(239, 68, 68, .4);
+  color: var(--danger);
+}
+
+.btn-danger:hover {
+  background: var(--danger);
+  color: black;
+  box-shadow: 0 0 20px var(--danger);
+}
+
+.material-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.material-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .02));
+  border-radius: 18px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  transition: all 0.4s;
+}
+
+.material-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 246, 255, 0.2);
+}
+
+.material-card h4 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: var(--neon1);
+}
+
+.material-card p {
+  margin-bottom: 15px;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+.question {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border-left: 4px solid var(--neon1);
+}
+
+.question h5 {
+  color: var(--neon2);
+  margin-bottom: 10px;
+}
+
+.answer {
+  padding: 12px;
+  background: rgba(0, 246, 255, 0.05);
+  border-radius: 8px;
+  margin-top: 10px;
+  display: none;
+}
+
+.answer.show {
+  display: block;
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.toggle-btn {
+  background: rgba(0, 246, 255, 0.1);
+  color: var(--neon1);
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.toggle-btn:hover {
+  background: rgba(0, 246, 255, 0.2);
+}
+
+.flashcard {
+  perspective: 1000px;
+  height: 200px;
+  margin: 20px 0;
+  cursor: pointer;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flashcard.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 25px;
+  font-size: 1.1rem;
+}
+
+.flashcard-front {
+  background: linear-gradient(135deg, rgba(0, 246, 255, 0.1), rgba(159, 122, 234, 0.1));
+  border: 1px solid rgba(0, 246, 255, 0.2);
+  color: var(--neon1);
+}
+
+.flashcard-back {
+  background: linear-gradient(135deg, rgba(159, 122, 234, 0.1), rgba(0, 246, 255, 0.1));
+  border: 1px solid rgba(159, 122, 234, 0.2);
+  color: var(--neon2);
+  transform: rotateY(180deg);
+}
+
+.flashcard-controls {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.quiz-container {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
+  padding: 30px;
+  margin-top: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.quiz-question {
+  font-size: 1.2rem;
+  margin-bottom: 25px;
+  color: var(--neon1);
+}
+
+.quiz-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.quiz-option {
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+
+.quiz-option:hover {
+  background: rgba(0, 246, 255, 0.1);
+  border-color: rgba(0, 246, 255, 0.3);
+}
+
+.quiz-option.selected {
+  background: rgba(0, 246, 255, 0.15);
+  border-color: var(--neon1);
+}
+
+.quiz-option.correct {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: var(--success);
+}
+
+.quiz-option.incorrect {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: var(--danger);
+}
+
+.quiz-results {
+  display: none;
+  text-align: center;
+  padding: 30px;
+  background: rgba(0, 246, 255, 0.05);
+  border-radius: 15px;
+  margin-top: 30px;
+}
+
+.quiz-results.show {
+  display: block;
+  animation: fadeIn 0.5s;
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 30px;
+}
+
+.resource-card {
+  background: linear-gradient(145deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .02));
+  border-radius: 15px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, .12);
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.resource-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon1);
+  box-shadow: 0 10px 20px rgba(0, 246, 255, 0.1);
+}
+
+.resource-card i {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  color: var(--neon1);
+}
+
+footer {
+  text-align: center;
+  padding: 40px;
+  opacity: .6;
+  margin-top: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-left: 10px;
+}
+
+.badge-new {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--warning);
+}
+
+.badge-popular {
+  background: rgba(239, 68, 68, 0.2);
+  color: var(--danger);
+}
+
+@media (max-width: 768px) {
+  nav {
+    padding: 18px 20px;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .nav-links {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  section {
+    padding: 50px 5%;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div class="logo">VLSI Learning Platform</div>
+  <div class="nav-links">
+    <a href="#" class="active"><i class="fas fa-home"></i> Home</a>
+    <a href="#materials"><i class="fas fa-book"></i> Materials</a>
+    <a href="#quiz"><i class="fas fa-question-circle"></i> Quiz</a>
+    <a href="#resources"><i class="fas fa-tools"></i> Resources</a>
+    <a href="#flashcards"><i class="fas fa-layer-group"></i> Flashcards</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div>
+    <h1>VLSI Design & Implementation</h1>
+    <p>Master Very Large Scale Integration (VLSI) design concepts, CMOS technology, and integrated circuit implementation with this comprehensive learning platform.</p>
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <p>Course Progress: <span id="progressText">45%</span></p>
+  </div>
+</div>
+
+<section id="materials">
+  <h2 class="section-title"><i class="fas fa-book-open"></i> Study Materials</h2>
+  
+  <div class="grid">
+    <div class="card">
+      <h3>Core Concepts <span class="badge badge-new">Updated</span></h3>
+      <ul>
+        <li class="completed">CMOS Fabrication Process</li>
+        <li class="completed">MOS Transistor Characteristics</li>
+        <li>Inverter Static & Dynamic Behavior</li>
+        <li>Combinational Circuit Design</li>
+        <li>Sequential Circuit Design</li>
+        <li>Power Dissipation in CMOS</li>
+        <li>VLSI Design Methodologies</li>
+      </ul>
+      <div class="btn-group">
+        <button class="btn"><i class="fas fa-download"></i> Download PDF</button>
+        <button class="btn btn-success"><i class="fas fa-check"></i> Mark Complete</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Video Lectures <span class="badge badge-popular">Popular</span></h3>
+      <p>Comprehensive video tutorials covering VLSI design concepts and practical implementations.</p>
+      <div class="btn-group">
+        <button class="btn"><i class="fas fa-play"></i> CMOS Basics</button>
+        <button class="btn"><i class="fas fa-play"></i> Layout Design</button>
+        <button class="btn"><i class="fas fa-play"></i> Timing Analysis</button>
+        <button class="btn"><i class="fas fa-play"></i> Power Optimization</button>
+      </div>
+      <div style="margin-top: 20px;">
+        <h4>Recent Lecture:</h4>
+        <p>CMOS Fabrication Process - Step by Step</p>
+        <div class="btn-group">
+          <button class="btn btn-warning"><i class="fas fa-video"></i> Watch Now</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Practice & Assessment</h3>
+      <p>Test your knowledge with quizzes, assignments, and practical exercises.</p>
+      <div class="btn-group">
+        <button class="btn"><i class="fas fa-pencil-alt"></i> Weekly Assignment</button>
+        <button class="btn btn-success"><i class="fas fa-question-circle"></i> Start Quiz</button>
+        <button class="btn"><i class="fas fa-project-diagram"></i> Design Project</button>
+      </div>
+      <div style="margin-top: 20px;">
+        <h4>Upcoming Deadlines:</h4>
+        <p>Assignment 3: CMOS Layout - Due in 3 days</p>
+        <p>Quiz 2: Sequential Circuits - Due in 5 days</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title"><i class="fas fa-question-circle"></i> VLSI Q&A Bank</h2>
+  
+  <div class="material-container">
+    <div class="material-card">
+      <h4>1. What is the significance of Moore's Law in VLSI?</h4>
+      <button class="toggle-btn" onclick="toggleAnswer(1)">Show Answer</button>
+      <div class="answer" id="answer1">
+        <p>Moore's Law predicts that the number of transistors on a microchip doubles approximately every two years, while the cost is halved. This has driven the exponential growth in computing power and miniaturization of electronic devices. In VLSI design, this law has motivated continuous innovation in fabrication processes, design methodologies, and materials to keep up with scaling demands.</p>
+      </div>
+    </div>
+    
+    <div class="material-card">
+      <h4>2. Explain the CMOS fabrication process.</h4>
+      <button class="toggle-btn" onclick="toggleAnswer(2)">Show Answer</button>
+      <div class="answer" id="answer2">
+        <p>The CMOS fabrication process involves several key steps: 1) Silicon wafer preparation, 2) Oxidation to create SiO2 layer, 3) Photolithography to define patterns, 4) Etching to remove unwanted material, 5) Ion implantation for doping, 6) Chemical Vapor Deposition (CVD) for layer deposition, 7) Metallization for interconnects, and 8) Packaging. The process creates both NMOS and PMOS transistors on the same substrate.</p>
+      </div>
+    </div>
+    
+    <div class="material-card">
+      <h4>3. What are the advantages of CMOS technology?</h4>
+      <button class="toggle-btn" onclick="toggleAnswer(3)">Show Answer</button>
+      <div class="answer" id="answer3">
+        <p>CMOS technology offers several advantages: 1) Low static power consumption (only dissipates power during switching), 2) High noise immunity, 3) Wide voltage supply range, 4) Good scalability to smaller dimensions, 5) High packing density, 6) Compatibility with digital and analog circuits, and 7) Relatively simple manufacturing process compared to bipolar technology.</p>
+      </div>
+    </div>
+    
+    <div class="material-card">
+      <h4>4. Differentiate between combinational and sequential circuits.</h4>
+      <button class="toggle-btn" onclick="toggleAnswer(4)">Show Answer</button>
+      <div class="answer" id="answer4">
+        <p><strong>Combinational circuits:</strong> Output depends only on current inputs, no memory elements, examples include adders, multiplexers, and decoders. <strong>Sequential circuits:</strong> Output depends on current inputs and previous state (memory), contain memory elements like flip-flops, examples include counters, registers, and finite state machines. Sequential circuits are essential for building memory and state-dependent logic.</p>
+      </div>
+    </div>
+    
+    <div class="material-card">
+      <h4>5. What is the VLSI design flow?</h4>
+      <button class="toggle-btn" onclick="toggleAnswer(5)">Show Answer</button>
+      <div class="answer" id="answer5">
+        <p>The VLSI design flow typically includes: 1) Specification and architecture design, 2) RTL (Register Transfer Level) design and coding, 3) Functional verification, 4) Logic synthesis, 5) Gate-level simulation, 6) Physical design (floorplanning, placement, routing), 7) Timing analysis and closure, 8) Design rule checking (DRC), 9) Layout vs. Schematic (LVS) verification, and 10) Tape-out for fabrication.</p>
+      </div>
+    </div>
+    
+    <div class="material-card">
+      <h4>6. Explain clock skew and jitter in VLSI.</h4>
+      <button class="toggle-btn" onclick="toggleAnswer(6)">Show Answer</button>
+      <div class="answer" id="answer6">
+        <p><strong>Clock skew:</strong> The difference in arrival times of the clock signal at different sequential elements in the circuit. It can cause timing violations if not properly managed. <strong>Clock jitter:</strong> The deviation of clock edges from their ideal positions in time. Jitter can be random or deterministic and affects the maximum operating frequency. Both skew and jitter are critical considerations in high-speed VLSI design to ensure proper synchronization.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="flashcards">
+  <h2 class="section-title"><i class="fas fa-layer-group"></i> Interactive Flashcards</h2>
+  
+  <div class="quiz-container">
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <h3>What does VLSI stand for?</h3>
+          <p><i>Click to flip</i></p>
+        </div>
+        <div class="flashcard-back">
+          <h3>Very Large Scale Integration</h3>
+          <p>The process of creating integrated circuits by combining thousands to billions of transistors into a single chip.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flashcard-controls">
+      <button class="btn" onclick="prevCard()"><i class="fas fa-arrow-left"></i> Previous</button>
+      <button class="btn btn-success" onclick="flipCard()"><i class="fas fa-sync-alt"></i> Flip Card</button>
+      <button class="btn" onclick="nextCard()">Next <i class="fas fa-arrow-right"></i></button>
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px;">
+      <p>Card <span id="cardCounter">1</span> of 10</p>
+    </div>
+  </div>
+</section>
+
+<section id="quiz">
+  <h2 class="section-title"><i class="fas fa-question-circle"></i> VLSI Quiz</h2>
+  
+  <div class="quiz-container">
+    <div id="quizQuestion">
+      <h3 class="quiz-question">1. Which of the following is NOT a step in CMOS fabrication?</h3>
+      <div class="quiz-options">
+        <div class="quiz-option" onclick="selectOption(this)">A. Photolithography</div>
+        <div class="quiz-option" onclick="selectOption(this)">B. Ion Implantation</div>
+        <div class="quiz-option" onclick="selectOption(this)">C. Electroplating</div>
+        <div class="quiz-option" onclick="selectOption(this)">D. Chemical Vapor Deposition</div>
+      </div>
+    </div>
+    
+    <div class="btn-group">
+      <button class="btn" onclick="previousQuestion()"><i class="fas fa-arrow-left"></i> Previous</button>
+      <button class="btn btn-success" onclick="checkAnswer()">Check Answer</button>
+      <button class="btn" onclick="nextQuestion()">Next <i class="fas fa-arrow-right"></i></button>
+      <button class="btn btn-warning" onclick="submitQuiz()">Submit Quiz</button>
+    </div>
+    
+    <div class="quiz-results" id="quizResults">
+      <h3>Quiz Results</h3>
+      <p>Your score: <span id="quizScore">0</span>/5</p>
+      <p id="quizFeedback">Keep practicing to improve your VLSI knowledge!</p>
+      <button class="btn" onclick="resetQuiz()"><i class="fas fa-redo"></i> Try Again</button>
+    </div>
+  </div>
+</section>
+
+<section id="resources">
+  <h2 class="section-title"><i class="fas fa-tools"></i> Learning Resources</h2>
+  
+  <div class="resources-grid">
+    <div class="resource-card">
+      <i class="fas fa-file-pdf"></i>
+      <h4>Textbooks & References</h4>
+      <p>Comprehensive collection of VLSI textbooks and reference materials</p>
+      <button class="btn" style="margin-top: 15px;"><i class="fas fa-external-link-alt"></i> Access</button>
+    </div>
+    
+    <div class="resource-card">
+      <i class="fas fa-code"></i>
+      <h4>Design Tools</h4>
+      <p>Access to VLSI design software and simulation tools</p>
+      <button class="btn" style="margin-top: 15px;"><i class="fas fa-external-link-alt"></i> Explore</button>
+    </div>
+    
+    <div class="resource-card">
+      <i class="fas fa-users"></i>
+      <h4>Community Forum</h4>
+      <p>Connect with peers and experts in VLSI design</p>
+      <button class="btn" style="margin-top: 15px;"><i class="fas fa-external-link-alt"></i> Join</button>
+    </div>
+    
+    <div class="resource-card">
+      <i class="fas fa-chart-line"></i>
+      <h4>Progress Analytics</h4>
+      <p>Track your learning progress and performance metrics</p>
+      <button class="btn" style="margin-top: 15px;"><i class="fas fa-external-link-alt"></i> View</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© VLSI Learning Platform • Comprehensive VLSI Design Resource</p>
+  <p style="margin-top: 10px; font-size: 0.9rem;">Designed for BTech Students • Updated: June 2023</p>
+</footer>
+
+<script>
+// Toggle answer visibility
+function toggleAnswer(id) {
+  const answer = document.getElementById(`answer${id}`);
+  const button = event.target;
+  
+  if (answer.classList.contains('show')) {
+    answer.classList.remove('show');
+    button.textContent = 'Show Answer';
+  } else {
+    answer.classList.add('show');
+    button.textContent = 'Hide Answer';
+  }
+}
+
+// Flashcards functionality
+let currentCard = 1;
+const totalCards = 10;
+const flashcards = [
+  { front: "What does VLSI stand for?", back: "Very Large Scale Integration - The process of creating integrated circuits by combining thousands to billions of transistors into a single chip." },
+  { front: "What is Moore's Law?", back: "The observation that the number of transistors on a microchip doubles approximately every two years, while the cost is halved." },
+  { front: "What are the two types of MOS transistors?", back: "NMOS (N-channel Metal Oxide Semiconductor) and PMOS (P-channel Metal Oxide Semiconductor)." },
+  { front: "What is the main advantage of CMOS technology?", back: "Low static power consumption - CMOS circuits only dissipate power during switching transitions." },
+  { front: "What is clock skew in VLSI?", back: "The difference in arrival times of the clock signal at different sequential elements in the circuit." },
+  { front: "What is the purpose of floorplanning in physical design?", back: "To determine the approximate locations and shapes of major functional blocks in the chip layout." },
+  { front: "What is DRC in VLSI?", back: "Design Rule Checking - A process that verifies that the chip layout adheres to manufacturing constraints." },
+  { front: "What is the difference between combinational and sequential circuits?", back: "Combinational circuits depend only on current inputs; sequential circuits depend on current inputs and previous state (have memory)." },
+  { front: "What is LVS verification?", back: "Layout vs. Schematic verification - Ensures that the physical layout matches the logical schematic of the circuit." },
+  { front: "What is a standard cell in VLSI design?", back: "A pre-designed logic cell (like AND, OR, flip-flop) with fixed height and variable width used in automated digital design flows." }
+];
+
+function flipCard() {
+  const card = document.getElementById('flashcard');
+  card.classList.toggle('flipped');
+}
+
+function nextCard() {
+  if (currentCard < totalCards) {
+    currentCard++;
+    updateCard();
+  }
+}
+
+function prevCard() {
+  if (currentCard > 1) {
+    currentCard--;
+    updateCard();
+  }
+}
+
+function updateCard() {
+  const card = document.getElementById('flashcard');
+  const front = card.querySelector('.flashcard-front h3');
+  const back = card.querySelector('.flashcard-back h3');
+  const backDetail = card.querySelector('.flashcard-back p');
+  
+  front.textContent = flashcards[currentCard-1].front;
+  back.textContent = flashcards[currentCard-1].back.split(' - ')[0];
+  backDetail.textContent = flashcards[currentCard-1].back.split(' - ')[1] || '';
+  
+  // Reset card to front view
+  card.classList.remove('flipped');
+  
+  // Update counter
+  document.getElementById('cardCounter').textContent = currentCard;
+}
+
+// Quiz functionality
+let currentQuizQuestion = 1;
+let selectedOption = null;
+let quizScore = 0;
+const quizQuestions = [
+  {
+    question: "Which of the following is NOT a step in CMOS fabrication?",
+    options: ["Photolithography", "Ion Implantation", "Electroplating", "Chemical Vapor Deposition"],
+    correct: 2,
+    explanation: "Electroplating is not a standard step in CMOS fabrication. The main steps include photolithography, ion implantation, CVD, etching, and metallization."
+  },
+  {
+    question: "What is the typical substrate material used in CMOS fabrication?",
+    options: ["Gallium Arsenide", "Silicon", "Germanium", "Silicon Carbide"],
+    correct: 1,
+    explanation: "Silicon is the most commonly used substrate material in CMOS fabrication due to its excellent semiconductor properties and abundance."
+  },
+  {
+    question: "Which logic family has the lowest power dissipation?",
+    options: ["TTL", "ECL", "CMOS", "NMOS"],
+    correct: 2,
+    explanation: "CMOS has the lowest power dissipation among these logic families because it only consumes significant power during switching transitions."
+  },
+  {
+    question: "What does DRC stand for in VLSI?",
+    options: ["Design Rule Checking", "Digital Radio Communication", "Data Recovery Circuit", "Dynamic Resistance Calculation"],
+    correct: 0,
+    explanation: "DRC stands for Design Rule Checking, which verifies that the chip layout adheres to manufacturing constraints."
+  },
+  {
+    question: "Which of the following is a sequential circuit?",
+    options: ["Multiplexer", "Decoder", "Flip-flop", "Adder"],
+    correct: 2,
+    explanation: "Flip-flop is a sequential circuit as it has memory and its output depends on both current inputs and previous state."
+  }
+];
+
+function loadQuizQuestion() {
+  const question = quizQuestions[currentQuizQuestion-1];
+  document.querySelector('.quiz-question').textContent = `${currentQuizQuestion}. ${question.question}`;
+  
+  const options = document.querySelectorAll('.quiz-option');
+  options.forEach((option, index) => {
+    option.textContent = `${String.fromCharCode(65+index)}. ${question.options[index]}`;
+    option.classList.remove('selected', 'correct', 'incorrect');
+  });
+  
+  selectedOption = null;
+}
+
+function selectOption(element) {
+  // Remove selection from all options
+  document.querySelectorAll('.quiz-option').forEach(opt => {
+    opt.classList.remove('selected');
+  });
+  
+  // Add selection to clicked option
+  element.classList.add('selected');
+  selectedOption = Array.from(document.querySelectorAll('.quiz-option')).indexOf(element);
+}
+
+function checkAnswer() {
+  if (selectedOption === null) {
+    alert("Please select an answer first!");
+    return;
+  }
+  
+  const question = quizQuestions[currentQuizQuestion-1];
+  const options = document.querySelectorAll('.quiz-option');
+  
+  // Mark correct answer
+  options[question.correct].classList.add('correct');
+  
+  // Mark incorrect if wrong
+  if (selectedOption !== question.correct) {
+    options[selectedOption].classList.add('incorrect');
+  } else {
+    quizScore++;
+  }
+  
+  // Disable further selection
+  options.forEach(opt => {
+    opt.onclick = null;
+  });
+}
+
+function nextQuestion() {
+  if (currentQuizQuestion < quizQuestions.length) {
+    currentQuizQuestion++;
+    loadQuizQuestion();
+  }
+}
+
+function previousQuestion() {
+  if (currentQuizQuestion > 1) {
+    currentQuizQuestion--;
+    loadQuizQuestion();
+  }
+}
+
+function submitQuiz() {
+  document.getElementById('quizResults').classList.add('show');
+  document.getElementById('quizScore').textContent = quizScore;
+  
+  let feedback = "";
+  if (quizScore === quizQuestions.length) {
+    feedback = "Excellent! You have mastered the VLSI fundamentals!";
+  } else if (quizScore >= quizQuestions.length * 0.7) {
+    feedback = "Good job! You have a solid understanding of VLSI concepts.";
+  } else if (quizScore >= quizQuestions.length * 0.5) {
+    feedback = "Not bad! Keep studying to improve your knowledge.";
+  } else {
+    feedback = "Keep practicing! Review the materials and try again.";
+  }
+  
+  document.getElementById('quizFeedback').textContent = feedback;
+}
+
+function resetQuiz() {
+  currentQuizQuestion = 1;
+  quizScore = 0;
+  selectedOption = null;
+  document.getElementById('quizResults').classList.remove('show');
+  loadQuizQuestion();
+}
+
+// Initialize progress bar
+function updateProgress() {
+  const progress = 45; // This would normally come from user data
+  document.getElementById('progressBar').style.width = `${progress}%`;
+  document.getElementById('progressText').textContent = `${progress}%`;
+}
+
+// Initialize page
+document.addEventListener('DOMContentLoaded', function() {
+  updateProgress();
+  loadQuizQuestion();
+  updateCard();
+  
+  // Smooth scrolling for navigation links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      if (targetId === '#') return;
+      
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>

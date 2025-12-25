@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electrical Machines | BTech LMS</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+<style>
+:root {
+  --bg: #050816;
+  --card: #0b1229;
+  --neon: #00f6ff;
+  --purple: #9f7aea;
+  --green: #4ade80;
+  --orange: #f97316;
+  --text: #e5e7eb;
+  --dark-blue: #1e1b4b;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Poppins, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at top, #0a0f2c, var(--bg));
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Animated Background Particles */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  background: rgba(0, 246, 255, 0.1);
+  border-radius: 50%;
+  animation: float 15s infinite linear;
+}
+
+@keyframes float {
+  0% { transform: translateY(0) translateX(0); }
+  25% { transform: translateY(-20px) translateX(10px); }
+  50% { transform: translateY(-40px) translateX(20px); }
+  75% { transform: translateY(-20px) translateX(10px); }
+  100% { transform: translateY(0) translateX(0); }
+}
+
+/* ---------- NAV ---------- */
+nav {
+  padding: 18px 40px;
+  background: rgba(5, 8, 22, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 246, 255, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--neon);
+  text-shadow: 0 0 15px var(--neon);
+  animation: neon-pulse 2s infinite alternate;
+}
+
+@keyframes neon-pulse {
+  from { text-shadow: 0 0 15px var(--neon); }
+  to { text-shadow: 0 0 25px var(--neon), 0 0 35px var(--neon); }
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: var(--neon);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: var(--neon);
+  transition: width 0.3s;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ---------- HERO ---------- */
+.hero {
+  padding: 70px 8% 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 246, 255, 0.05) 0%, transparent 70%);
+  z-index: -1;
+}
+
+.hero h1 {
+  font-size: 2.6rem;
+  color: var(--neon);
+  text-shadow: 0 0 25px var(--neon);
+  margin-bottom: 15px;
+  animation: fadeInDown 1s;
+}
+
+.hero p {
+  margin-top: 12px;
+  color: #cbd5f5;
+  font-size: 1.1rem;
+  animation: fadeInUp 1s 0.3s both;
+}
+
+.progress-container {
+  max-width: 600px;
+  margin: 30px auto 0;
+  background: rgba(11, 18, 41, 0.6);
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid rgba(0, 246, 255, 0.2);
+  animation: fadeInUp 1s 0.5s both;
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  color: var(--neon);
+}
+
+.progress-bar {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 65%;
+  background: linear-gradient(90deg, var(--neon), var(--purple));
+  border-radius: 5px;
+  position: relative;
+  animation: progress-animation 2s ease-in-out;
+}
+
+@keyframes progress-animation {
+  0% { width: 0%; }
+  100% { width: 65%; }
+}
+
+/* ---------- CONTENT ---------- */
+section {
+  padding: 40px 8%;
+}
+
+.section-title {
+  margin-bottom: 25px;
+  color: var(--purple);
+  font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--purple), var(--neon));
+  border-radius: 2px;
+}
+
+/* ---------- GRID ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.card {
+  background: var(--card);
+  padding: 28px;
+  border-radius: 18px;
+  border: 1px solid rgba(0, 246, 255, 0.15);
+  transition: 0.4s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, transparent, rgba(0, 246, 255, 0.05), transparent);
+  z-index: -1;
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.card:hover::before {
+  transform: translateX(100%);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 30px rgba(0, 246, 255, 0.4);
+}
+
+.card h3 {
+  color: var(--neon);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card ul {
+  list-style: none;
+}
+
+.card ul li {
+  padding: 8px 0;
+  color: #cbd5f5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.3s;
+}
+
+.card ul li:hover {
+  transform: translateX(5px);
+  color: var(--neon);
+}
+
+/* Expandable Content */
+.expand-btn {
+  background: transparent;
+  border: none;
+  color: var(--neon);
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.3s;
+}
+
+.expand-btn:hover {
+  color: var(--purple);
+}
+
+.expanded-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease-out;
+}
+
+.expanded-content.active {
+  max-height: 500px;
+}
+
+/* Topic Tags */
+.topic-tag {
+  display: inline-block;
+  background: rgba(159, 122, 234, 0.2);
+  color: var(--purple);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  margin: 5px 5px 5px 0;
+  border: 1px solid rgba(159, 122, 234, 0.3);
+}
+
+/* Interactive Quiz Cards */
+.quiz-card {
+  cursor: pointer;
+}
+
+.quiz-card:hover h3 {
+  color: var(--orange);
+}
+
+.quiz-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: #9aa4d1;
+}
+
+/* Resources Section */
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 25px;
+}
+
+.resource-card {
+  background: var(--card);
+  padding: 25px;
+  border-radius: 15px;
+  border: 1px solid rgba(0, 246, 255, 0.1);
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.resource-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--neon);
+  box-shadow: 0 10px 20px rgba(0, 246, 255, 0.1);
+}
+
+.resource-icon {
+  font-size: 2rem;
+  color: var(--neon);
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 246, 255, 0.1);
+  border-radius: 50%;
+}
+
+.resource-content h4 {
+  color: var(--neon);
+  margin-bottom: 5px;
+}
+
+.resource-content p {
+  color: #cbd5f5;
+  font-size: 0.9rem;
+}
+
+/* ---------- FOOTER ---------- */
+footer {
+  text-align: center;
+  padding: 25px;
+  font-size: 0.9rem;
+  color: #9aa4d1;
+  border-top: 1px solid rgba(0, 246, 255, 0.1);
+  margin-top: 40px;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(5, 8, 22, 0.9);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal.active {
+  display: flex;
+  animation: fadeIn 0.3s;
+}
+
+.modal-content {
+  background: var(--card);
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  border: 2px solid var(--neon);
+  box-shadow: 0 0 40px rgba(0, 246, 255, 0.3);
+  animation: scaleIn 0.4s;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  color: var(--neon);
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  color: var(--neon);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.close-modal:hover {
+  transform: rotate(90deg);
+}
+
+/* Responsive */
+@media(max-width: 768px) {
+  .hero h1 {
+    font-size: 2.1rem;
+  }
+  
+  nav {
+    padding: 15px 20px;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .grid, .resources-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  section {
+    padding: 30px 5%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Animated Background Particles -->
+<div class="particles" id="particles-container"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">BTech LMS</div>
+  <div class="nav-links">
+    <a href="#" class="nav-link">Home</a>
+    <a href="#notes" class="nav-link">Notes</a>
+    <a href="#videos" class="nav-link">Videos</a>
+    <a href="#quiz" class="nav-link">Quiz</a>
+    <a href="#resources" class="nav-link">Resources</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <h1 class="animate__animated animate__fadeInDown">★ Electrical Machines</h1>
+  <p class="animate__animated animate__fadeInUp">Complete Learning Portal • Notes • Videos • Quiz • Resources</p>
+  
+  <div class="progress-container animate__animated animate__fadeInUp">
+    <div class="progress-label">
+      <span>Course Progress</span>
+      <span>65%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPREHENSIVE NOTES -->
+<section id="notes">
+  <div class="section-title">
+    <i class="fas fa-book"></i>
+    <h2>📘 Complete Course Notes</h2>
+  </div>
+  
+  <div class="grid">
+    <!-- Unit 1 -->
+    <div class="card">
+      <h3><i class="fas fa-bolt"></i> Unit 1: Transformers</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Principle of Operation & Construction</li>
+        <li><i class="fas fa-check-circle"></i> EMF Equation & Transformation Ratio</li>
+        <li><i class="fas fa-check-circle"></i> Equivalent Circuit & Phasor Diagram</li>
+        <li><i class="fas fa-check-circle"></i> Losses & Efficiency Calculation</li>
+        <li><i class="fas fa-check-circle"></i> Voltage Regulation & Testing</li>
+        <li><i class="fas fa-check-circle"></i> Three Phase Transformers</li>
+        <li><i class="fas fa-check-circle"></i> Auto Transformers & Instrument Transformers</li>
+      </ul>
+      <button class="expand-btn" onclick="toggleExpand('unit1')">
+        <i class="fas fa-chevron-down"></i> Show More Topics
+      </button>
+      <div class="expanded-content" id="unit1">
+        <ul>
+          <li><i class="fas fa-circle"></i> Parallel Operation of Transformers</li>
+          <li><i class="fas fa-circle"></i> Cooling Methods & Maintenance</li>
+          <li><i class="fas fa-circle"></i> Harmonic Effects & Solutions</li>
+          <li><i class="fas fa-circle"></i> Recent Advancements in Transformer Technology</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Unit 2 -->
+    <div class="card">
+      <h3><i class="fas fa-cogs"></i> Unit 2: DC Machines</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Construction & Working Principle</li>
+        <li><i class="fas fa-check-circle"></i> EMF & Torque Equations</li>
+        <li><i class="fas fa-check-circle"></i> Characteristics of DC Generators</li>
+        <li><i class="fas fa-check-circle"></i> Characteristics of DC Motors</li>
+        <li><i class="fas fa-check-circle"></i> Speed Control Methods</li>
+        <li><i class="fas fa-check-circle"></i> Starting & Braking Methods</li>
+        <li><i class="fas fa-check-circle"></i> Losses & Efficiency Calculations</li>
+      </ul>
+      <button class="expand-btn" onclick="toggleExpand('unit2')">
+        <i class="fas fa-chevron-down"></i> Show More Topics
+      </button>
+      <div class="expanded-content" id="unit2">
+        <ul>
+          <li><i class="fas fa-circle"></i> Ward Leonard Method of Speed Control</li>
+          <li><i class="fas fa-circle"></i> Application of DC Machines in Industries</li>
+          <li><i class="fas fa-circle"></i> Troubleshooting & Maintenance</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Unit 3 -->
+    <div class="card">
+      <h3><i class="fas fa-sync-alt"></i> Unit 3: Three Phase Induction Motors</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Construction & Rotor Types</li>
+        <li><i class="fas fa-check-circle"></i> Principle of Operation & Rotating Magnetic Field</li>
+        <li><i class="fas fa-check-circle"></i> Equivalent Circuit & Phasor Diagram</li>
+        <li><i class="fas fa-check-circle"></i> Torque-Slip Characteristics</li>
+        <li><i class="fas fa-check-circle"></i> Starting Methods & Starters</li>
+        <li><i class="fas fa-check-circle"></i> Speed Control Methods</li>
+        <li><i class="fas fa-check-circle"></i> Testing & Efficiency Calculation</li>
+      </ul>
+      <div class="topic-tags">
+        <span class="topic-tag">Squirrel Cage</span>
+        <span class="topic-tag">Slip Ring</span>
+        <span class="topic-tag">Cogging</span>
+        <span class="topic-tag">Crawling</span>
+      </div>
+    </div>
+    
+    <!-- Unit 4 -->
+    <div class="card">
+      <h3><i class="fas fa-tachometer-alt"></i> Unit 4: Single Phase Induction Motors</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Double Revolving Field Theory</li>
+        <li><i class="fas fa-check-circle"></i> Equivalent Circuit Analysis</li>
+        <li><i class="fas fa-check-circle"></i> Starting Methods: Split Phase, Capacitor Start</li>
+        <li><i class="fas fa-check-circle"></i> Permanent Split Capacitor Motors</li>
+        <li><i class="fas fa-check-circle"></i> Shaded Pole Motors & Applications</li>
+        <li><i class="fas fa-check-circle"></i> Universal Motors & Repulsion Motors</li>
+        <li><i class="fas fa-check-circle"></i> Performance Characteristics</li>
+      </ul>
+    </div>
+    
+    <!-- Unit 5 -->
+    <div class="card">
+      <h3><i class="fas fa-industry"></i> Unit 5: Synchronous Machines</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Construction & Working Principle</li>
+        <li><i class="fas fa-check-circle"></i> EMF Equation & Armature Reaction</li>
+        <li><i class="fas fa-check-circle"></i> Synchronous Generator Characteristics</li>
+        <li><i class="fas fa-check-circle"></i> Voltage Regulation & Parallel Operation</li>
+        <li><i class="fas fa-check-circle"></i> Synchronous Motor: Operation & Starting</li>
+        <li><i class="fas fa-check-circle"></i> Power Angle Characteristics</li>
+        <li><i class="fas fa-check-circle"></i> V-Curves & Inverted V-Curves</li>
+      </ul>
+    </div>
+    
+    <!-- Unit 6 -->
+    <div class="card">
+      <h3><i class="fas fa-microchip"></i> Unit 6: Special Machines & Recent Trends</h3>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Brushless DC Motors (BLDC)</li>
+        <li><i class="fas fa-check-circle"></i> Stepper Motors & Servo Motors</li>
+        <li><i class="fas fa-check-circle"></i> Switched Reluctance Motors</li>
+        <li><i class="fas fa-check-circle"></i> Linear Induction Motors</li>
+        <li><i class="fas fa-check-circle"></i> Energy Efficient Motors</li>
+        <li><i class="fas fa-check-circle"></i> Smart Motor Control Systems</li>
+        <li><i class="fas fa-check-circle"></i> IoT in Electrical Machines</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="section-title">
+    <i class="fas fa-video"></i>
+    <h2>🎥 Video Lectures & Tutorials</h2>
+  </div>
+  
+  <div class="grid">
+    <div class="card">
+      <h3><i class="fas fa-play-circle"></i> Transformer Fundamentals</h3>
+      <ul>
+        <li><i class="fas fa-play"></i> Working Principle & Construction</li>
+        <li><i class="fas fa-play"></i> Equivalent Circuit Derivation</li>
+        <li><i class="fas fa-play"></i> Practical Testing Methods</li>
+        <li><i class="fas fa-play"></i> 3D Animation of Magnetic Flux</li>
+        <li><i class="fas fa-play"></i> Transformer Maintenance Guide</li>
+      </ul>
+      <div class="topic-tags">
+        <span class="topic-tag">45 min</span>
+        <span class="topic-tag">Practical</span>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><i class="fas fa-play-circle"></i> DC Machines Masterclass</h3>
+      <ul>
+        <li><i class="fas fa-play"></i> Construction Details & Parts</li>
+        <li><i class="fas fa-play"></i> Torque Equation Derivation</li>
+        <li><i class="fas fa-play"></i> Speed Control Techniques</li>
+        <li><i class="fas fa-play"></i> Ward Leonard System Explained</li>
+        <li><i class="fas fa-play"></i> Troubleshooting Common Issues</li>
+      </ul>
+      <div class="topic-tags">
+        <span class="topic-tag">60 min</span>
+        <span class="topic-tag">Advanced</span>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><i class="fas fa-play-circle"></i> Induction Motors Deep Dive</h3>
+      <ul>
+        <li><i class="fas fa-play"></i> Rotating Magnetic Field Visualization</li>
+        <li><i class="fas fa-play"></i> Torque-Slip Characteristics Analysis</li>
+        <li><i class="fas fa-play"></i> Starting Methods Comparison</li>
+        <li><i class="fas fa-play"></i> Speed Control of Induction Motors</li>
+        <li><i class="fas fa-play"></i> Industrial Applications</li>
+      </ul>
+      <div class="topic-tags">
+        <span class="topic-tag">55 min</span>
+        <span class="topic-tag">Visualization</span>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h3><i class="fas fa-play-circle"></i> Synchronous Machines</h3>
+      <ul>
+        <li><i class="fas fa-play"></i> Construction & Working Animation</li>
+        <li><i class="fas fa-play"></i> Voltage Regulation Methods</li>
+        <li><i class="fas fa-play"></i> Parallel Operation of Generators</li>
+        <li><i class="fas fa-play"></i> Synchronous Motor V-Curves</li>
+        <li><i class="fas fa-play"></i> Power Factor Correction</li>
+      </ul>
+      <div class="topic-tags">
+        <span class="topic-tag">50 min</span>
+        <span class="topic-tag">Animation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ & ASSESSMENTS -->
+<section id="quiz">
+  <div class="section-title">
+    <i class="fas fa-clipboard-check"></i>
+    <h2>📝 Quizzes & Assessments</h2>
+  </div>
+  
+  <div class="grid">
+    <div class="card quiz-card" onclick="openQuizModal('quiz1')">
+      <h3><i class="fas fa-brain"></i> MCQ Test – Level 1: Fundamentals</h3>
+      <ul>
+        <li><i class="fas fa-question-circle"></i> 20 Multiple Choice Questions</li>
+        <li><i class="fas fa-clock"></i> Time: 25 Minutes</li>
+        <li><i class="fas fa-book"></i> Covers Units 1 & 2</li>
+        <li><i class="fas fa-chart-line"></i> Instant Results & Analysis</li>
+      </ul>
+      <div class="quiz-info">
+        <span><i class="fas fa-users"></i> 1254 Attempted</span>
+        <span><i class="fas fa-star"></i> Difficulty: Easy</span>
+      </div>
+    </div>
+    
+    <div class="card quiz-card" onclick="openQuizModal('quiz2')">
+      <h3><i class="fas fa-calculator"></i> Numerical Problems – Level 2</h3>
+      <ul>
+        <li><i class="fas fa-question-circle"></i> 15 Numerical Problems</li>
+        <li><i class="fas fa-clock"></i> Time: 40 Minutes</li>
+        <li><i class="fas fa-book"></i> Covers Units 1-4</li>
+        <li><i class="fas fa-chart-line"></i> Step-by-Step Solutions</li>
+      </ul>
+      <div class="quiz-info">
+        <span><i class="fas fa-users"></i> 876 Attempted</span>
+        <span><i class="fas fa-star"></i> Difficulty: Medium</span>
+      </div>
+    </div>
+    
+    <div class="card quiz-card" onclick="openQuizModal('quiz3')">
+      <h3><i class="fas fa-graduation-cap"></i> Advanced Applications – Level 3</h3>
+      <ul>
+        <li><i class="fas fa-question-circle"></i> Case Studies & Applications</li>
+        <li><i class="fas fa-clock"></i> Time: 60 Minutes</li>
+        <li><i class="fas fa-book"></i> Covers All Units</li>
+        <li><i class="fas fa-chart-line"></i> Detailed Performance Report</li>
+      </ul>
+      <div class="quiz-info">
+        <span><i class="fas fa-users"></i> 432 Attempted</span>
+        <span><i class="fas fa-star"></i> Difficulty: Hard</span>
+      </div>
+    </div>
+    
+    <div class="card quiz-card" onclick="openQuizModal('quiz4')">
+      <h3><i class="fas fa-history"></i> Previous Year Questions</h3>
+      <ul>
+        <li><i class="fas fa-question-circle"></i> University Exam Pattern</li>
+        <li><i class="fas fa-clock"></i> Time: 3 Hours (Simulated)</li>
+        <li><i class="fas fa-book"></i> Complete Syllabus Coverage</li>
+        <li><i class="fas fa-chart-line"></i> Score Predictor</li>
+      </ul>
+      <div class="quiz-info">
+        <span><i class="fas fa-users"></i> 2103 Attempted</span>
+        <span><i class="fas fa-star"></i> Exam Simulation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADDITIONAL RESOURCES -->
+<section id="resources">
+  <div class="section-title">
+    <i class="fas fa-toolbox"></i>
+    <h2>🛠️ Additional Learning Resources</h2>
+  </div>
+  
+  <div class="resources-grid">
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-file-pdf"></i>
+      </div>
+      <div class="resource-content">
+        <h4>Formula Sheet & Cheat Sheets</h4>
+        <p>All important formulas, equations, and conversion factors in one document for quick revision.</p>
+      </div>
+    </div>
+    
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-project-diagram"></i>
+      </div>
+      <div class="resource-content">
+        <h4>Circuit Diagrams & Schematics</h4>
+        <p>High-quality circuit diagrams for all machines with detailed labeling and explanations.</p>
+      </div>
+    </div>
+    
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-industry"></i>
+      </div>
+      <div class="resource-content">
+        <h4>Industrial Applications Guide</h4>
+        <p>Real-world applications of each machine type in various industries with case studies.</p>
+      </div>
+    </div>
+    
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-vr-cardboard"></i>
+      </div>
+      <div class="resource-content">
+        <h4>3D Models & Virtual Lab</h4>
+        <p>Interactive 3D models of machines that can be disassembled and studied component-wise.</p>
+      </div>
+    </div>
+    
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-chalkboard-teacher"></i>
+      </div>
+      <div class="resource-content">
+        <h4>Instructor Solved Problems</h4>
+        <p>Step-by-step solutions to 100+ numerical problems with different difficulty levels.</p>
+      </div>
+    </div>
+    
+    <div class="resource-card">
+      <div class="resource-icon">
+        <i class="fas fa-question-circle"></i>
+      </div>
+      <div class="resource-content">
+        <h4>FAQ & Common Doubts</h4>
+        <p>Answers to frequently asked questions and clarification of common misconceptions.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quiz Modal -->
+<div class="modal" id="quizModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="quizTitle">Electrical Machines Quiz</h2>
+      <button class="close-modal" onclick="closeModal()">&times;</button>
+    </div>
+    <div id="quizContent">
+      <!-- Quiz content will be loaded here -->
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 BTech LMS | Electrical Engineering Department</p>
+  <p style="margin-top: 10px; font-size: 0.8rem; color: #6b7280;">Complete Electrical Machines Learning Portal • All Topics Covered • Interactive Features</p>
+</footer>
+
+<script>
+// Create animated background particles
+function createParticles() {
+  const container = document.getElementById('particles-container');
+  const particleCount = 50;
+  
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    
+    // Random size between 1px and 5px
+    const size = Math.random() * 4 + 1;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    
+    // Random position
+    particle.style.left = `${Math.random() * 100}%`;
+    particle.style.top = `${Math.random() * 100}%`;
+    
+    // Random animation delay and duration
+    particle.style.animationDelay = `${Math.random() * 15}s`;
+    particle.style.animationDuration = `${15 + Math.random() * 10}s`;
+    
+    container.appendChild(particle);
+  }
+}
+
+// Expand/collapse content
+function toggleExpand(id) {
+  const content = document.getElementById(id);
+  const button = content.previousElementSibling;
+  const icon = button.querySelector('i');
+  
+  content.classList.toggle('active');
+  
+  if (content.classList.contains('active')) {
+    icon.className = 'fas fa-chevron-up';
+    button.innerHTML = '<i class="fas fa-chevron-up"></i> Show Less Topics';
+  } else {
+    icon.className = 'fas fa-chevron-down';
+    button.innerHTML = '<i class="fas fa-chevron-down"></i> Show More Topics';
+  }
+}
+
+// Modal functions
+function openQuizModal(quizType) {
+  const modal = document.getElementById('quizModal');
+  const title = document.getElementById('quizTitle');
+  const content = document.getElementById('quizContent');
+  
+  // Set modal title based on quiz type
+  if (quizType === 'quiz1') {
+    title.textContent = 'MCQ Test – Level 1: Fundamentals';
+    content.innerHTML = `
+      <h3 style="color: var(--neon); margin-bottom: 15px;">Quiz Instructions</h3>
+      <ul style="margin-bottom: 20px;">
+        <li>This quiz contains 20 multiple choice questions</li>
+        <li>Time limit: 25 minutes</li>
+        <li>Each correct answer gives you 5 points</li>
+        <li>No negative marking</li>
+        <li>You can review your answers before submission</li>
+      </ul>
+      <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+        <button onclick="startQuiz()" style="background: var(--neon); color: var(--bg); border: none; padding: 12px 25px; border-radius: 8px; font-weight: 600; cursor: pointer;">Start Quiz Now</button>
+        <button onclick="closeModal()" style="background: transparent; color: var(--text); border: 1px solid var(--neon); padding: 12px 25px; border-radius: 8px; cursor: pointer;">Cancel</button>
+      </div>
+    `;
+  } else if (quizType === 'quiz2') {
+    title.textContent = 'Numerical Problems – Level 2';
+    content.innerHTML = `
+      <h3 style="color: var(--neon); margin-bottom: 15px;">Numerical Problems Quiz</h3>
+      <ul style="margin-bottom: 20px;">
+        <li>This quiz contains 15 numerical problems</li>
+        <li>Time limit: 40 minutes</li>
+        <li>Use calculator for complex calculations</li>
+        <li>Step-by-step solutions provided after submission</li>
+        <li>Partial marks for correct methodology</li>
+      </ul>
+      <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+        <button onclick="startQuiz()" style="background: var(--neon); color: var(--bg); border: none; padding: 12px 25px; border-radius: 8px; font-weight: 600; cursor: pointer;">Start Quiz Now</button>
+        <button onclick="closeModal()" style="background: transparent; color: var(--text); border: 1px solid var(--neon); padding: 12px 25px; border-radius: 8px; cursor: pointer;">Cancel</button>
+      </div>
+    `;
+  }
+  
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  const modal = document.getElementById('quizModal');
+  modal.classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+function startQuiz() {
+  alert('Quiz starting! In a real implementation, this would load the quiz interface.');
+  closeModal();
+}
+
+// Close modal when clicking outside content
+window.onclick = function(event) {
+  const modal = document.getElementById('quizModal');
+  if (event.target === modal) {
+    closeModal();
+  }
+}
+
+// Smooth scrolling for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    
+    const targetId = this.getAttribute('href');
+    if (targetId === '#') return;
+    
+    const targetElement = document.querySelector(targetId);
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop - 80,
+        behavior: 'smooth'
+      });
+    }
+  });
+});
+
+// Initialize when page loads
+window.onload = function() {
+  createParticles();
+  
+  // Add entrance animations to cards
+  const cards = document.querySelectorAll('.card');
+  cards.forEach((card, index) => {
+    card.style.animationDelay = `${index * 0.1}s`;
+    card.classList.add('animate__animated', 'animate__fadeInUp');
+  });
+};
+</script>
+
+</body>
+</html>
